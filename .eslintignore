@@ -1,0 +1,10 @@
+.next
+.husky
+node_modules
+out
+cypress
+test
+content
+*.json
+yarn*
+next*

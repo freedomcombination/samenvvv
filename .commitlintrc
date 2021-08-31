@@ -1,0 +1,22 @@
+{
+  "extends": [
+    "@commitlint/config-conventional"
+  ],
+  "rules": {
+    "type-enum": [
+      2,
+      "always",
+      [
+        "feature",
+        "chore",
+        "feat",
+        "fix",
+        "refactor",
+        "style",
+        "lint",
+        "test",
+        "translation"
+      ]
+    ]
+  }
+}
