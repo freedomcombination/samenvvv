@@ -1,0 +1,24 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "celiltat2361",
+      "name": "Celil Tat",
+      "avatar_url": "https://avatars.githubusercontent.com/u/66870397?v=4",
+      "profile": "https://github.com/celiltat2361",
+      "contributions": [
+        "code"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "projectName": "frontend",
+  "projectOwner": "Samenvvv",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "skipCi": true
+}
