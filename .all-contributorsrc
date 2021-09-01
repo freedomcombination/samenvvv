@@ -6,6 +6,16 @@
   "commit": false,
   "contributors": [
     {
+      "login": "yuskara",
+      "name": "yuskara",
+      "avatar_url": "https://avatars.githubusercontent.com/u/57836403?v=4",
+      "profile": "https://github.com/yuskara",
+      "contributions": [
+        "code",
+        "design"
+      ],
+    },
+    {
       "login": "Bulent1973",
       "name": "Bozturk",
       "avatar_url": "https://avatars.githubusercontent.com/u/89393402?v=4",
