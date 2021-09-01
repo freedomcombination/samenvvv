@@ -1,0 +1,25 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "7alip",
+      "name": "Talip Altas",
+      "avatar_url": "https://avatars.githubusercontent.com/u/22167684?v=4",
+      "profile": "https://github.com/7alip",
+      "contributions": [
+        "code",
+        "design"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "projectName": "frontend",
+  "projectOwner": "Samenvvv",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "skipCi": true
+}
