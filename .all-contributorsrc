@@ -6,6 +6,16 @@
   "commit": false,
   "contributors": [
     {
+      "login": "Burak-Esen",
+      "name": "Burak Esen",
+      "avatar_url": "https://avatars.githubusercontent.com/u/56759095?v=4",
+      "profile": "https://github.com/Burak-Esen",
+      "contributions": [
+        "infra",
+        "code"
+      ],
+    },
+    {
       "login": "yuskara",
       "name": "yuskara",
       "avatar_url": "https://avatars.githubusercontent.com/u/57836403?v=4",
