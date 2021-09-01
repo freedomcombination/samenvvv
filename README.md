@@ -73,6 +73,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <table>
   <tr>
     <td align="center"><a href="https://github.com/yuskara"><img src="https://avatars.githubusercontent.com/u/57836403?v=4?s=100" width="100px;" alt=""/><br /><sub><b>yuskara</b></sub></a><br /><a href="https://github.com/Samenvvv/frontend/commits?author=yuskara" title="Code">💻</a> <a href="#design-yuskara" title="Design">🎨</a></td>
+    <td align="center"><a href="https://github.com/Bulent1973"><img src="https://avatars.githubusercontent.com/u/89393402?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Bozturk</b></sub></a><br /><a href="https://github.com/Samenvvv/frontend/commits?author=Bulent1973" title="Tests">⚠️</a></td>
   </tr>
 </table>
 
