@@ -1,0 +1,24 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "Bulent1973",
+      "name": "Bozturk",
+      "avatar_url": "https://avatars.githubusercontent.com/u/89393402?v=4",
+      "profile": "https://github.com/Bulent1973",
+      "contributions": [
+        "test"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "projectName": "frontend",
+  "projectOwner": "Samenvvv",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "skipCi": true
+}
