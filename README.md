@@ -72,6 +72,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <!-- markdownlint-disable -->
 <table>
   <tr>
+    <td align="center"><a href="https://github.com/MustafaTRKYLMZ"><img src="https://avatars.githubusercontent.com/u/58182269?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Mustafa</b></sub></a><br /><a href="https://github.com/Samenvvv/frontend/commits?author=MustafaTRKYLMZ" title="Code">💻</a></td>
     <td align="center"><a href="https://github.com/celiltat2361"><img src="https://avatars.githubusercontent.com/u/66870397?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Celil Tat</b></sub></a><br /><a href="https://github.com/Samenvvv/frontend/commits?author=celiltat2361" title="Code">💻</a></td>
     <td align="center"><a href="https://github.com/Burak-Esen"><img src="https://avatars.githubusercontent.com/u/56759095?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Burak Esen</b></sub></a><br /><a href="#infra-Burak-Esen" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a> <a href="https://github.com/Samenvvv/frontend/commits?author=Burak-Esen" title="Code">💻</a></td>
     <td align="center"><a href="https://github.com/yuskara"><img src="https://avatars.githubusercontent.com/u/57836403?v=4?s=100" width="100px;" alt=""/><br /><sub><b>yuskara</b></sub></a><br /><a href="https://github.com/Samenvvv/frontend/commits?author=yuskara" title="Code">💻</a> <a href="#design-yuskara" title="Design">🎨</a></td>
