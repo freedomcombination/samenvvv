@@ -6,6 +6,18 @@
   "commit": false,
   "contributors": [
     {
+      "login": "7alip",
+      "name": "Talip Altas",
+      "avatar_url": "https://avatars.githubusercontent.com/u/22167684?v=4",
+      "profile": "https://github.com/7alip",
+      "contributions": [
+        "code",
+        "review",
+        "infra",
+        "design"
+      ]
+    },
+    {
       "login": "yuskara",
       "name": "yuskara",
       "avatar_url": "https://avatars.githubusercontent.com/u/57836403?v=4",
