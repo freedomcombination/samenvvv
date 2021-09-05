@@ -1,6 +1,6 @@
 ## Getting Started
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-4-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-5-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 First, run the development server:
@@ -76,6 +76,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://github.com/Bulent1973"><img src="https://avatars.githubusercontent.com/u/89393402?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Bozturk</b></sub></a><br /><a href="https://github.com/Samenvvv/frontend/commits?author=Bulent1973" title="Tests">⚠️</a></td>
     <td align="center"><a href="https://github.com/Burak-Esen"><img src="https://avatars.githubusercontent.com/u/56759095?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Burak Esen</b></sub></a><br /><a href="https://github.com/Samenvvv/frontend/commits?author=Burak-Esen" title="Code">💻</a> <a href="https://github.com/Samenvvv/frontend/pulls?q=is%3Apr+reviewed-by%3ABurak-Esen" title="Reviewed Pull Requests">👀</a></td>
     <td align="center"><a href="https://github.com/celiltat2361"><img src="https://avatars.githubusercontent.com/u/66870397?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Celil Tat</b></sub></a><br /><a href="https://github.com/Samenvvv/frontend/commits?author=celiltat2361" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/MustafaTRKYLMZ"><img src="https://avatars.githubusercontent.com/u/58182269?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Mustafa</b></sub></a><br /><a href="https://github.com/Samenvvv/frontend/commits?author=MustafaTRKYLMZ" title="Code">💻</a></td>
   </tr>
 </table>
 
