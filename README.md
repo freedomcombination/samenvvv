@@ -1,6 +1,6 @@
 ## Getting Started
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-5-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-6-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 First, run the development server:
@@ -77,6 +77,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://github.com/Burak-Esen"><img src="https://avatars.githubusercontent.com/u/56759095?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Burak Esen</b></sub></a><br /><a href="https://github.com/Samenvvv/frontend/commits?author=Burak-Esen" title="Code">💻</a> <a href="https://github.com/Samenvvv/frontend/pulls?q=is%3Apr+reviewed-by%3ABurak-Esen" title="Reviewed Pull Requests">👀</a></td>
     <td align="center"><a href="https://github.com/celiltat2361"><img src="https://avatars.githubusercontent.com/u/66870397?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Celil Tat</b></sub></a><br /><a href="https://github.com/Samenvvv/frontend/commits?author=celiltat2361" title="Code">💻</a></td>
     <td align="center"><a href="https://github.com/MustafaTRKYLMZ"><img src="https://avatars.githubusercontent.com/u/58182269?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Mustafa</b></sub></a><br /><a href="https://github.com/Samenvvv/frontend/commits?author=MustafaTRKYLMZ" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/7alip"><img src="https://avatars.githubusercontent.com/u/22167684?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Talip Altas</b></sub></a><br /><a href="https://github.com/Samenvvv/frontend/commits?author=7alip" title="Code">💻</a> <a href="https://github.com/Samenvvv/frontend/pulls?q=is%3Apr+reviewed-by%3A7alip" title="Reviewed Pull Requests">👀</a> <a href="#infra-7alip" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a> <a href="#design-7alip" title="Design">🎨</a></td>
   </tr>
 </table>
 
