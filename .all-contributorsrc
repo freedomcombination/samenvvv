@@ -33,6 +33,15 @@
         "code",
         "review"
       ]
+    },
+    {
+      "login": "celiltat2361",
+      "name": "Celil Tat",
+      "avatar_url": "https://avatars.githubusercontent.com/u/66870397?v=4",
+      "profile": "https://github.com/celiltat2361",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
