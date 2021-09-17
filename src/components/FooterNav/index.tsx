@@ -7,29 +7,26 @@ import { FOOTER_MENU, SOCIETY_MENU, SUPPORT_MENU } from '@utils'
 
 import { ListHeader } from '../Footer'
 
+const footerMenus = [
+  { menu: SOCIETY_MENU, location: 'society' },
+  { menu: FOOTER_MENU, location: 'footer_menu' },
+  { menu: SUPPORT_MENU, location: 'support' },
+]
 export const FooterNav = (): JSX.Element => {
   const { locale } = useRouter()
   const { t } = useTranslation()
   return (
     <>
-      <Stack direction="column" align={'flex-start'}>
-        <ListHeader>{t('society')}</ListHeader>
-        {SOCIETY_MENU.map((item, i) => {
-          return <FooterNavItem key={i} navItem={item[locale as string]} />
-        })}
-      </Stack>
-      <Stack direction="column" align={'flex-start'}>
-        <ListHeader>{t('footer_menu')}</ListHeader>
-        {FOOTER_MENU.map((item, i) => {
-          return <FooterNavItem key={i} navItem={item[locale as string]} />
-        })}
-      </Stack>
-      <Stack align={'flex-start'}>
-        <ListHeader>{t('support')}</ListHeader>
-        {SUPPORT_MENU.map((item, i) => {
-          return <FooterNavItem key={i} navItem={item[locale as string]} />
-        })}
-      </Stack>
+      {footerMenus.map((itm, s) => {
+        return (
+          <Stack align={'flex-start'} key={s}>
+            <ListHeader>{t(itm.location)}</ListHeader>
+            {itm.menu.map((item, i) => {
+              return <FooterNavItem key={i} navItem={item[locale as string]} />
+            })}
+          </Stack>
+        )
+      })}
     </>
   )
 }

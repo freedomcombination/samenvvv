@@ -3,11 +3,7 @@ export { Container } from './Container'
 export { Header } from './Header'
 export { HeaderNav } from './HeaderNav'
 export { HeaderNavItem } from './HeaderNavItem'
-export {
-  FooterNavItem,
-  FooterMenuNavItem,
-  FooterSupportNavItem,
-} from './FooterNavItem'
+export { FooterNavItem } from './FooterNavItem'
 export { HeaderTop } from './HeaderTop'
 export { ChakraNextImage } from './ChakraNextImage'
 export { Layout } from './Layout'

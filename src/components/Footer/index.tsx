@@ -1,14 +1,6 @@
 import { ReactNode } from 'react'
 
-import {
-  Box,
-  Flex,
-  Link,
-  SimpleGrid,
-  Stack,
-  Text,
-  useColorModeValue,
-} from '@chakra-ui/react'
+import { Box, Flex, Link, SimpleGrid, Stack, Text } from '@chakra-ui/react'
 import { motion } from 'framer-motion'
 import NextImage from 'next/image'
 import { useTranslation } from 'react-i18next'
@@ -29,10 +21,7 @@ export const ListHeader = ({ children }: { children: ReactNode }) => {
 export const Footer = (): JSX.Element => {
   const { t } = useTranslation()
   return (
-    <Box
-      bg={useColorModeValue('gray.700', 'gray.900')}
-      color={useColorModeValue('primary.600', 'primary.900')}
-    >
+    <Box bg={'gray.700'} color={'primary.600'}>
       <Container as={Stack}>
         <SimpleGrid columns={{ sm: 2, md: 4 }} spacing={8} py={10}>
           <Stack spacing={6}>
@@ -62,16 +51,10 @@ export const Footer = (): JSX.Element => {
                     />
                   </Link>
                 </motion.div>
-                <Text mt={4}>
-                  Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                  Dolores, blanditiis dignissimos recusandae fuga commodi sunt
-                  ipsam quas magni expedita ut soluta tempore dolorem inventore
-                  voluptates autem error doloremque quidem sed?{' '}
-                </Text>
+                <Text mt={4}> {t('footer_about')} </Text>
               </Flex>
             </Box>
           </Stack>
-
           <FooterNav />
         </SimpleGrid>
         <Flex
