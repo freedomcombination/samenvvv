@@ -4,5 +4,11 @@
   "about": {
     "title": "What we do?",
     "description": "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga."
-  }
+  },
+  "copyright": "@2021 Samenvvv. All right reserved",
+  "support": "Support",
+  "footer_menu": "Menus",
+  "follow_us": "Folow us",
+  "society": "Society",
+  "footer_about": " EN ===Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolores, blanditiis dignissimos recusandae fuga commodi sunt ipsam quas magni expedita ut soluta tempore dolorem inventore voluptates autem error doloremque quidem sed?"
 }
