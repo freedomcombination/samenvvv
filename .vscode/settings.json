@@ -14,5 +14,12 @@
     "[ ]",
     "[x]"
   ],
-  "cSpell.words": ["commitlint", "devmoji", "samen"]
+  "cSpell.words": ["commitlint", "devmoji", "samen"],
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  "editor.tabSize": 2,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "prettier.requireConfig": true,
+  "prettier.useEditorConfig": false
 }
