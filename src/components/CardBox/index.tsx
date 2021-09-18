@@ -1,15 +1,16 @@
 import {
   Box,
-  Heading,
-  VStack,
-  Text,
   Button,
   ChakraProps,
+  Heading,
+  Text,
+  VStack,
 } from '@chakra-ui/react'
 import { format } from 'date-fns'
 import { useTranslation } from 'next-i18next'
 
 import { ChakraNextImage, Navigate } from '@components'
+
 interface CardBoxProps extends ChakraProps {
   item: SubpageType
   href: string

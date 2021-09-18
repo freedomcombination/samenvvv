@@ -1,9 +1,9 @@
 import React, { ReactNode } from 'react'
 
-import { Flex, Box } from '@chakra-ui/react'
+import { Box, Flex } from '@chakra-ui/react'
 import { NextSeo } from 'next-seo'
 
-import { Header, Footer } from '@components'
+import { Footer, Header } from '@components'
 import { getImageUrl } from '@utils'
 
 interface LayoutProps {

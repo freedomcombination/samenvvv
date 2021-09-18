@@ -1,7 +1,8 @@
-import { IconButton, HStack } from '@chakra-ui/react'
+import { HStack, IconButton } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
 import { FaFacebook, FaInstagram, FaTwitter, FaYoutube } from 'react-icons/fa'
 import { IconType } from 'react-icons/lib'
+
 const SocialButton = ({
   icon: Icon,
   href,

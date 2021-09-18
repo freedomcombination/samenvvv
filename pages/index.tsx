@@ -1,12 +1,12 @@
 import {
+  AspectRatio,
   Box,
   Button,
   Heading,
   SimpleGrid,
   Spinner,
-  VStack,
   Text,
-  AspectRatio,
+  VStack,
 } from '@chakra-ui/react'
 import { GetStaticProps } from 'next'
 import { useTranslation } from 'next-i18next'

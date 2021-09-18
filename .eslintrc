@@ -45,6 +45,12 @@
     ],
     "@typescript-eslint/no-unused-vars": "error",
     "no-console": ["error", { "allow": ["warn", "error"] }],
+    "import/first": "error",
+    "import/newline-after-import": "error",
+    "import/no-duplicates": "error",
+    "import/no-mutable-exports": "error",
+    "import/no-self-import": "error",
+    "import/no-useless-path-segments": "error",
     "import/order": [
       "error",
       {
@@ -73,6 +79,14 @@
       }
     ],
     "import/no-anonymous-default-export": [2, { "allowArrowFunction": true }],
-    "import/no-unresolved": "error"
+    "import/no-unresolved": "error",
+    "sort-imports": [
+      "error",
+      {
+        "ignoreCase": true,
+        "ignoreDeclarationSort": true,
+        "allowSeparatedGroups": true
+      }
+    ]
   }
 }
