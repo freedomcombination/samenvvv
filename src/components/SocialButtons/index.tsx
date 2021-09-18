@@ -26,11 +26,7 @@ const SocialButton = ({
 type SocialLinkType = {
   label: string
   icon: IconType
-  link: {
-    en: string
-    tr: string
-    nl: string
-  }
+  link: Record<string, string>
 }
 const SOCIAL_LINKS: SocialLinkType[] = [
   {
@@ -79,7 +75,7 @@ export const SocialButtons = (): JSX.Element => {
           key={i}
           icon={item.icon}
           label={item.label}
-          href={item.link[locale]}
+          href={item.link[locale as string]}
         />
       ))}
     </HStack>
