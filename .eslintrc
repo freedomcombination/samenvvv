@@ -60,31 +60,7 @@
             "position": "before"
           },
           {
-            "pattern": "@{components,config,hooks,lib,theme,types,utils,views}{**,**/**}",
-            "group": "internal"
-          },
-          {
-            "pattern": "@config/**",
-            "group": "internal"
-          },
-          {
-            "pattern": "@hooks/**",
-            "group": "internal"
-          },
-          {
-            "pattern": "@lib/**",
-            "group": "internal"
-          },
-          {
-            "pattern": "@theme/**",
-            "group": "internal"
-          },
-          {
-            "pattern": "@utils/**",
-            "group": "internal"
-          },
-          {
-            "pattern": "@views/**",
+            "pattern": "@{components,config,hooks,lib,theme,types,utils,views}/**",
             "group": "internal"
           }
         ],
