@@ -3,7 +3,15 @@ import { MdEvent } from 'react-icons/md'
 
 export const Card = ({ event }) => {
   return (
-    <Box>
+    <Box
+      maxW="sm"
+      boxShadow="lg"
+      borderRadius="lg"
+      overflow="hidden"
+      backgroundColor="#fff"
+      cursor="pointer"
+      spacing={2}
+    >
       <Box>
         <Image
           src={event.imageUrl}
@@ -15,7 +23,15 @@ export const Card = ({ event }) => {
 
       <Box p="4" display="flex" flexDirection="column" alignItems="flex-start">
         <Box mt={1}>
-          <Badge>EVENT</Badge>
+          <Badge
+            borderRadius="sm"
+            px={2}
+            py={0.5}
+            color="white"
+            bgGradient="linear(to-tl, orange.300, orange.500)"
+          >
+            EVENT
+          </Badge>
         </Box>
 
         <Box fontSize="1.5rem" mt={2} fontWeight="bold" lineHeight="tight">
