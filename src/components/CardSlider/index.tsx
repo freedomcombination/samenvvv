@@ -36,14 +36,43 @@ export const CardSlider = ({
 }: SliderProps): JSX.Element => {
   return (
     <Box backgroundColor="primary.400">
-      <Box>
+      <Box
+        width="100%"
+        px="2rem"
+        py="1rem"
+        d="flex"
+        flexDirection="column"
+        align="baseline"
+        justify="center"
+        overflow="hidden"
+      >
         <Box my={6}>
           <Heading size="xl" color="white" px="0.5rem">
             {heading}
           </Heading>
         </Box>
 
-        <Box {...slideProps}></Box>
+        <Box
+          as={Swiper}
+          slidesPerView={slidesPerView}
+          spaceBetween={10}
+          pagination={
+            hasPagination && {
+              clickable: true,
+            }
+          }
+          navigation={hasNavigation && {}}
+          autoplay={{
+            delay: 3000,
+            disableOnInteraction: false,
+          }}
+          loop={true}
+          width="100%"
+          mb="2rem"
+          py="1rem"
+          px="0.5rem"
+          {...slideProps}
+        ></Box>
       </Box>
     </Box>
   )
