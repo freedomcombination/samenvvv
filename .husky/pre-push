@@ -2,4 +2,4 @@
 . "$(dirname "$0")/_/husky.sh"
 . "$(dirname "$0")/common.sh"
 
-bash ./check-branch.sh && yarn test
+bash ./check-branch.sh && yarn test && yarn build
