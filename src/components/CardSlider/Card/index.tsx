@@ -11,6 +11,10 @@ export const Card = ({ event }) => {
       backgroundColor="#fff"
       cursor="pointer"
       spacing={2}
+      _hover={{
+        transform: 'scale(1.04)',
+        transition: '0.2s ease-out',
+      }}
     >
       <Box>
         <Image
