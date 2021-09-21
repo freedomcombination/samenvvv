@@ -26,6 +26,24 @@ interface SliderProps {
 export const CardSlider = ({
   as = Box,
   slidesPerView = 1,
+  breakpoints = {
+    481: {
+      slidesPerView: 2,
+      spaceBetween: 30,
+    },
+    798: {
+      slidesPerView: 3,
+      spaceBetween: 20,
+    },
+    1201: {
+      slidesPerView: 4,
+      spaceBetween: 15,
+    },
+    1441: {
+      slidesPerView: 5,
+      spaceBetween: 15,
+    },
+  },
   hasPagination = true,
   hasNavigation = true,
   items,
@@ -56,6 +74,7 @@ export const CardSlider = ({
           as={Swiper}
           slidesPerView={slidesPerView}
           spaceBetween={10}
+          breakpoints={breakpoints}
           pagination={
             hasPagination && {
               clickable: true,
