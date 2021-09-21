@@ -72,7 +72,17 @@ export const CardSlider = ({
           py="1rem"
           px="0.5rem"
           {...slideProps}
-        ></Box>
+        >
+          {items
+            ? items.map((item, i) => (
+                <SwiperSlide key={i}>
+                  {({ isActive }) => (
+                    <Card event={item} {...(isActive && activeProps)} />
+                  )}
+                </SwiperSlide>
+              ))
+            : 'No data found'}
+        </Box>
       </Box>
     </Box>
   )
