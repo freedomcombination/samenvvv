@@ -1,10 +1,10 @@
 import { ReactNode } from 'react'
 
 import {
-  Link,
-  forwardRef,
-  ChakraProps,
   ChakraComponent,
+  ChakraProps,
+  forwardRef,
+  Link,
 } from '@chakra-ui/react'
 import NextLink from 'next/link'
 
