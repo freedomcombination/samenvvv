@@ -6,7 +6,6 @@ import { HEADER_MENU } from '@utils'
 
 export const HeaderNav = (): JSX.Element => {
   const { locale } = useRouter()
-
   return (
     <HStack>
       {HEADER_MENU.map((item, i) => {
