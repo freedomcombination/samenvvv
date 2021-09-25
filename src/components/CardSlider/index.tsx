@@ -9,12 +9,11 @@ import { Card } from '@components'
 
 SwiperCore.use([Autoplay, Pagination, Navigation])
 interface CardSliderProps {
-  as: ChakraComponent<any, any>
   slidesPerView?: number
   breakpoints?: any
   hasPagination?: boolean
   hasNavigation?: boolean
-  items?: JSX.Element[]
+  items?: any
   activeProps?: any
   slideProps?: FunctionComponent<Swiper>
   chakraProps?: ChakraProps
