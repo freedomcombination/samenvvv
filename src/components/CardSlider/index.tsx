@@ -1,6 +1,6 @@
 import { FunctionComponent } from 'react'
 
-import { Box, ChakraComponent, ChakraProps, Heading } from '@chakra-ui/react'
+import { Box, ChakraProps, Heading } from '@chakra-ui/react'
 import SwiperCore, { Autoplay, Navigation, Pagination } from 'swiper'
 // eslint-disable-next-line import/no-unresolved
 import { Swiper, SwiperSlide } from 'swiper/react'
@@ -13,7 +13,7 @@ interface CardSliderProps {
   breakpoints?: any
   hasPagination?: boolean
   hasNavigation?: boolean
-  items?: any
+  items?: any[]
   activeProps?: any
   slideProps?: FunctionComponent<Swiper>
   chakraProps?: ChakraProps
