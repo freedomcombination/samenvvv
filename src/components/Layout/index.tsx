@@ -3,7 +3,7 @@ import React, { ReactNode } from 'react'
 import { Box, Flex } from '@chakra-ui/react'
 import { NextSeo } from 'next-seo'
 
-import { Footer, Header } from '@components'
+import { CardSlider, Footer, Header, Items } from '@components'
 import { getImageUrl } from '@utils'
 
 interface LayoutProps {
@@ -42,7 +42,8 @@ export const Layout = ({
         <Box bg="primary.400" flex="1">
           {children}
         </Box>
-
+        <CardSlider heading="Recent News" items={Items} />
+        <CardSlider heading="Upcoming Events" items={Items} />
         <Footer />
       </Flex>
     </>

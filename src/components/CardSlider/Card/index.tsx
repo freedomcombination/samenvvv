@@ -1,12 +1,24 @@
-import { Badge, Box, ChakraProps, Image } from '@chakra-ui/react'
+import {
+  Badge,
+  Box,
+  Button,
+  ChakraProps,
+  Image,
+  VStack,
+} from '@chakra-ui/react'
+import { useTranslation } from 'next-i18next'
 import { MdEvent } from 'react-icons/md'
+
+import { Navigate } from '@components'
 
 interface CardProps extends ChakraProps {
   item: any
+  href: string
 }
 
 export const Card = (props: CardProps): JSX.Element => {
-  const { item, ...rest } = props
+  const { item, href, ...rest } = props
+  const { t } = useTranslation(['common'])
 
   return (
     <Box
@@ -32,7 +44,7 @@ export const Card = (props: CardProps): JSX.Element => {
         />
       </Box>
 
-      <Box p="4" display="flex" flexDirection="column" alignItems="flex-start">
+      <VStack p="4" spacing={4} align="start">
         <Box mt={1}>
           <Badge
             borderRadius="sm"
@@ -58,7 +70,10 @@ export const Card = (props: CardProps): JSX.Element => {
             {item.date}
           </Box>
         </Box>
-      </Box>
+        <Navigate as={Button} href={href} variant="normal">
+          {t`Read more`}
+        </Navigate>
+      </VStack>
     </Box>
   )
 }

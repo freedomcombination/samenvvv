@@ -8,7 +8,7 @@ import { Swiper, SwiperSlide } from 'swiper/react'
 import { Card } from '@components'
 
 SwiperCore.use([Autoplay, Pagination, Navigation])
-interface SliderProps {
+interface CardSliderProps {
   as: ChakraComponent<any, any>
   slidesPerView?: number
   breakpoints?: any
@@ -24,7 +24,7 @@ interface SliderProps {
 export const CardSlider = ({
   slidesPerView = 1,
   breakpoints = {
-    481: {
+    521: {
       slidesPerView: 2,
       spaceBetween: 30,
     },
@@ -41,13 +41,13 @@ export const CardSlider = ({
       spaceBetween: 15,
     },
   },
-  hasPagination = true,
+  hasPagination = false,
   hasNavigation = true,
   items,
   activeProps,
   slideProps,
   heading,
-}: SliderProps): JSX.Element => {
+}: CardSliderProps): JSX.Element => {
   return (
     <Box backgroundColor="primary.400">
       <Box
