@@ -1,7 +1,13 @@
-import { Box, Badge, Image } from '@chakra-ui/react'
+import { Badge, Box, ChakraProps, Image } from '@chakra-ui/react'
 import { MdEvent } from 'react-icons/md'
 
-export const Card = ({ event }) => {
+interface CardProps extends ChakraProps {
+  item: any
+}
+
+export const Card = (props: CardProps): JSX.Element => {
+  const { item, ...rest } = props
+
   return (
     <Box
       maxW="sm"
@@ -15,11 +21,12 @@ export const Card = ({ event }) => {
         transform: 'scale(1.04)',
         transition: '0.2s ease-out',
       }}
+      {...rest}
     >
       <Box>
         <Image
-          src={event.imageUrl}
-          alt={event.imageAlt}
+          src={item.imageUrl}
+          alt={item.imageAlt}
           width="100%"
           height="150px"
         />
@@ -34,21 +41,21 @@ export const Card = ({ event }) => {
             color="white"
             bgGradient="linear(to-tl, orange.300, orange.500)"
           >
-            EVENT
+            {item.type}
           </Badge>
         </Box>
 
         <Box fontSize="1.5rem" mt={2} fontWeight="bold" lineHeight="tight">
-          {event.title}
+          {item.title}
         </Box>
 
         <Box fontSize="1rem" mt={2}>
-          {event.description}
+          {item.description}
         </Box>
         <Box d="flex" mt={4} alignItems="center">
           <MdEvent fontSize="1.50rem" />
           <Box as="span" ml="2" color="gray.600" fontSize="md">
-            {event.date}
+            {item.date}
           </Box>
         </Box>
       </Box>

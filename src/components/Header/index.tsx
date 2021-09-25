@@ -2,7 +2,7 @@ import { Box, Flex, Link } from '@chakra-ui/react'
 import { motion } from 'framer-motion'
 import NextImage from 'next/image'
 
-import { Container, HeaderTop, HeaderNav } from '@components'
+import { Container, HeaderNav, HeaderTop } from '@components'
 
 export const Header = (): JSX.Element => {
   return (

@@ -20,7 +20,7 @@ export const TweetView = ({ slug }: TweetProps): JSX.Element => {
   return (
     <div>
       <p>{tweet?.tweet}</p>
-      <ChakraNextImage image={tweet.image} />
+      {tweet.image && <ChakraNextImage image={tweet.image} />}
     </div>
   )
 }

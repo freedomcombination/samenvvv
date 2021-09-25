@@ -1,9 +1,9 @@
-import { ReactNode } from 'react'
+import React, { ReactNode } from 'react'
 
-import { Flex } from '@chakra-ui/react'
+import { Box, Flex } from '@chakra-ui/react'
 import { NextSeo } from 'next-seo'
 
-import { Header } from '@components'
+import { Footer, Header } from '@components'
 import { getImageUrl } from '@utils'
 
 interface LayoutProps {
@@ -37,9 +37,13 @@ export const Layout = ({
           }}
         />
       )}
-      <Flex flexDir="column">
+      <Flex flexDir="column" minHeight="100vh">
         <Header />
-        {children}
+        <Box bg="primary.400" flex="1">
+          {children}
+        </Box>
+
+        <Footer />
       </Flex>
     </>
   )

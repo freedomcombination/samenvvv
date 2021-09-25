@@ -37,13 +37,28 @@
   ],
   "rules": {
     "@typescript-eslint/no-empty-function": "warn",
-    "prettier/prettier": "error",
+    "prettier/prettier": [
+      "error",
+      {
+        "endOfLine": "auto"
+      }
+    ],
     "@typescript-eslint/no-unused-vars": "error",
     "no-console": ["error", { "allow": ["warn", "error"] }],
+    "import/first": "error",
+    "import/newline-after-import": "error",
+    "import/no-duplicates": "error",
+    "import/no-mutable-exports": "error",
+    "import/no-self-import": "error",
+    "import/no-useless-path-segments": "error",
     "import/order": [
       "error",
       {
-        "groups": ["builtin", "external", "internal"],
+        "groups": [
+          ["builtin", "external"],
+          "internal",
+          ["parent", "sibling", "index"]
+        ],
         "pathGroups": [
           {
             "pattern": "react",
@@ -51,31 +66,7 @@
             "position": "before"
           },
           {
-            "pattern": "@components/**",
-            "group": "internal"
-          },
-          {
-            "pattern": "@config/**",
-            "group": "internal"
-          },
-          {
-            "pattern": "@hooks/**",
-            "group": "internal"
-          },
-          {
-            "pattern": "@lib/**",
-            "group": "internal"
-          },
-          {
-            "pattern": "@theme/**",
-            "group": "internal"
-          },
-          {
-            "pattern": "@utils/**",
-            "group": "internal"
-          },
-          {
-            "pattern": "@views/**",
+            "pattern": "@{components,config,hooks,lib,theme,types,utils,views}/**",
             "group": "internal"
           }
         ],
@@ -88,6 +79,14 @@
       }
     ],
     "import/no-anonymous-default-export": [2, { "allowArrowFunction": true }],
-    "import/no-unresolved": "error"
+    "import/no-unresolved": "error",
+    "sort-imports": [
+      "error",
+      {
+        "ignoreCase": true,
+        "ignoreDeclarationSort": true,
+        "allowSeparatedGroups": true
+      }
+    ]
   }
 }

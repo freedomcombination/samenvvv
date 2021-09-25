@@ -1,13 +1,11 @@
 import { FunctionComponent } from 'react'
 
-import { Box, Heading, ChakraComponent, ChakraProps } from '@chakra-ui/react'
-import SwiperCore, { Autoplay, Pagination, Navigation } from 'swiper'
+import { Box, ChakraComponent, ChakraProps, Heading } from '@chakra-ui/react'
+import SwiperCore, { Autoplay, Navigation, Pagination } from 'swiper'
+// eslint-disable-next-line import/no-unresolved
 import { Swiper, SwiperSlide } from 'swiper/react'
 
 import { Card } from '@components'
-import 'swiper/css'
-import 'swiper/css/pagination'
-import 'swiper/css/navigation'
 
 SwiperCore.use([Autoplay, Pagination, Navigation])
 interface SliderProps {
@@ -24,7 +22,6 @@ interface SliderProps {
 }
 
 export const CardSlider = ({
-  as = Box,
   slidesPerView = 1,
   breakpoints = {
     481: {
@@ -49,7 +46,6 @@ export const CardSlider = ({
   items,
   activeProps,
   slideProps,
-  chakraProps,
   heading,
 }: SliderProps): JSX.Element => {
   return (
@@ -96,7 +92,7 @@ export const CardSlider = ({
             ? items.map((item, i) => (
                 <SwiperSlide key={i}>
                   {({ isActive }) => (
-                    <Card event={item} {...(isActive && activeProps)} />
+                    <Card item={item} {...(isActive && activeProps)} />
                   )}
                 </SwiperSlide>
               ))
