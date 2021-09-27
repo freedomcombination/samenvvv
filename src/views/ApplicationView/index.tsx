@@ -18,7 +18,7 @@ export const ApplicationView = ({
   source,
 }: ApplicationProps): JSX.Element => {
   const { locale } = useRouter()
-  const [, , currentSlug] = slug[locale!]
+  const [, , currentSlug] = slug[locale as string]
 
   const { data } = useData<ApplicationType[]>('applications', {
     slug: currentSlug,
@@ -33,7 +33,7 @@ export const ApplicationView = ({
     <Box p={4} boxShadow="lg">
       <h1>{application.title}</h1>
       <Markdown source={source} />
-      <ChakraNextImage image={application.image} />
+      {application.image && <ChakraNextImage image={application.image} />}
     </Box>
   )
 }

@@ -1,7 +1,7 @@
 import {
-  extendTheme,
   theme as chakraTheme,
   DeepPartial,
+  extendTheme,
   ThemeConfig,
 } from '@chakra-ui/react'
 

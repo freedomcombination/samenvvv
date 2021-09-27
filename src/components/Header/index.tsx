@@ -1,7 +1,9 @@
 import { Box, Flex, Button, Text } from '@chakra-ui/react'
 
-export const Hero = (): JSX.Element => {
-  return (
+import { Container, HeaderNav, HeaderTop } from '@components'
+
+export const Header = (): JSX.Element => {
+   return (
     <Flex
       pos="relative"
       bgSize="cover"

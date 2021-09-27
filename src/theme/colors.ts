@@ -1,5 +1,5 @@
-import { Theme, Colors } from '@chakra-ui/react'
-import { lighten, darken } from '@chakra-ui/theme-tools'
+import { Colors, Theme } from '@chakra-ui/react'
+import { darken, lighten } from '@chakra-ui/theme-tools'
 
 const generateColorPalette = (color: string, theme: Theme): Colors => ({
   50: lighten(color, 45)(theme),
