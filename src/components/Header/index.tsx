@@ -1,41 +1,45 @@
-import { Box, Flex, Link } from '@chakra-ui/react'
-import { motion } from 'framer-motion'
-import NextImage from 'next/image'
+import { Box, Flex, Button, Text } from '@chakra-ui/react'
 
-import { Container, HeaderTop, HeaderNav } from '@components'
-
-export const Header = (): JSX.Element => {
+export const Hero = (): JSX.Element => {
   return (
-    <Box
-      pos="sticky"
-      zIndex="popover"
-      top={0}
+    <Flex
+      pos="relative"
+      bgSize="cover"
+      height="100vh"
+      direction="column"
       bg={'white'}
-      borderBottomWidth={1}
-      borderBottomColor="blackAlpha.300"
+      marginTop="-100"
+      justify="center"
+      align="center"
     >
-      <Container>
-        <Flex justify="space-between" align="center" pos="relative">
-          <motion.div
-            animate={{ rotate: -360 }}
-            transition={{ ease: 'linear', repeat: Infinity, duration: 60 }}
-          >
-            <Link href="/">
-              <NextImage
-                width="92px"
-                height="92px"
-                objectFit="cover"
-                src="/samenvvv-logo.svg"
-                alt="samenvvv-logo"
-              />
-            </Link>
-          </motion.div>
-          <Box>
-            <HeaderTop />
-            <HeaderNav />
-          </Box>
-        </Flex>
-      </Container>
-    </Box>
+      <Box
+        as="video"
+        top={0}
+        left={0}
+        width="100%"
+        objectFit="cover"
+        autoPlay
+        loop
+        position="absolute"
+      >
+        <source
+          src="/images/Alley_hero_aug_2020-transcode.webm"
+          type="video/webm"
+        />
+      </Box>
+      <Text
+        position="relative"
+        textAlign="center"
+        fontSize="6xl"
+        textColor="black"
+        as="em"
+      >
+        Elemi gitti Lezzeti kaldi,
+        <p>Her dogan gun bir umuttur bize.</p>
+      </Text>
+      <Button size="lg" marginTop="400px" border="2px" borderColor="green.500">
+        Faaliyetlerimiz
+      </Button>
+    </Flex>
   )
 }
