@@ -37,10 +37,6 @@ export const Navigate = forwardRef(
       )
     }
 
-    return (
-      <Link textColor="none" {...rest}>
-        {children}
-      </Link>
-    )
+    return <Link {...rest}>{children}</Link>
   },
 )

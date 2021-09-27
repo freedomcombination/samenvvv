@@ -10,9 +10,8 @@ export const FooterNavItem = (props: HeaderNavItemProps): JSX.Element => {
   return (
     <Navigate
       color="primary.400"
-      bgClip="text"
       _hover={{
-        color: 'primary.500',
+        color: 'primary.400',
       }}
       key={navItem.link}
       href={navItem.link}

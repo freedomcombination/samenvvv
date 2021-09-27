@@ -3,7 +3,14 @@ const { i18n } = require('./next-i18next.config')
 module.exports = {
   i18n,
   images: {
-    domains: ['localhost', '127.0.0.1', 'picsum.photos'],
+    domains: [
+      'localhost',
+      '127.0.0.1',
+      'picsum.photos',
+      'images.unsplash.com',
+      'samenvvvv.com',
+      'media.istockphoto.com',
+    ],
   },
   async rewrites() {
     return [
