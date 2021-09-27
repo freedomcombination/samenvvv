@@ -16,7 +16,7 @@ import { FaArrowRight } from 'react-icons/fa'
 import { QueryClient } from 'react-query'
 import { dehydrate } from 'react-query/hydration'
 
-import { ChakraNextImage, Layout, Navigate, Slider } from '@components'
+import { ChakraNextImage, Layout, Navigate, Slider, Hero } from '@components'
 import { useData } from '@hooks'
 import { ROUTES } from '@utils'
 
@@ -32,6 +32,7 @@ function Home(): JSX.Element {
 
   return (
     <Layout>
+      <Hero />
       <Box>
         <Slider
           as={Box}
