@@ -16,8 +16,8 @@ import { FaArrowRight } from 'react-icons/fa'
 import { QueryClient } from 'react-query'
 import { dehydrate } from 'react-query/hydration'
 
-import { ChakraNextImage, Layout, Navigate, Slider, Hero } from '@components'
-import { useData } from '@hooks'
+import { ChakraNextImage, Hero, Layout, Navigate, Slider } from '@components'
+import { useData, useScroll } from '@hooks'
 import { ROUTES } from '@utils'
 
 function Home(): JSX.Element {
@@ -27,12 +27,19 @@ function Home(): JSX.Element {
     locale,
   })
   const { t } = useTranslation(['common'])
+  const isScrolled = useScroll(100)
 
   if (isLoading) return <Spinner />
 
   return (
-    <Layout>
-      <Hero />
+    <Layout isScrolled={isScrolled} hasScroll>
+      <Hero
+        title="Welcome to this website"
+        description="Ipsum esse cupidatat ex magna labore aliquip non aliqua. Minim mollit magna irure deserunt ex irure et ad ad ea culpa ad eu. Labore labore pariatur mollit culpa cupidatat consequat quis amet ut et eiusmod amet ad. Exercitation aute dolore ipsum qui amet aliqua nisi. Id dolore dolore aliquip eiusmod proident nostrud laboris aliqua dolor. Fugiat occaecat incididunt non sunt adipisicing adipisicing amet sit eu mollit aliqua incididunt exercitation exercitation."
+        video="/images/Alley_hero_aug_2020-transcode.webm"
+        buttonText={t`read-more`}
+        link={ROUTES.event[locale as string].link}
+      />
       <Box>
         <Slider
           as={Box}

@@ -1,45 +1,80 @@
-import { Box, Flex, Button, Text } from '@chakra-ui/react'
+import { Box, Button, Heading, Text, VStack } from '@chakra-ui/react'
 
-export const Hero = (): JSX.Element => {
+import { ChakraNextImage, Container, Navigate } from '@components'
+
+interface HeroProps {
+  title: string
+  description?: string
+  video?: string
+  image?: string | ImageResponseType
+  buttonText?: string
+  link?: string
+}
+
+export const Hero = ({
+  title,
+  description,
+  video,
+  image,
+  buttonText,
+  link,
+}: HeroProps): JSX.Element => {
   return (
-    <Flex
-      pos="relative"
-      bgSize="cover"
-      height="100vh"
-      direction="column"
-      bg={'white'}
-      marginTop="-100"
-      justify="center"
-      align="center"
-    >
+    <Box pos="relative" height="100vh" marginTop="-100px">
+      {video && (
+        <Box
+          as="video"
+          top={0}
+          left={0}
+          w="full"
+          h="full"
+          objectFit="cover"
+          autoPlay
+          loop
+          position="absolute"
+        >
+          <source src={video} type="video/webm" />
+        </Box>
+      )}
+      {image && (
+        <Box position="absolute" top={0} left={0} w="full" h="full">
+          <ChakraNextImage image={image} h="full">
+            <source src={video} type="video/webm" />
+          </ChakraNextImage>
+        </Box>
+      )}
       <Box
-        as="video"
+        pos="absolute"
         top={0}
         left={0}
-        width="100%"
-        objectFit="cover"
-        autoPlay
-        loop
-        position="absolute"
-      >
-        <source
-          src="/images/Alley_hero_aug_2020-transcode.webm"
-          type="video/webm"
-        />
-      </Box>
-      <Text
-        position="relative"
-        textAlign="center"
-        fontSize="6xl"
-        textColor="black"
-        as="em"
-      >
-        Elemi gitti Lezzeti kaldi,
-        <p>Her dogan gun bir umuttur bize.</p>
-      </Text>
-      <Button size="lg" marginTop="400px" border="2px" borderColor="green.500">
-        Faaliyetlerimiz
-      </Button>
-    </Flex>
+        w="full"
+        h="full"
+        bgGradient={`linear(to-b, purple.600 , gray.600)`}
+        blendMode="multiply"
+      />
+      <Container h="full">
+        <VStack
+          position="relative"
+          spacing={8}
+          h="full"
+          justify="center"
+          maxW={900}
+          mx="auto"
+          textAlign="center"
+        >
+          <Heading color="white" fontSize="6xl">
+            {title}
+          </Heading>
+          <Text color="white" fontSize="lg" fontWeight="medium">
+            {description}
+          </Text>
+          {buttonText && link && (
+            <Navigate href={link} as={Button} size="lg" colorScheme="primary">
+              {buttonText}
+            </Navigate>
+          )}
+        </VStack>
+      </Container>
+    </Box>
   )
 }
