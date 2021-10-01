@@ -1,4 +1,4 @@
-import { Box, BoxProps } from '@chakra-ui/react'
+import { Box, ChakraProps } from '@chakra-ui/react'
 import Image, { ImageProps } from 'next/image'
 
 import { getImageUrl, toBase64 } from '@utils'
@@ -9,28 +9,33 @@ const shimmer = (
 ) => `<svg width="${w}" height="${h}" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
         <defs>
           <linearGradient id="g">
-            <stop stop-color="#ccc" offset="20%" />
-            <stop stop-color="#eee" offset="50%" />
-            <stop stop-color="#ccc" offset="70%" />
+            <stop stop-color="#EDF2F7" offset="20%" />
+            <stop stop-color="white" offset="50%" />
+            <stop stop-color="#F7FAFC" offset="70%" />
           </linearGradient>
         </defs>
-        <rect width="${w}" height="${h}" fill="#333" />
+        <rect width="${w}" height="${h}" fill="#E2E8F0" />
         <rect id="r" width="${w}" height="${h}" fill="url(#g)" />
         <animate xlink:href="#r" attributeName="x" from="-${w}" to="${w}" dur="1s" repeatCount="indefinite"  />
       </svg>`
 
+interface ChakraNextImageProps {
+  image: ImageResponseType | string
+  alt?: string
+  format?: ImageFormatsType
+  nextImageProps?: ImageProps
+}
+
 export const ChakraNextImage = ({
   image,
+  alt,
   format,
   nextImageProps,
   ...rest
-}: {
-  image: ImageResponseType | string
-  format?: ImageFormatsType
-  nextImageProps?: ImageProps
-} & Omit<BoxProps, 'as'>): JSX.Element => {
+}: ChakraNextImageProps & ChakraProps): JSX.Element => {
   const src = getImageUrl(image, format)
-  const alternativeText = typeof image === 'string' ? '' : image.alternativeText
+  const alternativeText =
+    typeof image === 'string' ? alt || '' : image.alternativeText
   return (
     <Box position="relative" {...rest}>
       <Image
