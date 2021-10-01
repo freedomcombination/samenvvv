@@ -43,9 +43,7 @@ export const Layout = ({
       )}
       <Flex flexDir="column" minHeight="100vh">
         <Header isScrolled={isScrolled} hasScroll={hasScroll} />
-        <Box bg="primary.400" flex="1">
-          {children}
-        </Box>
+        <Box flex={1}>{children}</Box>
         <Footer />
       </Flex>
     </>

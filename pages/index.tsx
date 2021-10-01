@@ -2,10 +2,11 @@ import { Box } from '@chakra-ui/react'
 import { GetStaticProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useRouter } from 'next/router'
+import { useTranslation } from 'react-i18next'
 import { QueryClient } from 'react-query'
 import { dehydrate } from 'react-query/hydration'
 
-import { ChakraNextImage, Hero, Layout, Navigate, Slider } from '@components'
+import { Hero, Layout, Slider } from '@components'
 import { useData, useScroll } from '@hooks'
 import { ROUTES } from '@utils'
 

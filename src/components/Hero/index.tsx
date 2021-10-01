@@ -38,9 +38,7 @@ export const Hero = ({
       )}
       {image && (
         <Box position="absolute" top={0} left={0} w="full" h="full">
-          <ChakraNextImage image={image} h="full">
-            <source src={video} type="video/webm" />
-          </ChakraNextImage>
+          <ChakraNextImage image={image} h="full" />
         </Box>
       )}
       <Box
