@@ -8,21 +8,21 @@ interface HeaderNavItemProps {
 
 export const HeaderNavItem = (props: HeaderNavItemProps): JSX.Element => {
   const { navItem } = props
-  const { pathname } = useRouter()
+  const { asPath } = useRouter()
 
   return (
     <Navigate
       fontSize="1.125em"
+      fontWeight="bold"
       pos="relative"
-      bgGradient={
-        navItem.link !== '/' && pathname.includes(navItem.link)
-          ? 'linear(to-r, primary.300,primary.500)'
-          : 'linear(to-r, gray.700, gray.900)'
+      color={
+        navItem.link !== '/' && asPath.includes(navItem.link)
+          ? 'primary.400'
+          : 'gray.700'
       }
-      bgClip="text"
       p={2}
       _hover={{
-        bgGradient: 'linear(to-r, primary.300,primary.500)',
+        color: 'primary.400',
         _before: {
           w: 'full',
         },
@@ -30,8 +30,8 @@ export const HeaderNavItem = (props: HeaderNavItemProps): JSX.Element => {
       _before={{
         content: "''",
         transition: 'width 0.3s',
-        bgGradient: 'linear(to-r, primary.300,primary.500)',
-        w: navItem.link !== '/' && pathname.includes(navItem.link) ? 'full' : 0,
+        bg: 'primary.400',
+        w: navItem.link !== '/' && asPath.includes(navItem.link) ? 'full' : 0,
         h: 1,
         pos: 'absolute',
         bottom: 0,

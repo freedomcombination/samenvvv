@@ -46,7 +46,6 @@ export const Layout = ({
         <Box bg="primary.400" flex="1">
           {children}
         </Box>
-
         <Footer />
       </Flex>
     </>

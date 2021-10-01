@@ -14,6 +14,7 @@ import theme from '@theme'
 import SeoConfig from '../next-seo.config.json'
 
 import 'swiper/css'
+import 'swiper/css/navigation'
 import 'swiper/css/pagination'
 import 'swiper/css/scrollbar'
 import 'swiper/css/effect-fade'
