@@ -114,7 +114,7 @@ export const ROUTES: InternalLinksType = {
     },
     tr: {
       name: 'Hashtag Etkinlikleri',
-      link: '/etiket-etkinlikleri',
+      link: '/hashtag-etkinlikleri',
     },
   },
   helpCenter: {

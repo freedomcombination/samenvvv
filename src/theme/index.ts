@@ -14,7 +14,6 @@ const fonts = { body: `'Rubik', sans-serif` }
 const config: DeepPartial<ThemeConfig> = {
   initialColorMode: 'light',
   useSystemColorMode: false,
-  cssVarPrefix: 'rsk',
 }
 
 const theme = extendTheme({
