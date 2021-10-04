@@ -23,15 +23,19 @@ export const ChakraNextImage = ({
   image,
   format,
   nextImageProps,
+  alt,
   ...rest
 }: {
   image: ImageResponseType | string
   format?: ImageFormatsType
   nextImageProps?: ImageProps
+  alt?: string
 } & Omit<BoxProps, 'as'>): JSX.Element => {
   const src = getImageUrl(image, format)
   const alternativeText =
-    typeof image === 'string' ? '' : image?.alternativeText
+    typeof image === 'string'
+      ? alt || 'alternative text'
+      : image?.alternativeText
   return (
     <Box position="relative" {...rest}>
       <Image
