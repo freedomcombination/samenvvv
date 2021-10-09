@@ -66,6 +66,9 @@ export const Slider = ({
   const onIndexChangeHandler = ({ activeIndex }: { activeIndex: number }) => {
     hasHero && items && setActiveIndex((activeIndex + 3) % items.length)
   }
+
+  const activeItem = items?.[activeIndexNumber]
+
   return (
     <Container>
       <Box
@@ -90,7 +93,7 @@ export const Slider = ({
           </Heading>
         )}
         {hasHero &&
-          (isLoading ? (
+          (isLoading || !activeItem ? (
             <Stack
               align={'center'}
               spacing={{ base: 8, md: 10 }}
@@ -110,7 +113,7 @@ export const Slider = ({
               <Skeleton flex={1} h={300} rounded={'2xl'} />
             </Stack>
           ) : (
-            <SliderHero items={items} currentIndex={activeIndexNumber} />
+            <SliderHero item={activeItem} />
           ))}
         <SwiperBox
           slidesPerView={responsiveSlidesPerView}

@@ -1,16 +1,18 @@
-import { Box, Flex, Heading, Stack, Text } from '@chakra-ui/react'
+import { AspectRatio, Button, Heading, Stack, Text } from '@chakra-ui/react'
+import { useRouter } from 'next/router'
+import { useTranslation } from 'react-i18next'
 
-import { ChakraNextImage, Container } from '@components'
+import { ChakraNextImage, Container, Navigate } from '@components'
+import { ROUTES } from '@utils'
 
 interface SliderHeroProps {
-  items: SubpageType[] | undefined
-  currentIndex: number
+  item: SubpageType
 }
 
-export const SliderHero = ({
-  items,
-  currentIndex,
-}: SliderHeroProps): JSX.Element => {
+export const SliderHero = ({ item }: SliderHeroProps): JSX.Element => {
+  const { locale } = useRouter()
+  const { t } = useTranslation(['common'])
+
   return (
     <Container display={{ base: 'none', md: 'initial' }} mt={10}>
       <Stack
@@ -18,40 +20,42 @@ export const SliderHero = ({
         spacing={{ base: 8, md: 10 }}
         direction={{ base: 'column', md: 'row' }}
       >
-        <Stack flex={1} spacing={{ base: 5, md: 10 }}>
+        <Stack align="start" flex={1} spacing={{ base: 5, md: 10 }}>
           <Heading
             lineHeight={1.1}
-            fontWeight={600}
+            fontWeight={700}
             fontSize={{ base: '3xl', sm: '4xl', lg: '6xl' }}
           >
             <Text as={'span'} color={'primary'}>
-              {items && items[currentIndex]?.title}
+              {item.title}
             </Text>
           </Heading>
           <Text noOfLines={5} fontSize={'1.3rem'}>
-            {items && items[currentIndex]?.content}
+            {item.content}
           </Text>
+          {item.type && (
+            <Navigate
+              as={Button}
+              // href="/<mainpage>/<subpage>"
+              href={`/${ROUTES[item.type][locale as string].link}/${item.slug}`}
+              colorScheme="primary"
+              size="lg"
+            >
+              {t`read-more`}
+            </Navigate>
+          )}
         </Stack>
-        <Flex
+        <AspectRatio
+          rounded="2xl"
+          boxShadow="2xl"
+          pos="relative"
           flex={1}
-          justify={'center'}
-          align={'center'}
-          position={'relative'}
-          w={'full'}
+          maxW="600px"
+          ratio={1200 / 675}
+          overflow="hidden"
         >
-          <Box
-            position={'relative'}
-            height={'300px'}
-            rounded={'2xl'}
-            boxShadow={'2xl'}
-            width={'full'}
-            overflow={'hidden'}
-          >
-            {items?.[currentIndex]?.image && (
-              <ChakraNextImage h={'100%'} image={items[currentIndex]?.image} />
-            )}
-          </Box>
-        </Flex>
+          {item.image && <ChakraNextImage h={'100%'} image={item.image} />}
+        </AspectRatio>
       </Stack>
     </Container>
   )
