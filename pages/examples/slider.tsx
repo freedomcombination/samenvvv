@@ -44,8 +44,8 @@ const SliderPage = (): JSX.Element => {
             borderWidth: 2,
           }}
           isLoading={isLoading}
-          withHero
-          simpleCard
+          hasHero
+          hasSimpleCard
         />
 
         {/* Live Data (Centered - Active Style)*/}

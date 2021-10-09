@@ -4,12 +4,12 @@ import {
   Box,
   chakra,
   ChakraProps,
-  Container,
   CSSObject,
   Heading,
   ResponsiveValue,
   Skeleton,
   SkeletonText,
+  Stack,
   useBreakpointValue,
   VStack,
 } from '@chakra-ui/react'
@@ -18,7 +18,7 @@ import { Autoplay, Navigation } from 'swiper'
 // eslint-disable-next-line import/no-unresolved
 import { Swiper, SwiperSlide } from 'swiper/react'
 
-import { Card, SliderHero } from '@components'
+import { Card, Container, SliderHero } from '@components'
 
 const SwiperBox = chakra(Swiper)
 
@@ -32,8 +32,8 @@ interface SliderProps {
   customStyles: ChakraProps
   swiperStyles: CSSObject
   isLoading: boolean
-  withHero: boolean
-  simpleCard: boolean
+  hasHero: boolean
+  hasSimpleCard: boolean
 }
 
 const defaultSwiperProps: Swiper = {
@@ -56,18 +56,18 @@ export const Slider = ({
   children,
   swiperStyles = {},
   isLoading = false,
-  withHero = false,
-  simpleCard = false,
+  hasHero = false,
+  hasSimpleCard = false,
   ...rest
 }: Partial<SliderProps & Swiper>): JSX.Element => {
   const responsiveSlidesPerView = useBreakpointValue(slides as number[]) || 1
   const responsiveSpaceBetween = useBreakpointValue(spaces as number[]) || 30
   const [activeIndexNumber, setActiveIndex] = useState(-1)
-  const onIndexChangeHandler = (aIndex: number) => {
-    items && setActiveIndex((aIndex + 3) % items.length)
+  const onIndexChangeHandler = ({ activeIndex }: { activeIndex: number }) => {
+    hasHero && items && setActiveIndex((activeIndex + 3) % items.length)
   }
   return (
-    <Container maxW={'8xl'}>
+    <Container>
       <Box
         sx={mergeWith(
           // Default pagination styles
@@ -89,19 +89,34 @@ export const Slider = ({
             {heading}
           </Heading>
         )}
-        {withHero && !isLoading && (
-          <SliderHero items={items} index={activeIndexNumber} />
-        )}
+        {hasHero &&
+          (isLoading ? (
+            <Stack
+              align={'center'}
+              spacing={{ base: 8, md: 10 }}
+              direction={{ base: 'column', md: 'row' }}
+            >
+              <VStack
+                flex={1}
+                spacing={{ base: 5, md: 10 }}
+                align="stretch"
+                p={4}
+              >
+                <SkeletonText w={50} noOfLines={1} mt={4} />
+                <SkeletonText w={150} noOfLines={1} mt={4} />
+                <SkeletonText noOfLines={3} mt={4} />
+                <SkeletonText w={100} noOfLines={1} mt={4} />
+              </VStack>
+              <Skeleton flex={1} h={300} rounded={'2xl'} />
+            </Stack>
+          ) : (
+            <SliderHero items={items} currentIndex={activeIndexNumber} />
+          ))}
         <SwiperBox
           slidesPerView={responsiveSlidesPerView}
           spaceBetween={responsiveSpaceBetween}
           py={6}
-          onActiveIndexChange={
-            withHero
-              ? ({ activeIndex }: { activeIndex: number }) =>
-                  onIndexChangeHandler(activeIndex)
-              : undefined
-          }
+          onActiveIndexChange={onIndexChangeHandler}
           {...mergeWith({ ...defaultSwiperProps, ...rest })}
         >
           {/* Render custom children if it's provided instead of default Card list */}
@@ -134,11 +149,11 @@ export const Slider = ({
                         item={item}
                         _hover={{
                           transform: 'translateY(-5px)',
-                          boxShadow: simpleCard ? 'none' : 'lg',
+                          boxShadow: hasSimpleCard ? 'none' : 'lg',
                         }}
                         {...customStyles}
                         {...(isActive && activeStyles)}
-                        simpleCard={simpleCard}
+                        isSimple={hasSimpleCard}
                       />
                     )
                   }}

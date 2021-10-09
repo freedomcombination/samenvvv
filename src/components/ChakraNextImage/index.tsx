@@ -14,7 +14,7 @@ const shimmer = (
             <stop stop-color="#ccc" offset="70%" />
           </linearGradient>
         </defs>
-        <rect width="${w}" height="${h}" fill="#333" />
+        <rect width="${w}" height="${h}" fill="#E2E8F0" />
         <rect id="r" width="${w}" height="${h}" fill="url(#g)" />
         <animate xlink:href="#r" attributeName="x" from="-${w}" to="${w}" dur="1s" repeatCount="indefinite"  />
       </svg>`

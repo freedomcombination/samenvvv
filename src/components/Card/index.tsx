@@ -18,18 +18,18 @@ const timeLocale: Record<string, Locale> = { en, nl, tr }
 
 interface CardProps extends ChakraProps {
   item: SubpageType
-  simpleCard: boolean
+  isSimple: boolean
 }
 
 export const Card = (props: CardProps): JSX.Element => {
-  const { item, simpleCard, ...rest } = props
+  const { item, isSimple, ...rest } = props
   const { locale } = useRouter()
 
   return (
     <Navigate href={`/${item.page.slug}/${item.slug}`}>
       <Box
         pos="relative"
-        boxShadow={simpleCard ? 'none' : 'sm'}
+        boxShadow={isSimple ? 'none' : 'sm'}
         borderRadius="lg"
         overflow="hidden"
         backgroundColor="white"
@@ -38,7 +38,7 @@ export const Card = (props: CardProps): JSX.Element => {
         {...rest}
       >
         <ChakraNextImage h={150} image={item.image} />
-        {!simpleCard && (
+        {!isSimple && (
           <Badge
             pos="absolute"
             top={4}
@@ -58,7 +58,7 @@ export const Card = (props: CardProps): JSX.Element => {
           <Text noOfLines={3} fontSize="1rem" mt={2}>
             {item.content}
           </Text>
-          {!simpleCard && (
+          {!isSimple && (
             <Box d="flex" mt={4} alignItems="center">
               <MdEvent />
               <Box as="span" ml="2">

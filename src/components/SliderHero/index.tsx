@@ -1,15 +1,18 @@
-import { Box, Container, Flex, Heading, Stack, Text } from '@chakra-ui/react'
+import { Box, Flex, Heading, Stack, Text } from '@chakra-ui/react'
 
-import { ChakraNextImage } from '@components'
+import { ChakraNextImage, Container } from '@components'
 
 interface SliderHeroProps {
   items: SubpageType[] | undefined
-  index: number
+  currentIndex: number
 }
 
-export const SliderHero = ({ items, index }: SliderHeroProps): JSX.Element => {
+export const SliderHero = ({
+  items,
+  currentIndex,
+}: SliderHeroProps): JSX.Element => {
   return (
-    <Container display={{ base: 'none', md: 'initial' }} maxW={'7xl'} mt={10}>
+    <Container display={{ base: 'none', md: 'initial' }} mt={10}>
       <Stack
         align={'center'}
         spacing={{ base: 8, md: 10 }}
@@ -22,11 +25,11 @@ export const SliderHero = ({ items, index }: SliderHeroProps): JSX.Element => {
             fontSize={{ base: '3xl', sm: '4xl', lg: '6xl' }}
           >
             <Text as={'span'} color={'primary'}>
-              {items && items[index]?.title}
+              {items && items[currentIndex]?.title}
             </Text>
           </Heading>
           <Text noOfLines={5} fontSize={'1.3rem'}>
-            {items && items[index]?.content}
+            {items && items[currentIndex]?.content}
           </Text>
         </Stack>
         <Flex
@@ -44,8 +47,8 @@ export const SliderHero = ({ items, index }: SliderHeroProps): JSX.Element => {
             width={'full'}
             overflow={'hidden'}
           >
-            {items?.[index]?.image && (
-              <ChakraNextImage h={'100%'} image={items[index]?.image} />
+            {items?.[currentIndex]?.image && (
+              <ChakraNextImage h={'100%'} image={items[currentIndex]?.image} />
             )}
           </Box>
         </Flex>

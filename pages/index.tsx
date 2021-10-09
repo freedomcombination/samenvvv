@@ -38,8 +38,8 @@ function Home(): JSX.Element {
           heading={'Hastag Events'}
           isLoading={hashtagQuery.isLoading}
           items={hashtagQuery.data?.slice(0, 5)}
-          withHero
-          simpleCard
+          hasHero
+          hasSimpleCard
         />
       </Box>
     </Layout>
