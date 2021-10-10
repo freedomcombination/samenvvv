@@ -18,17 +18,18 @@ const timeLocale: Record<string, Locale> = { en, nl, tr }
 
 interface CardProps extends ChakraProps {
   item: SubpageType
+  isSimple: boolean
 }
 
 export const Card = (props: CardProps): JSX.Element => {
-  const { item, ...rest } = props
+  const { item, isSimple, ...rest } = props
   const { locale } = useRouter()
 
   return (
     <Navigate href={`/${item.page.slug}/${item.slug}`}>
       <Box
         pos="relative"
-        boxShadow="sm"
+        boxShadow={isSimple ? 'none' : 'sm'}
         borderRadius="lg"
         overflow="hidden"
         backgroundColor="white"
@@ -37,17 +38,18 @@ export const Card = (props: CardProps): JSX.Element => {
         {...rest}
       >
         <ChakraNextImage h={150} image={item.image} />
-
-        <Badge
-          pos="absolute"
-          top={4}
-          right={4}
-          variant="solid"
-          colorScheme="primary"
-          size="lg"
-        >
-          {item.type}
-        </Badge>
+        {!isSimple && (
+          <Badge
+            pos="absolute"
+            top={4}
+            right={4}
+            variant="solid"
+            colorScheme="primary"
+            size="lg"
+          >
+            {item.type}
+          </Badge>
+        )}
         <VStack p="4" spacing={4} align="start">
           <Heading as="h3" size="md" noOfLines={1} fontWeight="bold">
             {item.title}
@@ -56,20 +58,22 @@ export const Card = (props: CardProps): JSX.Element => {
           <Text noOfLines={3} fontSize="1rem" mt={2}>
             {item.content}
           </Text>
-          <Box d="flex" mt={4} alignItems="center">
-            <MdEvent />
-            <Box as="span" ml="2">
-              {item.start &&
-                format(new Date(item.start), 'd LLL', {
-                  locale: timeLocale[locale!],
-                })}{' '}
-              -{' '}
-              {item.end &&
-                format(new Date(item.end), 'd LLL', {
-                  locale: timeLocale[locale!],
-                })}
+          {!isSimple && (
+            <Box d="flex" mt={4} alignItems="center">
+              <MdEvent />
+              <Box as="span" ml="2">
+                {item.start &&
+                  format(new Date(item.start), 'd LLL', {
+                    locale: timeLocale[locale!],
+                  })}{' '}
+                -{' '}
+                {item.end &&
+                  format(new Date(item.end), 'd LLL', {
+                    locale: timeLocale[locale!],
+                  })}
+              </Box>
             </Box>
-          </Box>
+          )}
         </VStack>
       </Box>
     </Navigate>

@@ -34,7 +34,21 @@ const SliderPage = (): JSX.Element => {
   return (
     <Layout>
       <Container>
-        {/* Live Data (Centered - Active Style) */}
+        {/* Live Data with hero section & simple card*/}
+        <Slider
+          heading="Live Data with centered & hero section & simple card"
+          items={data}
+          centeredSlides
+          activeStyles={{
+            borderColor: 'primary.400',
+            borderWidth: 2,
+          }}
+          isLoading={isLoading}
+          hasHero
+          hasSimpleCard
+        />
+
+        {/* Live Data (Centered - Active Style)*/}
         <Slider
           heading="Live Data (Centered - Active Style)"
           items={data}

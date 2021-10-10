@@ -17,6 +17,9 @@ function Home(): JSX.Element {
   })
   const { t } = useTranslation(['common'])
   const isScrolled = useScroll(100)
+  const hashtagQuery = useData<SubpageType[]>('hashtags', {
+    locale,
+  })
 
   return (
     <Layout isScrolled={isScrolled} hasScroll>
@@ -29,6 +32,15 @@ function Home(): JSX.Element {
       />
       <Box>
         <Slider isLoading={isLoading} items={data} />
+      </Box>
+      <Box>
+        <Slider
+          heading={'Hastag Events'}
+          isLoading={hashtagQuery.isLoading}
+          items={hashtagQuery.data?.slice(0, 5)}
+          hasHero
+          hasSimpleCard
+        />
       </Box>
     </Layout>
   )
