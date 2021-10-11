@@ -1,21 +1,19 @@
 import { Box } from '@chakra-ui/react'
 import { MDXRemoteSerializeResult } from 'next-mdx-remote'
-import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
+import { Markdown } from '@components'
 import { useData } from '@hooks'
-
-const Markdown = dynamic(() => import('../../components/Markdown'))
 
 interface HashtagProps {
   slug: Record<string, string[]>
   source: MDXRemoteSerializeResult<Record<string, unknown>>
 }
 
-export const HashtagView = ({ slug, source }: HashtagProps): JSX.Element => {
+const HashtagView = ({ slug, source }: HashtagProps): JSX.Element => {
   const { locale } = useRouter()
-  const [mainSlug, currentSlug] = slug[locale!]
+  const [mainSlug, currentSlug] = slug[locale as string]
 
   const { data } = useData<HashtagType[]>('hashtags', {
     slug: currentSlug,
@@ -24,10 +22,12 @@ export const HashtagView = ({ slug, source }: HashtagProps): JSX.Element => {
 
   const hashtag = data?.[0]
 
+  if (!hashtag) return <Box>Page not found</Box>
+
   return (
     <div>
       <h1>{hashtag?.title}</h1>
-      {Markdown.name && <Markdown source={source} />}
+      {source && <Markdown source={source} />}
       {hashtag?.tweets?.map(tweet => (
         <Box key={tweet.id} p={4} boxShadow="lg">
           <Link href={`/${mainSlug}/${currentSlug}/${tweet.slug}`}>
@@ -38,3 +38,5 @@ export const HashtagView = ({ slug, source }: HashtagProps): JSX.Element => {
     </div>
   )
 }
+
+export default HashtagView
