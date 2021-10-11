@@ -4,15 +4,32 @@ import NextImage from 'next/image'
 
 import { Container, HeaderNav, HeaderTop } from '@components'
 
-export const Header = (): JSX.Element => {
+interface HeaderProps {
+  isScrolled?: boolean
+  hasScroll?: boolean
+}
+
+export const Header = ({ isScrolled, hasScroll }: HeaderProps): JSX.Element => {
   return (
     <Box
       pos="sticky"
       zIndex="popover"
       top={0}
-      bg={'white'}
-      borderBottomWidth={1}
+      bg={!hasScroll ? 'white' : isScrolled ? 'white' : 'transparent'}
+      borderBottomWidth={!hasScroll ? 1 : isScrolled ? 1 : 0}
       borderBottomColor="blackAlpha.300"
+      transition="all 0.3s ease-in-out"
+      {...(!isScrolled &&
+        hasScroll && {
+          sx: {
+            '.chakra-link': {
+              color: 'white',
+              _hover: {
+                color: 'primary.400',
+              },
+            },
+          },
+        })}
     >
       <Container>
         <Flex justify="space-between" align="center" pos="relative">

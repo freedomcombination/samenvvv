@@ -32,11 +32,9 @@ interface MarkdownProps {
   source: MDXRemoteSerializeResult<Record<string, unknown>>
 }
 
-const Markdown = ({ source }: MarkdownProps): JSX.Element => (
+export const Markdown = ({ source }: MarkdownProps): JSX.Element => (
   <MDXRemote
     {...source}
     components={{ ...MarkdownComponents, ...ChakraComponents }}
   />
 )
-
-export default Markdown
