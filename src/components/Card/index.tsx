@@ -11,6 +11,7 @@ import { format } from 'date-fns'
 import { enIN as en, nl, tr } from 'date-fns/locale'
 import { useRouter } from 'next/router'
 import { MdEvent } from 'react-icons/md'
+import removeMarkdown from 'remove-markdown'
 
 import { ChakraNextImage, Navigate } from '@components'
 
@@ -56,7 +57,7 @@ export const Card = (props: CardProps): JSX.Element => {
           </Heading>
 
           <Text noOfLines={3} fontSize="1rem" mt={2}>
-            {item.content}
+            {removeMarkdown(item.content)}
           </Text>
           {!isSimple && (
             <Box d="flex" mt={4} alignItems="center">
@@ -64,12 +65,12 @@ export const Card = (props: CardProps): JSX.Element => {
               <Box as="span" ml="2">
                 {item.start &&
                   format(new Date(item.start), 'd LLL', {
-                    locale: timeLocale[locale!],
+                    locale: timeLocale[locale as string],
                   })}{' '}
                 -{' '}
                 {item.end &&
                   format(new Date(item.end), 'd LLL', {
-                    locale: timeLocale[locale!],
+                    locale: timeLocale[locale as string],
                   })}
               </Box>
             </Box>

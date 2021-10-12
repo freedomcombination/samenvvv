@@ -1,8 +1,19 @@
-export * from './CompetitionsView'
-export * from './CompetitionView'
-export * from './ApplicationView'
-export * from './HashtagsView'
-export * from './HashtagView'
-export * from './MainView'
-export * from './SubView'
-export * from './TweetView'
+import ApplicationView from './ApplicationView'
+import CompetitionView from './CompetitionView'
+import HashtagView from './HashtagView'
+import MainCompetitionsView from './MainCompetitionsView'
+import MainHashtagsView from './MainHashtagsView'
+import MainView from './MainView'
+import SubView from './SubView'
+import TweetView from './TweetView'
+
+export {
+  ApplicationView,
+  MainCompetitionsView,
+  CompetitionView,
+  MainHashtagsView,
+  HashtagView,
+  MainView,
+  SubView,
+  TweetView,
+}
