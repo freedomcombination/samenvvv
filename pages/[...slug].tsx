@@ -1,3 +1,4 @@
+import { Spinner } from '@chakra-ui/spinner'
 import merge from 'lodash.merge'
 import { GetStaticPaths, GetStaticProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
@@ -44,6 +45,8 @@ interface DynamicPageProps {
 
 const DynamicPage = (props: DynamicPageProps): JSX.Element => {
   const { slug, pageType, isPage, source } = props
+
+  if (!isPage) return <Spinner />
 
   const isMainPage = isPage.main && !!pageType.match(/event|news|announcement/)
   const isSubpage = isPage.sub && !!pageType.match(/event|news|announcement/)
@@ -93,7 +96,7 @@ export const getStaticPaths: GetStaticPaths = async context => {
 
   return {
     paths,
-    fallback: 'blocking',
+    fallback: true,
   }
 }
 
