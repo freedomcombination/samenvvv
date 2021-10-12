@@ -1,8 +1,10 @@
+import { Spinner } from '@chakra-ui/spinner'
 import merge from 'lodash.merge'
 import { GetStaticPaths, GetStaticProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { MDXRemoteSerializeResult } from 'next-mdx-remote'
 import { serialize } from 'next-mdx-remote/serialize'
+import { useRouter } from 'next/router'
 import { QueryClient } from 'react-query'
 import { dehydrate } from 'react-query/hydration'
 
@@ -43,7 +45,10 @@ interface DynamicPageProps {
 }
 
 const DynamicPage = (props: DynamicPageProps): JSX.Element => {
+  const router = useRouter()
   const { slug, pageType, isPage, source } = props
+
+  if (router.isFallback) return <Spinner />
 
   const isMainPage = isPage.main && !!pageType.match(/event|news|announcement/)
   const isSubpage = isPage.sub && !!pageType.match(/event|news|announcement/)
@@ -93,7 +98,7 @@ export const getStaticPaths: GetStaticPaths = async context => {
 
   return {
     paths,
-    fallback: 'blocking',
+    fallback: true,
   }
 }
 
@@ -122,7 +127,7 @@ export const getStaticProps: GetStaticProps = async context => {
   }
 
   if (!pageType) {
-    return { notFound: true }
+    return { notFound: true, revalidate: 120 }
   }
 
   const isMainPage = !subSlug
@@ -140,7 +145,7 @@ export const getStaticProps: GetStaticProps = async context => {
     ]) as PageType[]
 
     if (!pageData) {
-      return { notFound: true }
+      return { notFound: true, revalidate: 120 }
     }
 
     const localizedPageIds = pageData?.[0].localizations?.map(
@@ -174,7 +179,7 @@ export const getStaticProps: GetStaticProps = async context => {
     ]) as SubpageType[] | HashtagType[] | CompetitionType[]
 
     if (!subpageData) {
-      return { notFound: true }
+      return { notFound: true, revalidate: 120 }
     }
 
     const localizedSubpagePageIds = subpageData?.[0].localizations?.map(
