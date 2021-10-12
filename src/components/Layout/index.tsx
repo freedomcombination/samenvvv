@@ -9,11 +9,15 @@ import { getImageUrl } from '@utils'
 interface LayoutProps {
   children: ReactNode
   metadata?: MetadataType
+  isScrolled?: boolean
+  hasScroll?: boolean
 }
 
 export const Layout = ({
   children,
   metadata,
+  isScrolled,
+  hasScroll,
 }: LayoutProps): JSX.Element | null => {
   return (
     <>
@@ -38,11 +42,8 @@ export const Layout = ({
         />
       )}
       <Flex flexDir="column" minHeight="100vh">
-        <Header />
-        <Box bg="primary.400" flex="1">
-          {children}
-        </Box>
-
+        <Header isScrolled={isScrolled} hasScroll={hasScroll} />
+        <Box flex={1}>{children}</Box>
         <Footer />
       </Flex>
     </>

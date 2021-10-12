@@ -5,25 +5,51 @@ export const styles = {
       color: 'gray.900',
       bg: 'gray.50',
     },
-    'h1, h2, h3, h4, a': {
-      bgGradient: 'linear(to-b, primary.300,primary.500)',
-      bgClip: 'text',
+    'h1, h2, h3, h4': {
+      color: 'primary.400',
       fontWeight: 'bold',
     },
-    '.swiper-pagination': {
-      textAlign: 'left',
-      '&-bullets': {
-        h: 0,
-        pr: 8,
-        top: 4,
-        textAlign: { base: 'center', md: 'right' },
-      },
-      '&-bullet': {
-        boxSize: 6,
-        bg: 'dark.100',
+    '.swiper': {
+      '&-pagination': {
+        '&-bullets': {
+          textAlign: 'right',
+          top: 0,
+        },
+        '&-bullet': {
+          boxSize: 4,
+          bg: 'gray.500',
 
-        '&-active': {
-          bgGradient: 'linear(to-b, primary.300,primary.500)',
+          '&-active': {
+            bg: 'primary.400',
+          },
+        },
+      },
+      '&-button-next': {
+        '&:hover': {
+          transform: 'translateX(5px)',
+        },
+      },
+      '&-button-prev': {
+        '&:hover': {
+          transform: 'translateX(-5px)',
+        },
+      },
+      '&-button-prev, &-button-next': {
+        color: 'white',
+        boxSize: 16,
+        rounded: 'full',
+        boxShadow: '0 0 2rem rgba(0, 0, 0, 0.3)',
+        bg: 'primary.400',
+        transition: 'all 0.3s',
+        opacity: 0.5,
+
+        '.swiper:hover &': {
+          opacity: 1,
+        },
+
+        '&::after': {
+          fontSize: '2em',
+          fontWeight: 'bold',
         },
       },
     },

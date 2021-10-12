@@ -14,7 +14,7 @@ const shimmer = (
             <stop stop-color="#ccc" offset="70%" />
           </linearGradient>
         </defs>
-        <rect width="${w}" height="${h}" fill="#333" />
+        <rect width="${w}" height="${h}" fill="#E2E8F0" />
         <rect id="r" width="${w}" height="${h}" fill="url(#g)" />
         <animate xlink:href="#r" attributeName="x" from="-${w}" to="${w}" dur="1s" repeatCount="indefinite"  />
       </svg>`
@@ -23,14 +23,19 @@ export const ChakraNextImage = ({
   image,
   format,
   nextImageProps,
+  alt,
   ...rest
 }: {
   image: ImageResponseType | string
   format?: ImageFormatsType
   nextImageProps?: ImageProps
+  alt?: string
 } & Omit<BoxProps, 'as'>): JSX.Element => {
   const src = getImageUrl(image, format)
-  const alternativeText = typeof image === 'string' ? '' : image.alternativeText
+  const alternativeText =
+    typeof image === 'string'
+      ? alt || 'alternative text'
+      : image?.alternativeText
   return (
     <Box position="relative" {...rest}>
       <Image

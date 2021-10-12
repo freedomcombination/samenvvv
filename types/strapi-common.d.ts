@@ -8,7 +8,8 @@ declare interface StrapiCommonType {
   created_at: Date
   updated_at: Date
   locale?: string
-  localizations: [
+  type?: string
+  localizations?: [
     {
       id: string | number
       locale: string
