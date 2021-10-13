@@ -28,10 +28,10 @@ const HashtagView = ({ slug, source }: HashtagProps): JSX.Element => {
     <div>
       <h1>{hashtag?.title}</h1>
       {source && <Markdown source={source} />}
-      {hashtag?.tweets?.map(tweet => (
-        <Box key={tweet.id} p={4} boxShadow="lg">
-          <Link href={`/${mainSlug}/${currentSlug}/${tweet.slug}`}>
-            {tweet.tweet}
+      {hashtag?.posts?.map(post => (
+        <Box key={post.id} p={4} boxShadow="lg">
+          <Link href={`/${mainSlug}/${currentSlug}/${post.slug}`}>
+            {post.text}
           </Link>
         </Box>
       ))}

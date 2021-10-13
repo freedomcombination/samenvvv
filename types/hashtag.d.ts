@@ -1,12 +1,12 @@
-declare interface TweetType extends StrapiCommonType {
-  tweet: string
+declare interface HashtagPostType extends StrapiCommonType {
+  text: string
   hashtag: HashtagType
 }
 
 declare interface HashtagType extends StrapiCommonType {
   hashtag: string
   hashtag_date: string | Date
-  tweets: TweetType[]
+  posts: HashtagPostType[]
   page: PageType | number
   metadata: MetadataType
   dynamic: any
