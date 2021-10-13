@@ -140,11 +140,14 @@ export const getAllApplicationPaths = async (locales: string[]) => {
   })
 }
 
-export const getAllTweetPaths = async (locales: string[]) => {
+export const getAllHashtagPostPaths = async (locales: string[]) => {
   const pages = await getAllStrapiData<PageType[]>('pages', locales)
-  const allTweets = await getAllStrapiData<TweetType[]>('tweets', locales)
+  const allHashtagPosts = await getAllStrapiData<HashtagPostType[]>(
+    'hashtag-posts',
+    locales,
+  )
 
-  return allTweets.flat().map(({ hashtag, slug, locale }) => {
+  return allHashtagPosts.flat().map(({ hashtag, slug, locale }) => {
     const pageSlug = getPageSlugFromId(hashtag.page as number, pages.flat())
 
     return {
