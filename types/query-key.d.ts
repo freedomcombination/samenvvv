@@ -4,5 +4,5 @@ declare type CustomQueryKeyType =
   | 'competitions'
   | 'applications'
   | 'hashtags'
-  | 'tweets'
+  | 'hashtag-posts'
   | 'votes'
