@@ -1,7 +1,20 @@
-import { Button, ButtonGroup, HStack } from '@chakra-ui/react'
+import {
+  Button,
+  ButtonGroup,
+  HStack,
+  useBreakpointValue,
+} from '@chakra-ui/react'
 import { NextRouter, useRouter } from 'next/dist/client/router'
 
-export const HeaderTop = (): JSX.Element => {
+interface HeaderTopProps {
+  hasScroll?: boolean
+  isScrolled?: boolean
+}
+
+export const HeaderTop = ({
+  hasScroll,
+  isScrolled,
+}: HeaderTopProps): JSX.Element => {
   const { locales, push, pathname, locale, asPath, components } =
     useRouter() as NextRouter & { components: any }
 
@@ -11,14 +24,24 @@ export const HeaderTop = (): JSX.Element => {
     await push(pathname, slug ? slug[locale].join('/') : asPath, { locale })
   }
 
+  const size = useBreakpointValue({ base: 'md', lg: 'xs' })
+
   return (
     <HStack py={1} justify="flex-end">
       <ButtonGroup isAttached d="flex" size="xs" align="center">
         {(locales as string[]).map(code => (
           <Button
             key={code}
-            variant={locale === code ? 'normal' : 'ghost'}
+            size={size}
             onClick={() => handleChangeLanguage(code)}
+            colorScheme={
+              !hasScroll
+                ? 'blackAlpha'
+                : isScrolled
+                ? 'blackAlpha'
+                : 'whiteAlpha'
+            }
+            variant={locale === code ? 'normal' : 'ghost'}
           >
             {code.toUpperCase()}
           </Button>
