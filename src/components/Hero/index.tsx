@@ -20,7 +20,11 @@ export const Hero = ({
   link,
 }: HeroProps): JSX.Element => {
   return (
-    <Box pos="relative" height="100vh" marginTop="-100px">
+    <Box
+      pos="relative"
+      height="100vh"
+      marginTop={{ base: '-64px', lg: '-100px' }}
+    >
       {video && (
         <Box
           as="video"
