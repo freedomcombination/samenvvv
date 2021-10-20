@@ -9,6 +9,7 @@ interface HeroProps {
   image?: string | ImageResponseType
   buttonText?: string
   link?: string
+  isFullHeight?: boolean
 }
 
 export const Hero = ({
@@ -18,11 +19,12 @@ export const Hero = ({
   image,
   buttonText,
   link,
+  isFullHeight = true,
 }: HeroProps): JSX.Element => {
   return (
     <Box
       pos="relative"
-      height="100vh"
+      height={isFullHeight ? '100vh' : '300px'}
       marginTop={{ base: '-64px', lg: '-100px' }}
     >
       {video && (
