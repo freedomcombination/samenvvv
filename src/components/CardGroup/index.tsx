@@ -1,7 +1,7 @@
 import { ChakraProps, SimpleGrid } from '@chakra-ui/react'
 import { Card } from '@components'
 
-interface CardGroupProps extends ChakraProps {
+interface CardGroupProps {
   items: SubpageType[]
   isSimple: boolean
 }
