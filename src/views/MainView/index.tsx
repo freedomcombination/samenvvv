@@ -1,8 +1,8 @@
 import { Box } from '@chakra-ui/react'
 import { MDXRemoteSerializeResult } from 'next-mdx-remote'
-import Link from 'next/link'
-import { useRouter } from 'next/router'
 
+import { useRouter } from 'next/router'
+import { CardGroup } from '@components'
 import { Markdown } from '@components'
 import { useData } from '@hooks'
 
@@ -28,11 +28,7 @@ const MainView = ({ slug, source }: MainViewProps): JSX.Element => {
     <div>
       <h1>{page.title}</h1>
       {source && <Markdown source={source} />}
-      {page.subpages?.map(subpage => (
-        <Box key={subpage.id} p={4} boxShadow="lg">
-          <Link href={`/${currentSlug}/${subpage.slug}`}>{subpage.title}</Link>
-        </Box>
-      ))}
+      {<CardGroup items={page?.subpages!} isSimple={true} />}
     </div>
   )
 }

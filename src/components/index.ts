@@ -1,4 +1,5 @@
 export { Card } from './Card'
+export { CardGroup } from './CardGroup'
 export { ChakraNextImage } from './ChakraNextImage'
 export { Container } from './Container'
 export { Footer } from './Footer'
