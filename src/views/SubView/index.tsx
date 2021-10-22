@@ -1,5 +1,3 @@
-/* eslint-disable import/no-duplicates */
-/* eslint-disable import/order */
 import {
   Box,
   Flex,
@@ -8,13 +6,14 @@ import {
   Heading,
   IconButton,
 } from '@chakra-ui/react'
-// eslint-disable-next-line import/no-duplicates
+/* eslint-disable import/no-duplicates */
 import { format } from 'date-fns'
 import { enIN as en, nl, tr } from 'date-fns/locale'
 import { MDXRemoteSerializeResult } from 'next-mdx-remote'
 import { useRouter } from 'next/router'
 import { FaFacebook, FaTwitter, FaWhatsapp } from 'react-icons/fa'
 import { MdEvent } from 'react-icons/md'
+
 import { ChakraNextImage, Markdown } from '@components'
 import { useData } from '@hooks'
 
@@ -67,11 +66,6 @@ const SubView = ({ slug, source }: SubViewProps): JSX.Element => {
           top={250}
           left={{ base: 'initial', md: 'initial', lg: 0 }}
           right={{ base: 0, md: 0, lg: 'initial' }}
-          transform={{
-            base: 'scale(0.7, 0.7)',
-            md: 'scale(0.8, 0.8)',
-            lg: 'scale(1, 1)',
-          }}
         >
           <IconButton
             colorScheme="primary"
