@@ -4,21 +4,22 @@ import { Box, Flex } from '@chakra-ui/react'
 import { NextSeo } from 'next-seo'
 
 import { Footer, Header } from '@components'
+import { useScroll } from '@hooks'
 import { getImageUrl } from '@utils'
 
 interface LayoutProps {
   children: ReactNode
   metadata?: MetadataType
-  isScrolled?: boolean
-  hasScroll?: boolean
+  scrollHeight?: number | null
 }
 
 export const Layout = ({
   children,
   metadata,
-  isScrolled,
-  hasScroll,
+  scrollHeight = null,
 }: LayoutProps): JSX.Element | null => {
+  const isScrolled = useScroll(scrollHeight)
+
   return (
     <>
       {metadata && (
@@ -42,7 +43,7 @@ export const Layout = ({
         />
       )}
       <Flex flexDir="column" minHeight="100vh">
-        <Header isScrolled={isScrolled} hasScroll={hasScroll} />
+        <Header isScrolled={isScrolled} hasScroll={!!scrollHeight} />
         <Box flex={1}>{children}</Box>
         <Footer />
       </Flex>

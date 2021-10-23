@@ -1,8 +1,7 @@
-import { Box } from '@chakra-ui/react'
 import { MDXRemoteSerializeResult } from 'next-mdx-remote'
 import { useRouter } from 'next/router'
 
-import { ChakraNextImage, Markdown } from '@components'
+import { ChakraNextImage, Container, Layout, Markdown } from '@components'
 import { useData } from '@hooks'
 
 interface ApplicationProps {
@@ -24,11 +23,13 @@ const ApplicationView = ({ slug, source }: ApplicationProps): JSX.Element => {
   if (!application) return <div>Page not found</div>
 
   return (
-    <Box p={4} boxShadow="lg">
-      <h1>{application.title}</h1>
-      {source && <Markdown source={source} />}
-      {application.image && <ChakraNextImage image={application.image} />}
-    </Box>
+    <Layout>
+      <Container>
+        <h1>{application.title}</h1>
+        {source && <Markdown source={source} />}
+        {application.image && <ChakraNextImage image={application.image} />}
+      </Container>
+    </Layout>
   )
 }
 

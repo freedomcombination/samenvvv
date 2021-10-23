@@ -6,8 +6,8 @@ import { useTranslation } from 'react-i18next'
 import { QueryClient } from 'react-query'
 import { dehydrate } from 'react-query/hydration'
 
-import { Hero, Layout, Slider } from '@components'
-import { useData, useScroll } from '@hooks'
+import { Container, Hero, Layout, Slider } from '@components'
+import { useData } from '@hooks'
 import { ROUTES } from '@utils'
 
 function Home(): JSX.Element {
@@ -16,13 +16,12 @@ function Home(): JSX.Element {
     locale,
   })
   const { t } = useTranslation(['common'])
-  const isScrolled = useScroll(100)
   const hashtagQuery = useData<SubpageType[]>('hashtags', {
     locale,
   })
 
   return (
-    <Layout isScrolled={isScrolled} hasScroll>
+    <Layout scrollHeight={100}>
       <Hero
         title="Welcome to this website"
         description="Ipsum esse cupidatat ex magna labore aliquip non aliqua. Minim mollit magna irure deserunt ex irure et ad ad ea culpa ad eu. Labore labore pariatur mollit culpa cupidatat consequat quis amet ut et eiusmod amet ad. Exercitation aute dolore ipsum qui amet aliqua nisi. Id dolore dolore aliquip eiusmod proident nostrud laboris aliqua dolor. Fugiat occaecat incididunt non sunt adipisicing adipisicing amet sit eu mollit aliqua incididunt exercitation exercitation."
@@ -30,18 +29,20 @@ function Home(): JSX.Element {
         buttonText={t`read-more`}
         link={ROUTES.event[locale as string].link}
       />
-      <Box>
-        <Slider isLoading={isLoading} items={data} />
-      </Box>
-      <Box>
-        <Slider
-          heading={'Hastag Events'}
-          isLoading={hashtagQuery.isLoading}
-          items={hashtagQuery.data?.slice(0, 5)}
-          hasHero
-          hasSimpleCard
-        />
-      </Box>
+      <Container>
+        <Box>
+          <Slider isLoading={isLoading} items={data} />
+        </Box>
+        <Box>
+          <Slider
+            heading={'Hastag Events'}
+            isLoading={hashtagQuery.isLoading}
+            items={hashtagQuery.data?.slice(0, 5)}
+            hasHero
+            hasSimpleCard
+          />
+        </Box>
+      </Container>
     </Layout>
   )
 }
