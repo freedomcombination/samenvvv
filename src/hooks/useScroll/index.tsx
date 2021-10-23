@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react'
 
-export const useScroll = (scrollY: number): boolean => {
+export const useScroll = (scrollY: number | null): boolean => {
   const [isScrolled, setIsScrolled] = useState<boolean>(false)
 
   useEffect(() => {
     const onScrolled = () => {
-      if (window.scrollY > scrollY) setIsScrolled(true)
+      if (scrollY && window.scrollY > scrollY) setIsScrolled(true)
       else setIsScrolled(false)
     }
-    // Listen only when you at homepage ('/')
+
     // Listen `window` events only on the client side.
     // Otherwise it will give error when the page is rendered on the server side
     if (typeof window !== 'undefined') {

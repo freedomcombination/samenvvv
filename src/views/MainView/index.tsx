@@ -1,9 +1,8 @@
 import { Box } from '@chakra-ui/react'
 import { MDXRemoteSerializeResult } from 'next-mdx-remote'
-
 import { useRouter } from 'next/router'
-import { CardGroup } from '@components'
-import { Markdown } from '@components'
+
+import { CardGroup, Container, Hero, Layout, Markdown } from '@components'
 import { useData } from '@hooks'
 
 interface MainViewProps {
@@ -25,11 +24,13 @@ const MainView = ({ slug, source }: MainViewProps): JSX.Element => {
   if (!page) return <Box>Page not found</Box>
 
   return (
-    <div>
-      <h1>{page.title}</h1>
-      {source && <Markdown source={source} />}
-      {<CardGroup items={page?.subpages!} isSimple={true} />}
-    </div>
+    <Layout scrollHeight={100}>
+      <Hero isFullHeight={false} title={page.title} image={page.image} />
+      <Container>
+        {source && <Markdown source={source} />}
+        {<CardGroup items={page?.subpages as SubpageType[]} isSimple={true} />}
+      </Container>
+    </Layout>
   )
 }
 
