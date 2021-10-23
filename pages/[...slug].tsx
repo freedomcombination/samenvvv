@@ -8,7 +8,6 @@ import { useRouter } from 'next/router'
 import { QueryClient } from 'react-query'
 import { dehydrate } from 'react-query/hydration'
 
-import { Container, Layout } from '@components'
 import {
   getAllApplicationPaths,
   getAllCompetitionPaths,
@@ -62,18 +61,16 @@ const DynamicPage = (props: DynamicPageProps): JSX.Element => {
   const pageProps = { slug, source }
 
   return (
-    <Layout>
-      <Container>
-        {isMainPage && <MainView {...pageProps} />}
-        {isSubpage && <SubView {...pageProps} />}
-        {isCompetitionsPage && <MainCompetitionsView {...pageProps} />}
-        {isCompetitionPage && <CompetitionView {...pageProps} />}
-        {isApplicationPage && <ApplicationView {...pageProps} />}
-        {isHashtagsPage && <MainHashtagsView {...pageProps} />}
-        {isHashtagPage && <HashtagView {...pageProps} />}
-        {isHashtagPostPage && <HashtagPostView slug={slug} />}
-      </Container>
-    </Layout>
+    <>
+      {isMainPage && <MainView {...pageProps} />}
+      {isSubpage && <SubView {...pageProps} />}
+      {isCompetitionsPage && <MainCompetitionsView {...pageProps} />}
+      {isCompetitionPage && <CompetitionView {...pageProps} />}
+      {isApplicationPage && <ApplicationView {...pageProps} />}
+      {isHashtagsPage && <MainHashtagsView {...pageProps} />}
+      {isHashtagPage && <HashtagView {...pageProps} />}
+      {isHashtagPostPage && <HashtagPostView slug={slug} />}
+    </>
   )
 }
 

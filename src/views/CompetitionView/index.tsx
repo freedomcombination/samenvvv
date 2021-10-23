@@ -3,7 +3,7 @@ import { MDXRemoteSerializeResult } from 'next-mdx-remote'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
-import { Markdown } from '@components'
+import { Container, Layout, Markdown } from '@components'
 import { useData } from '@hooks'
 
 interface CompetitionProps {
@@ -25,17 +25,19 @@ const CompetitionView = ({ slug, source }: CompetitionProps): JSX.Element => {
   if (!competition) return <Box>Page not found</Box>
 
   return (
-    <div>
-      <h1>{competition?.title}</h1>
-      {source && <Markdown source={source} />}
-      {competition?.applications?.map(application => (
-        <Box key={application.id} p={4} boxShadow="lg">
-          <Link href={`/${mainSlug}/${currentSlug}/${application.slug}`}>
-            {application.title}
-          </Link>
-        </Box>
-      ))}
-    </div>
+    <Layout>
+      <Container>
+        <h1>{competition?.title}</h1>
+        {source && <Markdown source={source} />}
+        {competition?.applications?.map(application => (
+          <Box key={application.id} p={4} boxShadow="lg">
+            <Link href={`/${mainSlug}/${currentSlug}/${application.slug}`}>
+              {application.title}
+            </Link>
+          </Box>
+        ))}
+      </Container>
+    </Layout>
   )
 }
 
