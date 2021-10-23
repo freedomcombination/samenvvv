@@ -66,14 +66,35 @@ export const Hero = ({
           mx="auto"
           textAlign="center"
         >
-          <Heading color="white" fontSize="6xl">
+          <Heading
+            color="white"
+            fontSize="6xl"
+            {...(!isFullHeight && {
+              pos: 'absolute',
+              bottom: 12,
+              left: '50%',
+              transform: 'translateX(-50%)',
+              w: 'full',
+            })}
+          >
             {title}
           </Heading>
-          <Text color="white" fontSize="lg" fontWeight="medium">
+          <Text
+            color="white"
+            fontSize="lg"
+            fontWeight="medium"
+            display={isFullHeight ? 'inherit' : 'none'}
+          >
             {description}
           </Text>
           {buttonText && link && (
-            <Navigate href={link} as={Button} size="lg" colorScheme="primary">
+            <Navigate
+              href={link}
+              as={Button}
+              size="lg"
+              colorScheme="primary"
+              display={isFullHeight ? 'inherit' : 'none'}
+            >
               {buttonText}
             </Navigate>
           )}
