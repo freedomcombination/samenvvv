@@ -4,28 +4,33 @@ import {
   Box,
   ChakraProps,
   Heading,
+  HStack,
   Text,
   VStack,
 } from '@chakra-ui/react'
 import { format } from 'date-fns'
 import { enIN as en, nl, tr } from 'date-fns/locale'
 import { useRouter } from 'next/router'
+import { BsHeartFill } from 'react-icons/bs'
+import { FaFacebook, FaTwitter, FaWhatsapp } from 'react-icons/fa'
 import { MdEvent } from 'react-icons/md'
 import removeMarkdown from 'remove-markdown'
 
-import { ChakraNextImage, Navigate } from '@components'
+import { CardIcon, ChakraNextImage, Navigate } from '@components'
 
 const timeLocale: Record<string, Locale> = { en, nl, tr }
 
 interface CardProps extends ChakraProps {
   item: SubpageType
-  isSimple: boolean
+  isSimple?: boolean
+  isSocial?: boolean
 }
-
+// if isSimple true - isSocial true/false OK görünmemeli
+// if isSimple false - isSocial false görünmeli
+// if isSimple false - isSocial true görünmemeli ezmeli
 export const Card = (props: CardProps): JSX.Element => {
-  const { item, isSimple, ...rest } = props
+  const { item, isSimple, isSocial, ...rest } = props
   const { locale } = useRouter()
-
   return (
     <Navigate href={`/${item.page.slug}/${item.slug}`}>
       <Box
@@ -39,7 +44,7 @@ export const Card = (props: CardProps): JSX.Element => {
         {...rest}
       >
         <ChakraNextImage h={150} image={item.image} />
-        {!isSimple && (
+        {!isSimple && !isSocial && (
           <Badge
             pos="absolute"
             top={4}
@@ -59,7 +64,7 @@ export const Card = (props: CardProps): JSX.Element => {
           <Text noOfLines={3} fontSize="1rem" mt={2}>
             {removeMarkdown(item.content)}
           </Text>
-          {!isSimple && (
+          {!isSimple && !isSocial && (
             <Box d="flex" mt={4} alignItems="center">
               <MdEvent />
               <Box as="span" ml="2">
@@ -73,6 +78,28 @@ export const Card = (props: CardProps): JSX.Element => {
                     locale: timeLocale[locale as string],
                   })}
               </Box>
+            </Box>
+          )}
+          {isSocial && (
+            <Box
+              d="flex"
+              mt={4}
+              alignItems="center"
+              justifyContent="space-between"
+              w="100%"
+              fontSize="2xl"
+            >
+              <HStack spacing="1rem">
+                <CardIcon icon={<FaFacebook />} iconColor="steelblue" />
+                <CardIcon icon={<FaTwitter />} iconColor="cornflowerblue" />
+                <CardIcon icon={<FaWhatsapp />} iconColor="palegreen" />
+              </HStack>
+              <CardIcon
+                icon={<BsHeartFill />}
+                iconColor="primary.400"
+                innerText="400"
+                iconSize="4xl"
+              />
             </Box>
           )}
         </VStack>

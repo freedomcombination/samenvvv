@@ -35,7 +35,7 @@ function Home(): JSX.Element {
         </Box>
         <Box>
           <Slider
-            heading={'Hastag Events'}
+            heading={'Hashtag Events'}
             isLoading={hashtagQuery.isLoading}
             items={hashtagQuery.data?.slice(0, 5)}
             hasHero

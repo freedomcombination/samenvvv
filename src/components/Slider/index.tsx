@@ -34,6 +34,7 @@ interface SliderProps {
   isLoading: boolean
   hasHero: boolean
   hasSimpleCard: boolean
+  hasSocialCard: boolean
 }
 
 const defaultSwiperProps: Swiper = {
@@ -58,6 +59,7 @@ export const Slider = ({
   isLoading = false,
   hasHero = false,
   hasSimpleCard = false,
+  hasSocialCard = false,
   ...rest
 }: Partial<SliderProps & Swiper>): JSX.Element => {
   const responsiveSlidesPerView = useBreakpointValue(slides as number[]) || 1
@@ -157,6 +159,7 @@ export const Slider = ({
                         {...customStyles}
                         {...(isActive && activeStyles)}
                         isSimple={hasSimpleCard}
+                        isSocial={hasSocialCard}
                       />
                     )
                   }}
