@@ -1,30 +1,27 @@
-import { useRouter } from 'next/router'
+import { AspectRatio } from '@chakra-ui/react'
 
-import { ChakraNextImage } from '@components'
-import { useData } from '@hooks'
+import { ChakraNextImage, Container, Layout } from '@components'
 
 interface HashtagPostProps {
   slug: Record<string, string[]>
+  pageData: IHashtagPost
 }
 
-const HashtagPostView = ({ slug }: HashtagPostProps): JSX.Element => {
-  const { locale } = useRouter()
-  const [, , currentSlug] = slug[locale as string]
-
-  const { data } = useData<HashtagPostType[]>('hashtag-posts', {
-    slug: currentSlug,
-    locale,
-  })
-
-  const hashtagPost = data?.[0]
-
-  if (!hashtagPost) return <div>HashtagPost not found</div>
-
+const HashtagPostView = ({ pageData }: HashtagPostProps): JSX.Element => {
   return (
-    <div>
-      <p>{hashtagPost.text}</p>
-      {hashtagPost.image && <ChakraNextImage image={hashtagPost.image} />}
-    </div>
+    <Layout>
+      <Container>
+        <p>{pageData.text}</p>
+        {pageData.image && <ChakraNextImage image={pageData.image} />}
+        <AspectRatio ratio={2}>
+          <ChakraNextImage
+            h={300}
+            image={pageData.image?.url as string}
+            alt={pageData.hashtag?.title}
+          />
+        </AspectRatio>
+      </Container>
+    </Layout>
   )
 }
 

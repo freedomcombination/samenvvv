@@ -11,7 +11,7 @@ import { useRouter } from 'next/router'
 import { EffectCoverflow, Pagination } from 'swiper'
 
 import { ChakraNextImage, Container, Layout, Slider } from '@components'
-import { useData } from '@hooks'
+import { useSubpagesQuery } from '@lib'
 
 import eventsEn from '../../src/data/events.en.json'
 import eventsNl from '../../src/data/events.nl.json'
@@ -26,10 +26,10 @@ const EVENTS_DATA: Record<string, unknown> = {
 
 const SliderPage = (): JSX.Element => {
   const { locale } = useRouter()
-  const { data, isLoading } = useData<SubpageType[]>('subpages', { locale })
+  const { data, isLoading } = useSubpagesQuery(locale as string)
   const [loading, setLoading] = useState<boolean>(true)
 
-  const mockEvents = EVENTS_DATA[locale as string] as SubpageType[]
+  const mockEvents = EVENTS_DATA[locale as string] as ISubpage[]
 
   return (
     <Layout>

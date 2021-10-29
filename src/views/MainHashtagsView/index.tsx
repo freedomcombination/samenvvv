@@ -1,39 +1,32 @@
-import { Box } from '@chakra-ui/react'
 import { MDXRemoteSerializeResult } from 'next-mdx-remote'
-import Link from 'next/link'
-import { useRouter } from 'next/router'
 
-import { Markdown } from '@components'
-import { useData } from '@hooks'
+import { CardGroup, Container, Hero, Layout, Markdown } from '@components'
 
 interface MainHashtagsProps {
   slug: Record<string, string[]>
   source: MDXRemoteSerializeResult<Record<string, unknown>>
+  pageData: IPage
 }
 
-const MainHashtagsView = ({ slug, source }: MainHashtagsProps): JSX.Element => {
-  const { locale } = useRouter()
-  const currentSlug = slug[locale as string][0]
-
-  const { data: page } = useData<PageType[]>('pages', {
-    slug: currentSlug,
-    locale,
-  })
-
-  const hashtagsPage = page?.[0]
-
-  if (!hashtagsPage) return <Box>Page not found</Box>
-
+const MainHashtagsView = ({
+  source,
+  pageData,
+}: MainHashtagsProps): JSX.Element => {
   return (
-    <div>
-      <h1>{hashtagsPage.title}</h1>
-      {source && <Markdown source={source} />}
-      {hashtagsPage.hashtags?.map(hashtag => (
-        <Box key={hashtag.id} p={4} boxShadow="lg">
-          <Link href={`/${currentSlug}/${hashtag.slug}`}>{hashtag.title}</Link>
-        </Box>
-      ))}
-    </div>
+    <Layout scrollHeight={100}>
+      <Hero
+        title={pageData.title}
+        isFullHeight={false}
+        image={pageData.image}
+      />
+      <Container>
+        {source && <Markdown source={source} />}
+        <CardGroup
+          items={pageData?.hashtags as unknown as ISubpage[]}
+          isSimple={true}
+        />
+      </Container>
+    </Layout>
   )
 }
 

@@ -7,18 +7,18 @@ import { QueryClient } from 'react-query'
 import { dehydrate } from 'react-query/hydration'
 
 import { Container, Hero, Layout, Slider } from '@components'
-import { useData } from '@hooks'
+import { getHashtags, getSubpages } from '@lib'
 import { ROUTES } from '@utils'
 
-function Home(): JSX.Element {
+interface HomeProps {
+  hashtags: IHashtag[]
+  subpages: ISubpage[]
+}
+
+const Home = ({ hashtags, subpages }: HomeProps): JSX.Element => {
   const { locale } = useRouter()
-  const { data, isLoading } = useData<SubpageType[]>('subpages', {
-    locale,
-  })
+
   const { t } = useTranslation(['common'])
-  const hashtagQuery = useData<SubpageType[]>('hashtags', {
-    locale,
-  })
 
   return (
     <Layout scrollHeight={100}>
@@ -31,13 +31,12 @@ function Home(): JSX.Element {
       />
       <Container>
         <Box>
-          <Slider isLoading={isLoading} items={data} />
+          <Slider items={subpages} />
         </Box>
         <Box>
           <Slider
             heading={'Hastag Events'}
-            isLoading={hashtagQuery.isLoading}
-            items={hashtagQuery.data?.slice(0, 5)}
+            items={hashtags as unknown as ISubpage[]}
             hasHero
             hasSimpleCard
           />
@@ -50,10 +49,23 @@ function Home(): JSX.Element {
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
   const queryClient = new QueryClient()
 
+  await queryClient.prefetchQuery(['hashtags', [locale]], () =>
+    getHashtags(locale as string),
+  )
+
+  await queryClient.prefetchQuery(['subpages', [locale]], () =>
+    getSubpages(locale as string),
+  )
+
+  const hashtags = queryClient.getQueryData(['hashtags', [locale]]) ?? []
+  const subpages = queryClient.getQueryData(['subpages', [locale]]) ?? []
+
   return {
     props: {
       ...(await serverSideTranslations(locale as string, ['common'])),
       dehydratedState: dehydrate(queryClient),
+      hashtags,
+      subpages,
     },
   }
 }

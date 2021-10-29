@@ -7,27 +7,27 @@ import {
   Text,
   VStack,
 } from '@chakra-ui/react'
-import { format } from 'date-fns'
-import { enIN as en, nl, tr } from 'date-fns/locale'
-import { useRouter } from 'next/router'
+// import { format } from 'date-fns'
+// import { enIN as en, nl, tr } from 'date-fns/locale'
+// import { useRouter } from 'next/router'
 import { MdEvent } from 'react-icons/md'
 import removeMarkdown from 'remove-markdown'
 
 import { ChakraNextImage, Navigate } from '@components'
 
-const timeLocale: Record<string, Locale> = { en, nl, tr }
+// const timeLocale: Record<string, Locale> = { en, nl, tr }
 
 interface CardProps extends ChakraProps {
-  item: SubpageType
+  item: ISubpage | IHashtag | ICompetition
   isSimple: boolean
 }
 
 export const Card = (props: CardProps): JSX.Element => {
   const { item, isSimple, ...rest } = props
-  const { locale } = useRouter()
+  // const { locale } = useRouter()
 
   return (
-    <Navigate href={`/${item.page.slug}/${item.slug}`}>
+    <Navigate href={`/${item.page?.slug}/${item.slug}`}>
       <Box
         pos="relative"
         boxShadow={isSimple ? 'none' : 'sm'}
@@ -38,8 +38,8 @@ export const Card = (props: CardProps): JSX.Element => {
         transition="all 0.3s ease-in-out"
         {...rest}
       >
-        <ChakraNextImage h={150} image={item.image} />
-        {!isSimple && (
+        {item.image && <ChakraNextImage h={150} image={item.image} />}
+        {!isSimple && item.page?.type && (
           <Badge
             pos="absolute"
             top={4}
@@ -48,7 +48,7 @@ export const Card = (props: CardProps): JSX.Element => {
             colorScheme="primary"
             size="lg"
           >
-            {item.type}
+            {item.page.type}
           </Badge>
         )}
         <VStack p="4" spacing={4} align="start">
@@ -62,7 +62,8 @@ export const Card = (props: CardProps): JSX.Element => {
           {!isSimple && (
             <Box d="flex" mt={4} alignItems="center">
               <MdEvent />
-              <Box as="span" ml="2">
+              {/* TODO: Should be fixed with variants */}
+              {/* <Box as="span" ml="2">
                 {item.start &&
                   format(new Date(item.start), 'd LLL', {
                     locale: timeLocale[locale as string],
@@ -72,7 +73,7 @@ export const Card = (props: CardProps): JSX.Element => {
                   format(new Date(item.end), 'd LLL', {
                     locale: timeLocale[locale as string],
                   })}
-              </Box>
+              </Box> */}
             </Box>
           )}
         </VStack>

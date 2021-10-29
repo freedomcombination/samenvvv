@@ -1,7 +1,11 @@
-import { Layout } from '@components'
+import { Container, Layout } from '@components'
 
 const Club = (): JSX.Element => {
-  return <Layout>Here is club page</Layout>
+  return (
+    <Layout>
+      <Container>Here is club page</Container>
+    </Layout>
+  )
 }
 
 export default Club

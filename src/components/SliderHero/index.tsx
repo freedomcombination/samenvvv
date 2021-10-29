@@ -6,7 +6,7 @@ import { ChakraNextImage, Container, Navigate } from '@components'
 import { ROUTES } from '@utils'
 
 interface SliderHeroProps {
-  item: SubpageType
+  item: ISubpage
 }
 
 export const SliderHero = ({ item }: SliderHeroProps): JSX.Element => {
