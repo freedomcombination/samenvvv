@@ -1,6 +1,6 @@
 export type GetImageUrlType = (
-  image: ImageResponseType | string,
-  type?: ImageFormatsType,
+  image: IUploadFile | string,
+  type?: FileFormatsType,
 ) => string
 
 export const getImageUrl: GetImageUrlType = (image, type?) => {
@@ -12,7 +12,8 @@ export const getImageUrl: GetImageUrlType = (image, type?) => {
       ? image
       : `${basePath}${image}`
 
-  const imagePath = (type && image.formats[type]?.url) || image.url
+  const imagePath =
+    (type && image.formats && image.formats[type].url) || image.url
 
   return `${basePath}${imagePath}`
 }

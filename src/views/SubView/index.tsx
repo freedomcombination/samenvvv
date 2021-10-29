@@ -15,51 +15,42 @@ import { FaFacebook, FaTwitter, FaWhatsapp } from 'react-icons/fa'
 import { MdEvent } from 'react-icons/md'
 
 import { ChakraNextImage, Container, Layout, Markdown } from '@components'
-import { useData } from '@hooks'
 
 const timeLocale: Record<string, Locale> = { en, nl, tr }
 
 interface SubViewProps {
   slug: Record<string, string[]>
   source: MDXRemoteSerializeResult<Record<string, unknown>>
+  pageData: ISubpage
 }
 
-const SubView = ({ slug, source }: SubViewProps): JSX.Element => {
+const SubView = ({ source, pageData }: SubViewProps): JSX.Element => {
   const { locale } = useRouter()
-  const [, currentSlug] = slug[locale as string]
-
-  const { data } = useData<SubpageType[]>('subpages', {
-    slug: currentSlug,
-    locale,
-  })
-
-  const subpage = data?.[0]
-
-  if (!subpage) return <Box>Page not found</Box>
-
   return (
     <Layout>
       <Container>
         <Grid templateColumns="repeat(5, 1fr)" gap={4} mt={10}>
           <GridItem colSpan={{ base: 5, md: 5, lg: 4 }}>
-            <ChakraNextImage h="300px" image={subpage.image} />
+            {pageData.image && (
+              <ChakraNextImage h="300px" image={pageData.image} />
+            )}
 
             <Box d="flex" mt={4} alignItems="center">
               <MdEvent />
               <Box as="span" ml="2">
-                {subpage.start &&
-                  format(new Date(subpage.start), 'd LLL', {
+                {pageData.start &&
+                  format(new Date(pageData.start), 'd LLL', {
                     locale: timeLocale[locale as string],
                   })}{' '}
                 -{' '}
-                {subpage.end &&
-                  format(new Date(subpage.end), 'd LLL', {
+                {pageData.end &&
+                  format(new Date(pageData.end), 'd LLL', {
                     locale: timeLocale[locale as string],
                   })}
               </Box>
             </Box>
 
-            <Heading>{subpage.title}</Heading>
+            <Heading>{pageData.title}</Heading>
             {source && <Markdown source={source} />}
 
             <Flex

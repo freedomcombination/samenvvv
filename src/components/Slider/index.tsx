@@ -27,7 +27,7 @@ interface SliderProps {
   children: JSX.Element[]
   slides: ResponsiveValue<number>
   spaces: ResponsiveValue<number>
-  items: SubpageType[]
+  items: ISubpage[]
   activeStyles: ChakraProps
   customStyles: ChakraProps
   swiperStyles: CSSObject

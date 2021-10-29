@@ -10,14 +10,14 @@ const mockImage = {
 }
 
 test('basic', () => {
-  const url = getImageUrl(mockImage as ImageResponseType)
+  const url = getImageUrl(mockImage as IUploadFile)
   const expectingUrl = `${process.env.NEXT_PUBLIC_ADMIN_URL}/test.jpg`
 
   expect(url).toEqual(expectingUrl)
 })
 
 test('with-format', () => {
-  const smaillImageUrl = getImageUrl(mockImage as ImageResponseType, 'small')
+  const smaillImageUrl = getImageUrl(mockImage as IUploadFile, 'small')
   const expectingUrl = `${process.env.NEXT_PUBLIC_ADMIN_URL}/small-test.jpg`
 
   expect(smaillImageUrl).toEqual(expectingUrl)
