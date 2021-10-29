@@ -1,5 +1,4 @@
 import { Spinner } from '@chakra-ui/spinner'
-import merge from 'lodash.merge'
 import { GetStaticPaths, GetStaticProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { MDXRemoteSerializeResult } from 'next-mdx-remote'
@@ -8,17 +7,16 @@ import { useRouter } from 'next/router'
 import { QueryClient } from 'react-query'
 import { dehydrate } from 'react-query/hydration'
 
+import { Container, Layout } from '@components'
 import {
-  getAllApplicationPaths,
-  getAllCompetitionPaths,
-  getAllHashtagPaths,
-  getAllHashtagPostPaths,
   getAllPagePaths,
-  getAllSubagePaths,
-  getLocalizedMainSlugs,
-  getLocalizedSubSlugs,
+  getApplication,
+  getCompetition,
+  getHashtag,
+  getHashtagPost,
+  getPage,
   getPageType,
-  getStrapiData,
+  getSubpage,
 } from '@lib'
 import {
   ApplicationView,
@@ -39,15 +37,23 @@ interface DynamicPageProps {
     sub: boolean
     child: boolean
   }
-  pageType: PageVariantType
+  pageType: Page_Type
   source: MDXRemoteSerializeResult<Record<string, unknown>>
+  pageData: any
 }
 
 const DynamicPage = (props: DynamicPageProps): JSX.Element => {
   const router = useRouter()
-  const { slug, pageType, isPage, source } = props
+  const { slug, pageType, isPage, source, pageData } = props
 
-  if (router.isFallback) return <Spinner />
+  if (router.isFallback)
+    return (
+      <Layout>
+        <Container>
+          <Spinner />
+        </Container>
+      </Layout>
+    )
 
   const isMainPage = isPage.main && !!pageType.match(/event|news|announcement/)
   const isSubpage = isPage.sub && !!pageType.match(/event|news|announcement/)
@@ -58,7 +64,7 @@ const DynamicPage = (props: DynamicPageProps): JSX.Element => {
   const isHashtagPage = isPage.sub && pageType === 'hashtag'
   const isHashtagPostPage = isPage.child && pageType === 'hashtag'
 
-  const pageProps = { slug, source }
+  const pageProps = { slug, source, pageData }
 
   return (
     <>
@@ -69,29 +75,13 @@ const DynamicPage = (props: DynamicPageProps): JSX.Element => {
       {isApplicationPage && <ApplicationView {...pageProps} />}
       {isHashtagsPage && <MainHashtagsView {...pageProps} />}
       {isHashtagPage && <HashtagView {...pageProps} />}
-      {isHashtagPostPage && <HashtagPostView slug={slug} />}
+      {isHashtagPostPage && <HashtagPostView {...pageProps} />}
     </>
   )
 }
 
-export const getStaticPaths: GetStaticPaths = async context => {
-  const locales = context.locales as string[]
-
-  const allPagePaths = await getAllPagePaths(locales)
-  const allSubpagePaths = await getAllSubagePaths(locales)
-  const allCompetitionPaths = await getAllCompetitionPaths(locales)
-  const allApplicationPaths = await getAllApplicationPaths(locales)
-  const allHashtagPaths = await getAllHashtagPaths(locales)
-  const allHashtagPostPaths = await getAllHashtagPostPaths(locales)
-
-  const paths = [
-    ...allPagePaths,
-    ...allSubpagePaths,
-    ...allCompetitionPaths,
-    ...allApplicationPaths,
-    ...allHashtagPaths,
-    ...allHashtagPostPaths,
-  ]
+export const getStaticPaths: GetStaticPaths = async () => {
+  const paths = await getAllPagePaths()
 
   return {
     paths,
@@ -103,6 +93,7 @@ export const getStaticProps: GetStaticProps = async context => {
   const locale = context.locale as string
   let source: MDXRemoteSerializeResult<Record<string, unknown>>
   const queryClient = new QueryClient()
+
   const [mainSlug = '', subSlug = '', childSlug = ''] = context.params
     ?.slug as string[]
 
@@ -112,7 +103,7 @@ export const getStaticProps: GetStaticProps = async context => {
     locale,
     slug: {
       [locale]: [mainSlug, subSlug, childSlug],
-    } as Record<string, string[]>,
+    },
     isPage: {
       main: false,
       sub: false,
@@ -121,43 +112,44 @@ export const getStaticProps: GetStaticProps = async context => {
     pageType,
     source: await serialize(''),
     dehydratedState: dehydrate(queryClient),
+    pageData: {},
   }
 
   if (!pageType) {
     return { notFound: true, revalidate: 120 }
   }
 
-  const isMainPage = !subSlug
-  const isSubpage = subSlug && !childSlug
-  const isChildPage = !!childSlug
+  const isMainPage = !!mainSlug && !subSlug && !childSlug
+  const isSubpage = !!(mainSlug && subSlug) && !childSlug
+  const isChildPage = !!(mainSlug && subSlug && childSlug)
 
+  // MAIN PAGE
   if (isMainPage) {
     await queryClient.prefetchQuery(['pages', [mainSlug, locale]], () =>
-      getStrapiData('pages', locale, mainSlug),
+      getPage(mainSlug, locale),
     )
 
-    const pageData = queryClient.getQueryData([
-      'pages',
-      [mainSlug, locale],
-    ]) as PageType[]
+    const pageData = await getPage(locale, mainSlug)
 
     if (!pageData) {
       return { notFound: true, revalidate: 120 }
     }
 
-    const localizedPageIds = pageData?.[0].localizations?.map(
-      l => l.id,
-    ) as number[]
-    const localizedPageSlugs = await getLocalizedMainSlugs(localizedPageIds)
-
-    const source = await serialize(pageData?.[0].content || '')
+    const source = await serialize(pageData.content ?? '')
 
     props.isPage.main = true
     props.source = source
     props.dehydratedState = dehydrate(queryClient)
-    props.slug = merge(props.slug, localizedPageSlugs)
+    props.slug = pageData.slugs
+    props.pageData = pageData
+
+    return {
+      props,
+      revalidate: 120,
+    }
   }
 
+  // SUB PAGE
   if (isSubpage) {
     const queryKey =
       pageType === 'hashtag'
@@ -166,43 +158,76 @@ export const getStaticProps: GetStaticProps = async context => {
         ? 'competitions'
         : 'subpages'
 
-    await queryClient.prefetchQuery([queryKey, [subSlug, locale]], () =>
-      getStrapiData(queryKey, locale, subSlug),
+    const getSubpageData = () => {
+      if (pageType === 'hashtag') {
+        return getHashtag(locale, subSlug)
+      }
+
+      if (pageType === 'competition') {
+        return getCompetition(locale, subSlug)
+      }
+
+      return getSubpage(locale, subSlug)
+    }
+
+    await queryClient.prefetchQuery<IHashtag | ICompetition | ISubpage | null>(
+      [queryKey, [locale, subSlug]],
+      () => getSubpageData(),
     )
 
-    const subpageData = queryClient.getQueryData([
-      queryKey,
-      [subSlug, locale],
-    ]) as SubpageType[] | HashtagType[] | CompetitionType[]
+    const subpageData = (await getSubpageData()) as
+      | IHashtag
+      | ICompetition
+      | ISubpage
 
     if (!subpageData) {
       return { notFound: true, revalidate: 120 }
     }
 
-    const localizedSubpagePageIds = subpageData?.[0].localizations?.map(
-      l => l.id,
-    ) as number[]
-    const localizedSubPageSlugs = await getLocalizedSubSlugs(
-      localizedSubpagePageIds,
-      queryKey,
-    )
-
-    source = await serialize(subpageData?.[0]?.content || '')
+    source = await serialize(subpageData?.content ?? '')
 
     props.isPage.sub = true
     props.source = source
     props.dehydratedState = dehydrate(queryClient)
-    props.slug = merge(props.slug, localizedSubPageSlugs)
+    props.slug = subpageData.slugs
+    props.pageData = subpageData
+
+    return {
+      props,
+      revalidate: 120,
+    }
   }
 
   if (isChildPage) {
     const queryKey = pageType === 'hashtag' ? 'hashtag-posts' : 'applications'
-    await queryClient.prefetchQuery([queryKey, [childSlug, locale]], () =>
-      getStrapiData(queryKey, locale, childSlug),
+
+    const getChildPageData = () => {
+      if (pageType === 'hashtag') {
+        return getHashtagPost(locale, childSlug)
+      }
+
+      return getApplication(locale, childSlug)
+    }
+
+    await queryClient.prefetchQuery<IHashtagPost | IApplication | null>(
+      [queryKey, [locale, childSlug]],
+      () => getChildPageData(),
     )
 
+    const childPageData = (await getChildPageData()) ?? null
+
+    if (!childPageData) {
+      return { notFound: true, revalidate: 120 }
+    }
+
     props.isPage.child = true
+    props.pageData = childPageData as IHashtagPost
     props.dehydratedState = dehydrate(queryClient)
+
+    return {
+      props,
+      revalidate: 120,
+    }
   }
 
   return {

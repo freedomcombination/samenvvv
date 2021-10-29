@@ -26,8 +26,8 @@ export const ChakraNextImage = ({
   alt,
   ...rest
 }: {
-  image: ImageResponseType | string
-  format?: ImageFormatsType
+  image: IUploadFile | string
+  format?: FileFormatsType
   nextImageProps?: ImageProps
   alt?: string
 } & Omit<BoxProps, 'as'>): JSX.Element => {

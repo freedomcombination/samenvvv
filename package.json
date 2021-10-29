@@ -24,6 +24,8 @@
     "axios": "^0.21.1",
     "date-fns": "^2.23.0",
     "framer-motion": "^4.1.17",
+    "graphql": "^15.7.1",
+    "graphql-request": "^3.6.1",
     "lodash.merge": "^4.6.2",
     "next": "^11.1.2",
     "next-i18next": "^8.6.0",

@@ -1,31 +1,29 @@
-declare interface ISubpage extends LocalizedSlugs {
-  __typename?: 'Subpage'
+declare interface IApplication extends LocalizedSlugs {
+  __typename?: 'Application'
   id: string
   created_at: string
   updated_at: string
   title: string
   slug: string
   content: string
-  type: Page_Type
-  start: string
-  end?: string
   image?: IUploadFile
-  page?: IPage
+  user?: IUsersPermissionsUser
+  competition?: ICompetition
   metadata?: IMetadata
   locale?: string
   published_at?: string
-  localizations?: Array<ISubpage>
+  votes?: Array<IVote>
+  localizations?: Array<IApplication>
 }
 
-declare interface ISubpageInput {
+declare interface IApplicationInput {
   title: string
   slug: string
   content: string
-  type: Page_Type
-  start: string
-  end?: string
   image?: string
-  page?: string
+  user?: string
+  competition?: string
+  votes?: Array<string>
   metadata: IMetadata
   localizations?: Array<string>
   locale?: string

@@ -3,7 +3,7 @@ import { SimpleGrid } from '@chakra-ui/react'
 import { Card } from '@components'
 
 interface CardGroupProps {
-  items: SubpageType[]
+  items: ISubpage[]
   isSimple: boolean
 }
 
