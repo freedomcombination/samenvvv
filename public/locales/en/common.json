@@ -10,5 +10,15 @@
   "footer_menu": "Menus",
   "follow_us": "Folow us",
   "society": "Society",
-  "footer_about": " EN ===Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolores, blanditiis dignissimos recusandae fuga commodi sunt ipsam quas magni expedita ut soluta tempore dolorem inventore voluptates autem error doloremque quidem sed?"
+  "footer_about": " EN ===Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolores, blanditiis dignissimos recusandae fuga commodi sunt ipsam quas magni expedita ut soluta tempore dolorem inventore voluptates autem error doloremque quidem sed?",
+  "post-share": {
+    "mention-list-label": "Popular Users",
+    "trends-label": "Trends",
+    "add": "Add",
+    "share-tweet": "Share Tweet",
+    "next-tweet": "Next Tweet",
+    "edit-save": "Save",
+    "content-label": "Content",
+    "other-posts": "Other Posts"
+  }
 }

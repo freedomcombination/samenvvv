@@ -1,6 +1,5 @@
 import ApplicationView from './ApplicationView'
 import CompetitionView from './CompetitionView'
-import HashtagPostView from './HashtagPostView'
 import HashtagView from './HashtagView'
 import MainCompetitionsView from './MainCompetitionsView'
 import MainHashtagsView from './MainHashtagsView'
@@ -15,5 +14,4 @@ export {
   HashtagView,
   MainView,
   SubView,
-  HashtagPostView,
 }

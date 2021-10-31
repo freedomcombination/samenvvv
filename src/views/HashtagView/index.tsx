@@ -1,13 +1,18 @@
-import { AspectRatio, Box, SimpleGrid, Text } from '@chakra-ui/react'
+import { Box, HStack, VStack } from '@chakra-ui/react'
 import { MDXRemoteSerializeResult } from 'next-mdx-remote'
+import { useRouter } from 'next/router'
 
 import {
-  ChakraNextImage,
   Container,
   Layout,
   Markdown,
-  Navigate,
+  MentionList,
+  PostContainer,
+  TrendList,
+  TweetWidget,
 } from '@components'
+import { useHashtagQuery } from '@lib'
+import { MentionSearch } from 'src/components/MentionSearch'
 
 interface HashtagProps {
   slug: Record<string, string[]>
@@ -16,29 +21,30 @@ interface HashtagProps {
 }
 
 const HashtagView = ({ source, pageData }: HashtagProps): JSX.Element => {
+  const { locale, query } = useRouter()
+
+  const { data } = useHashtagQuery(
+    locale as string,
+    query?.slug?.[1] ?? '',
+    pageData,
+  )
+
   return (
     <Layout>
-      <Container>
-        <h1>{pageData?.title}</h1>
+      <Container py={8}>
+        <h1>{data?.title}</h1>
         {source && <Markdown source={source} />}
-        <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }}>
-          {pageData?.posts?.map(post => (
-            <Box key={post.id} p={4} boxShadow="lg">
-              <Navigate
-                href={`/${pageData.page?.slug}/${pageData.slug}/${post.slug}`}
-              >
-                <Text>{post.text}</Text>
-                <AspectRatio ratio={2}>
-                  <ChakraNextImage
-                    h={300}
-                    image={post.image?.url as string}
-                    alt={post.hashtag?.title}
-                  />
-                </AspectRatio>
-              </Navigate>
-            </Box>
-          ))}
-        </SimpleGrid>
+        <HStack justify="stretch" align="stretch" minH={0}>
+          <VStack w={300} align="stretch">
+            <MentionSearch />
+            <MentionList />
+            <TrendList />
+          </VStack>
+          <PostContainer />
+          <Box w={300}>
+            <TweetWidget />
+          </Box>
+        </HStack>
       </Container>
     </Layout>
   )

@@ -82,15 +82,15 @@ export const getHashtags = async (
 export const useHashtagQuery = (
   locale: string,
   slug: string,
-): UseQueryResult<GetHashtagQuery> =>
+  initialData?: IHashtag,
+): UseQueryResult<IHashtag> =>
   useQuery({
     queryKey: ['hashtags', [locale, slug]],
     queryFn: () => getHashtag(locale, slug),
+    initialData,
   })
 
-export const useHashtagsQuery = (
-  locale: string,
-): UseQueryResult<GetHashtagQuery> =>
+export const useHashtagsQuery = (locale: string): UseQueryResult<IHashtag[]> =>
   useQuery({
     queryKey: ['hashtags', [locale]],
     queryFn: () => getHashtags(locale),

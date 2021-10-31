@@ -21,6 +21,7 @@
     "@chakra-ui/theme-tools": "^1.2.0",
     "@emotion/react": "^11.4.1",
     "@emotion/styled": "^11.3.0",
+    "@reduxjs/toolkit": "^1.6.2",
     "axios": "^0.21.1",
     "date-fns": "^2.23.0",
     "framer-motion": "^4.1.17",
@@ -36,6 +37,7 @@
     "react-headroom": "^3.2.0",
     "react-icons": "^4.2.0",
     "react-query": "^3.21.1",
+    "react-redux": "^7.2.6",
     "remove-markdown": "^0.3.0",
     "swiper": "^7.0.2"
   },

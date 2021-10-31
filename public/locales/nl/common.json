@@ -10,5 +10,15 @@
   "footer_menu": "Menu's",
   "follow_us": "Volg ons",
   "society": "Stichting",
-  "footer_about": " NL ===Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolores, blanditiis dignissimos recusandae fuga commodi sunt ipsam quas magni expedita ut soluta tempore dolorem inventore voluptates autem error doloremque quidem sed?"
+  "footer_about": " NL ===Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolores, blanditiis dignissimos recusandae fuga commodi sunt ipsam quas magni expedita ut soluta tempore dolorem inventore voluptates autem error doloremque quidem sed?",
+  "post-share": {
+    "mention-list-label": "Populaire Gebruikers",
+    "trends-label": "Trends",
+    "add": "Toev.",
+    "share-tweet": "Deel Tweet",
+    "next-tweet": "Volgende Tweet",
+    "edit-save": "Opslaan",
+    "content-label": "Inhoud",
+    "other-posts": "Andere Posts"
+  }
 }
