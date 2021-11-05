@@ -29,7 +29,6 @@ const Contact = (): JSX.Element => {
   const { t } = useTranslation()
   const [fullname, setFullname] = useState('')
   const [email, setEmail] = useState('')
-  const [subject, setSubject] = useState('')
   const [message, setMessage] = useState('')
 
   //   Form validation
@@ -40,8 +39,9 @@ const Contact = (): JSX.Element => {
 
   const [showSuccessMessage, setShowSuccessMessage] = useState(false)
   const [showFailureMessage, setShowFailureMessage] = useState(false)
-  /*
+
   const handleValidation = () => {
+    /*
     const tempErrors = {}
     const isValid = true
     
@@ -64,23 +64,21 @@ const Contact = (): JSX.Element => {
 
     setErrors({ ...tempErrors })
     console.log('errors', errors)
-    return isValid
+    return isValid*/
   }
-*/
+
   //   const [form, setForm] = useState(false);
 
-  const handleSubmit = async e => {
-    e.preventDefault()
+  const handleSubmit = async (event: any) => {
+    event.preventDefault()
 
-    const isValidForm = handleValidation()
-
-    if (isValidForm) {
+    handleValidation()
+    if (true) {
       setButtonText('Sending')
       const res = await fetch('/api/sendgrid', {
         body: JSON.stringify({
           email: email,
           fullname: fullname,
-          subject: subject,
           message: message,
         }),
         headers: {
@@ -100,7 +98,6 @@ const Contact = (): JSX.Element => {
         setFullname('')
         setEmail('')
         setMessage('')
-        setSubject('')
         return
       }
       setShowSuccessMessage(true)
@@ -110,7 +107,6 @@ const Contact = (): JSX.Element => {
       setFullname('')
       setEmail('')
       setMessage('')
-      setSubject('')
       setErrors('')
     }
     //console.log(fullname, email, subject, message)
@@ -266,9 +262,7 @@ const Contact = (): JSX.Element => {
                             color="white"
                             _hover={{}}
                             type="submit"
-                            onClick={e => {
-                              handleSubmit(e.target.value)
-                            }}
+                            onClick={event => handleSubmit(event)}
                           >
                             {t('contact_message_send')}
                             {buttonText}
