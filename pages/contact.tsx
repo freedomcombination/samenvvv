@@ -32,7 +32,7 @@ const Contact = (): JSX.Element => {
   const [message, setMessage] = useState('')
 
   //   Form validation
-  const [errors, setErrors] = useState({})
+  // const [error, setErrors] = useState({})
 
   //   Setting button text
   const [buttonText, setButtonText] = useState('Send')
@@ -107,7 +107,7 @@ const Contact = (): JSX.Element => {
       setFullname('')
       setEmail('')
       setMessage('')
-      setErrors('')
+      // setErrors('')
     }
     //console.log(fullname, email, subject, message)
   }
@@ -204,11 +204,6 @@ const Contact = (): JSX.Element => {
                                 setFullname(e.target.value)
                               }}
                             />
-                            {errors?.fullname && (
-                              <p className="text-red-500">
-                                Fullname cannot be empty.
-                              </p>
-                            )}
                           </InputGroup>
                         </FormControl>
                         <FormControl id="name">
@@ -226,11 +221,6 @@ const Contact = (): JSX.Element => {
                                 setEmail(e.target.value)
                               }}
                             />{' '}
-                            {errors?.email && (
-                              <p className="text-red-500">
-                                Email cannot be empty.
-                              </p>
-                            )}
                           </InputGroup>
                           <FormHelperText>
                             We will never share your email.
@@ -249,11 +239,6 @@ const Contact = (): JSX.Element => {
                               setMessage(e.target.value)
                             }}
                           />
-                          {errors?.message && (
-                            <p className="text-red-500">
-                              Message body cannot be empty.
-                            </p>
-                          )}
                         </FormControl>
                         <FormControl id="name" float="right">
                           <Button
