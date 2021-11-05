@@ -10,5 +10,10 @@
   "footer_menu": "Menuler",
   "follow_us": "Bizi takip edin",
   "society": "Vakfımız",
-  "footer_about": " Turkce ===Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolores, blanditiis dignissimos recusandae fuga commodi sunt ipsam quas magni expedita ut soluta tempore dolorem inventore voluptates autem error doloremque quidem sed?"
+  "footer_about": " Turkce ===Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolores, blanditiis dignissimos recusandae fuga commodi sunt ipsam quas magni expedita ut soluta tempore dolorem inventore voluptates autem error doloremque quidem sed?",
+  "contact_fill": "İletişim için aşağıdaki formu doldurun",
+  "contact": "İletişim",
+  "contact_message_send": "Mesaj gönder",
+  "contact_message": "Mesaj",
+  "contact_message_name": "Adınız"
 }

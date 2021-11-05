@@ -12,6 +12,7 @@ export type RouteLabelType =
   | 'privacyPolicy'
   | 'status'
   | 'contactUs'
+  | 'contact'
 
 type InternalLinksType = Record<
   RouteLabelType,
@@ -73,6 +74,20 @@ export const ROUTES: InternalLinksType = {
     tr: {
       name: 'Hakkimizda',
       link: '/hakkimizda',
+    },
+  },
+  contact: {
+    en: {
+      name: 'Contact',
+      link: '/contact',
+    },
+    nl: {
+      name: 'Contact',
+      link: '/contact',
+    },
+    tr: {
+      name: 'İletişim',
+      link: '/iletişim',
     },
   },
   news: {
@@ -211,6 +226,7 @@ export const HEADER_MENU: Record<string, { name: string; link: string }>[] = [
   ROUTES.hashtag,
   ROUTES.club,
   ROUTES.about,
+  ROUTES.contact,
 ]
 
 export const FOOTER_MENU: Record<string, { name: string; link: string }>[] = [
