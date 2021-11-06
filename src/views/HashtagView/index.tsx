@@ -1,6 +1,20 @@
-import { Box, HStack, VStack } from '@chakra-ui/react'
+import {
+  Box,
+  Button,
+  Drawer,
+  DrawerBody,
+  DrawerCloseButton,
+  DrawerContent,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerOverlay,
+  Stack,
+  useDisclosure,
+  VStack,
+} from '@chakra-ui/react'
 import { MDXRemoteSerializeResult } from 'next-mdx-remote'
 import { useRouter } from 'next/router'
+import { useTranslation } from 'react-i18next'
 
 import {
   Container,
@@ -22,6 +36,9 @@ interface HashtagProps {
 
 const HashtagView = ({ source, pageData }: HashtagProps): JSX.Element => {
   const { locale, query } = useRouter()
+  const { isOpen, onOpen, onClose } = useDisclosure()
+
+  const { t } = useTranslation()
 
   const { data } = useHashtagQuery(
     locale as string,
@@ -34,17 +51,44 @@ const HashtagView = ({ source, pageData }: HashtagProps): JSX.Element => {
       <Container py={8}>
         <h1>{data?.title}</h1>
         {source && <Markdown source={source} />}
-        <HStack justify="stretch" align="stretch" minH={0}>
-          <VStack w={300} align="stretch">
+        <Stack
+          direction={{ base: 'column', lg: 'row' }}
+          justify="stretch"
+          align="stretch"
+          minH={0}
+        >
+          <VStack
+            w={300}
+            align="stretch"
+            display={{ base: 'none', lg: 'flex' }}
+          >
             <MentionSearch />
             <MentionList />
             <TrendList />
           </VStack>
-          <PostContainer />
+          <Drawer isOpen={isOpen} placement="left" onClose={onClose}>
+            <DrawerOverlay />
+            <DrawerContent>
+              <DrawerCloseButton />
+              <DrawerHeader>{t`post-share.add-mention`}</DrawerHeader>
+              <DrawerBody>
+                <MentionSearch />
+                <MentionList />
+                <TrendList />
+              </DrawerBody>
+              <DrawerFooter>
+                <Button variant="outline" mr={3} onClick={onClose}>
+                  Cancel
+                </Button>
+                <Button colorScheme="blue">Save</Button>
+              </DrawerFooter>
+            </DrawerContent>
+          </Drawer>
+          <PostContainer onOpen={onOpen} />
           <Box w={300}>
             <TweetWidget />
           </Box>
-        </HStack>
+        </Stack>
       </Container>
     </Layout>
   )

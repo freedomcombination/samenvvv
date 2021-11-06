@@ -41,11 +41,10 @@ export const TrendList = (): JSX.Element => {
   )
 
   return (
-    <Box>
+    <Box w="full">
       <Text color="gray.500" fontSize="sm">{t`post-share.trends-label`}</Text>
       <VStack
         align="stretch"
-        w={300}
         rounded="lg"
         borderColor="gray.500"
         borderWidth={1}

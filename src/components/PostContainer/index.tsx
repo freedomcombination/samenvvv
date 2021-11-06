@@ -18,7 +18,7 @@ import {
 } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
 import { useTranslation } from 'react-i18next'
-import { FaRandom, FaTwitter } from 'react-icons/fa'
+import { FaAt, FaRandom, FaTwitter } from 'react-icons/fa'
 
 import { ChakraNextImage, Navigate } from '@components'
 import { useHashtagQuery } from '@lib'
@@ -31,7 +31,11 @@ import {
   useAppSelector,
 } from '@store'
 
-export const PostContainer = (): JSX.Element => {
+export const PostContainer = ({
+  onOpen,
+}: {
+  onOpen: () => void
+}): JSX.Element => {
   const { push, locale, query } = useRouter()
   const dispatch = useAppDispatch()
   const { t } = useTranslation()
@@ -211,6 +215,17 @@ export const PostContainer = (): JSX.Element => {
           alignItems="end"
         >
           <Button
+            display={{ base: 'flex', lg: 'none' }}
+            isFullWidth
+            rounded="full"
+            colorScheme="blackAlpha"
+            onClick={onOpen}
+            rightIcon={<FaAt />}
+          >
+            {t`post-share.add-mention`}
+          </Button>
+          <Button
+            isFullWidth
             rounded="full"
             colorScheme="primary"
             onClick={redirectToRandomPost}
@@ -219,6 +234,7 @@ export const PostContainer = (): JSX.Element => {
             {t`post-share.next-tweet`}
           </Button>
           <Button
+            isFullWidth
             rounded="full"
             colorScheme="twitter"
             // TODO: Send to Twitter
