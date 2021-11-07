@@ -4,7 +4,7 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { MDXRemoteSerializeResult } from 'next-mdx-remote'
 import { serialize } from 'next-mdx-remote/serialize'
 import { useRouter } from 'next/router'
-import { QueryClient } from 'react-query'
+import { DehydratedState, QueryClient } from 'react-query'
 import { dehydrate } from 'react-query/hydration'
 
 import { Container, Layout } from '@components'
@@ -87,6 +87,29 @@ export const getStaticPaths: GetStaticPaths = async () => {
   }
 }
 
+export interface DynamicProps {
+  locale: string
+  slug: {
+    [x: string]: string[]
+  }
+  isPage: {
+    main: boolean
+    sub: boolean
+    child: boolean
+  }
+  pageType: Page_Type | null
+  source: MDXRemoteSerializeResult<Record<string, unknown>>
+  dehydratedState: DehydratedState
+  pageData:
+    | IPage
+    | ISubpage
+    | IHashtag
+    | ICompetition
+    | IApplication
+    | Record<string, unknown>
+  _nextI18Next: any
+}
+
 export const getStaticProps: GetStaticProps = async context => {
   const locale = context.locale as string
   let source: MDXRemoteSerializeResult<Record<string, unknown>>
@@ -96,7 +119,7 @@ export const getStaticProps: GetStaticProps = async context => {
     ?.slug as string[]
 
   const pageType = await getPageType(locale, mainSlug)
-  const props = {
+  const props: DynamicProps = {
     ...(await serverSideTranslations(locale, ['common'])),
     locale,
     slug: {

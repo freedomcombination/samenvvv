@@ -33,6 +33,16 @@ export const GET_HASHTAG = gql`
         image {
           url
         }
+        localizations {
+          slug
+          locale
+          hashtag {
+            slug
+            page {
+              slug
+            }
+          }
+        }
       }
       localizations {
         slug

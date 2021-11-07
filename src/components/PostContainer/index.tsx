@@ -6,7 +6,7 @@ import {
   Button,
   chakra,
   Flex,
-  HStack,
+  SimpleGrid,
   Stack,
   Tag,
   TagCloseButton,
@@ -18,7 +18,7 @@ import {
 } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
 import { useTranslation } from 'react-i18next'
-import { FaAt, FaRandom, FaTwitter } from 'react-icons/fa'
+import { FaAt, FaEdit, FaRandom, FaTwitter } from 'react-icons/fa'
 
 import { ChakraNextImage, Navigate } from '@components'
 import { useHashtagQuery } from '@lib'
@@ -33,8 +33,10 @@ import {
 
 export const PostContainer = ({
   onOpen,
+  onSetActivePost,
 }: {
   onOpen: () => void
+  onSetActivePost: (post: IHashtagPost) => void
 }): JSX.Element => {
   const { push, locale, query } = useRouter()
   const dispatch = useAppDispatch()
@@ -89,10 +91,11 @@ export const PostContainer = ({
     if (activePost) {
       dispatch(setPostContent(activePost.text))
       dispatch(checkCharacterCount(activePost.text))
+      onSetActivePost(activePost)
     } else {
       redirectToRandomPost()
     }
-  }, [activePost, dispatch, redirectToRandomPost])
+  }, [activePost, dispatch, redirectToRandomPost, onSetActivePost])
 
   useEffect(() => {
     if (editable) {
@@ -102,7 +105,7 @@ export const PostContainer = ({
   }, [editable])
 
   return (
-    <HStack
+    <Stack
       p={4}
       rounded="lg"
       bg="orange.50"
@@ -111,6 +114,7 @@ export const PostContainer = ({
       borderColor="gray.500"
       spacing={4}
       flex={1}
+      direction={{ base: 'column', lg: 'row' }}
     >
       <VStack align="stretch" flex="1">
         <Flex justify="space-between">
@@ -152,7 +156,16 @@ export const PostContainer = ({
               {postContent}
             </chakra.textarea>
           ) : (
-            <chakra.div whiteSpace="pre-line" onClick={setEditable.toggle}>
+            <chakra.div
+              p={4}
+              mt={-2}
+              mx={-2}
+              cursor='url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjUiIGhlaWdodD0iMjUiIHZpZXdCb3g9IjAgMCAyNSAyNSIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTExLjYyMjggNC45Nzg3Nkg0LjYyMjhDNC4wOTIzNyA0Ljk3ODc2IDMuNTgzNjYgNS4xODk0NyAzLjIwODU5IDUuNTY0NTVDMi44MzM1MiA1LjkzOTYyIDIuNjIyOCA2LjQ0ODMzIDIuNjIyOCA2Ljk3ODc2VjIwLjk3ODhDMi42MjI4IDIxLjUwOTIgMi44MzM1MiAyMi4wMTc5IDMuMjA4NTkgMjIuMzkzQzMuNTgzNjYgMjIuNzY4IDQuMDkyMzcgMjIuOTc4OCA0LjYyMjggMjIuOTc4OEgxOC42MjI4QzE5LjE1MzIgMjIuOTc4OCAxOS42NjE5IDIyLjc2OCAyMC4wMzcgMjIuMzkzQzIwLjQxMjEgMjIuMDE3OSAyMC42MjI4IDIxLjUwOTIgMjAuNjIyOCAyMC45Nzg4VjEzLjk3ODgiIHN0cm9rZT0iYmxhY2siIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+CjxwYXRoIGQ9Ik0xOS4xMjI4IDMuNDc4NzRDMTkuNTIwNiAzLjA4MDkyIDIwLjA2MDIgMi44NTc0MiAyMC42MjI4IDIuODU3NDJDMjEuMTg1NCAyLjg1NzQyIDIxLjcyNSAzLjA4MDkyIDIyLjEyMjggMy40Nzg3NEMyMi41MjA2IDMuODc2NTcgMjIuNzQ0MSA0LjQxNjEzIDIyLjc0NDEgNC45Nzg3NEMyMi43NDQxIDUuNTQxMzUgMjIuNTIwNiA2LjA4MDkyIDIyLjEyMjggNi40Nzg3NEwxMi42MjI4IDE1Ljk3ODdMOC42MjI4IDE2Ljk3ODdMOS42MjI4IDEyLjk3ODdMMTkuMTIyOCAzLjQ3ODc0WiIgc3Ryb2tlPSJibGFjayIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz4KPC9zdmc+Cg=="), auto'
+              rounded="lg"
+              _hover={{ bg: 'blackAlpha.200' }}
+              whiteSpace="pre-line"
+              onClick={setEditable.toggle}
+            >
               {postContent}
             </chakra.div>
           )}
@@ -207,22 +220,32 @@ export const PostContainer = ({
             </AspectRatio>
           )}
         </VStack>
-        <Stack
-          direction={{ base: 'column', lg: 'row' }}
-          justify="space-between"
+        <SimpleGrid
+          columns={2}
+          spacing={2}
           mt="auto"
           flex={1}
-          alignItems="end"
+          alignContent="end"
         >
           <Button
             display={{ base: 'flex', lg: 'none' }}
             isFullWidth
             rounded="full"
-            colorScheme="blackAlpha"
+            colorScheme="purple"
             onClick={onOpen}
             rightIcon={<FaAt />}
           >
             {t`post-share.add-mention`}
+          </Button>
+          <Button
+            display={{ base: 'flex', lg: 'none' }}
+            isFullWidth
+            rounded="full"
+            colorScheme="green"
+            onClick={setEditable.on}
+            rightIcon={<FaEdit />}
+          >
+            {t`post-share.edit-content`}
           </Button>
           <Button
             isFullWidth
@@ -244,27 +267,41 @@ export const PostContainer = ({
           >
             {t`post-share.share-tweet`}
           </Button>
-        </Stack>
+        </SimpleGrid>
       </VStack>
-      <Box overflow="auto">
+      <Stack h="full" overflowY="hidden">
         <Text color="gray.500" fontSize="sm">{t`post-share.other-posts`}</Text>
-        {hashtag?.posts?.map((p, i) => (
-          <Box
-            key={i}
-            borderWidth={1}
-            borderColor="gray.500"
-            rounded="lg"
-            overflow="hidden"
-            mt={2}
-          >
-            <Navigate
-              href={`/${hashtag?.page?.slug}/${hashtag?.slug}/${p?.slug}`}
+        <Stack
+          direction={{ base: 'row', lg: 'column' }}
+          h="full"
+          w="full"
+          whiteSpace="nowrap"
+          overflowY={{ base: 'hidden', lg: 'auto' }}
+          overflowX={{ base: 'auto', lg: 'hidden' }}
+        >
+          {hashtag?.posts?.slice(0, 15).map((p, i) => (
+            <Box
+              key={i}
+              borderWidth={1}
+              borderColor="gray.500"
+              rounded="lg"
+              overflow="hidden"
+              whiteSpace="nowrap"
+              flexShrink={0}
             >
-              <ChakraNextImage w={150} h={85} image={p.image?.url as string} />
-            </Navigate>
-          </Box>
-        ))}
-      </Box>
-    </HStack>
+              <Navigate
+                href={`/${hashtag?.page?.slug}/${hashtag?.slug}/${p?.slug}`}
+              >
+                <ChakraNextImage
+                  w={150}
+                  h={85}
+                  image={p.image?.url as string}
+                />
+              </Navigate>
+            </Box>
+          ))}
+        </Stack>
+      </Stack>
+    </Stack>
   )
 }

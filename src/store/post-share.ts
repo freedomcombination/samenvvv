@@ -6,6 +6,7 @@ export type PostShareState = {
   trends: string[]
   isCharacterCountExceeded: boolean
   totalCharCount: number
+  activePost: IHashtagPost | null
 }
 
 const initialState: PostShareState = {
@@ -14,6 +15,7 @@ const initialState: PostShareState = {
   trends: [],
   isCharacterCountExceeded: false,
   totalCharCount: 0,
+  activePost: null,
 }
 
 export const postShareSlice = createSlice({
@@ -34,6 +36,9 @@ export const postShareSlice = createSlice({
     },
     setPostContent: (state, action: PayloadAction<string>) => {
       state.postContent = action.payload
+    },
+    setActivePost: (state, action: PayloadAction<IHashtagPost>) => {
+      state.activePost = action.payload
     },
     checkCharacterCount: (state, action: PayloadAction<string | undefined>) => {
       const twitterCharLimit = 280
@@ -61,6 +66,7 @@ export const {
   removeTrend,
   checkCharacterCount,
   setPostContent,
+  setActivePost,
 } = postShareSlice.actions
 
 export const { reducer: postShareReducer } = postShareSlice

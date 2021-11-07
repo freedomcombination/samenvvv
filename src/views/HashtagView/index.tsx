@@ -1,11 +1,11 @@
+import { useState } from 'react'
+
 import {
   Box,
-  Button,
   Drawer,
   DrawerBody,
   DrawerCloseButton,
   DrawerContent,
-  DrawerFooter,
   DrawerHeader,
   DrawerOverlay,
   Stack,
@@ -37,6 +37,7 @@ interface HashtagProps {
 const HashtagView = ({ source, pageData }: HashtagProps): JSX.Element => {
   const { locale, query } = useRouter()
   const { isOpen, onOpen, onClose } = useDisclosure()
+  const [activePost, setActivePost] = useState<IHashtagPost>()
 
   const { t } = useTranslation()
 
@@ -46,8 +47,21 @@ const HashtagView = ({ source, pageData }: HashtagProps): JSX.Element => {
     pageData,
   )
 
+  const handleSetActivePost = (post: IHashtagPost) => setActivePost(post)
+
   return (
-    <Layout>
+    <Layout
+      seo={{
+        metadata: {
+          metaTitle: data?.title as string,
+          metaDescription: activePost?.text as string,
+        },
+        image:
+          `${process.env.NEXT_PUBLIC_ADMIN_URL}${activePost?.image?.url}` as string,
+        // TODO: Fix url
+        url: `${process.env.NEXT_PUBLIC_SITE_URL}/${locale}/${data?.page?.slug}/${data?.slug}/${activePost?.slug}`,
+      }}
+    >
       <Container py={8}>
         <h1>{data?.title}</h1>
         {source && <Markdown source={source} />}
@@ -56,6 +70,7 @@ const HashtagView = ({ source, pageData }: HashtagProps): JSX.Element => {
           justify="stretch"
           align="stretch"
           minH={0}
+          maxH={{ base: 'min-content', lg: 650 }}
         >
           <VStack
             w={300}
@@ -76,15 +91,12 @@ const HashtagView = ({ source, pageData }: HashtagProps): JSX.Element => {
                 <MentionList />
                 <TrendList />
               </DrawerBody>
-              <DrawerFooter>
-                <Button variant="outline" mr={3} onClick={onClose}>
-                  Cancel
-                </Button>
-                <Button colorScheme="blue">Save</Button>
-              </DrawerFooter>
             </DrawerContent>
           </Drawer>
-          <PostContainer onOpen={onOpen} />
+          <PostContainer
+            onOpen={onOpen}
+            onSetActivePost={handleSetActivePost}
+          />
           <Box w={300}>
             <TweetWidget />
           </Box>
