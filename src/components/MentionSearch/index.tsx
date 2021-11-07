@@ -1,6 +1,15 @@
+import { ChangeEvent } from 'react'
+
 import { Box, FormControl, FormLabel, Input } from '@chakra-ui/react'
 
+import { setMentionSearchKey, useAppDispatch } from '@store'
+
 export const MentionSearch = (): JSX.Element => {
+  const dispatch = useAppDispatch()
+
+  const onSearchMention = (e: ChangeEvent<HTMLInputElement>) =>
+    dispatch(setMentionSearchKey(e.target.value))
+
   return (
     <Box>
       <FormControl>
@@ -12,6 +21,7 @@ export const MentionSearch = (): JSX.Element => {
           borderColor="gray.500"
           id="name"
           placeholder="Search..."
+          onChange={onSearchMention}
           _focus={{ borderColor: 'gray.500', borderWidth: 2 }}
         />
       </FormControl>

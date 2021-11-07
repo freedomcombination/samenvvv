@@ -7,6 +7,7 @@ export type PostShareState = {
   isCharacterCountExceeded: boolean
   totalCharCount: number
   activePost: IHashtagPost | null
+  mentionSearchKey: string
 }
 
 const initialState: PostShareState = {
@@ -16,6 +17,7 @@ const initialState: PostShareState = {
   isCharacterCountExceeded: false,
   totalCharCount: 0,
   activePost: null,
+  mentionSearchKey: '',
 }
 
 export const postShareSlice = createSlice({
@@ -24,6 +26,12 @@ export const postShareSlice = createSlice({
   reducers: {
     addMention: (state, action: PayloadAction<string>) => {
       state.mentions.push(action.payload)
+    },
+    setMentionSearchKey: (state, action: PayloadAction<string>) => {
+      state.mentionSearchKey = action.payload
+    },
+    clearMentionSearchKey: state => {
+      state.mentionSearchKey = 'action.paylod'
     },
     removeMention: (state, action: PayloadAction<string>) => {
       state.mentions = state.mentions.filter(m => m !== action.payload)
@@ -67,6 +75,8 @@ export const {
   checkCharacterCount,
   setPostContent,
   setActivePost,
+  setMentionSearchKey,
+  clearMentionSearchKey,
 } = postShareSlice.actions
 
 export const { reducer: postShareReducer } = postShareSlice
