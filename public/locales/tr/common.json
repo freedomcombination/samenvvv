@@ -11,9 +11,18 @@
   "follow_us": "Bizi takip edin",
   "society": "Vakfımız",
   "footer_about": " Turkce ===Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolores, blanditiis dignissimos recusandae fuga commodi sunt ipsam quas magni expedita ut soluta tempore dolorem inventore voluptates autem error doloremque quidem sed?",
-  "contact_fill": "İletişim için aşağıdaki formu doldurun",
+  "contact_fill": "İletişim için aşağıdaki formu doldurunuz",
   "contact": "İletişim",
   "contact_message_send": "Mesaj gönder",
   "contact_message": "Mesaj",
-  "contact_message_name": "Adınız"
+  "contact_message_name": "Adınız",
+  "contact_field": {
+    "fullname_empty": "Ad alanı boş olamaz.",
+    "email_empty": "Mail alanı boş olamaz.",
+    "email_share": "Mailinizi izniniz olmadan paylaşmayacağız.",
+    "message_empty": "Mesaj alanı boş olamaz.",
+    "message_delivered": "Teşekkür ederiz. Mesajınız alındı.",
+    "something_wrong": "Oops. Birşeyler yanlış gitti, lütfen tekrar deneyin.",
+    "message_sending": "Gönderiliyor."
+  }
 }

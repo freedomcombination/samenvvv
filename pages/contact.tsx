@@ -19,6 +19,8 @@ import {
   Wrap,
   WrapItem,
 } from '@chakra-ui/react'
+import { GetStaticProps } from 'next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useTranslation } from 'react-i18next'
 import { BsPerson } from 'react-icons/bs'
 import { MdEmail, MdLocationOn, MdPhone } from 'react-icons/md' //MdOutlineEmail
@@ -32,19 +34,19 @@ const Contact = (): JSX.Element => {
   const [message, setMessage] = useState('')
 
   //   Form validation
-  // const [error, setErrors] = useState({})
+  const [errors, setErrors] = useState<any>({})
 
   //   Setting button text
-  const [buttonText, setButtonText] = useState('Send')
+  const button_text = t('contact_message_send')
+  const [buttonText, setButtonText] = useState(button_text)
 
   const [showSuccessMessage, setShowSuccessMessage] = useState(false)
   const [showFailureMessage, setShowFailureMessage] = useState(false)
 
   const handleValidation = () => {
-    /*
-    const tempErrors = {}
-    const isValid = true
-    
+    const tempErrors: any = {}
+    let isValid = true
+
     if (fullname.length <= 0) {
       tempErrors['fullname'] = true
       isValid = false
@@ -53,28 +55,44 @@ const Contact = (): JSX.Element => {
       tempErrors['email'] = true
       isValid = false
     }
-    if (subject.length <= 0) {
-      tempErrors['subject'] = true
-      isValid = false
-    }
     if (message.length <= 0) {
       tempErrors['message'] = true
       isValid = false
     }
 
     setErrors({ ...tempErrors })
-    console.log('errors', errors)
-    return isValid*/
+    return isValid
   }
 
   //   const [form, setForm] = useState(false);
 
   const handleSubmit = async (event: any) => {
     event.preventDefault()
+    const validation = handleValidation()
+    //console.log('validation:  ', validation)
+    if (validation) {
+      const message_sending = t('contact_field.message_sending')
+      setButtonText(message_sending)
+      /*
 
-    handleValidation()
-    if (true) {
-      setButtonText('Sending')
+module.exports = function(ctx, cb) {
+ var sendgrid = require(‘sendgrid’)(‘[YOUR_SENDGRID_API]’);
+ var email = new sendgrid.Email({
+   to: ‘info@samenvvv.nl’,
+   from: ctx.data.from,
+   subject: ‘[YOUR_DESIRED_SUBJECT]’,
+   html: “Name: “ + ctx.data.name + “<br/><br/>Message: “ + ctx.data.message
+ });
+  sendgrid.send(email, function(err, json) {
+   if (err) { 
+     cb(err) 
+   } else { 
+     cb(null, “Your message has been submitted!”)
+   }
+  });
+}
+
+
       const res = await fetch('/api/sendgrid', {
         body: JSON.stringify({
           email: email,
@@ -88,8 +106,10 @@ const Contact = (): JSX.Element => {
       })
 
       const { error } = await res.json()
-      if (error) {
-        // console.log(error)
+      console.log('response error: ', error)
+    
+      if (false) {
+        //  console.log('response error: ', error)
         setShowSuccessMessage(false)
         setShowFailureMessage(true)
         setButtonText('Send')
@@ -100,16 +120,16 @@ const Contact = (): JSX.Element => {
         setMessage('')
         return
       }
+        */
       setShowSuccessMessage(true)
       setShowFailureMessage(false)
-      setButtonText('Send')
-      // Reset form fields
       setFullname('')
       setEmail('')
       setMessage('')
-      // setErrors('')
+      setErrors('')
+      setButtonText(button_text)
+      // Reset form fields
     }
-    //console.log(fullname, email, subject, message)
   }
   return (
     <Layout>
@@ -198,12 +218,19 @@ const Contact = (): JSX.Element => {
                             />
                             <Input
                               type="text"
+                              name="fullname"
+                              value={fullname}
                               size="md"
                               isRequired
                               onChange={e => {
                                 setFullname(e.target.value)
                               }}
-                            />
+                            />{' '}
+                            {errors?.fullname && (
+                              <p className="text-red-500">
+                                {t('contact_field.fullname_empty')}
+                              </p>
+                            )}
                           </InputGroup>
                         </FormControl>
                         <FormControl id="name">
@@ -215,15 +242,22 @@ const Contact = (): JSX.Element => {
                             />
                             <Input
                               type="email"
+                              name="email"
+                              value={email}
                               size="md"
                               isRequired
                               onChange={e => {
                                 setEmail(e.target.value)
                               }}
                             />{' '}
+                            {errors?.email && (
+                              <p className="text-red-500">
+                                {t('contact_field.email_empty')}
+                              </p>
+                            )}
                           </InputGroup>
                           <FormHelperText>
-                            We will never share your email.
+                            {t('contact_field.email_share')}
                           </FormHelperText>
                         </FormControl>
                         <FormControl id="name">
@@ -235,10 +269,17 @@ const Contact = (): JSX.Element => {
                             }}
                             placeholder="message"
                             isRequired
+                            name="message"
+                            value={message}
                             onChange={e => {
                               setMessage(e.target.value)
                             }}
                           />
+                          {errors?.message && (
+                            <p className="text-red-500">
+                              {t('contact_field.message_empty')}
+                            </p>
+                          )}
                         </FormControl>
                         <FormControl id="name" float="right">
                           <Button
@@ -249,32 +290,18 @@ const Contact = (): JSX.Element => {
                             type="submit"
                             onClick={event => handleSubmit(event)}
                           >
-                            {t('contact_message_send')}
                             {buttonText}
-                            <svg
-                              width="24"
-                              height="24"
-                              viewBox="0 0 24 24"
-                              className="text-cyan-500 ml-2"
-                              fill="currentColor"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <path
-                                d="M9.00967 5.12761H11.0097C12.1142 5.12761 13.468 5.89682 14.0335 6.8457L16.5089 11H21.0097C21.562 11 22.0097 11.4477 22.0097 12C22.0097 12.5523 21.562 13 21.0097 13H16.4138L13.9383 17.1543C13.3729 18.1032 12.0191 18.8724 10.9145 18.8724H8.91454L12.4138 13H5.42485L3.99036 15.4529H1.99036L4.00967 12L4.00967 11.967L2.00967 8.54712H4.00967L5.44417 11H12.5089L9.00967 5.12761Z"
-                                fill="currentColor"
-                              />
-                            </svg>
                           </Button>
 
                           <div className="text-left">
                             {showSuccessMessage && (
                               <p className="text-green-500 font-semibold text-sm my-2">
-                                Thankyou! Your Message has been delivered.
+                                {t('contact_field.message_delivered')}
                               </p>
                             )}
                             {showFailureMessage && (
                               <p className="text-red-500">
-                                Oops! Something went wrong, please try again.
+                                {t('contact_field.something_wrong')}
                               </p>
                             )}
                           </div>
@@ -292,3 +319,12 @@ const Contact = (): JSX.Element => {
   )
 }
 export default Contact
+
+export const getStaticProps: GetStaticProps = async context => {
+  const { locale } = context
+  return {
+    props: {
+      ...(await serverSideTranslations(locale as string, ['common'])),
+    },
+  }
+}
