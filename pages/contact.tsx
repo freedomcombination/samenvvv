@@ -19,6 +19,7 @@ import {
   Wrap,
   WrapItem,
 } from '@chakra-ui/react'
+import sgMail from '@sendgrid/mail'
 import { GetStaticProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useTranslation } from 'react-i18next'
@@ -73,9 +74,25 @@ const Contact = (): JSX.Element => {
     if (validation) {
       const message_sending = t('contact_field.message_sending')
       setButtonText(message_sending)
+      const sengridApiKey = process.env.SENDGRID_API_KEY
+      sgMail.setApiKey(sengridApiKey)
+      const msg = {
+        to: 'info@samenvvv.nl', // Change to your recipient
+        from: 'test@example.com', // Change to your verified sender
+        subject: 'Sending with SendGrid is Fun',
+        text: message,
+        html: '<strong>and easy to do anywhere, even with Node.js</strong>',
+      }
+      sgMail
+        .send(msg)
+        .then(() => {
+          //  console.log('Email sent')
+        })
+        .catch((error: any) => {
+          console.error(error)
+        })
       /*
-
-module.exports = function(ctx, cb) {
+module.exports = function(ctx, cb) {    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
  var sendgrid = require(‘sendgrid’)(‘[YOUR_SENDGRID_API]’);
  var email = new sendgrid.Email({
    to: ‘info@samenvvv.nl’,
