@@ -74,8 +74,8 @@ const Contact = (): JSX.Element => {
     if (validation) {
       const message_sending = t('contact_field.message_sending')
       setButtonText(message_sending)
-      const sengridApiKey = process.env.SENDGRID_API_KEY
-      sgMail.setApiKey(sengridApiKey)
+      //const sengridApiKey = process.env.SENDGRID_API_KEY
+      // sgMail.setApiKey(sengridApiKey)
       const msg = {
         to: 'info@samenvvv.nl', // Change to your recipient
         from: 'test@example.com', // Change to your verified sender
