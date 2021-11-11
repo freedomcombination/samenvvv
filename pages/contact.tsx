@@ -19,7 +19,6 @@ import {
   Wrap,
   WrapItem,
 } from '@chakra-ui/react'
-//import sgMail from '@sendgrid/mail'
 import { GetStaticProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useTranslation } from 'react-i18next'
@@ -33,7 +32,22 @@ const Contact = (): JSX.Element => {
   const [fullname, setFullname] = useState('')
   const [email, setEmail] = useState('')
   const [message, setMessage] = useState('')
-
+  /*
+const res = await fetch(` https://samenvvvv.com/email`, {
+            method: 'POST',
+            body: JSON.stringify({
+              to: 'info@samenvvv.nl',
+              from: "no-reply@samenvvvv.com",
+              replyTo: email,
+              subject: 'CalculatAR Report',
+              html: "<p>Here is example html</p>",
+            text:message,
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          }),
+        })
+*/
   //   Form validation
   const [errors, setErrors] = useState<any>({})
 
@@ -66,88 +80,55 @@ const Contact = (): JSX.Element => {
   }
 
   //   const [form, setForm] = useState(false);
-
   const handleSubmit = async (event: any) => {
     event.preventDefault()
-    const validation = handleValidation()
-    //console.log('validation:  ', validation)
-    if (validation) {
-      const message_sending = t('contact_field.message_sending')
-      setButtonText(message_sending)
-      //const sengridApiKey = process.env.SENDGRID_API_KEY
-      /*  // sgMail.setApiKey(sengridApiKey)
-      const msg = {
-        to: 'info@samenvvv.nl', // Change to your recipient
-        from: 'test@example.com', // Change to your verified sender
-        subject: 'Sending with SendGrid is Fun',
-        text: message,
-        html: '<strong>and easy to do anywhere, even with Node.js</strong>',
-      }
-      sgMail
-        .send(msg)
-        .then(() => {
-          //  console.log('Email sent')
-        })
-        .catch((error: any) => {
-          console.error(error)
-        })
-   
-module.exports = function(ctx, cb) {    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
- var sendgrid = require(‘sendgrid’)(‘[YOUR_SENDGRID_API]’);
- var email = new sendgrid.Email({
-   to: ‘info@samenvvv.nl’,
-   from: ctx.data.from,
-   subject: ‘[YOUR_DESIRED_SUBJECT]’,
-   html: “Name: “ + ctx.data.name + “<br/><br/>Message: “ + ctx.data.message
- });
-  sendgrid.send(email, function(err, json) {
-   if (err) { 
-     cb(err) 
-   } else { 
-     cb(null, “Your message has been submitted!”)
-   }
-  });
-}
 
+    const isValidForm = handleValidation()
 
-      const res = await fetch('/api/sendgrid', {
-        body: JSON.stringify({
-          email: email,
-          fullname: fullname,
-          message: message,
-        }),
-        headers: {
-          'Content-Type': 'application/json',
-        },
+    if (isValidForm) {
+      const sending = t('contact_field.message_sending')
+      setButtonText(sending)
+      const res = await fetch(` https://samenvvvv.com/email`, {
         method: 'POST',
+        body: JSON.stringify({
+          to: 'info@samenvvv.nl',
+          from: 'no-reply@samenvvvv.com',
+          replyTo: email,
+          subject: 'CalculatAR Report',
+          html: '<p>Here is example html</p>',
+          text: message,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }),
       })
 
       const { error } = await res.json()
-      console.log('response error: ', error)
-    
-      if (false) {
-        //  console.log('response error: ', error)
+      if (error) {
+        //  console.log(error)
         setShowSuccessMessage(false)
         setShowFailureMessage(true)
-        setButtonText('Send')
+        setButtonText(button_text)
 
         // Reset form fields
         setFullname('')
         setEmail('')
         setMessage('')
+        //   setSubject('')
         return
       }
-        */
       setShowSuccessMessage(true)
       setShowFailureMessage(false)
+      setButtonText(button_text)
+      // Reset form fields
       setFullname('')
       setEmail('')
       setMessage('')
-      setErrors('')
-      setButtonText(button_text)
-      // Reset form fields
+      //setSubject('')
     }
+    /// console.log(fullname, email, message) //subject
   }
+
   return (
     <Layout>
       <Container
