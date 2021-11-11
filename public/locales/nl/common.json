@@ -24,5 +24,16 @@
     "message_delivered": "Bedankt. Uw bericht is ontvangen.",
     "something_wrong": "Oeps. Er is iets misgegaan, probeer het opnieuw.",
     "message_sending": "Verzenden."
+  "post-share": {
+    "mention-list-label": "Populaire Gebruikers",
+    "trends-label": "Trends",
+    "add": "Toev.",
+    "share-tweet": "Deel Tweet",
+    "next-tweet": "Volgende Tweet",
+    "edit-content": "Inhoud Bewerken",
+    "edit-save": "Opslaan",
+    "content-label": "Inhoud",
+    "other-posts": "Andere Posts",
+    "add-mention": "Mention Toevoegen"
   }
 }

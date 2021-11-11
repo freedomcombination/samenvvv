@@ -24,5 +24,16 @@
     "message_delivered": "Teşekkür ederiz. Mesajınız alındı.",
     "something_wrong": "Oops. Birşeyler yanlış gitti, lütfen tekrar deneyin.",
     "message_sending": "Gönderiliyor."
+  "post-share": {
+    "mention-list-label": "Popüler Kullanıcılar",
+    "trends-label": "Trends",
+    "add": "Ekle",
+    "share-tweet": "Tweet Paylaş",
+    "next-tweet": "Sonraki Tweet",
+    "edit-content": "İçeriği Düzenle",
+    "edit-save": "Kaydet",
+    "content-label": "İçerik",
+    "other-posts": "Diğer Postlar",
+    "add-mention": "Mention Ekle"
   }
 }

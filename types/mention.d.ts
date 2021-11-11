@@ -6,7 +6,7 @@ declare interface IMention {
   created_at: string
   updated_at: string
   username: string
-  user_data?: Record<string, unknown>
+  user_data?: ITweetUserData
   country?: Mention_Country
   category?: string
   published_at?: string
@@ -14,7 +14,7 @@ declare interface IMention {
 
 declare interface IMentionInput {
   username: string
-  user_data?: Record<string, unknown>
+  user_data?: ITweetUserData
   country?: Mention_Country
   category?: string
   published_at?: string
