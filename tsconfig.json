@@ -20,6 +20,7 @@
       "@hooks": ["src/hooks"],
       "@lib": ["src/lib"],
       "@theme": ["src/theme"],
+      "@store": ["src/store"],
       "@utils": ["src/utils"],
       "@views": ["src/views"]
     }
