@@ -10,6 +10,7 @@ import {
 } from '@chakra-ui/react'
 import { getTwitterVideoUrl } from '@utils'
 
+import ReactPlayer from 'react-player'
 import twData from '../../data/twitter-data.json'
 
 export const HashtagTimeline = (): JSX.Element => {
@@ -27,6 +28,7 @@ export const HashtagTimeline = (): JSX.Element => {
           const profileImg = data?.user?.profile_image_url_https
           const videoVariants =
             data.extended_entities?.media[0].video_info.variants
+          const videoImg = data.extended_entities?.media[0].media_url_https
           return (
             <HStack key={index} alignItems="flex-start">
               <HStack justifyContent="space-evenly">
@@ -46,13 +48,15 @@ export const HashtagTimeline = (): JSX.Element => {
                     {data.text}
                   </Text>
                   {videoVariants ? (
-                    <video controls muted width="250">
-                      <source
-                        src={getTwitterVideoUrl(videoVariants as any)}
-                        type={'video/mp4'}
-                      />
-                      Your browser does not support the video tag.
-                    </video>
+                    <ReactPlayer
+                      controls
+                      muted
+                      width="100%"
+                      url={getTwitterVideoUrl(videoVariants as any)}
+                      height="250px"
+                      playIcon={<button>Play</button>}
+                      light={videoImg}
+                    />
                   ) : (
                     twitImg && <Image rounded="10%" src={twitImg} />
                   )}
