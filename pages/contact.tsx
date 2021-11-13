@@ -92,8 +92,8 @@ const Contact = (): JSX.Element => {
     event.preventDefault()
 
     sendForm({
-      to: 'talipaltas@gmail.com',
-      from: 'no-reply@samenvvvv.com',
+      to: process.env.NEXT_PUBLIC_EMAIL_BASE as string,
+      from: process.env.NEXT_PUBLIC_EMAIL_FROM as string,
       subject: `Form from ${form.fullname} (${form.email})`,
       text: form.message,
     })
