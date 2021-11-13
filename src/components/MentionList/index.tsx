@@ -45,14 +45,17 @@ export const MentionList = (): JSX.Element => {
     isLoading: isTwitterFetchLoading,
     data: mentionListFromTwitter,
     refetch,
-  } = useQuery<IMention[]>(
+  } = useQuery<Pick<IMention, 'username' | 'user_data'>[]>(
     'search-mentions',
     async () => {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_ADMIN_URL}/mentions/search?username=${mentionSearchKey}`,
       )
-      const rawData = await response.json()
-      return rawData.map((user: ITweetUserData) => ({
+      const rawData = (await response.json()) as ITweetUserData[]
+      const sortedData = rawData.sort(
+        (a, b) => b.followers_count - a.followers_count,
+      )
+      return sortedData.map(user => ({
         username: user.screen_name,
         user_data: user,
       }))
