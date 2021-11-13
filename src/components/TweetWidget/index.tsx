@@ -1,5 +1,7 @@
 import { Box, Text, VStack } from '@chakra-ui/react'
 
+import { HashtagTimeline } from '@components'
+
 export const TweetWidget = (): JSX.Element => {
   return (
     <VStack align="stretch" justify="stretch">
@@ -12,7 +14,11 @@ export const TweetWidget = (): JSX.Element => {
         borderColor="gray.500"
         borderWidth={1}
         rounded="lg"
-      ></Box>
+        h={620}
+        overflow="auto"
+      >
+        <HashtagTimeline />
+      </Box>
     </VStack>
   )
 }

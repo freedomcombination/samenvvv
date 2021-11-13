@@ -41,7 +41,7 @@ export const HeaderTop = ({
   const size = useBreakpointValue({ base: 'md', lg: 'xs' })
 
   return pageType === 'hashtag' && isPage.child ? (
-    <>/</>
+    <></>
   ) : (
     <HStack py={1} justify="flex-end">
       <ButtonGroup isAttached d="flex" size="xs" align="center">
