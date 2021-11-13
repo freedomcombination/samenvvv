@@ -11,6 +11,20 @@
   "follow_us": "Volg ons",
   "society": "Stichting",
   "footer_about": " NL ===Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolores, blanditiis dignissimos recusandae fuga commodi sunt ipsam quas magni expedita ut soluta tempore dolorem inventore voluptates autem error doloremque quidem sed?",
+  "contact_fill": "Vul het onderstaande formulier in om contact op te nemen",
+  "contact": "Contact",
+  "contact_message_send": "Bericht versturen",
+  "contact_message": "Bericht",
+  "contact_message_name": "Naam",
+  "contact_field": {
+    "fullname_empty": "Naamruimte mag niet leeg zijn.",
+    "email_empty": "Mailveld mag niet leeg zijn.",
+    "email_share": "We delen uw e-mail op geen enkele manier.",
+    "message_empty": "Berichtveld mag niet leeg zijn.",
+    "message_delivered": "Bedankt. Uw bericht is ontvangen.",
+    "something_wrong": "Oeps. Er is iets misgegaan, probeer het opnieuw.",
+    "message_sending": "Verzenden."
+  },
   "post-share": {
     "mention-list-label": "Populaire Gebruikers",
     "trends-label": "Trends",
