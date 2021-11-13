@@ -29,6 +29,16 @@ module.exports = {
         destination: '/tr/club',
         locale: false,
       },
+      {
+        source: '/tr/iletişim',
+        destination: '/tr/contact',
+        locale: false,
+      },
+      {
+        source: '/en/contact',
+        destination: '/en/contact',
+        locale: false,
+      },
     ]
   },
 }
