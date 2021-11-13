@@ -57,7 +57,7 @@ const Contact = (): JSX.Element => {
     isSuccess,
   } = useMutation<any, null, SendMailVariables>(
     formData => {
-      return axios.post('https://samenvvvv.com/email', formData)
+      return axios.post(`${process.env.NEXT_PUBLIC_ADMIN_URL}/email`, formData)
     },
     {
       onError: () => {
