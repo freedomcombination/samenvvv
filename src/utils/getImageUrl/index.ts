@@ -8,9 +8,7 @@ export const getImageUrl: GetImageUrlType = (image, type?) => {
   if (image == null) return ''
 
   if (typeof image === 'string')
-    return image.startsWith('http') || image.startsWith('//')
-      ? image
-      : `${basePath}${image}`
+    return image.startsWith('http') ? image : `${basePath}${image}`
 
   const imagePath =
     (type && image.formats && image.formats[type].url) || image.url

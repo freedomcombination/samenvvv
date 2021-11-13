@@ -19,7 +19,7 @@ type HeaderMobileProps = {
   isScrolled?: boolean
 }
 
-export const HeaderMobile = (props: HeaderMobileProps) => {
+export const HeaderMobile = (props: HeaderMobileProps): JSX.Element => {
   const { isOpen, onToggle, onClose } = useDisclosure()
   const { hasScroll, isScrolled } = props
 

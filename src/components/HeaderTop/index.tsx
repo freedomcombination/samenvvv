@@ -6,9 +6,22 @@ import {
 } from '@chakra-ui/react'
 import { NextRouter, useRouter } from 'next/dist/client/router'
 
+import { DynamicProps } from 'pages/[...slug]'
+
 interface HeaderTopProps {
   hasScroll?: boolean
   isScrolled?: boolean
+}
+
+interface RouterComponent {
+  components: Record<
+    string,
+    {
+      props: {
+        pageProps: DynamicProps
+      }
+    }
+  >
 }
 
 export const HeaderTop = ({
@@ -16,9 +29,10 @@ export const HeaderTop = ({
   isScrolled,
 }: HeaderTopProps): JSX.Element => {
   const { locales, push, pathname, locale, asPath, components } =
-    useRouter() as NextRouter & { components: any }
+    useRouter() as NextRouter & RouterComponent
 
-  const slug = components?.[pathname]?.props?.pageProps?.slug
+  const { slug, pageType, isPage } =
+    components?.[pathname]?.props?.pageProps ?? {}
 
   const handleChangeLanguage = async (locale: string) => {
     await push(pathname, slug ? slug[locale].join('/') : asPath, { locale })
@@ -26,7 +40,9 @@ export const HeaderTop = ({
 
   const size = useBreakpointValue({ base: 'md', lg: 'xs' })
 
-  return (
+  return pageType === 'hashtag' && isPage.child ? (
+    <></>
+  ) : (
     <HStack py={1} justify="flex-end">
       <ButtonGroup isAttached d="flex" size="xs" align="center">
         {(locales as string[]).map(code => (
