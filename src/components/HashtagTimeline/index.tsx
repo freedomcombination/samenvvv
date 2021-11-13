@@ -1,78 +1,73 @@
 import {
-  VStack,
+  AspectRatio,
+  Avatar,
+  Box,
   HStack,
-  Image,
-  Text,
-  Heading,
   StackDivider,
-  Container,
-  Spacer,
+  Text,
+  VStack,
 } from '@chakra-ui/react'
+import { FaPlayCircle } from 'react-icons/fa'
+import ReactPlayer from 'react-player'
+
+import { ChakraNextImage } from '@components'
 import { getTwitterVideoUrl } from '@utils'
 
-import ReactPlayer from 'react-player'
 import twData from '../../data/twitter-data.json'
 
 export const HashtagTimeline = (): JSX.Element => {
-  function listHashtags() {
-    return (
-      <VStack
-        divider={<StackDivider borderColor="gray.200" />}
-        spacing={4}
-        align="stretch"
-      >
-        <Spacer />
-
-        {twData.statuses.map((data, index) => {
-          const twitImg = data?.extended_entities?.media?.[0]?.media_url_https
-          const profileImg = data?.user?.profile_image_url_https
-          const videoVariants =
-            data.extended_entities?.media[0].video_info.variants
-          const videoImg = data.extended_entities?.media[0].media_url_https
-          return (
-            <HStack key={index} alignItems="flex-start">
-              <HStack justifyContent="space-evenly">
-                <Image
-                  maxWidth="none"
-                  rounded="100%"
-                  width="80px"
-                  src={profileImg}
-                />
-              </HStack>
-              <HStack justifyContent="space-evenly">
-                <VStack>
-                  <Heading margin="-0.5" as="h5" size="xs">
-                    {data.user.name}
-                  </Heading>
-                  <Text margin="-0.5" fontSize="14px">
-                    {data.text}
-                  </Text>
-                  {videoVariants ? (
-                    <ReactPlayer
-                      controls
-                      muted
-                      width="100%"
-                      url={getTwitterVideoUrl(videoVariants as any)}
-                      height="250px"
-                      playIcon={<button>Play</button>}
-                      light={videoImg}
-                    />
-                  ) : (
-                    twitImg && <Image rounded="10%" src={twitImg} />
-                  )}
-                </VStack>
-              </HStack>
-            </HStack>
-          )
-        })}
-      </VStack>
-    )
-  }
-
   return (
-    <div className="content">
-      <Container maxW="500px">{listHashtags()}</Container>
-      <Spacer />
-    </div>
+    <VStack
+      divider={<StackDivider borderColor="gray.200" />}
+      spacing={4}
+      align="stretch"
+    >
+      {twData.statuses.map((data, index) => {
+        const tweetImg = data?.extended_entities?.media?.[0]?.media_url_https
+        const profileImg = data?.user?.profile_image_url_https
+        const videoVariants =
+          data.extended_entities?.media[0].video_info.variants
+        const videoImg = data.extended_entities?.media[0].media_url_https
+        return (
+          <HStack key={index} alignItems="flex-start">
+            <Avatar size="sm" alt={data.user.name} src={profileImg} />
+
+            <VStack align="start" fontSize="sm">
+              <Text fontWeight="bold">{data.user.name}</Text>
+              <Text lineHeight="1.5" wordBreak="break-all">
+                {data.text}
+              </Text>
+              {videoVariants ? (
+                <AspectRatio
+                  ratio={16 / 9}
+                  w="full"
+                  rounded="lg"
+                  overflow="hidden"
+                >
+                  <ReactPlayer
+                    muted
+                    playing
+                    style={{ width: '100%' }}
+                    url={getTwitterVideoUrl(videoVariants as any)}
+                    width="100%"
+                    height="100%"
+                    light={videoImg}
+                    playIcon={
+                      <Box
+                        boxSize={12}
+                        color="whiteAlpha.700"
+                        as={FaPlayCircle}
+                      />
+                    }
+                  />
+                </AspectRatio>
+              ) : (
+                tweetImg && <ChakraNextImage image={tweetImg} />
+              )}
+            </VStack>
+          </HStack>
+        )
+      })}
+    </VStack>
   )
 }
