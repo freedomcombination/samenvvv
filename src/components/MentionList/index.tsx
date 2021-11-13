@@ -6,6 +6,7 @@ import {
   Button,
   HStack,
   Text,
+  Tooltip,
   usePrevious,
   VStack,
 } from '@chakra-ui/react'
@@ -45,14 +46,17 @@ export const MentionList = (): JSX.Element => {
     isLoading: isTwitterFetchLoading,
     data: mentionListFromTwitter,
     refetch,
-  } = useQuery<IMention[]>(
+  } = useQuery<Pick<IMention, 'username' | 'user_data'>[]>(
     'search-mentions',
     async () => {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_ADMIN_URL}/mentions/search?username=${mentionSearchKey}`,
       )
-      const rawData = await response.json()
-      return rawData.map((user: ITweetUserData) => ({
+      const rawData = (await response.json()) as ITweetUserData[]
+      const sortedData = rawData.sort(
+        (a, b) => b.followers_count - a.followers_count,
+      )
+      return sortedData.map(user => ({
         username: user.screen_name,
         user_data: user,
       }))
@@ -117,38 +121,67 @@ export const MentionList = (): JSX.Element => {
           <MentionListSkeleton />
         ) : (
           currentMentionList?.map(({ username, user_data }, i) => (
-            <HStack
+            <Tooltip
+              overflow="hidden"
+              placement="auto-end"
               key={i}
-              px={4}
+              bg="white"
+              color="black"
+              minW={200}
+              rounded="lg"
               py={2}
-              cursor="pointer"
-              transition="all 0.3s ease-in-out"
-              _hover={{
-                bg: 'yellow.50',
-                shadow: 'lg',
-              }}
+              textAlign="center"
+              label={
+                <VStack>
+                  <Avatar
+                    name={username}
+                    size="lg"
+                    src={user_data?.profile_image_url_https}
+                  />
+                  <Box fontWeight="bold">
+                    <Text>{user_data?.screen_name}</Text>
+                    <Text color="twitter.400">@{username}</Text>
+                  </Box>
+
+                  <Box>
+                    <Text>Followers</Text>
+                    <Text>{user_data?.followers_count}</Text>
+                  </Box>
+                </VStack>
+              }
             >
-              <HStack flex="1" fontSize="sm">
-                <Avatar
-                  name={username}
-                  src={user_data?.profile_image_url_https}
+              <HStack
+                px={4}
+                py={2}
+                cursor="pointer"
+                transition="all 0.3s ease-in-out"
+                _hover={{
+                  bg: 'yellow.50',
+                  shadow: 'lg',
+                }}
+              >
+                <HStack flex="1" fontSize="sm">
+                  <Avatar
+                    name={username}
+                    src={user_data?.profile_image_url_https}
+                    size="sm"
+                  />
+                  <Box>
+                    <Text isTruncated maxW="120px">
+                      {user_data?.screen_name ?? username} asd asdasda ds asdasd{' '}
+                    </Text>
+                    <Text>@{username}</Text>
+                  </Box>
+                </HStack>
+                <Button
+                  variant="outline"
+                  onClick={() => onAddMention(username)}
+                  colorScheme="primary"
+                  rounded="full"
                   size="sm"
-                />
-                <Box>
-                  <Text isTruncated maxW="120px">
-                    {user_data?.screen_name ?? username} asd asdasda ds asdasd{' '}
-                  </Text>
-                  <Text>@{username}</Text>
-                </Box>
+                >{t`post-share.add`}</Button>
               </HStack>
-              <Button
-                variant="outline"
-                onClick={() => onAddMention(username)}
-                colorScheme="primary"
-                rounded="full"
-                size="sm"
-              >{t`post-share.add`}</Button>
-            </HStack>
+            </Tooltip>
           ))
         )}
       </VStack>

@@ -97,7 +97,7 @@ const HashtagView = ({ source, pageData }: HashtagProps): JSX.Element => {
             onOpen={onOpen}
             onSetActivePost={handleSetActivePost}
           />
-          <Box w={300}>
+          <Box w={{ base: 'full', lg: '300px' }}>
             <TweetWidget />
           </Box>
         </Stack>
