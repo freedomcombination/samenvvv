@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
 
 import {
   Box,
@@ -11,6 +11,12 @@ import {
   Stack,
   useDisclosure,
   VStack,
+  Tabs,
+  Tab,
+  TabList,
+  TabPanels,
+  TabPanel,
+  Spacer,
 } from '@chakra-ui/react'
 import { MDXRemoteSerializeResult } from 'next-mdx-remote'
 import { useRouter } from 'next/router'
@@ -24,6 +30,7 @@ import {
   PostContainer,
   TrendList,
   TweetWidget,
+  CardGroup,
 } from '@components'
 import { useHashtagQuery } from '@lib'
 import { MentionSearch } from 'src/components/MentionSearch'
@@ -63,44 +70,61 @@ const HashtagView = ({ source, pageData }: HashtagProps): JSX.Element => {
       }}
     >
       <Container py={8}>
-        <h1>{data?.title}</h1>
-        {source && <Markdown source={source} />}
-        <Stack
-          direction={{ base: 'column', lg: 'row' }}
-          justify="stretch"
-          align="stretch"
-          minH={0}
-          maxH={{ base: 'min-content', lg: 650 }}
-        >
-          <VStack
-            w={300}
-            align="stretch"
-            display={{ base: 'none', lg: 'flex' }}
-          >
-            <MentionSearch />
-            <MentionList />
-            <TrendList />
-          </VStack>
-          <Drawer isOpen={isOpen} placement="left" onClose={onClose}>
-            <DrawerOverlay />
-            <DrawerContent>
-              <DrawerCloseButton />
-              <DrawerHeader>{t`post-share.add-mention`}</DrawerHeader>
-              <DrawerBody>
-                <MentionSearch />
-                <MentionList />
-                <TrendList />
-              </DrawerBody>
-            </DrawerContent>
-          </Drawer>
-          <PostContainer
-            onOpen={onOpen}
-            onSetActivePost={handleSetActivePost}
-          />
-          <Box w={{ base: 'full', lg: '300px' }}>
-            <TweetWidget />
-          </Box>
-        </Stack>
+        <Tabs align="end" variant="enclosed">
+          <TabList>
+            <h1>{data?.title}</h1>
+            <Spacer />
+            {source && <Markdown source={source} />}
+            <Tab>Guncel</Tab>
+            <Tab>Gecmis</Tab>
+          </TabList>
+          <TabPanels>
+            <TabPanel>
+              <Stack
+                direction={{ base: 'column', lg: 'row' }}
+                justify="stretch"
+                align="stretch"
+                minH={0}
+                maxH={{ base: 'min-content', lg: 650 }}
+              >
+                <VStack
+                  w={300}
+                  align="stretch"
+                  display={{ base: 'none', lg: 'flex' }}
+                >
+                  <MentionSearch />
+                  <MentionList />
+                  <TrendList />
+                </VStack>
+                <Drawer isOpen={isOpen} placement="left" onClose={onClose}>
+                  <DrawerOverlay />
+                  <DrawerContent>
+                    <DrawerCloseButton />
+                    <DrawerHeader>{t`post-share.add-mention`}</DrawerHeader>
+                    <DrawerBody>
+                      <MentionSearch />
+                      <MentionList />
+                      <TrendList />
+                    </DrawerBody>
+                  </DrawerContent>
+                </Drawer>
+                <PostContainer
+                  onOpen={onOpen}
+                  onSetActivePost={handleSetActivePost}
+                />
+                <Box w={{ base: 'full', lg: '300px' }}>
+                  <TweetWidget />
+                </Box>
+              </Stack>
+            </TabPanel>
+            <TabPanel>
+              <CardGroup
+                items={pageData?.posts as unknown as ISubpage[]}
+                isSimple={true}
+              />
+            </TabPanel>
+          </TabPanels>
+        </Tabs>
       </Container>
     </Layout>
   )
