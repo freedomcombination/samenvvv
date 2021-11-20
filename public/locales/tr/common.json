@@ -35,6 +35,10 @@
     "edit-save": "Kaydet",
     "content-label": "İçerik",
     "other-posts": "Diğer Postlar",
-    "add-mention": "Mention Ekle"
+    "add-mention": "Mention Ekle",
+    "tabs": {
+      "share": "Paylaş",
+      "archive": "Arşiv"
+    }
   }
 }

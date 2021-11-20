@@ -8,21 +8,22 @@ import {
   DrawerContent,
   DrawerHeader,
   DrawerOverlay,
+  Heading,
   Stack,
-  useDisclosure,
-  VStack,
-  Tabs,
   Tab,
   TabList,
-  TabPanels,
   TabPanel,
-  Spacer,
+  TabPanels,
+  Tabs,
+  useDisclosure,
+  VStack,
 } from '@chakra-ui/react'
 import { MDXRemoteSerializeResult } from 'next-mdx-remote'
 import { useRouter } from 'next/router'
 import { useTranslation } from 'react-i18next'
 
 import {
+  CardGroup,
   Container,
   Layout,
   Markdown,
@@ -30,7 +31,6 @@ import {
   PostContainer,
   TrendList,
   TweetWidget,
-  CardGroup,
 } from '@components'
 import { useHashtagQuery } from '@lib'
 import { MentionSearch } from 'src/components/MentionSearch'
@@ -69,17 +69,41 @@ const HashtagView = ({ source, pageData }: HashtagProps): JSX.Element => {
         url: `${process.env.NEXT_PUBLIC_SITE_URL}/${locale}/${data?.page?.slug}/${data?.slug}/${activePost?.slug}`,
       }}
     >
-      <Container py={8}>
-        <Tabs align="end" variant="enclosed">
+      <Container py={4}>
+        <Box textAlign="center" mb={8}>
+          <Heading>{data?.title}</Heading>
+          {source && <Markdown source={source} />}
+        </Box>
+        <Tabs variant="soft-rounded" isFitted colorScheme="primary">
           <TabList>
-            <h1>{data?.title}</h1>
-            <Spacer />
-            {source && <Markdown source={source} />}
-            <Tab>Guncel</Tab>
-            <Tab>Gecmis</Tab>
+            <Tab
+              color="gray.400"
+              fontWeight="bold"
+              borderBottomWidth={2}
+              _selected={{
+                bg: 'primary.100',
+                color: 'primary.400',
+                borderColor: 'primary.400',
+              }}
+            >
+              {t`post-share.tabs.share`}
+            </Tab>
+            <Tab
+              color="gray.400"
+              fontWeight="bold"
+              borderBottomWidth={2}
+              _selected={{
+                bg: 'primary.100',
+                color: 'primary.400',
+                borderBottomWidth: 2,
+                borderColor: 'primary.400',
+              }}
+            >
+              {t`post-share.tabs.archive`}
+            </Tab>
           </TabList>
           <TabPanels>
-            <TabPanel>
+            <TabPanel px={0}>
               <Stack
                 direction={{ base: 'column', lg: 'row' }}
                 justify="stretch"
@@ -117,10 +141,10 @@ const HashtagView = ({ source, pageData }: HashtagProps): JSX.Element => {
                 </Box>
               </Stack>
             </TabPanel>
-            <TabPanel>
+            <TabPanel px={0}>
               <CardGroup
                 items={pageData?.posts as unknown as ISubpage[]}
-                isSimple={true}
+                isSimple
               />
             </TabPanel>
           </TabPanels>
