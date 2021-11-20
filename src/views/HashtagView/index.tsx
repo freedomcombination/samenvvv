@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
 
 import {
   Box,
@@ -8,7 +8,13 @@ import {
   DrawerContent,
   DrawerHeader,
   DrawerOverlay,
+  Heading,
   Stack,
+  Tab,
+  TabList,
+  TabPanel,
+  TabPanels,
+  Tabs,
   useDisclosure,
   VStack,
 } from '@chakra-ui/react'
@@ -17,6 +23,7 @@ import { useRouter } from 'next/router'
 import { useTranslation } from 'react-i18next'
 
 import {
+  CardGroup,
   Container,
   Layout,
   Markdown,
@@ -62,45 +69,86 @@ const HashtagView = ({ source, pageData }: HashtagProps): JSX.Element => {
         url: `${process.env.NEXT_PUBLIC_SITE_URL}/${locale}/${data?.page?.slug}/${data?.slug}/${activePost?.slug}`,
       }}
     >
-      <Container py={8}>
-        <h1>{data?.title}</h1>
-        {source && <Markdown source={source} />}
-        <Stack
-          direction={{ base: 'column', lg: 'row' }}
-          justify="stretch"
-          align="stretch"
-          minH={0}
-          maxH={{ base: 'min-content', lg: 650 }}
-        >
-          <VStack
-            w={300}
-            align="stretch"
-            display={{ base: 'none', lg: 'flex' }}
-          >
-            <MentionSearch />
-            <MentionList />
-            <TrendList />
-          </VStack>
-          <Drawer isOpen={isOpen} placement="left" onClose={onClose}>
-            <DrawerOverlay />
-            <DrawerContent>
-              <DrawerCloseButton />
-              <DrawerHeader>{t`post-share.add-mention`}</DrawerHeader>
-              <DrawerBody>
-                <MentionSearch />
-                <MentionList />
-                <TrendList />
-              </DrawerBody>
-            </DrawerContent>
-          </Drawer>
-          <PostContainer
-            onOpen={onOpen}
-            onSetActivePost={handleSetActivePost}
-          />
-          <Box w={{ base: 'full', lg: '300px' }}>
-            <TweetWidget />
-          </Box>
-        </Stack>
+      <Container py={4}>
+        <Box textAlign="center" mb={8}>
+          <Heading>{data?.title}</Heading>
+          {source && <Markdown source={source} />}
+        </Box>
+        <Tabs variant="soft-rounded" isFitted colorScheme="primary">
+          <TabList>
+            <Tab
+              color="gray.400"
+              fontWeight="bold"
+              borderBottomWidth={2}
+              _selected={{
+                bg: 'primary.100',
+                color: 'primary.400',
+                borderColor: 'primary.400',
+              }}
+            >
+              {t`post-share.tabs.share`}
+            </Tab>
+            <Tab
+              color="gray.400"
+              fontWeight="bold"
+              borderBottomWidth={2}
+              _selected={{
+                bg: 'primary.100',
+                color: 'primary.400',
+                borderBottomWidth: 2,
+                borderColor: 'primary.400',
+              }}
+            >
+              {t`post-share.tabs.archive`}
+            </Tab>
+          </TabList>
+          <TabPanels>
+            <TabPanel px={0}>
+              <Stack
+                direction={{ base: 'column', lg: 'row' }}
+                justify="stretch"
+                align="stretch"
+                minH={0}
+                maxH={{ base: 'min-content', lg: 650 }}
+              >
+                <VStack
+                  w={300}
+                  align="stretch"
+                  display={{ base: 'none', lg: 'flex' }}
+                >
+                  <MentionSearch />
+                  <MentionList />
+                  <TrendList />
+                </VStack>
+                <Drawer isOpen={isOpen} placement="left" onClose={onClose}>
+                  <DrawerOverlay />
+                  <DrawerContent>
+                    <DrawerCloseButton />
+                    <DrawerHeader>{t`post-share.add-mention`}</DrawerHeader>
+                    <DrawerBody>
+                      <MentionSearch />
+                      <MentionList />
+                      <TrendList />
+                    </DrawerBody>
+                  </DrawerContent>
+                </Drawer>
+                <PostContainer
+                  onOpen={onOpen}
+                  onSetActivePost={handleSetActivePost}
+                />
+                <Box w={{ base: 'full', lg: '300px' }}>
+                  <TweetWidget />
+                </Box>
+              </Stack>
+            </TabPanel>
+            <TabPanel px={0}>
+              <CardGroup
+                items={pageData?.posts as unknown as ISubpage[]}
+                isSimple
+              />
+            </TabPanel>
+          </TabPanels>
+        </Tabs>
       </Container>
     </Layout>
   )

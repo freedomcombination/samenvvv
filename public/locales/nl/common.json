@@ -35,6 +35,10 @@
     "edit-save": "Opslaan",
     "content-label": "Inhoud",
     "other-posts": "Andere Posts",
-    "add-mention": "Mention Toevoegen"
+    "add-mention": "Mention Toevoegen",
+    "tabs": {
+      "share": "Delen",
+      "archive": "Archief"
+    }
   }
 }

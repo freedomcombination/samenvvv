@@ -35,6 +35,10 @@
     "edit-save": "Save",
     "content-label": "Content",
     "other-posts": "Other Posts",
-    "add-mention": "Add Mention"
+    "add-mention": "Add Mention",
+    "tabs": {
+      "share": "Share",
+      "archive": "Archive"
+    }
   }
 }
