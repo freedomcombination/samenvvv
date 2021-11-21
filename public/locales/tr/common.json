@@ -24,7 +24,8 @@
       "message-required": "Mesaj alanı boş olamaz.",
       "message-delivered": "Teşekkür ederiz. Mesajınız iletildi.",
       "failed": "Oops. Birşeyler yanlış gitti, lütfen tekrar deneyin.",
-      "button": "Gönder"
+      "button": "Gönder",
+      "contactOnWhatsApp": "Bizimle WhatsApptan iletişime geçin"
     }
   },
   "post-share": {

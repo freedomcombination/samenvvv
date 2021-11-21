@@ -213,7 +213,7 @@ export const ROUTES: InternalLinksType = {
     },
     tr: {
       name: 'İletişim',
-      link: '/iletişim',
+      link: '/iletisim',
     },
   },
 }

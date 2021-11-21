@@ -74,7 +74,7 @@ const SubView = ({ source, pageData }: SubViewProps): JSX.Element => {
               />
               <IconButton
                 colorScheme="primary"
-                aria-label="Whatsapp"
+                aria-label="WhatsApp"
                 borderRadius="none"
                 icon={<FaWhatsapp />}
               />

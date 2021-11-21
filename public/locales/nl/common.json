@@ -15,7 +15,7 @@
     "title": "Contact",
     "fill-form": "Vul het formulier in om contact op te nemen",
     "form": {
-      "fullname-label": "Your Name",
+      "fullname-label": "Uw naam",
       "fullname-required": "Naamruimte mag niet leeg zijn.",
       "email-required": "Mailveld mag niet leeg zijn.",
       "email-invalid": "Ongeldig e-mailadres.",
@@ -24,7 +24,8 @@
       "message-required": "Berichtveld mag niet leeg zijn.",
       "message-delivered": "Bedankt. Uw bericht is ontvangen.",
       "failed": "Oeps. Er is iets misgegaan, probeer het opnieuw.",
-      "button": "Bericht versturen"
+      "button": "Bericht versturen",
+      "contactOnWhatsApp": "Contact op WhatsApp"
     }
   },
   "post-share": {
