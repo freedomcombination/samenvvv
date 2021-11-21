@@ -24,7 +24,8 @@
       "message-required": "Berichtveld mag niet leeg zijn.",
       "message-delivered": "Bedankt. Uw bericht is ontvangen.",
       "failed": "Oeps. Er is iets misgegaan, probeer het opnieuw.",
-      "button": "Bericht versturen"
+      "button": "Bericht versturen",
+      "contactOnWhatsApp": "Contact op whatsapp"
     }
   },
   "post-share": {

@@ -10,6 +10,7 @@ import {
 import { GetStaticProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useTranslation } from 'react-i18next'
+import { FaWhatsapp as FaWhatsapp } from 'react-icons/fa'
 import { MdEmail, MdLocationOn, MdPhone } from 'react-icons/md' //MdOutlineEmail
 
 import { ContactForm, Container, Layout, SocialButtons } from '@components'
@@ -49,6 +50,7 @@ const Contact = (): JSX.Element => {
               <VStack alignItems="flex-start" color="primary.50">
                 <Button
                   as={Link}
+                  isExternal
                   borderWidth={2}
                   borderColor="transparent"
                   variant="ghost"
@@ -56,12 +58,27 @@ const Contact = (): JSX.Element => {
                   leftIcon={
                     <Box as={MdPhone} color="primary.400" size="20px" />
                   }
-                  href="telto:+31685221308"
+                  href="tel:+31685221308"
                 >
                   +31-6 85221308
                 </Button>
                 <Button
                   as={Link}
+                  isExternal
+                  borderWidth={2}
+                  borderColor="transparent"
+                  variant="ghost"
+                  _hover={{ borderColor: 'primary.400' }}
+                  leftIcon={
+                    <Box as={FaWhatsapp} color="primary.400" size="20px" />
+                  }
+                  href="https://api.whatsapp.com/send?phone=31685221308"
+                >
+                  {t('contact.form.contactOnWhatsApp')}
+                </Button>
+                <Button
+                  as={Link}
+                  isExternal
                   borderWidth={2}
                   borderColor="transparent"
                   variant="ghost"
@@ -74,6 +91,8 @@ const Contact = (): JSX.Element => {
                   info@samenvvv.nl
                 </Button>
                 <Button
+                  as={Link}
+                  isExternal
                   borderWidth={2}
                   borderColor="transparent"
                   variant="ghost"
@@ -81,9 +100,9 @@ const Contact = (): JSX.Element => {
                   leftIcon={
                     <Box as={MdLocationOn} color="primary.400" size="20px" />
                   }
-                  href="https://www.google.com/maps/place/Rotterdam/"
+                  href="https://goo.gl/maps/E9HaayQnXmphUWtN8"
                 >
-                  Rotterdam, Netherland
+                  Tandersplein 1, 3027 CN <br /> Rotterdam, Netherland
                 </Button>
               </VStack>
 
