@@ -1,4 +1,4 @@
-import { ChangeEventHandler, FocusEventHandler, ReactNode } from 'react'
+import { ReactNode } from 'react'
 
 import {
   FormControl,
@@ -10,6 +10,7 @@ import {
   InputLeftElement,
   Textarea,
 } from '@chakra-ui/react'
+import { FieldValues, UseFormRegister } from 'react-hook-form'
 
 interface FormItemProps {
   isTextarea?: boolean
@@ -17,30 +18,29 @@ interface FormItemProps {
   label?: string
   type?: string
   id: string
-  error?: boolean
   helperText?: string
-  errorText?: string
-  onChange: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>
-  onBlur: FocusEventHandler<HTMLInputElement | HTMLTextAreaElement>
+  errors?: {
+    [x: string]: any
+  }
+  register: UseFormRegister<FieldValues>
 }
 
 export const FormItem = (props: FormItemProps): JSX.Element => {
   const {
-    leftElement,
-    isTextarea,
-    error,
-    type,
-    helperText,
-    errorText,
-    label,
     id,
-    onChange,
-    onBlur,
+    type,
+    isTextarea,
+    leftElement,
+    label,
+    helperText,
+    errors,
+    register,
   } = props
 
-  const FormTag = isTextarea ? Textarea : Input
+  const Tag = isTextarea ? Textarea : Input
+
   return (
-    <FormControl isInvalid={error}>
+    <FormControl isInvalid={errors?.[id]}>
       {label && <FormLabel htmlFor={id}>{label}</FormLabel>}
       <InputGroup>
         {leftElement && (
@@ -48,9 +48,9 @@ export const FormItem = (props: FormItemProps): JSX.Element => {
             {leftElement}
           </InputLeftElement>
         )}
-        <FormTag id={id} type={type} onChange={onChange} onBlur={onBlur} />
+        <Tag id={id} type={type} placeholder={label} {...register(id)} />
       </InputGroup>
-      <FormErrorMessage>{errorText}</FormErrorMessage>
+      <FormErrorMessage>{errors?.[id]?.message}</FormErrorMessage>
       {helperText && <FormHelperText>{helperText}</FormHelperText>}
     </FormControl>
   )
