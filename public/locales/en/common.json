@@ -24,7 +24,8 @@
       "message-required": "Message body cannot be empty.",
       "message-delivered": "Thank you. Your message has been delivered.",
       "failed": "Oops. Something went wrong, please try again.",
-      "button": "Send message"
+      "button": "Send message",
+      "contactOnWhatsApp": " Contact us on WhatsApp"
     }
   },
   "post-share": {
