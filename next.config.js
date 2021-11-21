@@ -30,7 +30,7 @@ module.exports = {
         locale: false,
       },
       {
-        source: '/tr/iletişim',
+        source: '/tr/iletisim',
         destination: '/tr/contact',
         locale: false,
       },
