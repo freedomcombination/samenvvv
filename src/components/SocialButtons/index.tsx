@@ -1,6 +1,12 @@
 import { HStack, IconButton } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
-import { FaFacebook, FaInstagram, FaTwitter, FaYoutube } from 'react-icons/fa'
+import {
+  FaFacebook,
+  FaInstagram,
+  FaTwitter,
+  FaWhatsapp,
+  FaYoutube,
+} from 'react-icons/fa'
 import { IconType } from 'react-icons/lib'
 
 const SocialButton = ({
@@ -16,6 +22,7 @@ const SocialButton = ({
     <IconButton
       as="a"
       size="sm"
+      target="_blank"
       aria-label={label}
       icon={<Icon />}
       href={href}
@@ -64,6 +71,15 @@ const SOCIAL_LINKS: SocialLinkType[] = [
       en: 'https://www.youtube.com/channel/UC6SOtlov-UehhnwXuTq50yA',
       tr: 'https://www.youtube.com/channel/UC6SOtlov-UehhnwXuTq50yA',
       nl: 'https://www.youtube.com/channel/UC6SOtlov-UehhnwXuTq50yA',
+    },
+  },
+  {
+    label: 'WhatsApp',
+    icon: FaWhatsapp,
+    link: {
+      en: 'https://api.whatsapp.com/send?phone=31685221308',
+      tr: 'https://api.whatsapp.com/send?phone=31685221308',
+      nl: 'https://api.whatsapp.com/send?phone=31685221308',
     },
   },
 ]

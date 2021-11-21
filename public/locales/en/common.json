@@ -11,19 +11,22 @@
   "follow_us": "Folow us",
   "society": "Society",
   "footer_about": " EN ===Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolores, blanditiis dignissimos recusandae fuga commodi sunt ipsam quas magni expedita ut soluta tempore dolorem inventore voluptates autem error doloremque quidem sed?",
-  "contact_fill": "Fill up the form below to contact",
-  "contact": "Contact",
-  "contact_message_send": "Send message",
-  "contact_message": "Message",
-  "contact_message_name": "Your Name",
-  "contact_field": {
-    "fullname_empty": "Fullname cannot be empty.",
-    "email_empty": "Mail cannot be empty.",
-    "email_share": "We will never share your mail.",
-    "message_empty": "Message body cannot be empty.",
-    "message_delivered": "Thank you. Your message has been delivered.",
-    "something_wrong": "Oops. Something went wrong, please try again",
-    "message_sending": "Sending."
+  "contact": {
+    "title": "Contact",
+    "fill-form": "Fill up the form to contact",
+    "form": {
+      "fullname-label": "Your Name",
+      "fullname-required": "Fullname cannot be empty.",
+      "email-required": "Mail cannot be empty.",
+      "email-invalid": "Invalid email address.",
+      "email-helper": "We will never share your mail.",
+      "message-label": "Message",
+      "message-required": "Message body cannot be empty.",
+      "message-delivered": "Thank you. Your message has been delivered.",
+      "failed": "Oops. Something went wrong, please try again.",
+      "button": "Send message",
+      "contactOnWhatsApp": " Contact us on WhatsApp"
+    }
   },
   "post-share": {
     "mention-list-label": "Popular Users",
