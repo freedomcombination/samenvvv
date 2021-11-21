@@ -51,7 +51,15 @@ export const Layout = ({
       )}
       <Flex flexDir="column" minHeight="100vh">
         <Header isScrolled={isScrolled} hasScroll={!!scrollHeight} />
-        <Box flex={1}>{children}</Box>
+        <Box
+          minH={
+            scrollHeight
+              ? 'calc(100vh - 300px)'
+              : { base: 'calc(100vh - 64px)', lg: 'calc(100vh - 100px)' }
+          }
+        >
+          {children}
+        </Box>
         <Footer />
       </Flex>
     </>
