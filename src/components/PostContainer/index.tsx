@@ -1,4 +1,4 @@
-import { ChangeEvent, useCallback, useEffect, useMemo, useRef } from 'react'
+import { ChangeEvent, useCallback, useEffect, useRef } from 'react'
 
 import {
   AspectRatio,
@@ -13,6 +13,7 @@ import {
   TagLabel,
   Text,
   useBoolean,
+  usePrevious,
   VStack,
   Wrap,
 } from '@chakra-ui/react'
@@ -21,11 +22,11 @@ import { useTranslation } from 'react-i18next'
 import { FaAt, FaEdit, FaRandom, FaTwitter } from 'react-icons/fa'
 
 import { ChakraNextImage, Navigate } from '@components'
-import { useHashtagQuery } from '@lib'
 import {
   checkCharacterCount,
   removeMention,
   removeTrend,
+  setActivePost,
   setPostContent,
   useAppDispatch,
   useAppSelector,
@@ -33,19 +34,15 @@ import {
 
 export const PostContainer = ({
   onOpen,
-  onSetActivePost,
+  hashtag,
 }: {
   onOpen: () => void
-  onSetActivePost: (post: IHashtagPost) => void
+  hashtag: IHashtag
 }): JSX.Element => {
-  const { push, locale, query } = useRouter()
+  const { push, query } = useRouter()
   const dispatch = useAppDispatch()
   const { t } = useTranslation()
   const [editable, setEditable] = useBoolean(false)
-  const { data: hashtag } = useHashtagQuery(
-    locale as string,
-    query?.slug?.[1] as string,
-  )
 
   const contentRef = useRef<HTMLTextAreaElement | null>(null)
 
@@ -55,11 +52,10 @@ export const PostContainer = ({
     trends,
     isCharacterCountExceeded,
     totalCharCount,
+    activePost,
   } = useAppSelector(state => state.postShare)
-  const activePost = useMemo(
-    () => hashtag?.posts?.find(p => p.slug === query?.slug?.[2]),
-    [query, hashtag?.posts],
-  )
+
+  const prevSlug = usePrevious(query?.slug?.[2])
 
   const redirectToRandomPost = useCallback(() => {
     if (!hashtag?.posts) return
@@ -70,8 +66,12 @@ export const PostContainer = ({
 
     const randomPost = hashtag.posts[randomPostIndex]
 
-    push(`/${hashtag?.page?.slug}/${hashtag?.slug}/${randomPost?.slug}`)
-  }, [hashtag, push])
+    push(`/${hashtag?.page?.slug}/${hashtag?.slug}/${randomPost?.slug}`).then(
+      filled => {
+        if (filled) dispatch(setActivePost(randomPost))
+      },
+    )
+  }, [hashtag, push, dispatch])
 
   const onRemoveMention = (mention: string) => {
     dispatch(removeMention(mention))
@@ -88,14 +88,20 @@ export const PostContainer = ({
   }
 
   useEffect(() => {
-    if (activePost) {
+    if (!activePost) return redirectToRandomPost()
+
+    if (prevSlug !== activePost.slug) {
+      const currentPost = hashtag?.posts?.find(p => p.slug === prevSlug)
+      if (currentPost) {
+        dispatch(setActivePost(currentPost))
+        dispatch(setPostContent(currentPost.text))
+        dispatch(checkCharacterCount(currentPost.text))
+      }
+    } else {
       dispatch(setPostContent(activePost.text))
       dispatch(checkCharacterCount(activePost.text))
-      onSetActivePost(activePost)
-    } else {
-      redirectToRandomPost()
     }
-  }, [activePost, dispatch, redirectToRandomPost, onSetActivePost])
+  }, [activePost, prevSlug, hashtag.posts, dispatch, redirectToRandomPost])
 
   useEffect(() => {
     if (editable) {
