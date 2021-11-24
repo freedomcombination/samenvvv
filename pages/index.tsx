@@ -7,7 +7,7 @@ import { QueryClient } from 'react-query'
 import { dehydrate } from 'react-query/hydration'
 
 import { Container, Hero, Layout, Slider } from '@components'
-import { getHashtags, getSubpages } from '@lib'
+import { getSubpages } from '@lib'
 import { ROUTES } from '@utils'
 
 interface HomeProps {
@@ -49,22 +49,16 @@ const Home = ({ hashtags, subpages }: HomeProps): JSX.Element => {
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
   const queryClient = new QueryClient()
 
-  await queryClient.prefetchQuery(['hashtags', [locale]], () =>
-    getHashtags(locale as string),
-  )
-
   await queryClient.prefetchQuery(['subpages', [locale]], () =>
     getSubpages(locale as string),
   )
 
-  const hashtags = queryClient.getQueryData(['hashtags', [locale]]) ?? []
   const subpages = queryClient.getQueryData(['subpages', [locale]]) ?? []
 
   return {
     props: {
       ...(await serverSideTranslations(locale as string, ['common'])),
       dehydratedState: dehydrate(queryClient),
-      hashtags,
       subpages,
     },
   }
