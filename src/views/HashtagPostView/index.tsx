@@ -52,9 +52,12 @@ const HashtagPostView = ({ source, pageData }: HashtagProps): JSX.Element => {
           metaDescription: pageData?.text as string,
         },
         image:
-          `${process.env.NEXT_PUBLIC_ADMIN_URL}${pageData?.image?.formats?.thumbnail?.url}` as string,
+          `${process.env.NEXT_PUBLIC_ADMIN_URL}${pageData?.image?.formats?.medium?.url}` as string,
         // TODO: Fix url
         url: `${process.env.NEXT_PUBLIC_SITE_URL}/${locale}/${pageData?.hashtag?.page?.slug}/${pageData?.hashtag?.slug}/${pageData?.slug}`,
+        width: pageData?.image?.formats?.medium?.width as number,
+        height: pageData?.image?.formats?.medium?.height as number,
+        type: pageData?.image?.formats?.medium?.mime as string,
       }}
     >
       <Container py={4}>

@@ -13,6 +13,9 @@ interface LayoutProps {
     metadata: IMetadata
     url: string
     image: string
+    width: number
+    height: number
+    type: string
   }
   scrollHeight?: number | null
 }
@@ -41,6 +44,9 @@ export const Layout = ({
               {
                 url: seo.image,
                 alt: seo.metadata.metaTitle,
+                width: seo.width,
+                height: seo.height,
+                type: seo.type,
               },
             ],
           }}
