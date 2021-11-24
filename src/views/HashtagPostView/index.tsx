@@ -30,20 +30,17 @@ import {
   TrendList,
   TweetWidget,
 } from '@components'
-import { useAppSelector } from '@store'
 import { MentionSearch } from 'src/components/MentionSearch'
 
 interface HashtagProps {
   slug: Record<string, string[]>
   source: MDXRemoteSerializeResult<Record<string, unknown>>
-  pageData: IHashtag
+  pageData: IHashtagPost
 }
 
-const HashtagView = ({ source, pageData }: HashtagProps): JSX.Element => {
+const HashtagPostView = ({ source, pageData }: HashtagProps): JSX.Element => {
   const { locale } = useRouter()
   const { isOpen, onOpen, onClose } = useDisclosure()
-
-  const { activePost } = useAppSelector(state => state.postShare)
 
   const { t } = useTranslation()
 
@@ -51,18 +48,18 @@ const HashtagView = ({ source, pageData }: HashtagProps): JSX.Element => {
     <Layout
       seo={{
         metadata: {
-          metaTitle: pageData?.title as string,
-          metaDescription: activePost?.text as string,
+          metaTitle: pageData?.hashtag?.title as string,
+          metaDescription: pageData?.text as string,
         },
         image:
-          `${process.env.NEXT_PUBLIC_ADMIN_URL}${activePost?.image?.url}` as string,
+          `${process.env.NEXT_PUBLIC_ADMIN_URL}${pageData?.image?.url}` as string,
         // TODO: Fix url
-        url: `${process.env.NEXT_PUBLIC_SITE_URL}/${locale}/${pageData?.page?.slug}/${pageData?.slug}/${activePost?.slug}`,
+        url: `${process.env.NEXT_PUBLIC_SITE_URL}/${locale}/${pageData?.hashtag?.page?.slug}/${pageData?.hashtag?.slug}/${pageData?.slug}`,
       }}
     >
       <Container py={4}>
         <Box textAlign="center" mb={8}>
-          <Heading>{pageData?.title}</Heading>
+          <Heading>{pageData?.hashtag?.title}</Heading>
           {source && <Markdown source={source} />}
         </Box>
         <Tabs variant="soft-rounded" isFitted colorScheme="primary">
@@ -123,7 +120,7 @@ const HashtagView = ({ source, pageData }: HashtagProps): JSX.Element => {
                     </DrawerBody>
                   </DrawerContent>
                 </Drawer>
-                <PostContainer onOpen={onOpen} hashtag={pageData} />
+                <PostContainer onOpen={onOpen} post={pageData} />
                 <Box w={{ base: 'full', lg: '300px' }}>
                   <TweetWidget />
                 </Box>
@@ -142,4 +139,4 @@ const HashtagView = ({ source, pageData }: HashtagProps): JSX.Element => {
   )
 }
 
-export default HashtagView
+export default HashtagPostView

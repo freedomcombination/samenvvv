@@ -9,7 +9,10 @@ export type GetHashtagPostQuery = { hashtagPosts?: IHashtagPost[] }
 
 export const GET_HASHTAG_POST = gql`
   query getHashtagPosts($locale: String!, $slug: String) {
-    hashtagPosts(locale: $locale, where: { slug: $slug }) {
+    hashtagPosts(
+      locale: $locale
+      where: { slug: $slug } }
+    ) {
       slug
       text
       locale
@@ -18,6 +21,7 @@ export const GET_HASHTAG_POST = gql`
       }
       hashtag {
         slug
+        hashtag
         page {
           slug
         }

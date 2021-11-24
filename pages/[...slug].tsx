@@ -12,7 +12,8 @@ import {
   getAllPagePaths,
   getApplication,
   getCompetition,
-  getHashtag,
+  getHashtagPost,
+  getHashtagPosts,
   getPage,
   getPageType,
   getSubpage,
@@ -20,7 +21,7 @@ import {
 import {
   ApplicationView,
   CompetitionView,
-  HashtagView,
+  HashtagPostView,
   MainCompetitionsView,
   MainHashtagsView,
   MainView,
@@ -72,8 +73,8 @@ const DynamicPage = (props: DynamicPageProps): JSX.Element => {
       {isCompetitionPage && <CompetitionView {...pageProps} />}
       {isApplicationPage && <ApplicationView {...pageProps} />}
       {isHashtagsPage && <MainHashtagsView {...pageProps} />}
-      {isHashtagPage && <HashtagView {...pageProps} />}
-      {isHashtagPostPage && <HashtagView {...pageProps} />}
+      {isHashtagPage && <HashtagPostView {...pageProps} />}
+      {isHashtagPostPage && <HashtagPostView {...pageProps} />}
     </>
   )
 }
@@ -106,6 +107,7 @@ export interface DynamicProps {
     | IHashtag
     | ICompetition
     | IApplication
+    | IHashtagPost
     | Record<string, unknown>
   _nextI18Next: any
 }
@@ -159,7 +161,7 @@ export const getStaticProps: GetStaticProps = async context => {
     props.source = source
     props.dehydratedState = dehydrate(queryClient)
     props.slug = pageData.slugs
-    props.pageData = pageData
+    props.pageData = pageData ?? {}
 
     return {
       props,
@@ -176,9 +178,12 @@ export const getStaticProps: GetStaticProps = async context => {
         ? 'competitions'
         : 'subpages'
 
-    const getSubpageData = () => {
+    const getSubpageData = async () => {
       if (pageType === 'hashtag') {
-        return getHashtag(locale, subSlug)
+        const hashtagPosts = await getHashtagPosts(locale, subSlug)
+        const hashtagPostSlug = hashtagPosts?.[0].slug as string
+        const hashtagPost = await getHashtagPost(locale, hashtagPostSlug)
+        return { ...hashtagPost, posts: hashtagPosts }
       }
 
       if (pageType === 'competition') {
@@ -215,7 +220,7 @@ export const getStaticProps: GetStaticProps = async context => {
 
   // CHILD PAGE
   if (isChildPage) {
-    const queryKey = pageType === 'hashtag' ? 'hashtags' : 'applications'
+    const queryKey = pageType === 'hashtag' ? 'hashtag-posts' : 'applications'
 
     let childPageData = null
 
@@ -223,17 +228,17 @@ export const getStaticProps: GetStaticProps = async context => {
     // we will be showing each active post item by its slug in the url
     // That's why we pass hashtag data of the post item to props
     if (pageType === 'hashtag') {
-      childPageData =
-        queryClient.getQueryData<IHashtag>([queryKey, [locale, subSlug]]) ??
-        (await getHashtag(locale, subSlug))
+      const hashtagPost = await getHashtagPost(locale, childSlug)
+      const posts = await getHashtagPosts(locale, subSlug)
+      childPageData = { ...hashtagPost, posts }
 
-      if (!childPageData) {
+      if (!posts) {
         return { notFound: true, revalidate: 120 }
       }
 
-      queryClient.setQueryData([queryKey, [locale, subSlug]], childPageData)
+      queryClient.setQueryData([queryKey, [locale, childSlug]], childPageData)
     } else {
-      childPageData = await getApplication(locale, subSlug)
+      childPageData = await getApplication(locale, childSlug)
 
       if (!childPageData) {
         return { notFound: true, revalidate: 120 }
@@ -242,7 +247,7 @@ export const getStaticProps: GetStaticProps = async context => {
     }
 
     props.isPage.child = true
-    props.pageData = childPageData as IApplication | IHashtag
+    props.pageData = childPageData as IApplication | IHashtagPost
     props.dehydratedState = dehydrate(queryClient)
 
     return {

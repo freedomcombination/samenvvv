@@ -31,8 +31,11 @@ export const HeaderTop = ({
   const { locales, push, pathname, locale, asPath, components } =
     useRouter() as NextRouter & RouterComponent
 
-  const { slug, pageType, isPage } =
-    components?.[pathname]?.props?.pageProps ?? {}
+  // TODO: Check props
+  const slug =
+    (components?.[pathname]?.props?.pageProps?.pageData.slugs as any) ??
+    (components?.[pathname]?.props?.pageProps?.slug as any) ??
+    ({} as any)
 
   const handleChangeLanguage = async (locale: string) => {
     await push(pathname, slug ? slug[locale].join('/') : asPath, { locale })
@@ -40,9 +43,7 @@ export const HeaderTop = ({
 
   const size = useBreakpointValue({ base: 'md', lg: 'xs' })
 
-  return pageType === 'hashtag' && isPage.child ? (
-    <></>
-  ) : (
+  return (
     <HStack py={1} justify="flex-end">
       <ButtonGroup isAttached d="flex" size="xs" align="center">
         {(locales as string[]).map(code => (
