@@ -40,10 +40,10 @@ export const Layout = ({
             site_name: 'SamenVVV',
             description: seo.metadata?.metaDescription,
             locale: locale as string,
+            type: 'website',
             images: [
               {
-                url: seo.image,
-                secureUrl: seo.image,
+                url: seo.image.replace('https', 'http'),
                 alt: seo.metadata.metaTitle,
                 width: seo.width,
                 height: seo.height,
