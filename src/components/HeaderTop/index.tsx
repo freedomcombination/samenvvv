@@ -33,7 +33,7 @@ export const HeaderTop = ({
 
   // TODO: Check props
   const slug =
-    (components?.[pathname]?.props?.pageProps?.pageData.slugs as any) ??
+    (components?.[pathname]?.props?.pageProps?.pageData?.slugs as any) ??
     (components?.[pathname]?.props?.pageProps?.slug as any) ??
     ({} as any)
 
