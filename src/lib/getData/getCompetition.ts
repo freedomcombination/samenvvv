@@ -16,6 +16,7 @@ export const GET_COMPETITION = gql`
       content
       image {
         url
+        formats
       }
       start
       end
@@ -33,6 +34,7 @@ export const GET_COMPETITION = gql`
         content
         image {
           url
+          formats
         }
         user {
           username

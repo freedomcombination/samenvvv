@@ -16,6 +16,7 @@ export const GET_SUBPAGE = gql`
       content
       image {
         url
+        formats
       }
       type
       start

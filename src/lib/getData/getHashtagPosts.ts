@@ -12,6 +12,7 @@ export const GET_HASHTAG_POSTS = gql`
       locale
       image {
         url
+        formats
       }
       locale
       localizations {

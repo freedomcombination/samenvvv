@@ -15,6 +15,7 @@ export const GET_APPLICATION = gql`
       content
       image {
         url
+        formats
       }
       locale
       user {

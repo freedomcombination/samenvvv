@@ -17,6 +17,7 @@ export const GET_PAGE = gql`
       locale
       image {
         url
+        formats
       }
       type
       subpages(limit: 10) {
@@ -24,6 +25,7 @@ export const GET_PAGE = gql`
         title
         image {
           url
+          formats
         }
         content
         page {
@@ -35,6 +37,7 @@ export const GET_PAGE = gql`
         title
         image {
           url
+          formats
         }
         content
         page {
@@ -46,6 +49,7 @@ export const GET_PAGE = gql`
         title
         image {
           url
+          formats
         }
         content
         page {
