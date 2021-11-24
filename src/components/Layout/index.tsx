@@ -43,6 +43,7 @@ export const Layout = ({
             images: [
               {
                 url: seo.image,
+                secureUrl: seo.image,
                 alt: seo.metadata.metaTitle,
                 width: seo.width,
                 height: seo.height,

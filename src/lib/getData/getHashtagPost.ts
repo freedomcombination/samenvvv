@@ -15,7 +15,10 @@ export const GET_HASHTAG_POST = gql`
       locale
       image {
         url
-        formats
+        size
+        mime
+        width
+        height
       }
       hashtag {
         slug
