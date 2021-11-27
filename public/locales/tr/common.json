@@ -43,5 +43,9 @@
       "share": "Paylaş",
       "archive": "Arşiv"
     }
+  },
+  "subpage": {
+    "mostreaded": "En Çok Okunan",
+    "latest": "En Son"
   }
 }

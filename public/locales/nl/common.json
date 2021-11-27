@@ -43,5 +43,9 @@
       "share": "Delen",
       "archive": "Archief"
     }
+  },
+  "subpage": {
+    "mostreaded": "Meest Gelezen",
+    "latest": "Nieuwste"
   }
 }

@@ -23,6 +23,17 @@ export const GET_SUBPAGE = gql`
       locale
       page {
         slug
+        subpages {
+          slug
+          title
+          content
+          image {
+            url
+          }
+          start
+          end
+          locale
+        }
       }
       metadata {
         metaTitle

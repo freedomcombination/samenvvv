@@ -43,5 +43,9 @@
       "share": "Share",
       "archive": "Archive"
     }
+  },
+  "subpage": {
+    "mostreaded": "Most Readed",
+    "latest": "Latest"
   }
 }
