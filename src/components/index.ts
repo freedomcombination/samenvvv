@@ -1,6 +1,7 @@
 export { Card } from './Card'
 export { CardIcon } from './CardIcon'
 export { CardGroup } from './CardGroup'
+export { CardGroupRow } from './CardGroupRow'
 export { ChakraNextImage } from './ChakraNextImage'
 export { ContactForm } from './ContactForm'
 export { Container } from './Container'

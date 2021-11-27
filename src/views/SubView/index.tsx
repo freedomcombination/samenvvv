@@ -20,6 +20,9 @@ interface SubViewProps {
 }
 
 const SubView = ({ source, pageData }: SubViewProps): JSX.Element => {
+  // console.log('source: ', source)
+  // console.log('pageData: ', pageData)
+  //console.log('tweetData: ', twData)
   const { locale } = useRouter()
 
   return (
