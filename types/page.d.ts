@@ -19,6 +19,7 @@ declare interface IPage extends LocalizedSlugs {
   locale?: string
   published_at?: string
   subpages?: Array<ISubpage>
+  popular?: Array<ISubpage>
   competitions?: Array<ICompetition>
   hashtags?: Array<IHashtag>
   localizations?: Array<IPage>
