@@ -7,11 +7,6 @@ declare interface I18NLocale {
   code?: string
 }
 
-declare interface IMetadata {
-  metaTitle: string
-  metaDescription: string
-}
-
 declare interface IMutationCreateArgs<T> {
   input?: T
 }
@@ -99,7 +94,6 @@ declare type Morph =
   | IUsersPermissionsPermission
   | IUsersPermissionsRole
   | IUsersPermissionsUser
-  | IMetadata
 
 declare type ICommonPage =
   | IPage

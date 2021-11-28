@@ -10,7 +10,6 @@ declare interface IHashtag extends LocalizedSlugs {
   date: string
   hashtag: string
   page?: IPage
-  metadata?: IMetadata
   locale?: string
   published_at?: string
   posts?: Array<IHashtagPost>
@@ -26,7 +25,6 @@ declare interface IHashtagInput {
   hashtag: string
   page?: string
   posts?: Array<string>
-  metadata: IMetadata
   localizations?: Array<string>
   locale?: string
   published_at?: string

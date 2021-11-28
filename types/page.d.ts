@@ -15,7 +15,6 @@ declare interface IPage extends LocalizedSlugs {
   content: string
   image?: IUploadFile
   type: Page_Type
-  metadata?: IMetadata
   locale?: string
   published_at?: string
   subpages?: Array<ISubpage>
@@ -34,7 +33,6 @@ declare interface IPageInput {
   subpages?: Array<string>
   competitions?: Array<string>
   hashtags?: Array<string>
-  metadata: IMetadata
   localizations?: Array<string>
   locale?: string
   published_at?: string

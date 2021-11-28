@@ -23,10 +23,6 @@ export const GET_HASHTAG = gql`
       page {
         slug
       }
-      metadata {
-        metaTitle
-        metaDescription
-      }
       posts(limit: 10) {
         slug
         text
