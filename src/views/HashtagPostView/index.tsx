@@ -47,10 +47,8 @@ const HashtagPostView = ({ source, pageData }: HashtagProps): JSX.Element => {
   return (
     <Layout
       seo={{
-        metadata: {
-          metaTitle: pageData?.hashtag?.title as string,
-          metaDescription: pageData?.text as string,
-        },
+        title: pageData?.text as string,
+        description: '',
         image:
           `${process.env.NEXT_PUBLIC_ADMIN_URL}${pageData?.image?.url}` as string,
         // TODO: Fix url

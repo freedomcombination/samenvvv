@@ -28,10 +28,6 @@ export const GET_SUBPAGE = gql`
       page {
         slug
       }
-      metadata {
-        metaTitle
-        metaDescription
-      }
       localizations {
         slug
         locale

@@ -33,10 +33,6 @@ export const GET_APPLICATION = gql`
           slug
         }
       }
-      metadata {
-        metaTitle
-        metaDescription
-      }
       localizations {
         slug
         locale
