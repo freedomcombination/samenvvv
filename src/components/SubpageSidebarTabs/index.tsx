@@ -35,7 +35,7 @@ export const SubpageSidebarTabs = ({
       >
         <TabPanel>
           <VStack spacing={4}>
-            {page.subpages?.map((s, i) => (
+            {page.subpages?.slice(0, 5)?.map((s, i) => (
               <Card key={i} item={s} isSimple shadow="sm" rounded={0} />
             ))}
           </VStack>

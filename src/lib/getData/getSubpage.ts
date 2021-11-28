@@ -23,7 +23,7 @@ export const GET_SUBPAGE = gql`
       locale
       page {
         slug
-        subpages(sort: "start:desc", limit: 5) {
+        subpages {
           slug
           title
           content
