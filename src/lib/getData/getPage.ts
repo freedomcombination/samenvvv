@@ -52,10 +52,6 @@ export const GET_PAGE = gql`
           slug
         }
       }
-      metadata {
-        metaTitle
-        metaDescription
-      }
       localizations {
         slug
         locale

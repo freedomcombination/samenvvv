@@ -23,10 +23,6 @@ export const GET_COMPETITION = gql`
       page {
         slug
       }
-      metadata {
-        metaTitle
-        metaDescription
-      }
       applications(limit: 10) {
         title
         slug
