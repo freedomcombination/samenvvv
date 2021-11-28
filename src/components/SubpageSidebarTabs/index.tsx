@@ -35,15 +35,21 @@ export const SubpageSidebarTabs = ({
       >
         <TabPanel>
           <VStack spacing={4}>
-            {page.subpages?.slice(0, 5)?.map((s, i) => (
-              <Card key={i} item={s} isSimple shadow="sm" rounded={0} />
+            {page.subpages?.slice(0, 5)?.map((subpage, i) => (
+              <Card
+                key={i}
+                item={{ ...subpage, page }}
+                isSimple
+                shadow="sm"
+                rounded={0}
+              />
             ))}
           </VStack>
         </TabPanel>
         <TabPanel>
           <VStack spacing={4}>
-            {page.popular?.map((s, i) => (
-              <Card key={i} item={s} isSimple shadow="sm" />
+            {page.popular?.map((subpage, i) => (
+              <Card key={i} item={{ ...subpage, page }} isSimple shadow="sm" />
             ))}
           </VStack>
         </TabPanel>

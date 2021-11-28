@@ -1,6 +1,7 @@
 import { useMemo } from 'react'
 
 import { Box, HStack, Stack, Text } from '@chakra-ui/react'
+import { useTranslation } from 'react-i18next'
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa'
 
 import { Navigate } from '@components'
@@ -12,6 +13,8 @@ interface PagePaginationProps {
 export const PagePagination = ({
   subpage,
 }: PagePaginationProps): JSX.Element => {
+  const { t } = useTranslation()
+
   const [prevPage, nextPage] = useMemo(() => {
     const currentIndex = subpage.page?.subpages?.findIndex(
       s => s.slug === subpage.slug,
@@ -39,7 +42,9 @@ export const PagePagination = ({
           >
             <Box fontSize="xl" as={FaChevronLeft} />
             <Box>
-              <Text fontSize="xs">Next {subpage.type}</Text>
+              <Text fontSize="xs">
+                {t`prev`} {t(subpage.type)}
+              </Text>
               <Text maxW="300px" isTruncated>
                 {prevPage?.title}
               </Text>
@@ -59,7 +64,9 @@ export const PagePagination = ({
             justify="end"
           >
             <Box>
-              <Text fontSize="xs">Next {subpage.type}</Text>
+              <Text fontSize="xs">
+                {t`next`} {t(subpage.type)}
+              </Text>
               <Text maxW="300px" isTruncated>
                 {nextPage?.title}
               </Text>
