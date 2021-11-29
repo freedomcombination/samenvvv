@@ -7,6 +7,7 @@ declare interface IHashtagPost extends LocalizedSlugs {
   slug: string
   image?: IUploadFile
   hashtag?: IHashtag
+  posts?: IHashtagPost[]
   locale?: string
   published_at?: string
   localizations?: Array<IHashtagPost>

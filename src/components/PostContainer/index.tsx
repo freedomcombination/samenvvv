@@ -1,4 +1,4 @@
-import { ChangeEvent, useCallback, useEffect, useMemo, useRef } from 'react'
+import { ChangeEvent, useCallback, useEffect, useRef } from 'react'
 
 import {
   AspectRatio,
@@ -21,7 +21,6 @@ import { useTranslation } from 'react-i18next'
 import { FaAt, FaEdit, FaRandom, FaTwitter } from 'react-icons/fa'
 
 import { ChakraNextImage, Navigate } from '@components'
-import { useHashtagQuery } from '@lib'
 import {
   checkCharacterCount,
   removeMention,
@@ -33,19 +32,15 @@ import {
 
 export const PostContainer = ({
   onOpen,
-  onSetActivePost,
+  post,
 }: {
   onOpen: () => void
-  onSetActivePost: (post: IHashtagPost) => void
+  post: IHashtagPost
 }): JSX.Element => {
-  const { push, locale, query } = useRouter()
   const dispatch = useAppDispatch()
   const { t } = useTranslation()
   const [editable, setEditable] = useBoolean(false)
-  const { data: hashtag } = useHashtagQuery(
-    locale as string,
-    query?.slug?.[1] as string,
-  )
+  const { push } = useRouter()
 
   const contentRef = useRef<HTMLTextAreaElement | null>(null)
 
@@ -53,25 +48,21 @@ export const PostContainer = ({
     postContent,
     mentions,
     trends,
-    isCharacterCountExceeded,
+    isCharCountExceeded: isCharacterCountExceeded,
     totalCharCount,
   } = useAppSelector(state => state.postShare)
-  const activePost = useMemo(
-    () => hashtag?.posts?.find(p => p.slug === query?.slug?.[2]),
-    [query, hashtag?.posts],
-  )
 
   const redirectToRandomPost = useCallback(() => {
-    if (!hashtag?.posts) return
-
     const randomPostIndex = Math.floor(
-      Math.random() * (hashtag.posts.length || 0),
+      Math.random() * (post?.posts?.length || 0),
     )
 
-    const randomPost = hashtag.posts[randomPostIndex]
+    const randomPost = post?.posts?.[randomPostIndex]
 
-    push(`/${hashtag?.page?.slug}/${hashtag?.slug}/${randomPost?.slug}`)
-  }, [hashtag, push])
+    push(
+      `/${post?.hashtag?.page?.slug}/${post?.hashtag?.slug}/${randomPost?.slug}`,
+    )
+  }, [post, push])
 
   const onRemoveMention = (mention: string) => {
     dispatch(removeMention(mention))
@@ -88,14 +79,9 @@ export const PostContainer = ({
   }
 
   useEffect(() => {
-    if (activePost) {
-      dispatch(setPostContent(activePost.text))
-      dispatch(checkCharacterCount(activePost.text))
-      onSetActivePost(activePost)
-    } else {
-      redirectToRandomPost()
-    }
-  }, [activePost, dispatch, redirectToRandomPost, onSetActivePost])
+    dispatch(setPostContent(post.text))
+    dispatch(checkCharacterCount(post.text))
+  }, [post, dispatch])
 
   useEffect(() => {
     if (editable) {
@@ -165,6 +151,8 @@ export const PostContainer = ({
               _hover={{ bg: 'blackAlpha.200' }}
               whiteSpace="pre-line"
               onClick={setEditable.toggle}
+              h="180px"
+              overflow="auto"
             >
               {postContent}
             </chakra.div>
@@ -192,22 +180,24 @@ export const PostContainer = ({
                 </Wrap>
               </Box>
             )}
-            <Text color="gray.500" fontSize="sm">
-              Trends
-            </Text>
-            <Wrap>
-              <Tag rounded="full" variant="outline">
-                <TagLabel>{hashtag?.hashtag}</TagLabel>
-              </Tag>
-              {trends.map((trend, i) => (
-                <Tag rounded="full" key={i} variant="outline">
-                  <TagLabel>{trend}</TagLabel>
-                  <TagCloseButton onClick={() => onRemoveTrend(trend)} />
+            <Box>
+              <Text color="gray.500" fontSize="sm">
+                Trends
+              </Text>
+              <Wrap>
+                <Tag rounded="full" variant="outline">
+                  <TagLabel>{post?.hashtag?.hashtag}</TagLabel>
                 </Tag>
-              ))}
-            </Wrap>
+                {trends.map((trend, i) => (
+                  <Tag rounded="full" key={i} variant="outline">
+                    <TagLabel>{trend}</TagLabel>
+                    <TagCloseButton onClick={() => onRemoveTrend(trend)} />
+                  </Tag>
+                ))}
+              </Wrap>
+            </Box>
           </Box>
-          {activePost?.image && (
+          {post?.image && (
             <AspectRatio
               borderColor="gray.500"
               borderWidth={1}
@@ -216,7 +206,7 @@ export const PostContainer = ({
               ratio={1200 / 675}
               overflow="hidden"
             >
-              <ChakraNextImage h={'100%'} image={activePost?.image.url} />
+              <ChakraNextImage h={'100%'} image={post?.image.url} />
             </AspectRatio>
           )}
         </VStack>
@@ -279,7 +269,7 @@ export const PostContainer = ({
           overflowY={{ base: 'hidden', lg: 'auto' }}
           overflowX={{ base: 'auto', lg: 'hidden' }}
         >
-          {hashtag?.posts?.slice(0, 15).map((p, i) => (
+          {post?.posts?.slice(0, 15).map((p, i) => (
             <Box
               key={i}
               borderWidth={1}
@@ -290,7 +280,7 @@ export const PostContainer = ({
               flexShrink={0}
             >
               <Navigate
-                href={`/${hashtag?.page?.slug}/${hashtag?.slug}/${p?.slug}`}
+                href={`/${post?.hashtag?.page?.slug}/${post?.hashtag?.slug}/${p?.slug}`}
               >
                 <ChakraNextImage
                   w={150}
