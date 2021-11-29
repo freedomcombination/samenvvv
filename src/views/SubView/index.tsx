@@ -1,22 +1,17 @@
-import {
-  Box,
-  Flex,
-  Grid,
-  GridItem,
-  Heading,
-  IconButton,
-} from '@chakra-ui/react'
-/* eslint-disable import/no-duplicates */
-import { format } from 'date-fns'
-import { enIN as en, nl, tr } from 'date-fns/locale'
+import { Box, Flex, Heading, HStack } from '@chakra-ui/react'
 import { MDXRemoteSerializeResult } from 'next-mdx-remote'
 import { useRouter } from 'next/router'
-import { FaFacebook, FaTwitter, FaWhatsapp } from 'react-icons/fa'
-import { MdEvent } from 'react-icons/md'
 
-import { ChakraNextImage, Container, Layout, Markdown } from '@components'
-
-const timeLocale: Record<string, Locale> = { en, nl, tr }
+import {
+  ChakraNextImage,
+  Container,
+  Layout,
+  Markdown,
+  PagePagination,
+  PageTimeLabel,
+  ShareButtons,
+} from '@components'
+import { SubpageSidebarTabs } from 'src/components/SubpageSidebarTabs'
 
 interface SubViewProps {
   slug: Record<string, string[]>
@@ -25,94 +20,38 @@ interface SubViewProps {
 }
 
 const SubView = ({ source, pageData }: SubViewProps): JSX.Element => {
+  // console.log('source: ', source)
+  // console.log('pageData: ', pageData)
+  //console.log('tweetData: ', twData)
   const { locale } = useRouter()
+
   return (
     <Layout>
       <Container>
-        <Grid templateColumns="repeat(5, 1fr)" gap={4} mt={10}>
-          <GridItem colSpan={{ base: 5, md: 5, lg: 4 }}>
+        <Flex py={4}>
+          <Flex flexDir="column" flex={1}>
             {pageData.image && (
               <ChakraNextImage h="300px" image={pageData.image} />
             )}
+            <HStack align="center" mt={4} spacing={8}>
+              <PageTimeLabel pageData={pageData} />
+              <ShareButtons
+                title={pageData.title}
+                quote={pageData.content}
+                url={`${process.env.NEXT_PUBLIC_SITE_URL}/${locale}/${pageData.page?.slug}/${pageData.slug}`}
+              />
+            </HStack>
+            <Heading my={4}>{pageData.title}</Heading>
+            <Box flex={1}>{source && <Markdown source={source} />}</Box>
+            <PagePagination subpage={pageData} />
+          </Flex>
 
-            <Box d="flex" mt={4} alignItems="center">
-              <MdEvent />
-              <Box as="span" ml="2">
-                {pageData.start &&
-                  format(new Date(pageData.start), 'd LLL', {
-                    locale: timeLocale[locale as string],
-                  })}{' '}
-                -{' '}
-                {pageData.end &&
-                  format(new Date(pageData.end), 'd LLL', {
-                    locale: timeLocale[locale as string],
-                  })}
-              </Box>
+          {pageData.page && (
+            <Box ml={8} w="350px" display={{ base: 'none', md: 'inherit' }}>
+              <SubpageSidebarTabs page={pageData.page} />
             </Box>
-
-            <Heading>{pageData.title}</Heading>
-            {source && <Markdown source={source} />}
-
-            <Flex
-              flexDirection="column"
-              position="absolute"
-              top={250}
-              left={{ base: 'initial', md: 'initial', lg: 0 }}
-              right={{ base: 0, md: 0, lg: 'initial' }}
-            >
-              <IconButton
-                colorScheme="primary"
-                aria-label="Twitter"
-                borderRadius="none"
-                icon={<FaTwitter />}
-              />
-              <IconButton
-                colorScheme="primary"
-                aria-label="Facebook"
-                borderRadius="none"
-                icon={<FaFacebook />}
-              />
-              <IconButton
-                colorScheme="primary"
-                aria-label="WhatsApp"
-                borderRadius="none"
-                icon={<FaWhatsapp />}
-              />
-            </Flex>
-          </GridItem>
-
-          <GridItem
-            colSpan={{ base: 0, md: 0, lg: 1 }}
-            display={{ base: 'none', md: 'none', lg: 'inherit' }}
-          >
-            <Flex direction="column" align="center">
-              <Box
-                w="15vw"
-                h="25vh"
-                border="3px solid"
-                borderColor="blue.300"
-                fontSize="2vmax"
-                fontWeight="extrabold"
-                color="blue.300"
-                bg="blue.50"
-              >
-                Twitter
-              </Box>
-              <Box
-                w="15vw"
-                h="25vh"
-                border="3px solid"
-                borderColor="blue.300"
-                fontSize="2vmax"
-                fontWeight="extrabold"
-                color="blue.300"
-                bg="blue.50"
-              >
-                Facebook
-              </Box>
-            </Flex>
-          </GridItem>
-        </Grid>
+          )}
+        </Flex>
       </Container>
     </Layout>
   )
