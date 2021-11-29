@@ -180,6 +180,7 @@ export const getStaticProps: GetStaticProps = async context => {
 
     const getSubpageData = async () => {
       if (pageType === 'hashtag') {
+        // Pass the first post data of the hashtag to the props
         const hashtagPosts = await getHashtagPosts(locale, subSlug)
         const hashtagPostSlug = hashtagPosts?.[0].slug as string
         const hashtagPost = await getHashtagPost(locale, hashtagPostSlug)

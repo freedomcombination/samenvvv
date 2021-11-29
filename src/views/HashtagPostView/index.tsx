@@ -1,3 +1,5 @@
+import { useEffect } from 'react'
+
 import {
   Box,
   Drawer,
@@ -7,12 +9,14 @@ import {
   DrawerHeader,
   DrawerOverlay,
   Heading,
+  HStack,
   Stack,
   Tab,
   TabList,
   TabPanel,
   TabPanels,
   Tabs,
+  Text,
   useDisclosure,
   VStack,
 } from '@chakra-ui/react'
@@ -24,7 +28,6 @@ import {
   CardGroup,
   Container,
   Layout,
-  Markdown,
   MentionList,
   PostContainer,
   TrendList,
@@ -38,11 +41,20 @@ interface HashtagProps {
   pageData: IHashtagPost
 }
 
-const HashtagPostView = ({ source, pageData }: HashtagProps): JSX.Element => {
-  const { locale } = useRouter()
+const HashtagPostView = ({ pageData }: HashtagProps): JSX.Element => {
+  const { locale, query, push } = useRouter()
   const { isOpen, onOpen, onClose } = useDisclosure()
 
   const { t } = useTranslation()
+
+  useEffect(() => {
+    // Redirect if visited hashtag page is without post slug
+    // In this case post data will be the first post of the hashtag
+    if (!query.slug?.[2])
+      push(
+        `/${locale}/${pageData.hashtag?.page?.slug}/${pageData.hashtag?.slug}/${pageData.slug}`,
+      )
+  }, [])
 
   return (
     <Layout
@@ -51,7 +63,6 @@ const HashtagPostView = ({ source, pageData }: HashtagProps): JSX.Element => {
         description: '',
         image:
           `${process.env.NEXT_PUBLIC_ADMIN_URL}${pageData?.image?.url}` as string,
-        // TODO: Fix url
         url: `${process.env.NEXT_PUBLIC_SITE_URL}/${locale}/${pageData?.hashtag?.page?.slug}/${pageData?.hashtag?.slug}/${pageData?.slug}`,
         width: pageData?.image?.width as number,
         height: pageData?.image?.height as number,
@@ -59,82 +70,86 @@ const HashtagPostView = ({ source, pageData }: HashtagProps): JSX.Element => {
       }}
     >
       <Container py={4}>
-        <Box textAlign="center" mb={8}>
+        <Box textAlign="center">
           <Heading>{pageData?.hashtag?.title}</Heading>
-          {source && <Markdown source={source} />}
+          <Text maxW="container.md" mx="auto">
+            {pageData?.hashtag?.content}
+          </Text>
         </Box>
-        <Tabs variant="soft-rounded" isFitted colorScheme="primary">
-          <TabList>
-            <Tab
-              color="gray.400"
-              fontWeight="bold"
-              borderBottomWidth={2}
-              _selected={{
-                bg: 'primary.100',
-                color: 'primary.400',
-                borderColor: 'primary.400',
-              }}
-            >
-              {t`post-share.tabs.share`}
-            </Tab>
-            <Tab
-              color="gray.400"
-              fontWeight="bold"
-              borderBottomWidth={2}
-              _selected={{
-                bg: 'primary.100',
-                color: 'primary.400',
-                borderBottomWidth: 2,
-                borderColor: 'primary.400',
-              }}
-            >
-              {t`post-share.tabs.archive`}
-            </Tab>
-          </TabList>
-          <TabPanels>
-            <TabPanel px={0}>
-              <Stack
-                direction={{ base: 'column', lg: 'row' }}
-                justify="stretch"
-                align="stretch"
-                minH={0}
-                maxH={{ base: 'min-content', lg: 650 }}
+        <Stack spacing={4} direction={{ base: 'column', lg: 'row' }}>
+          <Tabs flex={1} variant="soft-rounded" isFitted colorScheme="primary">
+            <TabList>
+              <Tab
+                color="gray.400"
+                fontWeight="bold"
+                borderBottomWidth={2}
+                _selected={{
+                  bg: 'primary.100',
+                  color: 'primary.400',
+                  borderColor: 'primary.400',
+                }}
               >
-                <VStack
-                  w={300}
+                {t`post-share.tabs.share`}
+              </Tab>
+              <Tab
+                color="gray.400"
+                fontWeight="bold"
+                borderBottomWidth={2}
+                _selected={{
+                  bg: 'primary.100',
+                  color: 'primary.400',
+                  borderBottomWidth: 2,
+                  borderColor: 'primary.400',
+                }}
+              >
+                {t`post-share.tabs.archive`}
+              </Tab>
+            </TabList>
+            <TabPanels>
+              <TabPanel px={0}>
+                <HStack
+                  justify="stretch"
                   align="stretch"
-                  display={{ base: 'none', lg: 'flex' }}
+                  minH={0}
+                  maxH={{ base: 'min-content', lg: 650 }}
+                  spacing={4}
                 >
-                  <MentionSearch />
-                  <MentionList />
-                  <TrendList />
-                </VStack>
-                <Drawer isOpen={isOpen} placement="left" onClose={onClose}>
-                  <DrawerOverlay />
-                  <DrawerContent>
-                    <DrawerCloseButton />
-                    <DrawerHeader>{t`post-share.add-mention`}</DrawerHeader>
-                    <DrawerBody>
-                      <MentionSearch />
-                      <MentionList />
-                      <TrendList />
-                    </DrawerBody>
-                  </DrawerContent>
-                </Drawer>
-                <PostContainer onOpen={onOpen} post={pageData} />
-                <Box w={{ base: 'full', lg: '300px' }}>
-                  <TweetWidget />
-                </Box>
-              </Stack>
-            </TabPanel>
-            <TabPanel px={0}>
-              <CardGroup
-                items={pageData?.posts as unknown as ISubpage[]}
-                isSimple
-              />
-            </TabPanel>
-          </TabPanels>
-        </Tabs>
+                  <VStack
+                    w={300}
+                    align="stretch"
+                    display={{ base: 'none', lg: 'flex' }}
+                  >
+                    <MentionSearch />
+                    <MentionList />
+                    <TrendList />
+                  </VStack>
+                  <Drawer isOpen={isOpen} placement="left" onClose={onClose}>
+                    <DrawerOverlay />
+                    <DrawerContent>
+                      <DrawerCloseButton />
+                      <DrawerHeader>{t`post-share.add-mention`}</DrawerHeader>
+                      <DrawerBody>
+                        <MentionSearch />
+                        <MentionList />
+                        <TrendList />
+                      </DrawerBody>
+                    </DrawerContent>
+                  </Drawer>
+                  <PostContainer onOpen={onOpen} post={pageData} />
+                </HStack>
+              </TabPanel>
+              <TabPanel px={0}>
+                <CardGroup
+                  items={pageData?.posts as unknown as ISubpage[]}
+                  isSimple
+                />
+              </TabPanel>
+            </TabPanels>
+          </Tabs>
+          <Box w={{ base: 'full', lg: '300px' }}>
+            <TweetWidget />
+          </Box>
+        </Stack>
       </Container>
     </Layout>
   )

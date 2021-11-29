@@ -23,6 +23,8 @@ export const GET_HASHTAG_POST = gql`
       hashtag {
         slug
         hashtag
+        title
+        content
         page {
           slug
         }

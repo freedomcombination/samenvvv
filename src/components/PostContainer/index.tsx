@@ -151,6 +151,8 @@ export const PostContainer = ({
               _hover={{ bg: 'blackAlpha.200' }}
               whiteSpace="pre-line"
               onClick={setEditable.toggle}
+              h="180px"
+              overflow="auto"
             >
               {postContent}
             </chakra.div>
