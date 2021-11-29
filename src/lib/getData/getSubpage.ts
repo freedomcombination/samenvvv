@@ -27,6 +27,28 @@ export const GET_SUBPAGE = gql`
       locale
       page {
         slug
+        subpages {
+          slug
+          title
+          content
+          image {
+            url
+          }
+          start
+          end
+          locale
+        }
+        popular: subpages(sort: "slug:desc", limit: 5) {
+          slug
+          title
+          content
+          image {
+            url
+          }
+          start
+          end
+          locale
+        }
       }
       localizations {
         slug

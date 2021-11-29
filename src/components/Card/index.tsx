@@ -36,7 +36,7 @@ export const Card = (props: CardProps): JSX.Element => {
     <Navigate href={`/${item.page?.slug}/${item.slug}`}>
       <Box
         pos="relative"
-        boxShadow={isSimple ? 'none' : 'sm'}
+        boxShadow={isSimple ? 'none' : 'base'}
         borderRadius="lg"
         overflow="hidden"
         backgroundColor="white"
@@ -62,7 +62,7 @@ export const Card = (props: CardProps): JSX.Element => {
             {item.title}
           </Heading>
 
-          <Text noOfLines={3} fontSize="1rem" mt={2}>
+          <Text noOfLines={2} fontSize="1rem" mt={2}>
             {removeMarkdown(item.content)}
           </Text>
           {!isSimple && !isSocial && (
