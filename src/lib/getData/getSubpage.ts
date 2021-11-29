@@ -16,6 +16,10 @@ export const GET_SUBPAGE = gql`
       content
       image {
         url
+        size
+        mime
+        width
+        height
       }
       type
       start

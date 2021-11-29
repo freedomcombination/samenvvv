@@ -14,7 +14,7 @@ export const TweetWidget = (): JSX.Element => {
         borderColor="gray.500"
         borderWidth={1}
         rounded="lg"
-        h={620}
+        h={680}
         overflow="auto"
       >
         <HashtagTimeline />

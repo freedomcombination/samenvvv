@@ -4,9 +4,8 @@ export type PostShareState = {
   postContent: string
   mentions: string[]
   trends: string[]
-  isCharacterCountExceeded: boolean
+  isCharCountExceeded: boolean
   totalCharCount: number
-  activePost: IHashtagPost | null
   mentionSearchKey: string
 }
 
@@ -14,9 +13,8 @@ const initialState: PostShareState = {
   postContent: '',
   mentions: ['@samenvvv'],
   trends: [],
-  isCharacterCountExceeded: false,
+  isCharCountExceeded: false,
   totalCharCount: 0,
-  activePost: null,
   mentionSearchKey: '',
 }
 
@@ -45,9 +43,6 @@ export const postShareSlice = createSlice({
     setPostContent: (state, action: PayloadAction<string>) => {
       state.postContent = action.payload
     },
-    setActivePost: (state, action: PayloadAction<IHashtagPost>) => {
-      state.activePost = action.payload
-    },
     checkCharacterCount: (state, action: PayloadAction<string | undefined>) => {
       const twitterCharLimit = 280
       const linkCharCount = 23
@@ -60,9 +55,8 @@ export const postShareSlice = createSlice({
 
       state.totalCharCount = totalCharCount
 
-      if (totalCharCount > twitterCharLimit)
-        state.isCharacterCountExceeded = true
-      else state.isCharacterCountExceeded = false
+      if (totalCharCount > twitterCharLimit) state.isCharCountExceeded = true
+      else state.isCharCountExceeded = false
     },
   },
 })
@@ -74,7 +68,6 @@ export const {
   removeTrend,
   checkCharacterCount,
   setPostContent,
-  setActivePost,
   setMentionSearchKey,
   clearMentionSearchKey,
 } = postShareSlice.actions

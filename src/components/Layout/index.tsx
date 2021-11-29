@@ -14,6 +14,9 @@ interface LayoutProps {
     description: string
     url: string
     image: string
+    width: number
+    height: number
+    type: string
   }
   scrollHeight?: number | null
 }
@@ -38,6 +41,7 @@ export const Layout = ({
             site_name: 'SamenVVV',
             description: seo.description,
             locale: locale as string,
+            type: 'website',
             images: [
               {
                 url: seo.image,
