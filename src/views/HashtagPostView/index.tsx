@@ -72,7 +72,7 @@ const HashtagPostView = ({ pageData }: HashtagProps): JSX.Element => {
       <Container py={4}>
         <Box textAlign="center">
           <Heading>{pageData?.hashtag?.title}</Heading>
-          <Text maxW="container.md" mx="auto">
+          <Text my={4} maxW="container.md" mx="auto">
             {pageData?.hashtag?.content}
           </Text>
         </Box>
