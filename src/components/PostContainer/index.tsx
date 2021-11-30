@@ -29,6 +29,7 @@ import {
   useAppDispatch,
   useAppSelector,
 } from '@store'
+import { FacebookShareButton, TwitterShareButton } from 'react-share'
 
 export const PostContainer = ({
   onOpen,
@@ -63,6 +64,9 @@ export const PostContainer = ({
       `/${post?.hashtag?.page?.slug}/${post?.hashtag?.slug}/${randomPost?.slug}`,
     )
   }, [post, push])
+  const tweetUrl = `${process.env.NEXT_PUBLIC_ADMIN_URL}/${post?.hashtag?.page?.slug}/${post?.hashtag?.slug}`
+
+  const tweetContent = postContent + ' ' + mentions.join(' ') + trends.join(' ')
 
   const onRemoveMention = (mention: string) => {
     dispatch(removeMention(mention))
@@ -250,12 +254,12 @@ export const PostContainer = ({
             isFullWidth
             rounded="full"
             colorScheme="twitter"
-            // TODO: Send to Twitter
-            onClick={() => {}}
             rightIcon={<FaTwitter />}
             isDisabled={isCharacterCountExceeded}
           >
-            {t`post-share.share-tweet`}
+            <TwitterShareButton title={tweetContent} url={tweetUrl}>
+              {t`post-share.share-tweet`}
+            </TwitterShareButton>
           </Button>
         </SimpleGrid>
       </VStack>
