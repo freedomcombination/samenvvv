@@ -16,6 +16,7 @@ import {
   VStack,
   Wrap,
 } from '@chakra-ui/react'
+import { TwitterShareButton } from 'next-share'
 import { useRouter } from 'next/router'
 import { useTranslation } from 'react-i18next'
 import { FaAt, FaEdit, FaRandom, FaTwitter } from 'react-icons/fa'
@@ -29,7 +30,6 @@ import {
   useAppDispatch,
   useAppSelector,
 } from '@store'
-import { FacebookShareButton, TwitterShareButton } from 'react-share'
 
 export const PostContainer = ({
   onOpen,
@@ -250,17 +250,17 @@ export const PostContainer = ({
           >
             {t`post-share.next-tweet`}
           </Button>
-          <Button
-            isFullWidth
-            rounded="full"
-            colorScheme="twitter"
-            rightIcon={<FaTwitter />}
-            isDisabled={isCharacterCountExceeded}
-          >
-            <TwitterShareButton title={tweetContent} url={tweetUrl}>
+          <TwitterShareButton title={tweetContent} url={tweetUrl}>
+            <Button
+              isFullWidth
+              rounded="full"
+              colorScheme="twitter"
+              rightIcon={<FaTwitter />}
+              isDisabled={isCharacterCountExceeded}
+            >
               {t`post-share.share-tweet`}
-            </TwitterShareButton>
-          </Button>
+            </Button>
+          </TwitterShareButton>
         </SimpleGrid>
       </VStack>
       <Stack h="full" overflowY="hidden">
