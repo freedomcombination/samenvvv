@@ -14,17 +14,12 @@ import { useTranslation } from 'react-i18next'
 import { useQuery } from 'react-query'
 
 import { MentionListSkeleton } from '@components'
-import {
-  addMention,
-  checkCharacterCount,
-  useAppDispatch,
-  useAppSelector,
-} from '@store'
+import { addMention, useAppDispatch, useAppSelector } from '@store'
 import { useMentionList } from 'src/lib/getData/getMentionList'
 
 export const MentionList = (): JSX.Element => {
   const [mentionListState, setMentionListState] = useState<IMention[]>([])
-  const { mentions, postContent, mentionSearchKey } = useAppSelector(
+  const { mentions, mentionSearchKey } = useAppSelector(
     state => state.postShare,
   )
   const dispatch = useAppDispatch()
@@ -93,7 +88,6 @@ export const MentionList = (): JSX.Element => {
 
   const onAddMention = (mention: string) => {
     dispatch(addMention(mention))
-    dispatch(checkCharacterCount(postContent))
   }
 
   const currentMentionList = [

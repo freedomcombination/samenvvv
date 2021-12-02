@@ -1,5 +1,3 @@
-import { useEffect } from 'react'
-
 import {
   Box,
   Drawer,
@@ -42,19 +40,10 @@ interface HashtagProps {
 }
 
 const HashtagPostView = ({ pageData }: HashtagProps): JSX.Element => {
-  const { locale, query, push } = useRouter()
+  const { locale } = useRouter()
   const { isOpen, onOpen, onClose } = useDisclosure()
 
   const { t } = useTranslation()
-
-  useEffect(() => {
-    // Redirect if visited hashtag page is without post slug
-    // In this case post data will be the first post of the hashtag
-    if (!query.slug?.[2])
-      push(
-        `/${locale}/${pageData.hashtag?.page?.slug}/${pageData.hashtag?.slug}/${pageData.slug}`,
-      )
-  }, [])
 
   return (
     <Layout
@@ -112,7 +101,7 @@ const HashtagPostView = ({ pageData }: HashtagProps): JSX.Element => {
                   align="stretch"
                   minH={0}
                   maxH={{ base: 'min-content', lg: 650 }}
-                  spacing={4}
+                  spacing={{ base: 0, lg: 4 }}
                 >
                   <VStack
                     w={300}

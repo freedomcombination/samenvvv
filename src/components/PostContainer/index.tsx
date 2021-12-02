@@ -27,6 +27,7 @@ import {
   removeMention,
   removeTrend,
   setPostContent,
+  setPostText,
   useAppDispatch,
   useAppSelector,
 } from '@store'
@@ -41,11 +42,12 @@ export const PostContainer = ({
   const dispatch = useAppDispatch()
   const { t } = useTranslation()
   const [editable, setEditable] = useBoolean(false)
-  const { push } = useRouter()
+  const { push, locale } = useRouter()
 
   const contentRef = useRef<HTMLTextAreaElement | null>(null)
 
   const {
+    postText,
     postContent,
     mentions,
     trends,
@@ -64,27 +66,32 @@ export const PostContainer = ({
       `/${post?.hashtag?.page?.slug}/${post?.hashtag?.slug}/${randomPost?.slug}`,
     )
   }, [post, push])
-  const tweetUrl = `${process.env.NEXT_PUBLIC_ADMIN_URL}/${post?.hashtag?.page?.slug}/${post?.hashtag?.slug}`
 
-  const tweetContent = postContent + ' ' + mentions.join(' ') + trends.join(' ')
+  const tweetUrl = `${process.env.NEXT_PUBLIC_SITE_URL}/${locale}/${post?.hashtag?.page?.slug}/${post?.hashtag?.slug}/${post.slug}`
+
+  useEffect(() => {
+    const mentionsStr = mentions.join('\n@').replace('@@', '@')
+    // prettier-ignore
+    const trendsStr = post.hashtag?.hashtag + (trends.length > 0 ? '\n' + trends.join('\n') : '')
+    const postContent = `${postText}\n\n${mentionsStr}\n\n${trendsStr}`
+
+    dispatch(setPostContent(postContent))
+    dispatch(checkCharacterCount())
+  }, [postText, mentions, trends, post, dispatch, locale])
 
   const onRemoveMention = (mention: string) => {
     dispatch(removeMention(mention))
-    dispatch(checkCharacterCount())
   }
   const onRemoveTrend = (trend: string) => {
     dispatch(removeTrend(trend))
-    dispatch(checkCharacterCount())
   }
 
   const onChangeContent = (e: ChangeEvent<HTMLTextAreaElement>): void => {
-    dispatch(setPostContent(e.target.value))
-    dispatch(checkCharacterCount())
+    dispatch(setPostText(e.target.value))
   }
 
   useEffect(() => {
-    dispatch(setPostContent(post.text))
-    dispatch(checkCharacterCount(post.text))
+    dispatch(setPostText(post.text))
   }, [post, dispatch])
 
   useEffect(() => {
@@ -124,96 +131,99 @@ export const PostContainer = ({
             /280
           </Text>
         </Flex>
-        <VStack
-          p={4}
-          rounded="lg"
-          borderWidth={1}
-          align="stretch"
-          bg={isCharacterCountExceeded ? 'red.50' : 'gray.50'}
-          borderColor={isCharacterCountExceeded ? 'red.500' : 'gray.500'}
-        >
-          {editable ? (
-            <chakra.textarea
-              borderColor="gray.500"
-              borderWidth={1}
-              rounded="lg"
-              rows={6}
-              ref={contentRef}
-              p={2}
-              onBlur={setEditable.toggle}
-              onChange={onChangeContent}
-            >
-              {postContent}
-            </chakra.textarea>
-          ) : (
-            <chakra.div
-              p={4}
-              mt={-2}
-              mx={-2}
-              cursor='url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjUiIGhlaWdodD0iMjUiIHZpZXdCb3g9IjAgMCAyNSAyNSIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTExLjYyMjggNC45Nzg3Nkg0LjYyMjhDNC4wOTIzNyA0Ljk3ODc2IDMuNTgzNjYgNS4xODk0NyAzLjIwODU5IDUuNTY0NTVDMi44MzM1MiA1LjkzOTYyIDIuNjIyOCA2LjQ0ODMzIDIuNjIyOCA2Ljk3ODc2VjIwLjk3ODhDMi42MjI4IDIxLjUwOTIgMi44MzM1MiAyMi4wMTc5IDMuMjA4NTkgMjIuMzkzQzMuNTgzNjYgMjIuNzY4IDQuMDkyMzcgMjIuOTc4OCA0LjYyMjggMjIuOTc4OEgxOC42MjI4QzE5LjE1MzIgMjIuOTc4OCAxOS42NjE5IDIyLjc2OCAyMC4wMzcgMjIuMzkzQzIwLjQxMjEgMjIuMDE3OSAyMC42MjI4IDIxLjUwOTIgMjAuNjIyOCAyMC45Nzg4VjEzLjk3ODgiIHN0cm9rZT0iYmxhY2siIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+CjxwYXRoIGQ9Ik0xOS4xMjI4IDMuNDc4NzRDMTkuNTIwNiAzLjA4MDkyIDIwLjA2MDIgMi44NTc0MiAyMC42MjI4IDIuODU3NDJDMjEuMTg1NCAyLjg1NzQyIDIxLjcyNSAzLjA4MDkyIDIyLjEyMjggMy40Nzg3NEMyMi41MjA2IDMuODc2NTcgMjIuNzQ0MSA0LjQxNjEzIDIyLjc0NDEgNC45Nzg3NEMyMi43NDQxIDUuNTQxMzUgMjIuNTIwNiA2LjA4MDkyIDIyLjEyMjggNi40Nzg3NEwxMi42MjI4IDE1Ljk3ODdMOC42MjI4IDE2Ljk3ODdMOS42MjI4IDEyLjk3ODdMMTkuMTIyOCAzLjQ3ODc0WiIgc3Ryb2tlPSJibGFjayIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz4KPC9zdmc+Cg=="), auto'
-              rounded="lg"
-              _hover={{ bg: 'blackAlpha.200' }}
-              whiteSpace="pre-line"
-              onClick={setEditable.toggle}
-              h="180px"
-              overflow="auto"
-            >
-              {postContent}
-            </chakra.div>
-          )}
-          <Box>
-            {mentions?.length > 0 && (
-              <Box>
+        <Box h={600} overflow="auto">
+          <Box
+            p={4}
+            rounded="lg"
+            borderWidth={1}
+            bg={isCharacterCountExceeded ? 'red.50' : 'gray.50'}
+            borderColor={isCharacterCountExceeded ? 'red.500' : 'gray.500'}
+          >
+            {editable ? (
+              <chakra.textarea
+                borderColor="gray.500"
+                borderWidth={1}
+                rounded="lg"
+                rows={6}
+                ref={contentRef}
+                p={2}
+                w="full"
+                onBlur={setEditable.toggle}
+                onChange={onChangeContent}
+              >
+                {postText}
+              </chakra.textarea>
+            ) : (
+              <chakra.div
+                p={2}
+                cursor="text"
+                borderWidth={2}
+                borderColor="transparent"
+                rounded="lg"
+                transition="all 0.3s ease-in-out"
+                _hover={{ borderColor: 'gray.400', bg: 'white' }}
+                whiteSpace="pre-line"
+                onClick={setEditable.toggle}
+                overflow="auto"
+              >
+                {postText}
+              </chakra.div>
+            )}
+            <Box mt={2}>
+              {mentions?.length > 0 && (
+                <Box mb={2}>
+                  <Text color="gray.500" fontSize="sm">
+                    Mentions
+                  </Text>
+                  <Wrap>
+                    {mentions.map((mention, i) => (
+                      <Tag
+                        rounded="full"
+                        key={i}
+                        variant="outline"
+                        colorScheme="primary"
+                      >
+                        <TagLabel>{mention}</TagLabel>
+                        <TagCloseButton
+                          onClick={() => onRemoveMention(mention)}
+                        />
+                      </Tag>
+                    ))}
+                  </Wrap>
+                </Box>
+              )}
+              <Box mb={2}>
                 <Text color="gray.500" fontSize="sm">
-                  Mentions
+                  Trends
                 </Text>
                 <Wrap>
-                  {mentions.map((mention, i) => (
-                    <Tag
-                      rounded="full"
-                      key={i}
-                      variant="outline"
-                      colorScheme="primary"
-                    >
-                      <TagLabel>{mention}</TagLabel>
-                      <TagCloseButton
-                        onClick={() => onRemoveMention(mention)}
-                      />
+                  <Tag rounded="full" variant="outline">
+                    <TagLabel>{post?.hashtag?.hashtag}</TagLabel>
+                  </Tag>
+                  {trends.map((trend, i) => (
+                    <Tag rounded="full" key={i} variant="outline">
+                      <TagLabel>{trend}</TagLabel>
+                      <TagCloseButton onClick={() => onRemoveTrend(trend)} />
                     </Tag>
                   ))}
                 </Wrap>
               </Box>
-            )}
-            <Box>
-              <Text color="gray.500" fontSize="sm">
-                Trends
-              </Text>
-              <Wrap>
-                <Tag rounded="full" variant="outline">
-                  <TagLabel>{post?.hashtag?.hashtag}</TagLabel>
-                </Tag>
-                {trends.map((trend, i) => (
-                  <Tag rounded="full" key={i} variant="outline">
-                    <TagLabel>{trend}</TagLabel>
-                    <TagCloseButton onClick={() => onRemoveTrend(trend)} />
-                  </Tag>
-                ))}
-              </Wrap>
             </Box>
+            {post?.image && (
+              <AspectRatio
+                borderColor="gray.500"
+                borderWidth={1}
+                rounded="2xl"
+                pos="relative"
+                ratio={1200 / 675}
+                overflow="hidden"
+                flexShrink={0}
+              >
+                <ChakraNextImage h={'100%'} image={post?.image.url} />
+              </AspectRatio>
+            )}
           </Box>
-          {post?.image && (
-            <AspectRatio
-              borderColor="gray.500"
-              borderWidth={1}
-              rounded="2xl"
-              pos="relative"
-              ratio={1200 / 675}
-              overflow="hidden"
-            >
-              <ChakraNextImage h={'100%'} image={post?.image.url} />
-            </AspectRatio>
-          )}
-        </VStack>
+        </Box>
         <SimpleGrid
           columns={2}
           spacing={2}
@@ -250,7 +260,7 @@ export const PostContainer = ({
           >
             {t`post-share.next-tweet`}
           </Button>
-          <TwitterShareButton title={tweetContent} url={tweetUrl}>
+          <TwitterShareButton title={postContent} url={tweetUrl}>
             <Button
               isFullWidth
               rounded="full"
@@ -263,39 +273,47 @@ export const PostContainer = ({
           </TwitterShareButton>
         </SimpleGrid>
       </VStack>
-      <Stack h="full" overflowY="hidden">
-        <Text color="gray.500" fontSize="sm">{t`post-share.other-posts`}</Text>
-        <Stack
-          direction={{ base: 'row', lg: 'column' }}
-          h="full"
-          w="full"
-          whiteSpace="nowrap"
-          overflowY={{ base: 'hidden', lg: 'auto' }}
-          overflowX={{ base: 'auto', lg: 'hidden' }}
-        >
-          {post?.posts?.slice(0, 15).map((p, i) => (
-            <Box
-              key={i}
-              borderWidth={1}
-              borderColor="gray.500"
-              rounded="lg"
-              overflow="hidden"
-              whiteSpace="nowrap"
-              flexShrink={0}
-            >
-              <Navigate
-                href={`/${post?.hashtag?.page?.slug}/${post?.hashtag?.slug}/${p?.slug}`}
+      <Box
+        pos="relative"
+        w={{ base: 'full', lg: 150 }}
+        h={{ base: 115, lg: 'full' }}
+        overflow="hidden"
+      >
+        <Stack pos="absolute" top={0} left={0} h="full" w="full">
+          <Text
+            color="gray.500"
+            fontSize="sm"
+          >{t`post-share.other-posts`}</Text>
+          <Stack
+            direction={{ base: 'row', lg: 'column' }}
+            h="full"
+            w="full"
+            overflowY={{ base: 'hidden', lg: 'auto' }}
+            overflowX={{ base: 'auto', lg: 'hidden' }}
+          >
+            {post?.posts?.slice(0, 15).map((p, i) => (
+              <Box
+                key={i}
+                borderWidth={1}
+                borderColor="gray.500"
+                rounded="lg"
+                overflow="hidden"
+                flexShrink={0}
               >
-                <ChakraNextImage
-                  w={150}
-                  h={85}
-                  image={p.image?.url as string}
-                />
-              </Navigate>
-            </Box>
-          ))}
+                <Navigate
+                  href={`/${post?.hashtag?.page?.slug}/${post?.hashtag?.slug}/${p?.slug}`}
+                >
+                  <ChakraNextImage
+                    w={150}
+                    h={85}
+                    image={p.image?.url as string}
+                  />
+                </Navigate>
+              </Box>
+            ))}
+          </Stack>
         </Stack>
-      </Stack>
+      </Box>
     </Stack>
   )
 }
