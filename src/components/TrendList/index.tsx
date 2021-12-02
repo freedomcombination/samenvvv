@@ -11,12 +11,7 @@ import {
 } from '@chakra-ui/react'
 import { useTranslation } from 'react-i18next'
 
-import {
-  addTrend,
-  checkCharacterCount,
-  useAppDispatch,
-  useAppSelector,
-} from '@store'
+import { addTrend, useAppDispatch, useAppSelector } from '@store'
 
 // TODO: Data should be fetched from API
 const EXAMPLE_TRENDS = [
@@ -32,7 +27,6 @@ export const TrendList = (): JSX.Element => {
 
   const onAddTrend = (trend: string) => {
     dispatch(addTrend(trend))
-    dispatch(checkCharacterCount())
   }
 
   const currentTrendList = useMemo(

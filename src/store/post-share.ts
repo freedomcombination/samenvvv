@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 export type PostShareState = {
+  postText: string
   postContent: string
   mentions: string[]
   trends: string[]
@@ -10,6 +11,7 @@ export type PostShareState = {
 }
 
 const initialState: PostShareState = {
+  postText: '',
   postContent: '',
   mentions: ['@samenvvv'],
   trends: [],
@@ -40,18 +42,18 @@ export const postShareSlice = createSlice({
     removeTrend: (state, action: PayloadAction<string>) => {
       state.trends = state.trends.filter(m => m !== action.payload)
     },
+    setPostText: (state, action: PayloadAction<string>) => {
+      state.postText = action.payload
+    },
     setPostContent: (state, action: PayloadAction<string>) => {
       state.postContent = action.payload
     },
     checkCharacterCount: (state, action: PayloadAction<string | undefined>) => {
       const twitterCharLimit = 280
-      const linkCharCount = 23
+      const linkCharCount = 23 + 2 // 2 chars is because of the library leaves spaces before/after the link
       const textCharCount = (action.payload ?? state.postContent).length
-      const mentionsCharCount = state.mentions.join().length
-      const trendsCharCount = state.trends?.join().length ?? 0
 
-      const totalCharCount =
-        linkCharCount + textCharCount + mentionsCharCount + trendsCharCount
+      const totalCharCount = linkCharCount + textCharCount
 
       state.totalCharCount = totalCharCount
 
@@ -67,6 +69,7 @@ export const {
   addTrend,
   removeTrend,
   checkCharacterCount,
+  setPostText,
   setPostContent,
   setMentionSearchKey,
   clearMentionSearchKey,
