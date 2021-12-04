@@ -42,6 +42,7 @@
     "react-player": "^2.9.0",
     "react-query": "^3.21.1",
     "react-redux": "^7.2.6",
+    "react-share": "^4.4.0",
     "remove-markdown": "^0.3.0",
     "swiper": "^7.0.2",
     "yup": "^0.32.11"
