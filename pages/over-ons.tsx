@@ -1,23 +1,28 @@
 import React from 'react'
 
-import { Heading, Stack, Text } from '@chakra-ui/react'
+import { Box, Heading, Stack, Text } from '@chakra-ui/react'
 import { GetStaticProps } from 'next'
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
-import { Container, Layout } from '@components' //Markdown
+import { Container, Hero, Layout } from '@components'
 
 const OverOns = (): JSX.Element => {
   const { t } = useTranslation()
   return (
     <Layout>
       <Container>
+        <Hero
+          isFullHeight={false}
+          title={t('about-us.title')}
+          // image={AboutImage}
+        />
         <Stack spacing={6}>
           <Heading>{t('about-us.who-we-are.title')}</Heading>
-          {
-            //<Markdown source={t('about-us.who-we-are.title')} />
-          }
-          <Text fontSize="xl">{t('about-us.who-we-are.description')}</Text>
+          <Box ml={'20px'}>
+            <Text fontSize="xl">{t('about-us.who-we-are.description')}</Text>
+          </Box>
+
           <Heading>{t('about-us.our-vision.title')}</Heading>
           <Text fontSize="xl">{t('about-us.our-vision.description')}</Text>
           <Heading>{t('about-us.our-mission.title')}</Heading>

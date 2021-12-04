@@ -6,20 +6,21 @@
   "announcement": "Duyuru",
   "news": "Haber",
   "about-us": {
+    "title": "Hakkımızda",
     "who-we-are": {
       "title": "Biz kimiz?",
       "description": "Hukukun üstünlüğünü, demokrasi ve insan haklarını destekleyen, Hollanda’da yaşayan değişik meslek sahibi gönüllüler tarafından kurulmuştur. Ekibimiz ağırlıklı olarak Türkiye’yi siyasi nedenlerle terk eden kişilerden oluşur."
     },
     "our-vision": {
-      "title": "Vizyonumuz:",
+      "title": "Vizyonumuz",
       "description": "İnsan hakları ihlalleri kamuoyuna paylaşıldıkça ihlaller azalacak veya sona erecektir."
     },
     "our-mission": {
-      "title": "Misyonumuz:",
+      "title": "Misyonumuz",
       "description": "Türkiye’de meydana gelen ve Türk devletinin diğer ülkelerde yaptığı insan hakları ihlallerini, bundan dolayı oluşan mağduriyetler konusundaki doğru bilgiyi kamuoyuyla paylaşmak."
     },
     "our-aim": {
-      "title": "Amacımız:",
+      "title": "Amacımız",
       "description": "Wees de stem voor vrijheid (WSVV) Türkiye’de meydana gelen ve Türk devletinin diğer ülkelerde yaptığı insan hakları ihlallerini, bundan dolayı oluşan mağduriyetler konusundaki doğru bilgiyi kamuoyuyla paylaşmak."
     }
   },
@@ -32,7 +33,7 @@
   "footer_menu": "Menuler",
   "follow_us": "Bizi takip edin",
   "society": "Vakfımız",
-  "footer_about": " Turkce ===Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolores, blanditiis dignissimos recusandae fuga commodi sunt ipsam quas magni expedita ut soluta tempore dolorem inventore voluptates autem error doloremque quidem sed?",
+  "footer_about": "Sessizlik özğürlüğün en büyük düşmanıdır.",
   "contact": {
     "title": "İletişim",
     "fill-form": "İletişim için formu doldurunuz",

@@ -7,20 +7,21 @@
   "announcement": "Announcement",
   "news": "News",
   "about-us": {
+    "title": "About Us",
     "who-we-are": {
       "title": "Who are we?",
       "description": "It was founded by volunteers from various professions living in the Netherlands who support the rule of law, democracy and human rights. Our team mainly consists of people who left Turkey for political reasons."
     },
     "our-vision": {
-      "title": "Our Vision:",
+      "title": "Our Vision",
       "description": "As human rights violations are made public, violations will decrease or end."
     },
     "our-mission": {
-      "title": "Our Mission:",
+      "title": "Our Mission",
       "description": "To share with the public accurate information about the human rights violations that took place in Turkey and the Turkish state in other countries, and the resulting grievances."
     },
     "our-aim": {
-      "title": "Our Purpose:",
+      "title": "Our Purpose",
       "description": "Wees de stem voor vrijheid (WSVV) To share with the public accurate information about the human rights violations that took place in Turkey and the Turkish state in other countries, and the resulting grievances."
     }
   },
