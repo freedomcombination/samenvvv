@@ -33,8 +33,11 @@
     }
   },
   "post-share": {
+    "search-label": "Kullanıcı Ara",
     "mention-list-label": "Popüler Kullanıcılar",
-    "trends-label": "Trends",
+    "mention-tab-popular": "Popüler",
+    "mention-tab-saved": "Kaydedilen",
+    "trends-label": "Trendler",
     "add": "Ekle",
     "share-tweet": "Tweet Paylaş",
     "next-tweet": "Sonraki Tweet",
@@ -43,6 +46,7 @@
     "content-label": "İçerik",
     "other-posts": "Diğer Postlar",
     "add-mention": "Mention Ekle",
+    "latest-tweets-label": "Son Tweetler",
     "tabs": {
       "share": "Paylaş",
       "archive": "Arşiv"

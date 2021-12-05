@@ -4,7 +4,6 @@ import {
   DrawerBody,
   DrawerCloseButton,
   DrawerContent,
-  DrawerHeader,
   DrawerOverlay,
   Heading,
   HStack,
@@ -114,10 +113,9 @@ const HashtagPostView = ({ pageData }: HashtagProps): JSX.Element => {
                   </VStack>
                   <Drawer isOpen={isOpen} placement="left" onClose={onClose}>
                     <DrawerOverlay />
-                    <DrawerContent>
+                    <DrawerContent py={4}>
                       <DrawerCloseButton />
-                      <DrawerHeader>{t`post-share.add-mention`}</DrawerHeader>
-                      <DrawerBody>
+                      <DrawerBody as={VStack} w={300} align="stretch">
                         <MentionSearch />
                         <MentionList />
                         <TrendList />
@@ -136,7 +134,7 @@ const HashtagPostView = ({ pageData }: HashtagProps): JSX.Element => {
             </TabPanels>
           </Tabs>
           <Box w={{ base: 'full', lg: '300px' }}>
-            <TweetWidget />
+            <TweetWidget title={t`post-share.latest-tweets-label`} />
           </Box>
         </Stack>
       </Container>

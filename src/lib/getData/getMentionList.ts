@@ -3,17 +3,9 @@ import { useQuery, UseQueryResult } from 'react-query'
 
 import { graphQLClient } from '@lib'
 
-interface IMention {
-  username: string
-  user_data: ITweetUserData
-  country: string
-  category: string
-}
-
 export const GET_MENTION_LIST = gql`
-  query getMentions {
+  query getMentionsData {
     mentions {
-      username
       user_data
       country
       category
