@@ -34,7 +34,10 @@
     }
   },
   "post-share": {
+    "search-label": "Search Users",
     "mention-list-label": "Popular Users",
+    "mention-tab-popular": "Popular",
+    "mention-tab-saved": "Saved",
     "trends-label": "Trends",
     "add": "Add",
     "share-tweet": "Share Tweet",
@@ -44,6 +47,7 @@
     "content-label": "Content",
     "other-posts": "Other Posts",
     "add-mention": "Add Mention",
+    "latest-tweets-label": "Latest Tweets",
     "tabs": {
       "share": "Share",
       "archive": "Archive"

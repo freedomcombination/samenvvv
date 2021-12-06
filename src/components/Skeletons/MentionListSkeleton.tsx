@@ -5,10 +5,16 @@ import {
   SkeletonText,
 } from '@chakra-ui/react'
 
-export const MentionListSkeleton = (): JSX.Element => {
+interface MentionListSkeletonProps {
+  itemCount?: number
+}
+
+export const MentionListSkeleton = ({
+  itemCount = 6,
+}: MentionListSkeletonProps): JSX.Element => {
   return (
     <>
-      {new Array(5).fill(null).map((_, i) => (
+      {new Array(itemCount).fill(null).map((_, i) => (
         <HStack key={i}>
           <HStack flex="1" px={4} py={3}>
             <SkeletonCircle />

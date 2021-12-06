@@ -8,23 +8,19 @@ import {
   Flex,
   SimpleGrid,
   Stack,
-  Tag,
-  TagCloseButton,
-  TagLabel,
   Text,
   useBoolean,
   VStack,
-  Wrap,
 } from '@chakra-ui/react'
 import { TwitterShareButton } from 'next-share'
 import { useRouter } from 'next/router'
 import { useTranslation } from 'react-i18next'
 import { FaAt, FaEdit, FaRandom, FaTwitter } from 'react-icons/fa'
 
-import { ChakraNextImage, Navigate } from '@components'
+import { ChakraNextImage, Navigate, TagList } from '@components'
 import {
   checkCharacterCount,
-  removeMention,
+  removeMentionUsername,
   removeTrend,
   setPostContent,
   setPostText,
@@ -49,7 +45,7 @@ export const PostContainer = ({
   const {
     postText,
     postContent,
-    mentions,
+    mentionUsernames,
     trends,
     isCharCountExceeded: isCharacterCountExceeded,
     totalCharCount,
@@ -70,17 +66,17 @@ export const PostContainer = ({
   const tweetUrl = `${process.env.NEXT_PUBLIC_SITE_URL}/${locale}/${post?.hashtag?.page?.slug}/${post?.hashtag?.slug}/${post.slug}`
 
   useEffect(() => {
-    const mentionsStr = mentions.join('\n@').replace('@@', '@')
+    const mentionsStr = mentionUsernames.join('\n')
     // prettier-ignore
     const trendsStr = post.hashtag?.hashtag + (trends.length > 0 ? '\n' + trends.join('\n') : '')
     const postContent = `${postText}\n\n${mentionsStr}\n\n${trendsStr}`
 
     dispatch(setPostContent(postContent))
     dispatch(checkCharacterCount())
-  }, [postText, mentions, trends, post, dispatch, locale])
+  }, [postText, mentionUsernames, trends, post, dispatch, locale])
 
   const onRemoveMention = (mention: string) => {
-    dispatch(removeMention(mention))
+    dispatch(removeMentionUsername(mention))
   }
   const onRemoveTrend = (trend: string) => {
     dispatch(removeTrend(trend))
@@ -131,7 +127,7 @@ export const PostContainer = ({
             /280
           </Text>
         </Flex>
-        <Box h={600} overflow="auto">
+        <Box h={{ base: 'auto', lg: 600 }} overflow="auto">
           <Box
             p={4}
             rounded="lg"
@@ -170,43 +166,26 @@ export const PostContainer = ({
               </chakra.div>
             )}
             <Box mt={2}>
-              {mentions?.length > 0 && (
+              {mentionUsernames?.length > 0 && (
                 <Box mb={2}>
                   <Text color="gray.500" fontSize="sm">
                     Mentions
                   </Text>
-                  <Wrap>
-                    {mentions.map((mention, i) => (
-                      <Tag
-                        rounded="full"
-                        key={i}
-                        variant="outline"
-                        colorScheme="primary"
-                      >
-                        <TagLabel>{mention}</TagLabel>
-                        <TagCloseButton
-                          onClick={() => onRemoveMention(mention)}
-                        />
-                      </Tag>
-                    ))}
-                  </Wrap>
+                  <TagList
+                    tags={mentionUsernames}
+                    onClickButton={onRemoveMention}
+                    colorScheme="primary"
+                  />
                 </Box>
               )}
               <Box mb={2}>
                 <Text color="gray.500" fontSize="sm">
-                  Trends
+                  {t`post-share.trends-label`}
                 </Text>
-                <Wrap>
-                  <Tag rounded="full" variant="outline">
-                    <TagLabel>{post?.hashtag?.hashtag}</TagLabel>
-                  </Tag>
-                  {trends.map((trend, i) => (
-                    <Tag rounded="full" key={i} variant="outline">
-                      <TagLabel>{trend}</TagLabel>
-                      <TagCloseButton onClick={() => onRemoveTrend(trend)} />
-                    </Tag>
-                  ))}
-                </Wrap>
+                <TagList
+                  tags={[post?.hashtag?.hashtag as string, ...trends]}
+                  onClickButton={onRemoveTrend}
+                />
               </Box>
             </Box>
             {post?.image && (
@@ -225,7 +204,7 @@ export const PostContainer = ({
           </Box>
         </Box>
         <SimpleGrid
-          columns={2}
+          columns={{ base: 1, xl: 2 }}
           spacing={2}
           mt="auto"
           flex={1}
