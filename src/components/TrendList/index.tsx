@@ -1,22 +1,10 @@
 import { useMemo } from 'react'
 
-import {
-  Box,
-  Tag,
-  TagCloseButton,
-  TagLabel,
-  Text,
-  VStack,
-  Wrap,
-} from '@chakra-ui/react'
+import { Text, VStack } from '@chakra-ui/react'
 import { useTranslation } from 'react-i18next'
 
-import {
-  addTrend,
-  checkCharacterCount,
-  useAppDispatch,
-  useAppSelector,
-} from '@store'
+import { TagList } from '@components'
+import { addTrend, useAppDispatch, useAppSelector } from '@store'
 
 // TODO: Data should be fetched from API
 const EXAMPLE_TRENDS = [
@@ -30,9 +18,8 @@ export const TrendList = (): JSX.Element => {
   const { trends } = useAppSelector(state => state.postShare)
   const dispatch = useAppDispatch()
 
-  const onAddTrend = (trend: string) => {
-    dispatch(addTrend(trend))
-    dispatch(checkCharacterCount())
+  const onAddTrend = (value: string) => {
+    dispatch(addTrend(value))
   }
 
   const currentTrendList = useMemo(
@@ -41,7 +28,7 @@ export const TrendList = (): JSX.Element => {
   )
 
   return (
-    <Box w="full">
+    <VStack w="full" align="stretch">
       <Text color="gray.500" fontSize="sm">{t`post-share.trends-label`}</Text>
       <VStack
         align="stretch"
@@ -50,23 +37,14 @@ export const TrendList = (): JSX.Element => {
         borderWidth={1}
         bg="white"
         overflowY="auto"
+        p={4}
       >
-        <Wrap p={4}>
-          {currentTrendList.map((trend, i) => (
-            <Tag
-              cursor="pointer"
-              rounded="full"
-              key={i}
-              colorScheme="primary"
-              variant="subtle"
-              onClick={() => onAddTrend(trend)}
-            >
-              <TagLabel>{trend ?? 'Test'}</TagLabel>
-              <TagCloseButton transform="rotate(45deg)" />
-            </Tag>
-          ))}
-        </Wrap>
+        <TagList
+          tags={currentTrendList}
+          onClickButton={onAddTrend}
+          action="add"
+        />
       </VStack>
-    </Box>
+    </VStack>
   )
 }

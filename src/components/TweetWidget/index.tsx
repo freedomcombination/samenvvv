@@ -2,11 +2,15 @@ import { Box, Text, VStack } from '@chakra-ui/react'
 
 import { HashtagTimeline } from '@components'
 
-export const TweetWidget = (): JSX.Element => {
+interface TweetWidgetProps {
+  title: string
+}
+
+export const TweetWidget = ({ title }: TweetWidgetProps): JSX.Element => {
   return (
     <VStack align="stretch" justify="stretch">
       <Text color="gray.500" fontSize="sm">
-        Latest Tweets
+        {title}
       </Text>
       <Box
         bg="white"

@@ -33,7 +33,10 @@
     }
   },
   "post-share": {
+    "search-label": "Gebruikers Zoeken",
     "mention-list-label": "Populaire Gebruikers",
+    "mention-tab-popular": "Populair",
+    "mention-tab-saved": "Opgeslagen",
     "trends-label": "Trends",
     "add": "Toev.",
     "share-tweet": "Deel Tweet",
@@ -43,6 +46,7 @@
     "content-label": "Inhoud",
     "other-posts": "Andere Posts",
     "add-mention": "Mention Toevoegen",
+    "latest-tweets-label": "Laatste Tweets",
     "tabs": {
       "share": "Delen",
       "archive": "Archief"
