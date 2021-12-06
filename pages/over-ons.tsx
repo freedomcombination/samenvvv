@@ -1,35 +1,132 @@
 import React from 'react'
 
-import { Box, Heading, Stack, Text } from '@chakra-ui/react'
+import { Box, Heading, HStack, Text, VStack } from '@chakra-ui/react' //Stack,
 import { GetStaticProps } from 'next'
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import { FaArrowDown } from 'react-icons/fa'
 
-import { Container, Hero, Layout } from '@components'
+import {
+  AnimatedBox,
+  ChakraNextImage,
+  Container,
+  Hero,
+  Layout,
+  MotionBox,
+} from '@components'
 
 const OverOns = (): JSX.Element => {
   const { t } = useTranslation()
   return (
-    <Layout>
+    <Layout scrollHeight={100}>
+      <Hero
+        isFullHeight={false}
+        title={t('about-us.title')}
+        image={`http://localhost:3000/images/about-us.jpeg`} //to do: this url must be vhange when product modul
+      />
       <Container>
-        <Hero
-          isFullHeight={false}
-          title={t('about-us.title')}
-          // image={AboutImage}
-        />
-        <Stack spacing={6}>
-          <Heading>{t('about-us.who-we-are.title')}</Heading>
-          <Box ml={'20px'}>
-            <Text fontSize="xl">{t('about-us.who-we-are.description')}</Text>
-          </Box>
+        <HStack mt="20vh" align="stretch" rounded="lg" overflow="hidden">
+          <AnimatedBox directing="to-left" delay={5}>
+            <VStack align="stretch" p={4}>
+              <Heading as="h3" size="lg">
+                {t('about-us.who-we-are.title')}
+              </Heading>
+              <Text>{t('about-us.who-we-are.description')}</Text>
+            </VStack>
+          </AnimatedBox>
+          <AnimatedBox directing="to-right" delay={7}>
+            <ChakraNextImage
+              w="full"
+              h="full"
+              image="https://picsum.photos/seed/picsum/900"
+            />
+          </AnimatedBox>
+        </HStack>
 
-          <Heading>{t('about-us.our-vision.title')}</Heading>
-          <Text fontSize="xl">{t('about-us.our-vision.description')}</Text>
-          <Heading>{t('about-us.our-mission.title')}</Heading>
-          <Text fontSize="xl">{t('about-us.our-mission.description')}</Text>
-          <Heading>{t('about-us.our-aim.title')}</Heading>
-          <Text fontSize="xl">{t('about-us.our-aim.description')}</Text>
-        </Stack>
+        <MotionBox
+          animate={{ x: 0, y: 50 }}
+          transition={{
+            type: 'spring',
+            damping: 2,
+            stiffness: 50,
+            repeat: Infinity,
+          }}
+        >
+          <Box color="primary.400" mx="auto" as={FaArrowDown} boxSize={64} />
+        </MotionBox>
+        <HStack mt="20vh" align="stretch" rounded="lg" overflow="hidden">
+          <AnimatedBox directing="to-right" delay={5}>
+            <VStack align="stretch" p={4}>
+              <Heading as="h3" size="lg">
+                {t('about-us.our-vision.title')}
+              </Heading>
+              <Text>{t('about-us.our-vision.description')}</Text>
+            </VStack>
+          </AnimatedBox>
+          <AnimatedBox directing="to-left" delay={7}>
+            <ChakraNextImage
+              w="full"
+              h="full"
+              image="https://picsum.photos/seed/picsum/900"
+            />
+          </AnimatedBox>
+        </HStack>
+        <MotionBox
+          animate={{ x: 0, y: 50 }}
+          transition={{
+            type: 'spring',
+            damping: 2,
+            stiffness: 50,
+            repeat: Infinity,
+          }}
+        >
+          <Box color="primary.400" mx="auto" as={FaArrowDown} boxSize={64} />
+        </MotionBox>
+        <HStack mt="20vh" align="stretch" rounded="lg" overflow="hidden">
+          <AnimatedBox directing="to-left" delay={5}>
+            <VStack align="stretch" p={4}>
+              <Heading as="h3" size="lg">
+                {t('about-us.our-mission.title')}
+              </Heading>
+              <Text>{t('about-us.our-mission.description')}</Text>
+            </VStack>
+          </AnimatedBox>
+          <AnimatedBox directing="to-right" delay={7}>
+            <ChakraNextImage
+              w="full"
+              h="full"
+              image="https://picsum.photos/seed/picsum/900"
+            />
+          </AnimatedBox>
+        </HStack>
+        <MotionBox
+          animate={{ x: 0, y: 50 }}
+          transition={{
+            type: 'spring',
+            damping: 2,
+            stiffness: 50,
+            repeat: Infinity,
+          }}
+        >
+          <Box color="primary.400" mx="auto" as={FaArrowDown} boxSize={64} />
+        </MotionBox>
+        <HStack mt="20vh" align="stretch" rounded="lg" overflow="hidden">
+          <AnimatedBox directing="to-right" delay={5}>
+            <VStack align="stretch" p={4}>
+              <Heading as="h3" size="lg">
+                {t('about-us.our-aim.title')}
+              </Heading>
+              <Text>{t('about-us.our-aim.description')}</Text>
+            </VStack>
+          </AnimatedBox>
+          <AnimatedBox directing="to-left" delay={7}>
+            <ChakraNextImage
+              w="full"
+              h="full"
+              image="https://picsum.photos/seed/picsum/900"
+            />
+          </AnimatedBox>
+        </HStack>
       </Container>
     </Layout>
   )
@@ -44,32 +141,3 @@ export const getStaticProps: GetStaticProps = async context => {
     },
   }
 }
-/*
-"about-us": {
-    "who-we-are": {
-      "title": "Biz kimiz?",
-      "description": [
-        "Hukukun üstünlüğünü, demokrasi ve insan haklarını destekleyen, Hollanda’da yaşayan değişik meslek sahibi gönüllüler tarafından kurulmuştur. Ekibimiz ağırlıklı olarak Türkiye’yi siyasi nedenlerle terk eden kişilerden oluşur."
-      ]
-    },
-    "our-vision": {
-      "title": "Vizyonumuz:",
-      "description": [
-        "İnsan hakları ihlalleri kamuoyuna paylaşıldıkça ihlaller azalacak veya sona erecektir."
-      ]
-    },
-    "our-mission": {
-      "title": "Misyonumuz:",
-      "description": [
-        "Türkiye’de meydana gelen ve Türk devletinin diğer ülkelerde yaptığı insan hakları ihlallerini, bundan dolayı oluşan mağduriyetler konusundaki doğru bilgiyi kamuoyuyla paylaşmak."
-      ]
-    },
-    "our-aim": {
-      "title": "Amacımız:",
-      "description": [
-        "Wees de stem voor vrijheid (WSVV) Türkiye’de meydana gelen ve Türk devletinin diğer ülkelerde yaptığı insan hakları ihlallerini, bundan dolayı oluşan mağduriyetler konusundaki doğru bilgiyi kamuoyuyla paylaşmak."
-      ]
-    }
-  },
-
-*/
