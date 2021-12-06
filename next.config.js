@@ -10,6 +10,7 @@ module.exports = {
       'images.unsplash.com',
       'samenvvvv.com',
       'media.istockphoto.com',
+      process.env.NEXT_PUBLIC_SITE_URL.replace('https://', ''),
     ],
   },
   async rewrites() {

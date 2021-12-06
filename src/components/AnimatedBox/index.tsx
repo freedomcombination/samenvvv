@@ -1,15 +1,10 @@
 import React, { ReactNode, useEffect } from 'react'
 
-import {
-  motion,
-  MotionProps,
-  Transition,
-  useAnimation,
-  Variants,
-} from 'framer-motion'
+import { BoxProps } from '@chakra-ui/react'
+import { MotionProps, Transition, useAnimation, Variants } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
 
-//import { MotionBox } from '@components'
+import { MotionBox } from '@components'
 
 interface AnimatedBoxProps {
   children: ReactNode
@@ -24,7 +19,7 @@ interface AnimatedBoxProps {
 }
 
 export const AnimatedBox = (
-  props: Partial<AnimatedBoxProps> & MotionProps,
+  props: Partial<AnimatedBoxProps> & MotionProps & BoxProps,
 ): JSX.Element => {
   const {
     children,
@@ -33,7 +28,6 @@ export const AnimatedBox = (
     hasHover = false,
     delay = 0,
     duration = 1,
-    transition,
     variants,
   } = props
   const controls = useAnimation()
@@ -70,11 +64,10 @@ export const AnimatedBox = (
     damping: 10,
     type: 'spring',
     delay: delay / 10,
-    ...((transition as Transition) || {}),
-  } as Transition
+  }
 
   return (
-    <motion.div
+    <MotionBox
       ref={ref}
       animate={controls}
       transition={transitionMerge}
@@ -87,8 +80,9 @@ export const AnimatedBox = (
         whileHover: { scale: 1.05, type: 'spring' },
         whileTap: { scale: 1.02 },
       })}
+      {...props}
     >
       {children}
-    </motion.div>
+    </MotionBox>
   )
 }

@@ -5,25 +5,6 @@
   "prev": "Önceki",
   "announcement": "Duyuru",
   "news": "Haber",
-  "about-us": {
-    "title": "Hakkımızda",
-    "who-we-are": {
-      "title": "Biz kimiz?",
-      "description": "Hukukun üstünlüğünü, demokrasi ve insan haklarını destekleyen, Hollanda’da yaşayan değişik meslek sahibi gönüllüler tarafından kurulmuştur. Ekibimiz ağırlıklı olarak Türkiye’yi siyasi nedenlerle terk eden kişilerden oluşur."
-    },
-    "our-vision": {
-      "title": "Vizyonumuz",
-      "description": "İnsan hakları ihlalleri kamuoyuna paylaşıldıkça ihlaller azalacak veya sona erecektir."
-    },
-    "our-mission": {
-      "title": "Misyonumuz",
-      "description": "Türkiye’de meydana gelen ve Türk devletinin diğer ülkelerde yaptığı insan hakları ihlallerini, bundan dolayı oluşan mağduriyetler konusundaki doğru bilgiyi kamuoyuyla paylaşmak."
-    },
-    "our-aim": {
-      "title": "Amacımız",
-      "description": "Wees de stem voor vrijheid (WSVV) Türkiye’de meydana gelen ve Türk devletinin diğer ülkelerde yaptığı insan hakları ihlallerini, bundan dolayı oluşan mağduriyetler konusundaki doğru bilgiyi kamuoyuyla paylaşmak."
-    }
-  },
   "about": {
     "title": "Ne yapıyoruz?",
     "description": "something"
