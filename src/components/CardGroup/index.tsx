@@ -18,7 +18,7 @@ export const CardGroup = ({
   return (
     <SimpleGrid columns={{ base: 1, md: 2, lg: 4 }} spacing={10}>
       {items.map((item, i) => (
-        <AnimatedBox key={i} delay={i} directing="to-down">
+        <AnimatedBox key={i} delay={i} directing="to-down" hasHover>
           <Card
             item={item}
             isSimple={isSimple}

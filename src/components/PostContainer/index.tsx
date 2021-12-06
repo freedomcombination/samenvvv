@@ -18,8 +18,8 @@ import { useTranslation } from 'react-i18next'
 import { FaAt, FaEdit, FaRandom, FaTwitter } from 'react-icons/fa'
 
 import { ChakraNextImage, Navigate, TagList } from '@components'
+import { useItemLink } from '@hooks'
 import {
-  checkCharacterCount,
   removeMentionUsername,
   removeTrend,
   setPostContent,
@@ -27,6 +27,8 @@ import {
   useAppDispatch,
   useAppSelector,
 } from '@store'
+import { getItemLink } from '@utils'
+import { useCheckCharacterCount } from 'src/hooks/useCheckCharacterCount'
 
 export const PostContainer = ({
   onOpen,
@@ -42,28 +44,25 @@ export const PostContainer = ({
 
   const contentRef = useRef<HTMLTextAreaElement | null>(null)
 
-  const {
-    postText,
-    postContent,
-    mentionUsernames,
-    trends,
-    isCharCountExceeded: isCharacterCountExceeded,
-    totalCharCount,
-  } = useAppSelector(state => state.postShare)
+  const { postText, postContent, mentionUsernames, trends } = useAppSelector(
+    state => state.postShare,
+  )
+
+  const [totalCharCount, isCharacterCountExceeded] = useCheckCharacterCount()
 
   const redirectToRandomPost = useCallback(() => {
     const randomPostIndex = Math.floor(
       Math.random() * (post?.posts?.length || 0),
     )
 
-    const randomPost = post?.posts?.[randomPostIndex]
+    const randomPost = post?.posts?.[randomPostIndex] as IHashtagPost
+    const randomPostLink = getItemLink(randomPost, locale as string)
 
-    push(
-      `/${post?.hashtag?.page?.slug}/${post?.hashtag?.slug}/${randomPost?.slug}`,
-    )
-  }, [post, push])
+    push(randomPostLink as string)
+  }, [post, locale, push])
 
-  const tweetUrl = `${process.env.NEXT_PUBLIC_SITE_URL}/${locale}/${post?.hashtag?.page?.slug}/${post?.hashtag?.slug}/${post.slug}`
+  const postUrl = useItemLink(post)
+  const postUrlAbsolute = useItemLink(post, 'absolute')
 
   useEffect(() => {
     const mentionsStr = mentionUsernames.join('\n')
@@ -72,7 +71,6 @@ export const PostContainer = ({
     const postContent = `${postText}\n\n${mentionsStr}\n\n${trendsStr}`
 
     dispatch(setPostContent(postContent))
-    dispatch(checkCharacterCount())
   }, [postText, mentionUsernames, trends, post, dispatch, locale])
 
   const onRemoveMention = (mention: string) => {
@@ -239,8 +237,12 @@ export const PostContainer = ({
           >
             {t`post-share.next-tweet`}
           </Button>
-          <TwitterShareButton title={postContent} url={tweetUrl}>
+          <TwitterShareButton
+            title={postContent}
+            url={postUrlAbsolute as string}
+          >
             <Button
+              as="span"
               isFullWidth
               rounded="full"
               colorScheme="twitter"
@@ -279,9 +281,7 @@ export const PostContainer = ({
                 overflow="hidden"
                 flexShrink={0}
               >
-                <Navigate
-                  href={`/${post?.hashtag?.page?.slug}/${post?.hashtag?.slug}/${p?.slug}`}
-                >
+                <Navigate href={postUrl as string}>
                   <ChakraNextImage
                     w={150}
                     h={85}

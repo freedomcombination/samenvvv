@@ -8,7 +8,7 @@ import { MdEvent } from 'react-icons/md'
 const timeLocale: Record<string, Locale> = { en, nl, tr }
 
 interface PageTimeLabelProps {
-  pageData: ISubpage
+  pageData: ISubpage | IHashtag
 }
 
 const formatLocale = (date: string, locale: string) =>
@@ -21,13 +21,16 @@ export const PageTimeLabel = ({
   ...rest
 }: PageTimeLabelProps & StackProps): JSX.Element => {
   const { locale } = useRouter()
+  const hashtag = pageData as IHashtag
+  const subpage = pageData as ISubpage
 
   return (
     <HStack {...rest}>
       <MdEvent />
       <Box>
-        {pageData.start && formatLocale(pageData.start, locale as string)}
-        {pageData.end && `- ${formatLocale(pageData.end, locale as string)}`}
+        {hashtag.date && formatLocale(hashtag.date, locale as string)}
+        {subpage.start && formatLocale(subpage.start, locale as string)}
+        {subpage.end && ` - ${formatLocale(subpage.end, locale as string)}`}
       </Box>
     </HStack>
   )

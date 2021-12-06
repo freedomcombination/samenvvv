@@ -18,19 +18,19 @@ import {
   VStack,
 } from '@chakra-ui/react'
 import { MDXRemoteSerializeResult } from 'next-mdx-remote'
-import { useRouter } from 'next/router'
 import { useTranslation } from 'react-i18next'
 
 import {
-  CardGroup,
   Container,
   Layout,
   MentionList,
+  MentionSearch,
+  PostArchive,
   PostContainer,
   TrendList,
   TweetWidget,
 } from '@components'
-import { MentionSearch } from 'src/components/MentionSearch'
+import { useItemLink } from '@hooks'
 
 interface HashtagProps {
   slug: Record<string, string[]>
@@ -39,8 +39,8 @@ interface HashtagProps {
 }
 
 const HashtagPostView = ({ pageData }: HashtagProps): JSX.Element => {
-  const { locale } = useRouter()
   const { isOpen, onOpen, onClose } = useDisclosure()
+  const postUrl = useItemLink(pageData)
 
   const { t } = useTranslation()
 
@@ -51,7 +51,7 @@ const HashtagPostView = ({ pageData }: HashtagProps): JSX.Element => {
         description: '',
         image:
           `${process.env.NEXT_PUBLIC_ADMIN_URL}${pageData?.image?.url}` as string,
-        url: `${process.env.NEXT_PUBLIC_SITE_URL}/${locale}/${pageData?.hashtag?.page?.slug}/${pageData?.hashtag?.slug}/${pageData?.slug}`,
+        url: postUrl as string,
         width: pageData?.image?.width as number,
         height: pageData?.image?.height as number,
         type: pageData?.image?.mime as string,
@@ -126,15 +126,13 @@ const HashtagPostView = ({ pageData }: HashtagProps): JSX.Element => {
                 </HStack>
               </TabPanel>
               <TabPanel px={0}>
-                <CardGroup
-                  items={
+                <PostArchive
+                  posts={
                     pageData.posts?.map(post => ({
                       ...post,
                       hashtag: pageData.hashtag,
                     })) as IHashtagPost[]
                   }
-                  isSimple
-                  isSocial
                 />
               </TabPanel>
             </TabPanels>

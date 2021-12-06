@@ -20,7 +20,7 @@ import { Swiper, SwiperSlide } from 'swiper/react'
 
 import { Card, Container, SliderHero } from '@components'
 
-const SwiperBox = chakra(Swiper)
+export const SwiperBox = chakra(Swiper)
 
 interface SliderProps {
   heading: string

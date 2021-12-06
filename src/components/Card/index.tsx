@@ -1,6 +1,5 @@
 import { ReactNode } from 'react'
 
-/* eslint-disable import/no-duplicates */
 import {
   Badge,
   Box,
@@ -8,10 +7,9 @@ import {
   Divider,
   Heading,
   Text,
+  Tooltip,
   VStack,
-  Wrap,
 } from '@chakra-ui/react'
-import { useRouter } from 'next/router'
 import removeMarkdown from 'remove-markdown'
 
 import {
@@ -20,8 +18,8 @@ import {
   PageTimeLabel,
   ShareButtons,
 } from '@components'
-import { getItemLink, truncateText } from '@utils'
-// const timeLocale: Record<string, Locale> = { en, nl, tr }
+import { useItemLink } from '@hooks'
+
 interface CardWrapperProps {
   children: ReactNode
   link: string | null
@@ -38,17 +36,17 @@ interface CardProps extends ChakraProps {
 
 export const Card = (props: CardProps): JSX.Element => {
   const { item, isSimple, isSocial, hasLink, ...rest } = props
-  const { locale } = useRouter()
 
-  const link = getItemLink(item, locale as string)
+  const link = useItemLink(item)
+  const absoluteLink = useItemLink(item, 'absolute')
 
   const post = item as IHashtagPost
   const subpage = item as ISubpage
   const subpageOrApplication = item as ISubpage | IApplication
 
-  const title = subpageOrApplication.title || post.hashtag?.title
+  const title = subpageOrApplication.title || ''
   const content = post.text || removeMarkdown(subpageOrApplication.content)
-  const type = subpage.page?.type || null
+  const type = subpage.type
 
   return (
     <CardWrapper link={hasLink ? link : null}>
@@ -62,8 +60,7 @@ export const Card = (props: CardProps): JSX.Element => {
         transition="all 0.3s ease-in-out"
         {...rest}
       >
-        <ChakraNextImage h={150} image={item.image?.url as string} />
-
+        <ChakraNextImage ratio="twitter" image={item.image?.url as string} />
         {type && (
           <Badge
             pos="absolute"
@@ -76,29 +73,32 @@ export const Card = (props: CardProps): JSX.Element => {
             {type}
           </Badge>
         )}
-        <VStack p="4" spacing={4} align="start">
-          {title && (
-            <Heading as="h3" size="md" noOfLines={1} fontWeight="bold">
-              {title}
-            </Heading>
+        <VStack p={4} spacing={2} align="start">
+          {!isSimple && subpage.page && (
+            <PageTimeLabel color="gray.500" fontSize="sm" pageData={subpage} />
           )}
+          {title && (
+            <Tooltip label={title}>
+              <Heading as="h3" size="md" noOfLines={1} fontWeight="bold">
+                {title}
+              </Heading>
+            </Tooltip>
+          )}
+
           <Text noOfLines={2} fontSize="1rem" mt={2}>
             {content}
           </Text>
-          <Divider />
-          <Wrap justify="space-between" fontSize="sm" w="full">
-            {!isSimple && subpage.page && <PageTimeLabel pageData={subpage} />}
-            {isSocial && link && (
+
+          {isSocial && link && (
+            <>
+              <Divider />
               <ShareButtons
-                title={
-                  title +
-                  '\n' +
-                  truncateText(content, 250 - (title?.length || 0))
-                }
-                url={process.env.NEXT_PUBLIC_SITE_URL + link}
+                title={title as string}
+                quote={content}
+                url={absoluteLink as string}
               />
-            )}
-          </Wrap>
+            </>
+          )}
         </VStack>
       </Box>
     </CardWrapper>

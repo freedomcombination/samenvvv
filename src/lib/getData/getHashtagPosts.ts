@@ -9,6 +9,7 @@ export const GET_HASHTAG_POSTS = gql`
     hashtagPosts(locale: $locale, where: { hashtag: { slug: $slug } }) {
       id
       slug
+      text
       locale
       image {
         url

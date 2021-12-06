@@ -21,8 +21,6 @@ export type PostShareState = {
   mentions: IMention[]
   isMentionListLoading: boolean
   trends: string[]
-  isCharCountExceeded: boolean
-  totalCharCount: number
   mentionSearchKey: string
 }
 
@@ -37,8 +35,6 @@ const initialState: PostShareState = {
   mentions: [],
   isMentionListLoading: false,
   trends: [],
-  isCharCountExceeded: false,
-  totalCharCount: 0,
   mentionSearchKey: '',
 }
 
@@ -82,18 +78,6 @@ export const postShareSlice = createSlice({
     },
     setPostContent: (state, action: PayloadAction<string>) => {
       state.postContent = action.payload
-    },
-    checkCharacterCount: (state, action: PayloadAction<string | undefined>) => {
-      const twitterCharLimit = 280
-      const linkCharCount = 23 + 2 // 2 chars is because of the library leaves spaces before/after the link
-      const textCharCount = (action.payload ?? state.postContent).length
-
-      const totalCharCount = linkCharCount + textCharCount
-
-      state.totalCharCount = totalCharCount
-
-      if (totalCharCount > twitterCharLimit) state.isCharCountExceeded = true
-      else state.isCharCountExceeded = false
     },
     clearTwitterUsers: state => {
       state.twitterUsers = []
@@ -142,7 +126,6 @@ export const {
   removeMentionUsername,
   addTrend,
   removeTrend,
-  checkCharacterCount,
   setPostText,
   setPostContent,
   setMentionSearchKey,
