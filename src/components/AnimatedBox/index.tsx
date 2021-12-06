@@ -1,9 +1,15 @@
 import React, { ReactNode, useEffect } from 'react'
 
-import { MotionProps, Transition, useAnimation, Variants } from 'framer-motion'
+import {
+  motion,
+  MotionProps,
+  Transition,
+  useAnimation,
+  Variants,
+} from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
 
-import { MotionBox } from '@components'
+//import { MotionBox } from '@components'
 
 interface AnimatedBoxProps {
   children: ReactNode
@@ -68,7 +74,7 @@ export const AnimatedBox = (
   } as Transition
 
   return (
-    <MotionBox
+    <motion.div
       ref={ref}
       animate={controls}
       transition={transitionMerge}
@@ -83,6 +89,6 @@ export const AnimatedBox = (
       })}
     >
       {children}
-    </MotionBox>
+    </motion.div>
   )
 }

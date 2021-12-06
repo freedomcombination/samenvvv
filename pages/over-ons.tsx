@@ -12,8 +12,7 @@ import {
   Container,
   Hero,
   Layout,
-  MotionBox,
-} from '@components'
+} from '@components' // MotionBox,
 
 const OverOns = (): JSX.Element => {
   const { t } = useTranslation()
@@ -43,7 +42,7 @@ const OverOns = (): JSX.Element => {
           </AnimatedBox>
         </HStack>
 
-        <MotionBox
+        <AnimatedBox
           animate={{ x: 0, y: 50 }}
           transition={{
             type: 'spring',
@@ -53,7 +52,7 @@ const OverOns = (): JSX.Element => {
           }}
         >
           <Box color="primary.400" mx="auto" as={FaArrowDown} boxSize={64} />
-        </MotionBox>
+        </AnimatedBox>
         <HStack mt="20vh" align="stretch" rounded="lg" overflow="hidden">
           <AnimatedBox directing="to-right" delay={5}>
             <VStack align="stretch" p={4}>
@@ -71,7 +70,7 @@ const OverOns = (): JSX.Element => {
             />
           </AnimatedBox>
         </HStack>
-        <MotionBox
+        <AnimatedBox
           animate={{ x: 0, y: 50 }}
           transition={{
             type: 'spring',
@@ -81,7 +80,7 @@ const OverOns = (): JSX.Element => {
           }}
         >
           <Box color="primary.400" mx="auto" as={FaArrowDown} boxSize={64} />
-        </MotionBox>
+        </AnimatedBox>
         <HStack mt="20vh" align="stretch" rounded="lg" overflow="hidden">
           <AnimatedBox directing="to-left" delay={5}>
             <VStack align="stretch" p={4}>
@@ -99,7 +98,7 @@ const OverOns = (): JSX.Element => {
             />
           </AnimatedBox>
         </HStack>
-        <MotionBox
+        <AnimatedBox
           animate={{ x: 0, y: 50 }}
           transition={{
             type: 'spring',
@@ -109,7 +108,7 @@ const OverOns = (): JSX.Element => {
           }}
         >
           <Box color="primary.400" mx="auto" as={FaArrowDown} boxSize={64} />
-        </MotionBox>
+        </AnimatedBox>
         <HStack mt="20vh" align="stretch" rounded="lg" overflow="hidden">
           <AnimatedBox directing="to-right" delay={5}>
             <VStack align="stretch" p={4}>
