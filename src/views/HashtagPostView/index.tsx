@@ -18,45 +18,35 @@ import {
   VStack,
 } from '@chakra-ui/react'
 import { MDXRemoteSerializeResult } from 'next-mdx-remote'
-import { useRouter } from 'next/router'
+import { NextSeoProps } from 'next-seo'
 import { useTranslation } from 'react-i18next'
 
 import {
-  CardGroup,
   Container,
   Layout,
   MentionList,
+  MentionSearch,
+  PostArchive,
   PostContainer,
   TrendList,
   TweetWidget,
 } from '@components'
-import { MentionSearch } from 'src/components/MentionSearch'
 
 interface HashtagProps {
   slug: Record<string, string[]>
   source: MDXRemoteSerializeResult<Record<string, unknown>>
   pageData: IHashtagPost
+  seo: NextSeoProps
+  link: string
 }
 
-const HashtagPostView = ({ pageData }: HashtagProps): JSX.Element => {
-  const { locale } = useRouter()
+const HashtagPostView = ({ pageData, seo }: HashtagProps): JSX.Element => {
   const { isOpen, onOpen, onClose } = useDisclosure()
 
   const { t } = useTranslation()
 
   return (
-    <Layout
-      seo={{
-        title: pageData?.slug as string,
-        description: pageData?.text.split('.')[0],
-        image:
-          `${process.env.NEXT_PUBLIC_ADMIN_URL}${pageData?.image?.url}` as string,
-        url: `${process.env.NEXT_PUBLIC_SITE_URL}/${locale}/${pageData?.hashtag?.page?.slug}/${pageData?.hashtag?.slug}/${pageData?.slug}`,
-        width: pageData?.image?.width as number,
-        height: pageData?.image?.height as number,
-        type: pageData?.image?.mime as string,
-      }}
-    >
+    <Layout seo={seo}>
       <Container py={4}>
         <Box textAlign="center">
           <Heading>{pageData?.hashtag?.title}</Heading>
@@ -126,9 +116,13 @@ const HashtagPostView = ({ pageData }: HashtagProps): JSX.Element => {
                 </HStack>
               </TabPanel>
               <TabPanel px={0}>
-                <CardGroup
-                  items={pageData?.posts as unknown as ISubpage[]}
-                  isSimple
+                <PostArchive
+                  posts={
+                    pageData.posts?.map(post => ({
+                      ...post,
+                      hashtag: pageData.hashtag,
+                    })) as IHashtagPost[]
+                  }
                 />
               </TabPanel>
             </TabPanels>

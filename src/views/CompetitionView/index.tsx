@@ -1,35 +1,24 @@
 import { Box } from '@chakra-ui/react'
 import { MDXRemoteSerializeResult } from 'next-mdx-remote'
+import { NextSeoProps } from 'next-seo'
 
 import { Container, Hero, Layout, Markdown } from '@components'
-import { useRouter } from 'next/router'
 
 interface CompetitionProps {
   slug: Record<string, string[]>
   source: MDXRemoteSerializeResult<Record<string, unknown>>
   pageData: ICompetition
+  seo: NextSeoProps
+  link: string
 }
 
 const CompetitionView = ({
   source,
   pageData,
+  seo,
 }: CompetitionProps): JSX.Element => {
-  const { locale } = useRouter()
-
   return (
-    <Layout
-      scrollHeight={100}
-      seo={{
-        title: pageData?.slug as string,
-        description: pageData?.title.split('.')[0],
-        image:
-          `${process.env.NEXT_PUBLIC_ADMIN_URL}${pageData?.image?.url}` as string,
-        url: `${process.env.NEXT_PUBLIC_SITE_URL}/${locale}/${pageData?.page?.slug}/${pageData?.slug}`,
-        width: pageData?.image?.width as number,
-        height: pageData?.image?.height as number,
-        type: pageData?.image?.mime as string,
-      }}
-    >
+    <Layout scrollHeight={100} seo={seo}>
       <Hero
         title={pageData.title}
         image={pageData.image}

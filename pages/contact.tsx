@@ -9,27 +9,22 @@ import {
 } from '@chakra-ui/react'
 import { GetStaticProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import { NextSeoProps } from 'next-seo'
 import { useTranslation } from 'react-i18next'
 import { FaWhatsapp as FaWhatsapp } from 'react-icons/fa'
-import { MdEmail, MdLocationOn, MdPhone } from 'react-icons/md' //MdOutlineEmail
+import { MdEmail, MdLocationOn, MdPhone } from 'react-icons/md'
 
 import { ContactForm, Container, Layout, SocialButtons } from '@components'
 
-const Contact = (): JSX.Element => {
+interface ContactProps {
+  seo: NextSeoProps
+}
+
+const Contact = ({ seo }: ContactProps): JSX.Element => {
   const { t } = useTranslation()
 
   return (
-    <Layout
-      seo={{
-        title: 'samenvvv contact info',
-        description: 'you can reach us any of social media',
-        url: 'https://www.samenvvv.com/en/contact',
-        image: ` ` as string,
-        width: 100 as number,
-        height: 80 as number,
-        type: '' as string,
-      }}
-    >
+    <Layout seo={seo}>
       <Box
         minH="inherit"
         background="url(/images/bg-wave.svg) no-repeat bottom"
@@ -136,8 +131,27 @@ const Contact = (): JSX.Element => {
 export default Contact
 export const getStaticProps: GetStaticProps = async context => {
   const { locale } = context
+
+  const title: Record<string, string> = {
+    en: 'Contact',
+    tr: 'İletişim',
+    nl: 'Contact',
+  }
+
+  const description: Record<string, string> = {
+    en: '',
+    tr: '',
+    nl: '',
+  }
+
+  const seo: NextSeoProps = {
+    title: title[locale as string],
+    description: description[locale as string],
+  }
+
   return {
     props: {
+      seo,
       ...(await serverSideTranslations(locale as string, ['common'])),
     },
   }

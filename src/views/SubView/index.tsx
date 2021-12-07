@@ -1,6 +1,6 @@
 import { Box, Flex, Heading, HStack } from '@chakra-ui/react'
 import { MDXRemoteSerializeResult } from 'next-mdx-remote'
-import { useRouter } from 'next/router'
+import { NextSeoProps } from 'next-seo'
 
 import {
   ChakraNextImage,
@@ -17,24 +17,18 @@ interface SubViewProps {
   slug: Record<string, string[]>
   source: MDXRemoteSerializeResult<Record<string, unknown>>
   pageData: ISubpage
+  seo: NextSeoProps
+  link: string
 }
 
-const SubView = ({ source, pageData }: SubViewProps): JSX.Element => {
-  const { locale } = useRouter()
-
+const SubView = ({
+  source,
+  pageData,
+  seo,
+  link,
+}: SubViewProps): JSX.Element => {
   return (
-    <Layout
-      seo={{
-        title: pageData?.title,
-        description: pageData?.content.split('.')[0],
-        image:
-          `${process.env.NEXT_PUBLIC_ADMIN_URL}${pageData?.image?.url}` as string,
-        url: `${process.env.NEXT_PUBLIC_SITE_URL}/${locale}/${pageData?.page?.slug}/${pageData?.slug}`,
-        width: pageData?.image?.width as number,
-        height: pageData?.image?.height as number,
-        type: pageData?.image?.mime as string,
-      }}
-    >
+    <Layout seo={seo}>
       <Container>
         <Flex py={4}>
           <Flex flexDir="column" flex={1}>
@@ -46,7 +40,7 @@ const SubView = ({ source, pageData }: SubViewProps): JSX.Element => {
               <ShareButtons
                 title={pageData.title}
                 quote={pageData.content}
-                url={`${process.env.NEXT_PUBLIC_SITE_URL}/${locale}/${pageData.page?.slug}/${pageData.slug}`}
+                url={link}
               />
             </HStack>
             <Heading my={4}>{pageData.title}</Heading>

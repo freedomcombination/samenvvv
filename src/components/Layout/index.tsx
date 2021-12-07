@@ -1,23 +1,14 @@
 import React, { ReactNode } from 'react'
 
 import { Box, Flex } from '@chakra-ui/react'
-import { NextSeo } from 'next-seo'
-import { useRouter } from 'next/router'
+import { NextSeo, NextSeoProps } from 'next-seo'
 
 import { Footer, Header } from '@components'
 import { useScroll } from '@hooks'
 
 interface LayoutProps {
   children: ReactNode
-  seo?: {
-    title: string
-    description: string
-    url: string
-    image: string
-    width: number
-    height: number
-    type: string
-  }
+  seo?: NextSeoProps
   scrollHeight?: number | null
 }
 
@@ -27,33 +18,10 @@ export const Layout = ({
   scrollHeight = null,
 }: LayoutProps): JSX.Element | null => {
   const isScrolled = useScroll(scrollHeight)
-  const { locale } = useRouter()
 
   return (
     <>
-      {seo && (
-        <NextSeo
-          title={seo.title}
-          description={seo.description}
-          openGraph={{
-            url: seo.url,
-            title: seo.title,
-            site_name: 'SamenVVV',
-            description: seo.description,
-            locale: locale as string,
-            type: 'website',
-            images: [
-              {
-                url: seo.image,
-                alt: seo.title,
-                width: 960,
-                height: 540,
-                type: 'image/jpeg',
-              },
-            ],
-          }}
-        />
-      )}
+      {seo && <NextSeo {...seo} />}
       <Flex flexDir="column" minHeight="100vh">
         <Header isScrolled={isScrolled} hasScroll={!!scrollHeight} />
         <Box
