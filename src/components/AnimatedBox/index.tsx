@@ -1,6 +1,5 @@
 import React, { ReactNode, useEffect } from 'react'
 
-import { BoxProps } from '@chakra-ui/react'
 import { MotionProps, Transition, useAnimation, Variants } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
 
@@ -19,7 +18,7 @@ interface AnimatedBoxProps {
 }
 
 export const AnimatedBox = (
-  props: Partial<AnimatedBoxProps> & MotionProps & BoxProps,
+  props: Partial<AnimatedBoxProps> & MotionProps,
 ): JSX.Element => {
   const {
     children,
@@ -28,6 +27,7 @@ export const AnimatedBox = (
     hasHover = false,
     delay = 0,
     duration = 1,
+    transition,
     variants,
   } = props
   const controls = useAnimation()
@@ -58,31 +58,35 @@ export const AnimatedBox = (
     }
   }, [controls, inView])
 
-  const transitionMerge = {
-    duration: duration ?? 0.5,
-    stiffness: 100,
-    damping: 10,
-    type: 'spring',
-    delay: delay / 10,
-  }
-
   return (
     <MotionBox
       ref={ref}
       animate={controls}
-      transition={transitionMerge}
+      transition={
+        transition || {
+          duration: duration ?? 0.5,
+          stiffness: 100,
+          damping: 10,
+          type: 'spring',
+          delay: delay / 10,
+        }
+      }
       initial="inactive"
-      style={{ width: '100%' }}
+      w="full"
       {...(variants && { variants: variants })}
       {...(directing && { variants: initialVariants[directing] })}
-      {...(hasHover && {
-        cursor: 'pointer',
-        whileHover: { scale: 1.05, type: 'spring' },
-        whileTap: { scale: 1.02 },
-      })}
-      {...props}
     >
-      {children}
+      <MotionBox
+        {...(hasHover && {
+          cursor: 'pointer',
+          whileHover: { scale: 1.03 },
+          whileTap: { scale: 1.01 },
+        })}
+        w="full"
+        h="full"
+      >
+        {children}
+      </MotionBox>
     </MotionBox>
   )
 }

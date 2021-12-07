@@ -1,4 +1,4 @@
-import { Box, HStack } from '@chakra-ui/react'
+import { Box, HStack, StackProps } from '@chakra-ui/react'
 /* eslint-disable import/no-duplicates */
 import { format } from 'date-fns'
 import { enIN as en, nl, tr } from 'date-fns/locale'
@@ -8,7 +8,7 @@ import { MdEvent } from 'react-icons/md'
 const timeLocale: Record<string, Locale> = { en, nl, tr }
 
 interface PageTimeLabelProps {
-  pageData: ISubpage
+  pageData: ISubpage | IHashtag
 }
 
 const formatLocale = (date: string, locale: string) =>
@@ -18,15 +18,19 @@ const formatLocale = (date: string, locale: string) =>
 
 export const PageTimeLabel = ({
   pageData,
-}: PageTimeLabelProps): JSX.Element => {
+  ...rest
+}: PageTimeLabelProps & StackProps): JSX.Element => {
   const { locale } = useRouter()
+  const hashtag = pageData as IHashtag
+  const subpage = pageData as ISubpage
 
   return (
-    <HStack>
+    <HStack {...rest}>
       <MdEvent />
       <Box>
-        {pageData.start && formatLocale(pageData.start, locale as string)}
-        {pageData.end && `- ${formatLocale(pageData.end, locale as string)}`}
+        {hashtag.date && formatLocale(hashtag.date, locale as string)}
+        {subpage.start && formatLocale(subpage.start, locale as string)}
+        {subpage.end && ` - ${formatLocale(subpage.end, locale as string)}`}
       </Box>
     </HStack>
   )

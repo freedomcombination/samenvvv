@@ -26,6 +26,8 @@ export const GET_PAGE = gql`
       subpages(limit: 10) {
         slug
         title
+        start
+        end
         image {
           url
           size
@@ -41,6 +43,8 @@ export const GET_PAGE = gql`
       competitions(limit: 10) {
         slug
         title
+        start
+        end
         image {
           url
           size
@@ -56,6 +60,7 @@ export const GET_PAGE = gql`
       hashtags(limit: 10) {
         slug
         title
+        date
         image {
           url
           size

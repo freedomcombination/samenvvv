@@ -1,6 +1,5 @@
 import { Box, Flex, Heading, HStack } from '@chakra-ui/react'
 import { MDXRemoteSerializeResult } from 'next-mdx-remote'
-import { useRouter } from 'next/router'
 
 import {
   ChakraNextImage,
@@ -11,6 +10,7 @@ import {
   PageTimeLabel,
   ShareButtons,
 } from '@components'
+import { useItemLink } from '@hooks'
 import { SubpageSidebarTabs } from 'src/components/SubpageSidebarTabs'
 
 interface SubViewProps {
@@ -20,7 +20,7 @@ interface SubViewProps {
 }
 
 const SubView = ({ source, pageData }: SubViewProps): JSX.Element => {
-  const { locale } = useRouter()
+  const absoluteLink = useItemLink(pageData, 'absolute') as string
 
   return (
     <Layout>
@@ -35,7 +35,7 @@ const SubView = ({ source, pageData }: SubViewProps): JSX.Element => {
               <ShareButtons
                 title={pageData.title}
                 quote={pageData.content}
-                url={`${process.env.NEXT_PUBLIC_SITE_URL}/${locale}/${pageData.page?.slug}/${pageData.slug}`}
+                url={absoluteLink}
               />
             </HStack>
             <Heading my={4}>{pageData.title}</Heading>

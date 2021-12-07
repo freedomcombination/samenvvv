@@ -23,7 +23,7 @@ const MainHashtagsView = ({
         {source && <Markdown source={source} />}
         <CardGroup
           items={pageData?.hashtags as unknown as ISubpage[]}
-          isSimple={true}
+          hasLink
         />
       </Container>
     </Layout>

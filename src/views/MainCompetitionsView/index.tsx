@@ -24,6 +24,7 @@ const MainCompetitionsView = ({
         <CardGroup
           items={pageData?.competitions as ISubpage[]}
           isSimple={true}
+          hasLink
         />
       </Container>
     </Layout>

@@ -1,4 +1,4 @@
-import { Box } from '@chakra-ui/layout'
+import { Box, BoxProps } from '@chakra-ui/layout'
 import { motion } from 'framer-motion'
 
-export const MotionBox = motion(Box)
+export const MotionBox = motion<Omit<BoxProps, 'transition'>>(Box)

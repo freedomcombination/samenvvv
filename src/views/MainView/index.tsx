@@ -18,7 +18,12 @@ const MainView = ({ source, pageData }: MainViewProps): JSX.Element => {
       />
       <Container>
         {source && <Markdown source={source} />}
-        <CardGroup items={pageData?.subpages as ISubpage[]} isSimple={true} />
+        <CardGroup
+          items={pageData?.subpages as ISubpage[]}
+          // isSimple
+          isSocial
+          hasLink
+        />
       </Container>
     </Layout>
   )
