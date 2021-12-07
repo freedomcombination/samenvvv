@@ -25,7 +25,7 @@ const AboutUsBlock = (props: AboutUsBlockProps): JSX.Element => {
   const { directing = 'to-right', image, title, text } = props
   return (
     <VStack maxW="lg" align="stretch" overflow="hidden">
-      <AnimatedBox h={300} directing={directing} delay={7}>
+      <AnimatedBox directing={directing} delay={7}>
         <ChakraNextImage w="full" h="full" image={image} />
       </AnimatedBox>
       <AnimatedBox directing="to-left" delay={5}>
