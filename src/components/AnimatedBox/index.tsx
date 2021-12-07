@@ -1,6 +1,5 @@
 import React, { ReactNode, useEffect } from 'react'
 
-import { BoxProps } from '@chakra-ui/react'
 import { MotionProps, Transition, useAnimation, Variants } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
 
@@ -19,7 +18,7 @@ interface AnimatedBoxProps {
 }
 
 export const AnimatedBox = (
-  props: Partial<AnimatedBoxProps> & MotionProps & BoxProps,
+  props: Partial<AnimatedBoxProps> & MotionProps,
 ): JSX.Element => {
   const {
     children,
@@ -28,6 +27,7 @@ export const AnimatedBox = (
     hasHover = false,
     delay = 0,
     duration = 1,
+    transition,
     variants,
   } = props
   const controls = useAnimation()
@@ -64,7 +64,8 @@ export const AnimatedBox = (
     damping: 10,
     type: 'spring',
     delay: delay / 10,
-  }
+    ...((transition as Transition) || {}),
+  } as Transition
 
   return (
     <MotionBox
@@ -80,7 +81,6 @@ export const AnimatedBox = (
         whileHover: { scale: 1.05, type: 'spring' },
         whileTap: { scale: 1.02 },
       })}
-      {...props}
     >
       {children}
     </MotionBox>

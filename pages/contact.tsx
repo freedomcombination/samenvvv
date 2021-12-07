@@ -11,7 +11,7 @@ import { GetStaticProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useTranslation } from 'react-i18next'
 import { FaWhatsapp as FaWhatsapp } from 'react-icons/fa'
-import { MdEmail, MdLocationOn, MdPhone } from 'react-icons/md'
+import { MdEmail, MdLocationOn, MdPhone } from 'react-icons/md' //MdOutlineEmail
 
 import { ContactForm, Container, Layout, SocialButtons } from '@components'
 

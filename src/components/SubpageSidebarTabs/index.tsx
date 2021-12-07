@@ -42,6 +42,7 @@ export const SubpageSidebarTabs = ({
                 isSimple
                 shadow="sm"
                 rounded={0}
+                hasLink
               />
             ))}
           </VStack>
@@ -49,7 +50,13 @@ export const SubpageSidebarTabs = ({
         <TabPanel>
           <VStack spacing={4}>
             {page.popular?.map((subpage, i) => (
-              <Card key={i} item={{ ...subpage, page }} isSimple shadow="sm" />
+              <Card
+                key={i}
+                item={{ ...subpage, page }}
+                isSimple
+                hasLink
+                shadow="sm"
+              />
             ))}
           </VStack>
         </TabPanel>

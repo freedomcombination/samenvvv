@@ -78,6 +78,7 @@ const SliderPage = (): JSX.Element => {
             boxShadow: 'lg',
           }}
           isLoading={isLoading}
+          hasSocialCard
         />
 
         {/* Live Data */}

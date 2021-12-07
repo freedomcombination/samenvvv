@@ -1,4 +1,4 @@
-import { Box, HStack } from '@chakra-ui/react'
+import { Box, HStack, StackProps } from '@chakra-ui/react'
 /* eslint-disable import/no-duplicates */
 import { format } from 'date-fns'
 import { enIN as en, nl, tr } from 'date-fns/locale'
@@ -18,11 +18,12 @@ const formatLocale = (date: string, locale: string) =>
 
 export const PageTimeLabel = ({
   pageData,
-}: PageTimeLabelProps): JSX.Element => {
+  ...rest
+}: PageTimeLabelProps & StackProps): JSX.Element => {
   const { locale } = useRouter()
 
   return (
-    <HStack>
+    <HStack {...rest}>
       <MdEvent />
       <Box>
         {pageData.start && formatLocale(pageData.start, locale as string)}
