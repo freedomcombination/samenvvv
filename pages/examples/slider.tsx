@@ -59,6 +59,7 @@ const SliderPage = (): JSX.Element => {
           isLoading={isLoading}
           hasHero
           hasSimpleCard
+          hasSocialCard
         />
 
         {/* Live Data (Centered - Active Style)*/}
@@ -78,6 +79,7 @@ const SliderPage = (): JSX.Element => {
             boxShadow: 'lg',
           }}
           isLoading={isLoading}
+          hasSocialCard
         />
 
         {/* Live Data */}

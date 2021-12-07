@@ -3,6 +3,7 @@ import { GetStaticPaths, GetStaticProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { MDXRemoteSerializeResult } from 'next-mdx-remote'
 import { serialize } from 'next-mdx-remote/serialize'
+import { NextSeoProps } from 'next-seo'
 import { useRouter } from 'next/router'
 import { DehydratedState, QueryClient } from 'react-query'
 import { dehydrate } from 'react-query/hydration'
@@ -27,6 +28,7 @@ import {
   MainView,
   SubView,
 } from '@views'
+import { getPageSeo } from 'src/utils/getPageSeo'
 
 interface DynamicPageProps {
   locale: string
@@ -39,11 +41,13 @@ interface DynamicPageProps {
   pageType: Page_Type
   source: MDXRemoteSerializeResult<Record<string, unknown>>
   pageData: any
+  seo: NextSeoProps
+  link: string
 }
 
 const DynamicPage = (props: DynamicPageProps): JSX.Element => {
   const router = useRouter()
-  const { slug, pageType, isPage, source, pageData } = props
+  const { slug, pageType, isPage, source, pageData, seo, link } = props
 
   if (router.isFallback)
     return (
@@ -63,7 +67,7 @@ const DynamicPage = (props: DynamicPageProps): JSX.Element => {
   const isHashtagPage = isPage.sub && pageType === 'hashtag'
   const isHashtagPostPage = isPage.child && pageType === 'hashtag'
 
-  const pageProps = { slug, source, pageData }
+  const pageProps = { slug, source, pageData, seo, link }
 
   return (
     <>
@@ -110,6 +114,8 @@ export interface DynamicProps {
     | IHashtagPost
     | Record<string, unknown>
   _nextI18Next: any
+  seo: NextSeoProps
+  link: string
 }
 
 export const getStaticProps: GetStaticProps = async context => {
@@ -136,6 +142,8 @@ export const getStaticProps: GetStaticProps = async context => {
     source: await serialize(''),
     dehydratedState: dehydrate(queryClient),
     pageData: {},
+    seo: {},
+    link: '',
   }
 
   if (!pageType) {
@@ -157,11 +165,15 @@ export const getStaticProps: GetStaticProps = async context => {
 
     const source = await serialize(pageData.content ?? '')
 
+    const seo = getPageSeo(pageData, locale)
+
     props.isPage.main = true
     props.source = source
     props.dehydratedState = dehydrate(queryClient)
     props.slug = pageData.slugs
     props.pageData = pageData ?? {}
+    props.seo = seo
+    props.link = seo.openGraph?.url as string
 
     return {
       props,
@@ -207,11 +219,15 @@ export const getStaticProps: GetStaticProps = async context => {
 
     source = await serialize(subpageData?.content ?? '')
 
+    const seo = getPageSeo(subpageData, locale)
+
     props.isPage.sub = true
     props.source = source
     props.dehydratedState = dehydrate(queryClient)
     props.slug = subpageData.slugs
     props.pageData = subpageData
+    props.seo = seo
+    props.link = seo.openGraph?.url as string
 
     return {
       props,
@@ -247,8 +263,12 @@ export const getStaticProps: GetStaticProps = async context => {
       queryClient.setQueryData([queryKey, [locale, childSlug]], childPageData)
     }
 
+    const seo = getPageSeo(childPageData as IApplication | IHashtagPost, locale)
+
     props.isPage.child = true
     props.pageData = childPageData as IApplication | IHashtagPost
+    props.seo = seo
+    props.link = seo.openGraph?.url as string
     props.dehydratedState = dehydrate(queryClient)
 
     return {

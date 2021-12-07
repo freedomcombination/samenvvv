@@ -58,31 +58,35 @@ export const AnimatedBox = (
     }
   }, [controls, inView])
 
-  const transitionMerge = {
-    duration: duration ?? 0.5,
-    stiffness: 100,
-    damping: 10,
-    type: 'spring',
-    delay: delay / 10,
-    ...((transition as Transition) || {}),
-  } as Transition
-
   return (
     <MotionBox
       ref={ref}
       animate={controls}
-      transition={transitionMerge}
+      transition={
+        transition || {
+          duration: duration ?? 0.5,
+          stiffness: 100,
+          damping: 10,
+          type: 'spring',
+          delay: delay / 10,
+        }
+      }
       initial="inactive"
-      style={{ width: '100%' }}
+      w="full"
       {...(variants && { variants: variants })}
       {...(directing && { variants: initialVariants[directing] })}
-      {...(hasHover && {
-        cursor: 'pointer',
-        whileHover: { scale: 1.05, type: 'spring' },
-        whileTap: { scale: 1.02 },
-      })}
     >
-      {children}
+      <MotionBox
+        {...(hasHover && {
+          cursor: 'pointer',
+          whileHover: { scale: 1.03 },
+          whileTap: { scale: 1.01 },
+        })}
+        w="full"
+        h="full"
+      >
+        {children}
+      </MotionBox>
     </MotionBox>
   )
 }

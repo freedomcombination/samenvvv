@@ -14,6 +14,9 @@ export const GET_SUBPAGE = gql`
       slug
       title
       content
+      start
+      end
+      type
       image {
         url
         size
@@ -31,6 +34,9 @@ export const GET_SUBPAGE = gql`
           slug
           title
           content
+          start
+          end
+          type
           image {
             url
           }
@@ -42,6 +48,9 @@ export const GET_SUBPAGE = gql`
           slug
           title
           content
+          start
+          end
+          type
           image {
             url
           }
