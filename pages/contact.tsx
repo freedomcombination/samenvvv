@@ -19,7 +19,17 @@ const Contact = (): JSX.Element => {
   const { t } = useTranslation()
 
   return (
-    <Layout>
+    <Layout
+      seo={{
+        title: 'samenvvv contact info',
+        description: 'you can reach us any of social media',
+        url: 'https://www.samenvvv.com/en/contact',
+        image: ` ` as string,
+        width: 100 as number,
+        height: 80 as number,
+        type: '' as string,
+      }}
+    >
       <Box
         minH="inherit"
         background="url(/images/bg-wave.svg) no-repeat bottom"

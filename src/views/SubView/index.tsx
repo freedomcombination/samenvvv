@@ -20,13 +20,21 @@ interface SubViewProps {
 }
 
 const SubView = ({ source, pageData }: SubViewProps): JSX.Element => {
-  // console.log('source: ', source)
-  // console.log('pageData: ', pageData)
-  //console.log('tweetData: ', twData)
   const { locale } = useRouter()
 
   return (
-    <Layout>
+    <Layout
+      seo={{
+        title: pageData?.title,
+        description: pageData?.content.split('.')[0],
+        image:
+          `${process.env.NEXT_PUBLIC_ADMIN_URL}${pageData?.image?.url}` as string,
+        url: `${process.env.NEXT_PUBLIC_SITE_URL}/${locale}/${pageData?.page?.slug}/${pageData?.slug}`,
+        width: pageData?.image?.width as number,
+        height: pageData?.image?.height as number,
+        type: pageData?.image?.mime as string,
+      }}
+    >
       <Container>
         <Flex py={4}>
           <Flex flexDir="column" flex={1}>

@@ -47,8 +47,8 @@ const HashtagPostView = ({ pageData }: HashtagProps): JSX.Element => {
   return (
     <Layout
       seo={{
-        title: pageData?.text as string,
-        description: '',
+        title: pageData?.slug as string,
+        description: pageData?.text.split('.')[0],
         image:
           `${process.env.NEXT_PUBLIC_ADMIN_URL}${pageData?.image?.url}` as string,
         url: `${process.env.NEXT_PUBLIC_SITE_URL}/${locale}/${pageData?.hashtag?.page?.slug}/${pageData?.hashtag?.slug}/${pageData?.slug}`,
