@@ -24,6 +24,7 @@ const MainHashtagsView = ({
         <CardGroup
           items={pageData?.hashtags as unknown as ISubpage[]}
           isSimple={true}
+          hasLink
         />
       </Container>
     </Layout>
