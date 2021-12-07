@@ -1,6 +1,7 @@
 import { Box, Flex, Heading, HStack } from '@chakra-ui/react'
 import { MDXRemoteSerializeResult } from 'next-mdx-remote'
 import { useRouter } from 'next/router'
+import removeMarkdown from 'remove-markdown'
 
 import {
   ChakraNextImage,
@@ -11,6 +12,7 @@ import {
   PageTimeLabel,
   ShareButtons,
 } from '@components'
+import { truncateText } from '@utils'
 import { SubpageSidebarTabs } from 'src/components/SubpageSidebarTabs'
 
 interface SubViewProps {
@@ -33,8 +35,13 @@ const SubView = ({ source, pageData }: SubViewProps): JSX.Element => {
             <HStack align="center" mt={4} spacing={8}>
               <PageTimeLabel pageData={pageData} />
               <ShareButtons
-                title={pageData.title}
-                quote={pageData.content}
+                title={
+                  pageData.title +
+                  '\n' +
+                  removeMarkdown(
+                    truncateText(pageData.content, 250 - pageData.title.length),
+                  )
+                }
                 url={`${process.env.NEXT_PUBLIC_SITE_URL}/${locale}/${pageData.page?.slug}/${pageData.slug}`}
               />
             </HStack>

@@ -127,8 +127,14 @@ const HashtagPostView = ({ pageData }: HashtagProps): JSX.Element => {
               </TabPanel>
               <TabPanel px={0}>
                 <CardGroup
-                  items={pageData?.posts as unknown as ISubpage[]}
+                  items={
+                    pageData.posts?.map(post => ({
+                      ...post,
+                      hashtag: pageData.hashtag,
+                    })) as IHashtagPost[]
+                  }
                   isSimple
+                  isSocial
                 />
               </TabPanel>
             </TabPanels>
