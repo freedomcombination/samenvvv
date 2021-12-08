@@ -56,12 +56,12 @@ export const PostContainer = ({
     )
 
     const randomPost = post?.posts?.[randomPostIndex] as IHashtagPost
+    randomPost.hashtag = post.hashtag
     const randomPostLink = getItemLink(randomPost, locale as string)
 
     push(randomPostLink as string)
   }, [post, locale, push])
 
-  const postUrl = useItemLink(post)
   const postUrlAbsolute = useItemLink(post, true)
 
   useEffect(() => {
@@ -272,24 +272,28 @@ export const PostContainer = ({
             overflowY={{ base: 'hidden', lg: 'auto' }}
             overflowX={{ base: 'auto', lg: 'hidden' }}
           >
-            {post?.posts?.slice(0, 15).map((p, i) => (
-              <Box
-                key={i}
-                borderWidth={1}
-                borderColor="gray.500"
-                rounded="lg"
-                overflow="hidden"
-                flexShrink={0}
-              >
-                <Navigate href={postUrl as string}>
-                  <ChakraNextImage
-                    w={150}
-                    h={85}
-                    image={p.image?.url as string}
-                  />
-                </Navigate>
-              </Box>
-            ))}
+            {post?.posts?.slice(0, 15).map((p, i) => {
+              p.hashtag = post.hashtag
+
+              return (
+                <Box
+                  key={i}
+                  borderWidth={1}
+                  borderColor="gray.500"
+                  rounded="lg"
+                  overflow="hidden"
+                  flexShrink={0}
+                >
+                  <Navigate href={getItemLink(p, locale as string) as string}>
+                    <ChakraNextImage
+                      w={150}
+                      h={85}
+                      image={p.image?.url as string}
+                    />
+                  </Navigate>
+                </Box>
+              )
+            })}
           </Stack>
         </Stack>
       </Box>
