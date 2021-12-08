@@ -1,14 +1,59 @@
 {
   "hello": "Merhaba",
   "read-more": "Daha Fazla Oku",
+  "next": "Sonraki",
+  "prev": "Önceki",
+  "announcement": "Duyuru",
+  "news": "Haber",
   "about": {
     "title": "Ne yapıyoruz?",
-    "description": "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga."
+    "description": "something"
   },
   "copyright": "@2021 Samenvvv. Bütün hakları saklıdır",
   "support": "Destek",
   "footer_menu": "Menuler",
   "follow_us": "Bizi takip edin",
   "society": "Vakfımız",
-  "footer_about": " Turkce ===Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolores, blanditiis dignissimos recusandae fuga commodi sunt ipsam quas magni expedita ut soluta tempore dolorem inventore voluptates autem error doloremque quidem sed?"
+  "footer_about": "Sessizlik özğürlüğün en büyük düşmanıdır.",
+  "contact": {
+    "title": "İletişim",
+    "fill-form": "İletişim için formu doldurunuz",
+    "form": {
+      "fullname-label": "Adınız",
+      "fullname-required": "Ad alanı boş olamaz.",
+      "email-required": "Mail alanı boş olamaz.",
+      "email-invalid": "Geçersiz e-mail adresi.",
+      "email-helper": "Mailiniz izniniz olmadan kimseyle paylaşılmayacaktır.",
+      "message-label": "Mesaj",
+      "message-required": "Mesaj alanı boş olamaz.",
+      "message-delivered": "Teşekkür ederiz. Mesajınız iletildi.",
+      "failed": "Oops. Birşeyler yanlış gitti, lütfen tekrar deneyin.",
+      "button": "Gönder",
+      "contactOnWhatsApp": "Bizimle WhatsApptan iletişime geçin"
+    }
+  },
+  "post-share": {
+    "search-label": "Kullanıcı Ara",
+    "mention-list-label": "Popüler Kullanıcılar",
+    "mention-tab-popular": "Popüler",
+    "mention-tab-saved": "Kaydedilen",
+    "trends-label": "Trendler",
+    "add": "Ekle",
+    "share-tweet": "Tweet Paylaş",
+    "next-tweet": "Sonraki Tweet",
+    "edit-content": "İçeriği Düzenle",
+    "edit-save": "Kaydet",
+    "content-label": "İçerik",
+    "other-posts": "Diğer Postlar",
+    "add-mention": "Mention Ekle",
+    "latest-tweets-label": "Son Tweetler",
+    "tabs": {
+      "share": "Paylaş",
+      "archive": "Arşiv"
+    }
+  },
+  "subpage": {
+    "most-readed": "En Çok Okunan",
+    "latest": "En Son"
+  }
 }

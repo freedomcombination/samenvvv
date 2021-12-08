@@ -10,6 +10,7 @@ module.exports = {
       'images.unsplash.com',
       'samenvvvv.com',
       'media.istockphoto.com',
+      process.env.NEXT_PUBLIC_SITE_URL.replace('https://', ''),
     ],
   },
   async rewrites() {
@@ -27,6 +28,16 @@ module.exports = {
       {
         source: '/tr/kulup',
         destination: '/tr/club',
+        locale: false,
+      },
+      {
+        source: '/tr/iletisim',
+        destination: '/tr/contact',
+        locale: false,
+      },
+      {
+        source: '/en/contact',
+        destination: '/en/contact',
         locale: false,
       },
     ]

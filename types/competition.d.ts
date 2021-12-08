@@ -10,7 +10,6 @@ declare interface ICompetition extends LocalizedSlugs {
   start: string
   end?: string
   page?: IPage
-  metadata?: IMetadata
   locale?: string
   published_at?: string
   applications?: Array<IApplication>
@@ -26,7 +25,6 @@ declare interface ICompetitionInput {
   end?: string
   applications?: Array<string>
   page?: string
-  metadata: IMetadata
   localizations?: Array<string>
   locale?: string
   published_at?: string

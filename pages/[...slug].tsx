@@ -3,8 +3,9 @@ import { GetStaticPaths, GetStaticProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { MDXRemoteSerializeResult } from 'next-mdx-remote'
 import { serialize } from 'next-mdx-remote/serialize'
+import { NextSeoProps } from 'next-seo'
 import { useRouter } from 'next/router'
-import { QueryClient } from 'react-query'
+import { DehydratedState, QueryClient } from 'react-query'
 import { dehydrate } from 'react-query/hydration'
 
 import { Container, Layout } from '@components'
@@ -12,8 +13,8 @@ import {
   getAllPagePaths,
   getApplication,
   getCompetition,
-  getHashtag,
   getHashtagPost,
+  getHashtagPosts,
   getPage,
   getPageType,
   getSubpage,
@@ -22,12 +23,12 @@ import {
   ApplicationView,
   CompetitionView,
   HashtagPostView,
-  HashtagView,
   MainCompetitionsView,
   MainHashtagsView,
   MainView,
   SubView,
 } from '@views'
+import { getPageSeo } from 'src/utils/getPageSeo'
 
 interface DynamicPageProps {
   locale: string
@@ -40,11 +41,13 @@ interface DynamicPageProps {
   pageType: Page_Type
   source: MDXRemoteSerializeResult<Record<string, unknown>>
   pageData: any
+  seo: NextSeoProps
+  link: string
 }
 
 const DynamicPage = (props: DynamicPageProps): JSX.Element => {
   const router = useRouter()
-  const { slug, pageType, isPage, source, pageData } = props
+  const { slug, pageType, isPage, source, pageData, seo, link } = props
 
   if (router.isFallback)
     return (
@@ -64,7 +67,7 @@ const DynamicPage = (props: DynamicPageProps): JSX.Element => {
   const isHashtagPage = isPage.sub && pageType === 'hashtag'
   const isHashtagPostPage = isPage.child && pageType === 'hashtag'
 
-  const pageProps = { slug, source, pageData }
+  const pageProps = { slug, source, pageData, seo, link }
 
   return (
     <>
@@ -74,7 +77,7 @@ const DynamicPage = (props: DynamicPageProps): JSX.Element => {
       {isCompetitionPage && <CompetitionView {...pageProps} />}
       {isApplicationPage && <ApplicationView {...pageProps} />}
       {isHashtagsPage && <MainHashtagsView {...pageProps} />}
-      {isHashtagPage && <HashtagView {...pageProps} />}
+      {isHashtagPage && <HashtagPostView {...pageProps} />}
       {isHashtagPostPage && <HashtagPostView {...pageProps} />}
     </>
   )
@@ -89,6 +92,32 @@ export const getStaticPaths: GetStaticPaths = async () => {
   }
 }
 
+export interface DynamicProps {
+  locale: string
+  slug: {
+    [x: string]: string[]
+  }
+  isPage: {
+    main: boolean
+    sub: boolean
+    child: boolean
+  }
+  pageType: Page_Type | null
+  source: MDXRemoteSerializeResult<Record<string, unknown>>
+  dehydratedState: DehydratedState
+  pageData:
+    | IPage
+    | ISubpage
+    | IHashtag
+    | ICompetition
+    | IApplication
+    | IHashtagPost
+    | Record<string, unknown>
+  _nextI18Next: any
+  seo: NextSeoProps
+  link: string
+}
+
 export const getStaticProps: GetStaticProps = async context => {
   const locale = context.locale as string
   let source: MDXRemoteSerializeResult<Record<string, unknown>>
@@ -98,7 +127,7 @@ export const getStaticProps: GetStaticProps = async context => {
     ?.slug as string[]
 
   const pageType = await getPageType(locale, mainSlug)
-  const props = {
+  const props: DynamicProps = {
     ...(await serverSideTranslations(locale, ['common'])),
     locale,
     slug: {
@@ -113,6 +142,8 @@ export const getStaticProps: GetStaticProps = async context => {
     source: await serialize(''),
     dehydratedState: dehydrate(queryClient),
     pageData: {},
+    seo: {},
+    link: '',
   }
 
   if (!pageType) {
@@ -125,11 +156,8 @@ export const getStaticProps: GetStaticProps = async context => {
 
   // MAIN PAGE
   if (isMainPage) {
-    await queryClient.prefetchQuery(['pages', [mainSlug, locale]], () =>
-      getPage(mainSlug, locale),
-    )
-
     const pageData = await getPage(locale, mainSlug)
+    queryClient.setQueryData(['pages', [locale, mainSlug]], pageData)
 
     if (!pageData) {
       return { notFound: true, revalidate: 120 }
@@ -137,11 +165,15 @@ export const getStaticProps: GetStaticProps = async context => {
 
     const source = await serialize(pageData.content ?? '')
 
+    const seo = getPageSeo(pageData, locale)
+
     props.isPage.main = true
     props.source = source
     props.dehydratedState = dehydrate(queryClient)
     props.slug = pageData.slugs
-    props.pageData = pageData
+    props.pageData = pageData ?? {}
+    props.seo = seo
+    props.link = seo.openGraph?.url as string
 
     return {
       props,
@@ -158,9 +190,13 @@ export const getStaticProps: GetStaticProps = async context => {
         ? 'competitions'
         : 'subpages'
 
-    const getSubpageData = () => {
+    const getSubpageData = async () => {
       if (pageType === 'hashtag') {
-        return getHashtag(locale, subSlug)
+        // Pass the first post data of the hashtag to the props
+        const hashtagPosts = await getHashtagPosts(locale, subSlug)
+        const hashtagPostSlug = hashtagPosts?.[0].slug as string
+        const hashtagPost = await getHashtagPost(locale, hashtagPostSlug)
+        return { ...hashtagPost, posts: hashtagPosts }
       }
 
       if (pageType === 'competition') {
@@ -169,11 +205,6 @@ export const getStaticProps: GetStaticProps = async context => {
 
       return getSubpage(locale, subSlug)
     }
-
-    await queryClient.prefetchQuery<IHashtag | ICompetition | ISubpage | null>(
-      [queryKey, [locale, subSlug]],
-      () => getSubpageData(),
-    )
 
     const subpageData = (await getSubpageData()) as
       | IHashtag
@@ -184,13 +215,19 @@ export const getStaticProps: GetStaticProps = async context => {
       return { notFound: true, revalidate: 120 }
     }
 
+    queryClient.setQueryData([queryKey, [locale, subSlug]], subpageData)
+
     source = await serialize(subpageData?.content ?? '')
+
+    const seo = getPageSeo(subpageData, locale)
 
     props.isPage.sub = true
     props.source = source
     props.dehydratedState = dehydrate(queryClient)
     props.slug = subpageData.slugs
     props.pageData = subpageData
+    props.seo = seo
+    props.link = seo.openGraph?.url as string
 
     return {
       props,
@@ -198,30 +235,40 @@ export const getStaticProps: GetStaticProps = async context => {
     }
   }
 
+  // CHILD PAGE
   if (isChildPage) {
     const queryKey = pageType === 'hashtag' ? 'hashtag-posts' : 'applications'
 
-    const getChildPageData = () => {
-      if (pageType === 'hashtag') {
-        return getHashtagPost(locale, childSlug)
+    let childPageData = null
+
+    // We won't redirect users to individual post page, instead in hashtag page
+    // we will be showing each active post item by its slug in the url
+    // That's why we pass hashtag data of the post item to props
+    if (pageType === 'hashtag') {
+      const hashtagPost = await getHashtagPost(locale, childSlug)
+      const posts = await getHashtagPosts(locale, subSlug)
+      childPageData = { ...hashtagPost, posts }
+
+      if (!posts) {
+        return { notFound: true, revalidate: 120 }
       }
 
-      return getApplication(locale, childSlug)
+      queryClient.setQueryData([queryKey, [locale, childSlug]], childPageData)
+    } else {
+      childPageData = await getApplication(locale, childSlug)
+
+      if (!childPageData) {
+        return { notFound: true, revalidate: 120 }
+      }
+      queryClient.setQueryData([queryKey, [locale, childSlug]], childPageData)
     }
 
-    await queryClient.prefetchQuery<IHashtagPost | IApplication | null>(
-      [queryKey, [locale, childSlug]],
-      () => getChildPageData(),
-    )
-
-    const childPageData = (await getChildPageData()) ?? null
-
-    if (!childPageData) {
-      return { notFound: true, revalidate: 120 }
-    }
+    const seo = getPageSeo(childPageData as IApplication | IHashtagPost, locale)
 
     props.isPage.child = true
-    props.pageData = childPageData as IHashtagPost
+    props.pageData = childPageData as IApplication | IHashtagPost
+    props.seo = seo
+    props.link = seo.openGraph?.url as string
     props.dehydratedState = dehydrate(queryClient)
 
     return {

@@ -15,6 +15,10 @@ export const GET_APPLICATION = gql`
       content
       image {
         url
+        size
+        mime
+        width
+        height
       }
       locale
       user {
@@ -28,10 +32,6 @@ export const GET_APPLICATION = gql`
         page {
           slug
         }
-      }
-      metadata {
-        metaTitle
-        metaDescription
       }
       localizations {
         slug

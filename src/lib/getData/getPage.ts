@@ -17,13 +17,23 @@ export const GET_PAGE = gql`
       locale
       image {
         url
+        size
+        mime
+        width
+        height
       }
       type
       subpages(limit: 10) {
         slug
         title
+        start
+        end
         image {
           url
+          size
+          mime
+          width
+          height
         }
         content
         page {
@@ -33,8 +43,14 @@ export const GET_PAGE = gql`
       competitions(limit: 10) {
         slug
         title
+        start
+        end
         image {
           url
+          size
+          mime
+          width
+          height
         }
         content
         page {
@@ -44,17 +60,18 @@ export const GET_PAGE = gql`
       hashtags(limit: 10) {
         slug
         title
+        date
         image {
           url
+          size
+          mime
+          width
+          height
         }
         content
         page {
           slug
         }
-      }
-      metadata {
-        metaTitle
-        metaDescription
       }
       localizations {
         slug

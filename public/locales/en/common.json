@@ -1,6 +1,11 @@
 {
   "hello": "Hello",
   "read-more": "Read More",
+  "next": "Next",
+  "prev": "Previous",
+  "event": "Event",
+  "announcement": "Announcement",
+  "news": "News",
   "about": {
     "title": "What we do?",
     "description": "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga."
@@ -10,5 +15,46 @@
   "footer_menu": "Menus",
   "follow_us": "Folow us",
   "society": "Society",
-  "footer_about": " EN ===Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolores, blanditiis dignissimos recusandae fuga commodi sunt ipsam quas magni expedita ut soluta tempore dolorem inventore voluptates autem error doloremque quidem sed?"
+  "footer_about": " EN ===Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolores, blanditiis dignissimos recusandae fuga commodi sunt ipsam quas magni expedita ut soluta tempore dolorem inventore voluptates autem error doloremque quidem sed?",
+  "contact": {
+    "title": "Contact",
+    "fill-form": "Fill up the form to contact",
+    "form": {
+      "fullname-label": "Your Name",
+      "fullname-required": "Fullname cannot be empty.",
+      "email-required": "Mail cannot be empty.",
+      "email-invalid": "Invalid email address.",
+      "email-helper": "We will never share your mail.",
+      "message-label": "Message",
+      "message-required": "Message body cannot be empty.",
+      "message-delivered": "Thank you. Your message has been delivered.",
+      "failed": "Oops. Something went wrong, please try again.",
+      "button": "Send message",
+      "contactOnWhatsApp": " Contact us on WhatsApp"
+    }
+  },
+  "post-share": {
+    "search-label": "Search Users",
+    "mention-list-label": "Popular Users",
+    "mention-tab-popular": "Popular",
+    "mention-tab-saved": "Saved",
+    "trends-label": "Trends",
+    "add": "Add",
+    "share-tweet": "Share Tweet",
+    "next-tweet": "Next Tweet",
+    "edit-content": "Edit Content",
+    "edit-save": "Save",
+    "content-label": "Content",
+    "other-posts": "Other Posts",
+    "add-mention": "Add Mention",
+    "latest-tweets-label": "Latest Tweets",
+    "tabs": {
+      "share": "Share",
+      "archive": "Archive"
+    }
+  },
+  "subpage": {
+    "most-readed": "Most Readed",
+    "latest": "Latest"
+  }
 }

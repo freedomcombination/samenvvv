@@ -16,6 +16,10 @@ export const GET_COMPETITION = gql`
       content
       image {
         url
+        size
+        mime
+        width
+        height
       }
       start
       end
@@ -23,16 +27,16 @@ export const GET_COMPETITION = gql`
       page {
         slug
       }
-      metadata {
-        metaTitle
-        metaDescription
-      }
       applications(limit: 10) {
         title
         slug
         content
         image {
           url
+          size
+          mime
+          width
+          height
         }
         user {
           username

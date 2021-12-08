@@ -6,9 +6,22 @@ import {
 } from '@chakra-ui/react'
 import { NextRouter, useRouter } from 'next/dist/client/router'
 
+import { DynamicProps } from 'pages/[...slug]'
+
 interface HeaderTopProps {
   hasScroll?: boolean
   isScrolled?: boolean
+}
+
+interface RouterComponent {
+  components: Record<
+    string,
+    {
+      props: {
+        pageProps: DynamicProps
+      }
+    }
+  >
 }
 
 export const HeaderTop = ({
@@ -16,9 +29,13 @@ export const HeaderTop = ({
   isScrolled,
 }: HeaderTopProps): JSX.Element => {
   const { locales, push, pathname, locale, asPath, components } =
-    useRouter() as NextRouter & { components: any }
+    useRouter() as NextRouter & RouterComponent
 
-  const slug = components?.[pathname]?.props?.pageProps?.slug
+  // TODO: Check props
+  const slug =
+    (components?.[pathname]?.props?.pageProps?.pageData?.slugs as any) ??
+    (components?.[pathname]?.props?.pageProps?.slug as any) ??
+    ({} as any)
 
   const handleChangeLanguage = async (locale: string) => {
     await push(pathname, slug ? slug[locale].join('/') : asPath, { locale })

@@ -1,4 +1,4 @@
-import { Box, BoxProps } from '@chakra-ui/react'
+import { AspectRatio, Box, BoxProps } from '@chakra-ui/react'
 import Image, { ImageProps } from 'next/image'
 
 import { getImageUrl, toBase64 } from '@utils'
@@ -24,11 +24,13 @@ export const ChakraNextImage = ({
   format,
   nextImageProps,
   alt,
+  ratio,
   ...rest
 }: {
   image: IUploadFile | string
   format?: FileFormatsType
   nextImageProps?: ImageProps
+  ratio?: 'twitter' | 'square'
   alt?: string
 } & Omit<BoxProps, 'as'>): JSX.Element => {
   const src = getImageUrl(image, format)
@@ -36,8 +38,20 @@ export const ChakraNextImage = ({
     typeof image === 'string'
       ? alt || 'alternative text'
       : image?.alternativeText
+
+  const ImageWrapper = (props: BoxProps) =>
+    ratio ? (
+      <AspectRatio
+        ratio={ratio === 'twitter' ? 1200 / 675 : 1}
+        {...props}
+        {...rest}
+      />
+    ) : (
+      <Box pos="relative" {...props} {...rest} />
+    )
+
   return (
-    <Box position="relative" {...rest}>
+    <ImageWrapper>
       <Image
         objectFit="cover"
         layout="fill"
@@ -47,6 +61,6 @@ export const ChakraNextImage = ({
         blurDataURL={`data:image/svg+xml;base64,${toBase64(shimmer(60, 60))}`}
         {...nextImageProps}
       />
-    </Box>
+    </ImageWrapper>
   )
 }

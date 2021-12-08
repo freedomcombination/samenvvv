@@ -14,8 +14,15 @@ export const GET_SUBPAGE = gql`
       slug
       title
       content
+      start
+      end
+      type
       image {
         url
+        size
+        mime
+        width
+        height
       }
       type
       start
@@ -23,10 +30,34 @@ export const GET_SUBPAGE = gql`
       locale
       page {
         slug
-      }
-      metadata {
-        metaTitle
-        metaDescription
+        subpages {
+          slug
+          title
+          content
+          start
+          end
+          type
+          image {
+            url
+          }
+          start
+          end
+          locale
+        }
+        popular: subpages(sort: "slug:desc", limit: 5) {
+          slug
+          title
+          content
+          start
+          end
+          type
+          image {
+            url
+          }
+          start
+          end
+          locale
+        }
       }
       localizations {
         slug
