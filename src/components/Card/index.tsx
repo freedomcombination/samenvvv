@@ -38,7 +38,7 @@ export const Card = (props: CardProps): JSX.Element => {
   const { item, isSimple, isSocial, hasLink, ...rest } = props
 
   const link = useItemLink(item)
-  const absoluteLink = useItemLink(item, 'absolute')
+  const absoluteLink = useItemLink(item, true)
 
   const post = item as IHashtagPost
   const subpage = item as ISubpage

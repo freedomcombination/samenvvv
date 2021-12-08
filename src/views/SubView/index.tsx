@@ -1,5 +1,6 @@
 import { Box, Flex, Heading, HStack } from '@chakra-ui/react'
 import { MDXRemoteSerializeResult } from 'next-mdx-remote'
+import { NextSeoProps } from 'next-seo'
 
 import {
   ChakraNextImage,
@@ -10,20 +11,24 @@ import {
   PageTimeLabel,
   ShareButtons,
 } from '@components'
-import { useItemLink } from '@hooks'
 import { SubpageSidebarTabs } from 'src/components/SubpageSidebarTabs'
 
 interface SubViewProps {
   slug: Record<string, string[]>
   source: MDXRemoteSerializeResult<Record<string, unknown>>
   pageData: ISubpage
+  seo: NextSeoProps
+  link: string
 }
 
-const SubView = ({ source, pageData }: SubViewProps): JSX.Element => {
-  const absoluteLink = useItemLink(pageData, 'absolute') as string
-
+const SubView = ({
+  source,
+  pageData,
+  seo,
+  link,
+}: SubViewProps): JSX.Element => {
   return (
-    <Layout>
+    <Layout seo={seo}>
       <Container>
         <Flex py={4}>
           <Flex flexDir="column" flex={1}>
@@ -35,7 +40,7 @@ const SubView = ({ source, pageData }: SubViewProps): JSX.Element => {
               <ShareButtons
                 title={pageData.title}
                 quote={pageData.content}
-                url={absoluteLink}
+                url={link}
               />
             </HStack>
             <Heading my={4}>{pageData.title}</Heading>

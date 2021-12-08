@@ -39,7 +39,7 @@ export const PostArchive = ({ posts }: PostArchiveProps): JSX.Element => {
 
   const isMobile = useBreakpointValue({ base: true, md: false })
 
-  const absoluteUrl = useItemLink(posts[activeIndex], 'absolute')
+  const absoluteUrl = useItemLink(posts[activeIndex], true)
 
   const [title, content] = useMemo(() => {
     const { hashtag, text } = posts[activeIndex]
@@ -150,7 +150,7 @@ export const PostArchive = ({ posts }: PostArchiveProps): JSX.Element => {
                     getItemLink(
                       item as IHashtagPost,
                       locale as string,
-                      'absolute',
+                      true,
                     ) as string
                   }
                   size="lg"

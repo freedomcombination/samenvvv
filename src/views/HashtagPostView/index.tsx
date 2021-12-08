@@ -18,6 +18,7 @@ import {
   VStack,
 } from '@chakra-ui/react'
 import { MDXRemoteSerializeResult } from 'next-mdx-remote'
+import { NextSeoProps } from 'next-seo'
 import { useTranslation } from 'react-i18next'
 
 import {
@@ -30,33 +31,22 @@ import {
   TrendList,
   TweetWidget,
 } from '@components'
-import { useItemLink } from '@hooks'
 
 interface HashtagProps {
   slug: Record<string, string[]>
   source: MDXRemoteSerializeResult<Record<string, unknown>>
   pageData: IHashtagPost
+  seo: NextSeoProps
+  link: string
 }
 
-const HashtagPostView = ({ pageData }: HashtagProps): JSX.Element => {
+const HashtagPostView = ({ pageData, seo }: HashtagProps): JSX.Element => {
   const { isOpen, onOpen, onClose } = useDisclosure()
-  const postUrl = useItemLink(pageData)
 
   const { t } = useTranslation()
 
   return (
-    <Layout
-      seo={{
-        title: pageData?.text as string,
-        description: '',
-        image:
-          `${process.env.NEXT_PUBLIC_ADMIN_URL}${pageData?.image?.url}` as string,
-        url: postUrl as string,
-        width: pageData?.image?.width as number,
-        height: pageData?.image?.height as number,
-        type: pageData?.image?.mime as string,
-      }}
-    >
+    <Layout seo={seo}>
       <Container py={4}>
         <Box textAlign="center">
           <Heading>{pageData?.hashtag?.title}</Heading>

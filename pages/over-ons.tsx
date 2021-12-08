@@ -3,6 +3,7 @@ import React from 'react'
 import { Box, Heading, Text, VStack } from '@chakra-ui/react' //Stack,
 import { GetStaticProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import { NextSeoProps } from 'next-seo'
 
 import {
   AnimatedBox,
@@ -47,11 +48,12 @@ interface AboutUsProps {
     description: string
     image: string
   }[]
+  seo: NextSeoProps
 }
 
-const AboutUs = ({ title, content }: AboutUsProps): JSX.Element => {
+const AboutUs = ({ title, content, seo }: AboutUsProps): JSX.Element => {
   return (
-    <Layout scrollHeight={100}>
+    <Layout scrollHeight={100} seo={seo}>
       <Hero
         isFullHeight={false}
         title={title}
@@ -87,11 +89,16 @@ export const getStaticProps: GetStaticProps = async context => {
 
   const pageData = aboutUsData[locale as 'nl' | 'en' | 'tr']
 
+  const seo: NextSeoProps = {
+    title: pageData.title,
+  }
+
   return {
     props: {
       ...(await serverSideTranslations(locale as string, ['common'])),
       title: pageData.title,
       content: pageData.content,
+      seo,
     },
   }
 }
