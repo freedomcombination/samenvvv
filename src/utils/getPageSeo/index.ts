@@ -111,8 +111,11 @@ export const getPageSeo = (
   locale: string,
 ): NextSeoProps => {
   const url =
-    getItemLink(data as ISubpage | IApplication | IHashtagPost, locale, true) ??
-    ''
+    getItemLink(
+      data as IPage | ISubpage | IApplication | IHashtagPost,
+      locale,
+      true,
+    ) ?? ''
 
   const page = data as IPage
   const post = data as IHashtagPost

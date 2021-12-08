@@ -1,39 +1,51 @@
 export const getItemLink = (
-  item: ISubpage | IApplication | IHashtagPost,
+  item: IPage | ISubpage | IApplication | IHashtagPost,
   locale: string,
   isAbsolute?: boolean,
 ): string | null => {
   const post = item as IHashtagPost
   const application = item as IApplication
   const subpage = item as ISubpage
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL
-  let postUrl: string | null
+  const page = item as IPage
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL as string
+  let itemUrl: string | null
 
   const type = post.hashtag
     ? 'post'
     : application.competition
     ? 'application'
-    : null
+    : page.subpages || page.competitions || page.hashtags
+    ? 'page'
+    : 'subpage'
 
   if (type === 'post') {
     if (!post.hashtag?.page?.slug || !post.hashtag.slug) {
-      console.error('Missing links for post:', type, post)
+      console.error('Missing slug for post:', type, post)
       return null
     }
-    postUrl = `/${locale}/${post.hashtag?.page?.slug}/${post.hashtag?.slug}/${post.slug}`
+    itemUrl = `/${locale}/${post.hashtag?.page?.slug}/${post.hashtag?.slug}/${post.slug}`
   } else if (type === 'application') {
     if (!application.competition?.page?.slug || !application.competition.slug) {
-      console.error('Missing links for application:', type, application)
+      console.error('Missing slug for application:', type, application)
       return null
     }
-    postUrl = `/${locale}/${application.competition?.page?.slug}/${application.competition?.slug}/${application.slug}`
-  } else {
+    itemUrl = `/${locale}/${application.competition?.page?.slug}/${application.competition?.slug}/${application.slug}`
+  } else if (type === 'subpage') {
     if (!subpage.page?.slug) {
-      console.error('Missing links for item:', subpage)
+      console.error('Missing slug for subpage:', type, subpage)
       return null
     }
-    postUrl = `/${locale}/${subpage.page?.slug}/${subpage.slug}`
+    itemUrl = `/${locale}/${subpage.page?.slug}/${subpage.slug}`
+  } else if (type === 'page') {
+    if (!page.slug) {
+      console.error('Missing link for page', type, page)
+      return null
+    }
+    itemUrl = `/${locale}/${page.slug}`
+  } else {
+    console.error('Missing slug for item:', type, item)
+    return null
   }
 
-  return isAbsolute ? siteUrl + postUrl : postUrl
+  return isAbsolute ? siteUrl + itemUrl : itemUrl
 }
