@@ -1,12 +1,13 @@
+import '@testing-library/jest-dom/extend-expect'
 import 'axios'
-import nock from 'nock'
-import dotenv from 'dotenv'
+import { config } from 'dotenv'
+import { cleanAll, restore } from 'nock'
 
-dotenv.config({ path: '.env.local' })
+config({ path: '.env.local' })
 
 afterAll(() => {
-  nock.cleanAll()
-  nock.restore()
+  cleanAll()
+  restore()
 })
 
 // window.matchMedia = jest.fn().mockImplementation(query => {

@@ -23,7 +23,8 @@
       "@store": ["src/store"],
       "@utils": ["src/utils"],
       "@views": ["src/views"]
-    }
+    },
+    "incremental": true
   },
   "include": ["next-env.d.ts", "**/*.d.ts", "**/*.js", "**/*.ts", "**/*.tsx"],
   "exclude": ["node_modules", "test/*", "cypress/*"]

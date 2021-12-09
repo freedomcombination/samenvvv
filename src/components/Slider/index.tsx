@@ -16,7 +16,7 @@ import {
 import { mergeWith } from 'lodash'
 import { Autoplay, Navigation } from 'swiper'
 // eslint-disable-next-line import/no-unresolved
-import { Swiper, SwiperSlide } from 'swiper/react'
+import { Swiper, SwiperProps, SwiperSlide } from 'swiper/react'
 
 import { Card, Container, SliderHero } from '@components'
 
@@ -38,7 +38,7 @@ interface SliderProps {
   hasLink: boolean
 }
 
-const defaultSwiperProps: Swiper = {
+const defaultSwiperProps: SwiperProps = {
   modules: [Autoplay, Navigation],
   navigation: true,
   autoplay: {
@@ -63,7 +63,7 @@ export const Slider = ({
   hasSocialCard = false,
   hasLink = false,
   ...rest
-}: Partial<SliderProps & Swiper>): JSX.Element => {
+}: Partial<SliderProps & SwiperProps>): JSX.Element => {
   const responsiveSlidesPerView = useBreakpointValue(slides as number[]) || 1
   const responsiveSpaceBetween = useBreakpointValue(spaces as number[]) || 30
   const [activeIndexNumber, setActiveIndex] = useState(-1)

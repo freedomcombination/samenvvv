@@ -10,7 +10,7 @@ import {
   InputLeftElement,
   Textarea,
 } from '@chakra-ui/react'
-import { FieldValues, UseFormRegister } from 'react-hook-form'
+import { UseFormRegister } from 'react-hook-form'
 
 interface FormItemProps {
   isTextarea?: boolean
@@ -22,7 +22,7 @@ interface FormItemProps {
   errors?: {
     [x: string]: any
   }
-  register: UseFormRegister<FieldValues>
+  register: UseFormRegister<any>
 }
 
 export const FormItem = (props: FormItemProps): JSX.Element => {
