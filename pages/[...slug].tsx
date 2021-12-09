@@ -1,4 +1,4 @@
-import { Spinner } from '@chakra-ui/spinner'
+import { Center, Spinner } from '@chakra-ui/react'
 import { GetStaticPaths, GetStaticProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { MDXRemoteSerializeResult } from 'next-mdx-remote'
@@ -8,7 +8,7 @@ import { useRouter } from 'next/router'
 import { DehydratedState, QueryClient } from 'react-query'
 import { dehydrate } from 'react-query/hydration'
 
-import { Container, Layout } from '@components'
+import { Layout } from '@components'
 import {
   getAllPagePaths,
   getApplication,
@@ -19,6 +19,7 @@ import {
   getPageType,
   getSubpage,
 } from '@lib'
+import { getPageSeo } from '@utils'
 import {
   ApplicationView,
   CompetitionView,
@@ -28,7 +29,6 @@ import {
   MainView,
   SubView,
 } from '@views'
-import { getPageSeo } from 'src/utils/getPageSeo'
 
 interface DynamicPageProps {
   locale: string
@@ -52,9 +52,9 @@ const DynamicPage = (props: DynamicPageProps): JSX.Element => {
   if (router.isFallback)
     return (
       <Layout>
-        <Container>
-          <Spinner />
-        </Container>
+        <Center h="100vh">
+          <Spinner colorScheme="primary" />
+        </Center>
       </Layout>
     )
 
