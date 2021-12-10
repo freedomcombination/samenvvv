@@ -32,7 +32,7 @@ const SliderPage = (): JSX.Element => {
   const mockEvents = EVENTS_DATA[locale as string] as ISubpage[]
 
   return (
-    <Layout>
+    <Layout seo={{ nofollow: true, noindex: true, disableGooglebot: true }}>
       <Container>
         {/* Live Data with Social Cards*/}
         <Slider

@@ -10,8 +10,8 @@ import {
   PagePagination,
   PageTimeLabel,
   ShareButtons,
+  SubpageSidebarTabs,
 } from '@components'
-import { SubpageSidebarTabs } from 'src/components/SubpageSidebarTabs'
 
 interface SubViewProps {
   slug: Record<string, string[]>
