@@ -18,7 +18,7 @@ import { useTranslation } from 'react-i18next'
 import { FaAt, FaEdit, FaRandom, FaTwitter } from 'react-icons/fa'
 
 import { ChakraNextImage, Navigate, TagList } from '@components'
-import { useItemLink } from '@hooks'
+import { useCheckCharacterCount, useItemLink } from '@hooks'
 import {
   removeMentionUsername,
   removeTrend,
@@ -28,7 +28,6 @@ import {
   useAppSelector,
 } from '@store'
 import { getItemLink } from '@utils'
-import { useCheckCharacterCount } from 'src/hooks/useCheckCharacterCount'
 
 export const PostContainer = ({
   onOpen,

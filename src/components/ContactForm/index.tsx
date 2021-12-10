@@ -5,12 +5,12 @@ import {
   Button,
   VStack,
 } from '@chakra-ui/react'
-import { yupResolver } from '@hookform/resolvers/yup'
+import { yupResolver } from '@hookform/resolvers/yup/dist/yup' // TODO: Check later
 import axios from 'axios'
 import { useForm } from 'react-hook-form'
 import { TFunction, useTranslation } from 'react-i18next'
 import { BsPerson } from 'react-icons/bs'
-import { MdEmail } from 'react-icons/md' //MdOutlineEmail
+import { MdEmail } from 'react-icons/md'
 import { useMutation } from 'react-query'
 import * as yup from 'yup'
 

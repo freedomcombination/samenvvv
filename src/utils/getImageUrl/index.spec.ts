@@ -1,4 +1,4 @@
-import { getImageUrl } from '.'
+import { getImageUrl } from '@utils'
 
 const mockImage = {
   url: '/test.jpg',
