@@ -2,7 +2,7 @@ import { Box, Flex, Image, Link } from '@chakra-ui/react'
 import { motion } from 'framer-motion'
 import Headroom from 'react-headroom'
 
-import { Container, HeaderMobile, HeaderNav, HeaderTop } from '@components'
+import { Container, HeaderMobile, HeaderNav, LocaleSwitcher } from '@components'
 
 interface HeaderProps {
   isScrolled?: boolean
@@ -48,7 +48,7 @@ export const Header = ({ isScrolled, hasScroll }: HeaderProps): JSX.Element => {
               </Link>
             </motion.div>
             <Box display={{ base: 'none', lg: 'block' }}>
-              <HeaderTop hasScroll={hasScroll} isScrolled={isScrolled} />
+              <LocaleSwitcher hasScroll={hasScroll} isScrolled={isScrolled} />
               <HeaderNav />
             </Box>
             <HeaderMobile hasScroll={hasScroll} isScrolled={isScrolled} />

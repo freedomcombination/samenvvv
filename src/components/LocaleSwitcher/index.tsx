@@ -8,7 +8,7 @@ import { NextRouter, useRouter } from 'next/dist/client/router'
 
 import { DynamicProps } from 'pages/[...slug]'
 
-interface HeaderTopProps {
+interface LocaleSwitcherProps {
   hasScroll?: boolean
   isScrolled?: boolean
 }
@@ -24,24 +24,23 @@ interface RouterComponent {
   >
 }
 
-export const HeaderTop = ({
+export const LocaleSwitcher = ({
   hasScroll,
   isScrolled,
-}: HeaderTopProps): JSX.Element => {
+}: LocaleSwitcherProps): JSX.Element => {
   const { locales, push, pathname, locale, asPath, components } =
     useRouter() as NextRouter & RouterComponent
 
-  // TODO: Check props
   const slug =
-    (components?.[pathname]?.props?.pageProps?.pageData?.slugs as any) ??
-    (components?.[pathname]?.props?.pageProps?.slug as any) ??
-    ({} as any)
+    (components?.[pathname]?.props?.pageProps?.pageData?.slugs as any) ||
+    (components?.[pathname]?.props?.pageProps?.slug as any)
 
+  // TODO: Redirect to localized path for static pages
   const handleChangeLanguage = async (locale: string) => {
-    await push(pathname, slug ? slug[locale].join('/') : asPath, { locale })
+    await push(pathname, slug?.[locale]?.join('/') || asPath, { locale })
   }
 
-  const size = useBreakpointValue({ base: 'md', lg: 'xs' })
+  const size = useBreakpointValue({ base: 'sm', lg: 'xs' })
 
   return (
     <HStack py={1} justify="flex-end">

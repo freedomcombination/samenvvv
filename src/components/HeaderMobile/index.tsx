@@ -4,15 +4,17 @@ import {
   Drawer,
   DrawerBody,
   DrawerContent,
-  DrawerFooter,
   DrawerHeader,
   DrawerOverlay,
+  HStack,
   IconButton,
   useDisclosure,
 } from '@chakra-ui/react'
 import { FaBars } from 'react-icons/fa'
 
-import { HeaderNav, HeaderTop } from '@components'
+import { HeaderNav } from '@components'
+
+import { LocaleSwitcher } from '../LocaleSwitcher'
 
 type HeaderMobileProps = {
   hasScroll?: boolean
@@ -24,9 +26,18 @@ export const HeaderMobile = (props: HeaderMobileProps): JSX.Element => {
   const { hasScroll, isScrolled } = props
 
   return (
-    <>
+    <HStack display={{ base: 'flex', lg: 'none' }}>
+      <Drawer isOpen={isOpen} onClose={onClose}>
+        <DrawerOverlay />
+        <DrawerContent>
+          <DrawerHeader>Menu</DrawerHeader>
+          <DrawerBody>
+            <HeaderNav direction="column" />
+          </DrawerBody>
+        </DrawerContent>
+      </Drawer>
+      <LocaleSwitcher hasScroll={hasScroll} isScrolled={isScrolled} />
       <IconButton
-        display={{ base: 'flex', lg: 'none' }}
         variant="outline"
         colorScheme={
           !hasScroll ? 'blackAlpha' : isScrolled ? 'blackAlpha' : 'whiteAlpha'
@@ -35,18 +46,6 @@ export const HeaderMobile = (props: HeaderMobileProps): JSX.Element => {
         aria-label="menu"
         icon={<FaBars />}
       />
-      <Drawer isOpen={isOpen} onClose={onClose}>
-        <DrawerOverlay />
-        <DrawerContent>
-          <DrawerHeader>Menu</DrawerHeader>
-          <DrawerBody>
-            <HeaderNav direction="column" />
-          </DrawerBody>
-          <DrawerFooter justifyContent="center">
-            <HeaderTop />
-          </DrawerFooter>
-        </DrawerContent>
-      </Drawer>
-    </>
+    </HStack>
   )
 }
