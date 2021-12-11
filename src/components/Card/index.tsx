@@ -6,10 +6,14 @@ import {
   ChakraProps,
   Divider,
   Heading,
+  HStack,
+  IconButton,
+  Stack,
   Text,
   Tooltip,
   VStack,
 } from '@chakra-ui/react'
+import { FaArrowRight } from 'react-icons/fa'
 import removeMarkdown from 'remove-markdown'
 
 import {
@@ -30,7 +34,7 @@ const CardWrapper = ({ children, link }: CardWrapperProps) =>
 interface CardProps extends ChakraProps {
   isSimple?: boolean
   isSocial?: boolean
-  item: ISubpage | IApplication | IHashtagPost
+  item: ISubpage | ICompetition | IHashtag | IApplication | IHashtagPost
   hasLink?: boolean
 }
 
@@ -51,6 +55,7 @@ export const Card = (props: CardProps): JSX.Element => {
   return (
     <CardWrapper link={hasLink ? link : null}>
       <Box
+        role="group"
         pos="relative"
         boxShadow={isSimple ? 'none' : 'base'}
         borderRadius="lg"
@@ -61,7 +66,7 @@ export const Card = (props: CardProps): JSX.Element => {
         {...rest}
       >
         <ChakraNextImage ratio="twitter" image={item.image?.url as string} />
-        {type && (
+        {type && !post.text && (
           <Badge
             pos="absolute"
             top={4}
@@ -73,33 +78,60 @@ export const Card = (props: CardProps): JSX.Element => {
             {type}
           </Badge>
         )}
-        <VStack p={4} spacing={2} align="start">
-          {!isSimple && subpage.page && (
-            <PageTimeLabel color="gray.500" fontSize="sm" pageData={subpage} />
-          )}
-          {title && (
-            <Tooltip label={title}>
-              <Heading as="h3" size="md" noOfLines={1} fontWeight="bold">
-                {title}
-              </Heading>
-            </Tooltip>
-          )}
-
-          <Text noOfLines={2} fontSize="1rem" mt={2}>
-            {content}
-          </Text>
-
-          {isSocial && link && (
-            <>
-              <Divider />
-              <ShareButtons
-                title={title as string}
-                quote={content}
-                url={absoluteLink as string}
+        {post.text && isSocial && (
+          <Stack spacing={4} align="stretch" p={4}>
+            <ShareButtons
+              title={title as string}
+              quote={content}
+              url={absoluteLink as string}
+              size="lg"
+              justifyContent="space-evenly"
+            />
+          </Stack>
+        )}
+        {!post.text && (
+          <VStack p={4} spacing={4} align="stretch">
+            {!isSimple && subpage.page && (
+              <PageTimeLabel
+                color="gray.500"
+                fontSize="sm"
+                pageData={subpage}
               />
-            </>
-          )}
-        </VStack>
+            )}
+            {title && (
+              <Tooltip label={title}>
+                <Heading as="h3" size="md" noOfLines={1} fontWeight="bold">
+                  {title}
+                </Heading>
+              </Tooltip>
+            )}
+
+            <Text noOfLines={2} fontSize="1rem" mt={2}>
+              {content}
+            </Text>
+
+            {(isSocial || hasLink) && (
+              <>
+                <Divider />
+                <HStack justify="space-between">
+                  <ShareButtons
+                    title={title as string}
+                    quote={content}
+                    url={absoluteLink as string}
+                  />
+                  <Navigate href={link as string}>
+                    <IconButton
+                      aria-label="read-more"
+                      colorScheme="gray"
+                      variant="ghost"
+                      icon={<FaArrowRight />}
+                    />
+                  </Navigate>
+                </HStack>
+              </>
+            )}
+          </VStack>
+        )}
       </Box>
     </CardWrapper>
   )

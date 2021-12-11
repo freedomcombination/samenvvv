@@ -1,7 +1,16 @@
+import { Divider } from '@chakra-ui/react'
 import { MDXRemoteSerializeResult } from 'next-mdx-remote'
 import { NextSeoProps } from 'next-seo'
 
-import { CardGroup, Container, Hero, Layout, Markdown } from '@components'
+import {
+  AnimatedBox,
+  Container,
+  Hero,
+  Layout,
+  Markdown,
+  Slider,
+  SliderHero,
+} from '@components'
 
 interface MainHashtagsProps {
   slug: Record<string, string[]>
@@ -25,10 +34,26 @@ const MainHashtagsView = ({
       />
       <Container>
         {source && <Markdown source={source} />}
-        <CardGroup
-          items={pageData?.hashtags as unknown as ISubpage[]}
-          hasLink
-        />
+        {pageData.hashtags?.map((hashtag, i) => (
+          <>
+            <AnimatedBox
+              directing={i % 2 === 0 ? 'to-left' : 'to-right'}
+              delay={5}
+              key={i}
+            >
+              <SliderHero item={hashtag} />
+              <Slider
+                slides={{ base: 1, md: 2, lg: 3 }}
+                posts={hashtag.posts as IHashtagPost[]}
+                loop
+                hasSocialCard
+                customStyles={{ opacity: 0.5 }}
+                activeStyles={{ opacity: 1 }}
+              />
+            </AnimatedBox>
+            <Divider my={16} />
+          </>
+        ))}
       </Container>
     </Layout>
   )

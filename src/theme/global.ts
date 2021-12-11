@@ -25,21 +25,22 @@ export const styles = {
         },
       },
       '&-button-next': {
+        right: 0,
         '&:hover': {
           transform: 'translateX(5px)',
         },
       },
       '&-button-prev': {
+        left: 0,
         '&:hover': {
           transform: 'translateX(-5px)',
         },
       },
       '&-button-prev, &-button-next': {
-        color: 'white',
-        boxSize: 16,
+        color: 'primary.400',
+        boxSize: 12,
         rounded: 'full',
-        boxShadow: '0 0 2rem rgba(0, 0, 0, 0.3)',
-        bg: 'primary.400',
+        shadow: 0,
         transition: 'all 0.3s',
         opacity: 0.5,
 
