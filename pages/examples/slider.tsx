@@ -57,9 +57,9 @@ const SliderPage = (): JSX.Element => {
             borderWidth: 2,
           }}
           isLoading={isLoading}
-          hasHero
-          hasSimpleCard
+          isSimple
           hasSocialCard
+          hasThumb
         />
 
         {/* Live Data (Centered - Active Style)*/}
@@ -69,14 +69,13 @@ const SliderPage = (): JSX.Element => {
           customStyles={{
             filter: 'grayscale(1)',
             _hover: {
-              boxShadow: 'lg',
+              boxShadow: 'md',
               filter: 'grayscale(0)',
             },
           }}
           activeStyles={{
             filter: 'grayscale(0)',
-            transform: 'translateY(-5px)',
-            boxShadow: 'lg',
+            transform: 'translateY(-5px) scale(1.1)',
           }}
           isLoading={isLoading}
           hasSocialCard
@@ -148,6 +147,7 @@ const SliderPage = (): JSX.Element => {
               <Box
                 pos="absolute"
                 top={0}
+                sk
                 left={0}
                 w="full"
                 h="full"
@@ -183,22 +183,18 @@ const SliderPage = (): JSX.Element => {
           navigation={false}
           pagination={{ clickable: true }}
           slides={{ base: 1, md: 3 }}
-          swiperStyles={{
-            '.swiper': {
-              '&-pagination': {
-                top: 'unset',
-                bottom: '15px',
-                textAlign: 'center',
+          paginationStyles={{
+            top: 'unset',
+            bottom: '15px',
+            textAlign: 'center',
 
-                '&-bullet': {
-                  bg: 'primary.50',
-                  opacity: 1,
-                  boxShadow: 'md',
+            '&-bullet': {
+              bg: 'primary.50',
+              opacity: 1,
+              boxShadow: 'md',
 
-                  '&-active': {
-                    bg: 'primary.400',
-                  },
-                },
+              '&-active': {
+                bg: 'primary.400',
               },
             },
           }}

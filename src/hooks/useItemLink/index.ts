@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 import { getItemLink } from '@utils'
 
 export const useItemLink = (
-  item: ISubpage | IApplication | IHashtagPost,
+  item: ISubpage | ICompetition | IHashtag | IApplication | IHashtagPost,
   isAbsolute?: boolean,
 ): string | null => {
   const { locale } = useRouter()

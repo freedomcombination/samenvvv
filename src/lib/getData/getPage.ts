@@ -68,6 +68,17 @@ export const GET_PAGE = gql`
           width
           height
         }
+        posts {
+          slug
+          text
+          image {
+            url
+            size
+            mime
+            width
+            height
+          }
+        }
         content
         page {
           slug
