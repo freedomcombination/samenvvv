@@ -8,9 +8,9 @@ module.exports = {
       '127.0.0.1',
       'picsum.photos',
       'images.unsplash.com',
-      'samenvvvv.com',
+      'samenvvv.nl',
       'media.istockphoto.com',
-      'samenvvv.vercel.app', // TODO: Change when launch
+      'admin.samenvvv.nl',
     ],
   },
   async rewrites() {
