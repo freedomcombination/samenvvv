@@ -44,11 +44,15 @@ const MainHashtagsView = ({
               <SliderHero item={hashtag} />
               <Slider
                 slides={{ base: 1, md: 2, lg: 3 }}
-                posts={hashtag.posts as IHashtagPost[]}
+                posts={hashtag.posts?.map(post => ({
+                  ...post,
+                  hashtag: { ...hashtag, page: pageData },
+                }))}
                 loop
                 hasSocialCard
                 customStyles={{ opacity: 0.5 }}
                 activeStyles={{ opacity: 1 }}
+                hasLink
               />
             </AnimatedBox>
             <Divider my={16} />

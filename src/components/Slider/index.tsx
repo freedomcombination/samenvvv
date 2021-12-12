@@ -117,7 +117,7 @@ export const Slider = (
         navigation
         pagination={hasPagination && { type: 'bullets' }}
         initialSlide={1}
-        slideToClickedSlide={!hasLink}
+        slideToClickedSlide={Boolean(posts) || !hasLink}
         onSwiper={setThumbsSwiper}
         loop
         {...(hasThumb && {
