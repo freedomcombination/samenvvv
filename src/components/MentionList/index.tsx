@@ -17,6 +17,7 @@ import {
   clearMentionSearchKey,
   clearTwitterUsers,
   fetchMentions,
+  removeSavedMention,
   resetMentions,
   updateSaveTwitterUsers,
   useAppDispatch,
@@ -46,6 +47,13 @@ export const MentionList = (): JSX.Element => {
     if (value.screen_name) {
       dispatch(addMentionUsername(value.screen_name))
       dispatch(clearMentionSearchKey())
+      dispatch(resetMentions())
+    }
+  }
+
+  const onRemoveMention = (value: ITweetUserData) => {
+    if (value.screen_name) {
+      dispatch(removeSavedMention(value.screen_name))
       dispatch(resetMentions())
     }
   }
@@ -129,6 +137,7 @@ export const MentionList = (): JSX.Element => {
                     <MentionListItem
                       key={i}
                       user_data={user_data}
+                      onRemoveItem={onRemoveMention}
                       onAddItem={onAddMention}
                     />
                   ))}
