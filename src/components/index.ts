@@ -29,7 +29,11 @@ export { PagePagination } from './PagePagination'
 export { ShareButtons } from './ShareButtons'
 export { Slider } from './Slider'
 export { SocialButtons } from './SocialButtons'
-export { MentionListSkeleton } from './Skeletons'
+export {
+  CardSkeleton,
+  MentionListSkeleton,
+  SliderHeroSkeleton,
+} from './Skeletons'
 export { SliderHero } from './SliderHero'
 export { SubpageSidebarTabs } from './SubpageSidebarTabs'
 export { TagList } from './TagList'

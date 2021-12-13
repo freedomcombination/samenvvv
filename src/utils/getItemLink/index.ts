@@ -1,5 +1,11 @@
 export const getItemLink = (
-  item: IPage | ISubpage | IApplication | IHashtagPost,
+  item:
+    | IPage
+    | ISubpage
+    | ICompetition
+    | IHashtag
+    | IApplication
+    | IHashtagPost,
   locale: string,
   isAbsolute?: boolean,
 ): string | null => {

@@ -17,7 +17,7 @@ interface HomeProps {
   seo: NextSeoProps
 }
 
-const Home = ({ hashtags, subpages, seo }: HomeProps): JSX.Element => {
+const Home = ({ subpages, seo }: HomeProps): JSX.Element => {
   const { locale } = useRouter()
 
   const { t } = useTranslation(['common'])
@@ -33,15 +33,7 @@ const Home = ({ hashtags, subpages, seo }: HomeProps): JSX.Element => {
       />
       <Container>
         <Box>
-          <Slider items={subpages} />
-        </Box>
-        <Box>
-          <Slider
-            heading={'Hastag Events'}
-            items={hashtags as unknown as ISubpage[]}
-            hasHero
-            hasSimpleCard
-          />
+          <Slider items={subpages} hasThumb />
         </Box>
       </Container>
     </Layout>
