@@ -1,5 +1,5 @@
 /* eslint-disable import/no-unresolved */
-import { useRef } from 'react'
+import { useEffect, useRef } from 'react'
 
 import { ChakraProvider } from '@chakra-ui/react'
 import { appWithTranslation } from 'next-i18next'
@@ -15,6 +15,8 @@ import { store } from '@store'
 import theme from '@theme'
 import { getDefaultSeo } from '@utils'
 
+import * as ga from './lib/ga'
+
 import 'swiper/css'
 import 'swiper/css/navigation'
 import 'swiper/css/pagination'
@@ -24,11 +26,23 @@ import 'swiper/css/effect-fade'
 const MyApp = ({ Component, pageProps }: AppProps) => {
   const queryClientRef = useRef<QueryClient>()
   const { locale } = useRouter()
+  const router = useRouter()
 
   if (!queryClientRef.current) {
     queryClientRef.current = new QueryClient()
   }
 
+  useEffect(() => {
+    const handleRouteChange = url => {
+      ga.pageview(url)
+    }
+
+    router.events.on('routeChangeComplete', handleRouteChange)
+
+    return () => {
+      router.events.off('routeChangeComplete', handleRouteChange)
+    }
+  }, [router.events])
   return (
     <QueryClientProvider client={queryClientRef.current}>
       <Hydrate state={pageProps.dehydratedState}>
