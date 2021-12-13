@@ -13,9 +13,9 @@ export { Header } from './Header'
 export { HeaderMobile } from './HeaderMobile'
 export { HeaderNav } from './HeaderNav'
 export { HeaderNavItem } from './HeaderNavItem'
-export { HeaderTop } from './HeaderTop'
 export { Hero } from './Hero'
 export { Layout } from './Layout'
+export { LocaleSwitcher } from './LocaleSwitcher'
 export { Markdown } from './Markdown'
 export { MentionList } from './MentionList'
 export { MentionListItem } from './MentionListItem'
@@ -29,7 +29,11 @@ export { PagePagination } from './PagePagination'
 export { ShareButtons } from './ShareButtons'
 export { Slider } from './Slider'
 export { SocialButtons } from './SocialButtons'
-export { MentionListSkeleton } from './Skeletons'
+export {
+  CardSkeleton,
+  MentionListSkeleton,
+  SliderHeroSkeleton,
+} from './Skeletons'
 export { SliderHero } from './SliderHero'
 export { SubpageSidebarTabs } from './SubpageSidebarTabs'
 export { TagList } from './TagList'

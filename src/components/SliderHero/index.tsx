@@ -1,62 +1,54 @@
-import { AspectRatio, Button, Heading, Stack, Text } from '@chakra-ui/react'
+import { Button, Heading, SimpleGrid, Stack, Text } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
 import { useTranslation } from 'react-i18next'
 
-import { ChakraNextImage, Container, Navigate } from '@components'
-import { ROUTES } from '@utils'
+import { ChakraNextImage, Navigate } from '@components'
+import { getItemLink } from '@utils'
 
 interface SliderHeroProps {
-  item: ISubpage
+  item: ISubpage | ICompetition | IHashtag
 }
 
 export const SliderHero = ({ item }: SliderHeroProps): JSX.Element => {
   const { locale } = useRouter()
   const { t } = useTranslation(['common'])
+  const link = getItemLink(item, locale as string)
 
   return (
-    <Container display={{ base: 'none', md: 'initial' }} mt={10}>
-      <Stack
-        align={'center'}
-        spacing={{ base: 8, md: 10 }}
-        direction={{ base: 'column', md: 'row' }}
-      >
-        <Stack align="start" flex={1} spacing={{ base: 5, md: 10 }}>
-          <Heading
-            lineHeight={1.1}
-            fontWeight={700}
-            fontSize={{ base: '3xl', sm: '4xl', lg: '6xl' }}
-          >
-            <Text as={'span'} color={'primary'}>
-              {item.title}
-            </Text>
-          </Heading>
-          <Text noOfLines={5} fontSize={'1.3rem'}>
-            {item.content}
-          </Text>
-          {item.type && (
-            <Navigate
-              as={Button}
-              // href="/<mainpage>/<subpage>"
-              href={`/${ROUTES[item.type][locale as string].link}/${item.slug}`}
-              colorScheme="primary"
-              size="lg"
-            >
-              {t`read-more`}
-            </Navigate>
-          )}
-        </Stack>
-        <AspectRatio
-          rounded="2xl"
-          boxShadow="2xl"
-          pos="relative"
-          flex={1}
-          maxW="600px"
-          ratio={1200 / 675}
-          overflow="hidden"
+    <SimpleGrid gap={8} columns={{ base: 1, lg: 2 }} mb={8}>
+      <Stack align="start" h="full" flex={1} spacing={{ base: 5, md: 10 }}>
+        <Heading
+          fontWeight={700}
+          fontSize={{ base: '3xl', lg: '4xl' }}
+          noOfLines={1}
+          color="primary"
         >
-          {item.image && <ChakraNextImage h={'100%'} image={item.image} />}
-        </AspectRatio>
+          {item.title}
+        </Heading>
+        <Text flex={1} noOfLines={5} fontSize="1.3rem">
+          {item.content}
+        </Text>
+
+        <Navigate
+          as={Button}
+          href={link as string}
+          colorScheme="primary"
+          size="lg"
+        >
+          {t`read-more`}
+        </Navigate>
       </Stack>
-    </Container>
+
+      {item.image && (
+        <ChakraNextImage
+          rounded="lg"
+          shadow="lg"
+          minH={350}
+          mr={2}
+          overflow="hidden"
+          image={item.image}
+        />
+      )}
+    </SimpleGrid>
   )
 }

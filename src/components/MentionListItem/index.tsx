@@ -1,25 +1,29 @@
 import {
   Avatar,
   Box,
-  Button,
+  ButtonGroup,
   Divider,
   HStack,
+  IconButton,
   Text,
   Tooltip,
   VStack,
 } from '@chakra-ui/react'
 import { useTranslation } from 'react-i18next'
+import { FaPlus, FaTimes } from 'react-icons/fa'
 
 import { formatNumber } from '@utils'
 
 interface MentionListItemProps {
   user_data: ITweetUserData
   onAddItem: (value: ITweetUserData) => void
+  onRemoveItem?: (value: ITweetUserData) => void
 }
 
 export const MentionListItem = ({
   user_data,
   onAddItem,
+  onRemoveItem,
 }: MentionListItemProps): JSX.Element => {
   const { t } = useTranslation()
 
@@ -36,7 +40,8 @@ export const MentionListItem = ({
       rounded="lg"
       py={2}
       textAlign="center"
-      openDelay={500}
+      openDelay={300}
+      closeDelay={300}
       label={
         <VStack w="full">
           <Avatar
@@ -90,13 +95,34 @@ export const MentionListItem = ({
             <Text>@{user_data.screen_name}</Text>
           </Box>
         </HStack>
-        <Button
-          variant="outline"
-          onClick={() => onAddItem(user_data)}
-          colorScheme="primary"
-          rounded="full"
-          size="sm"
-        >{t`post-share.add`}</Button>
+        <ButtonGroup>
+          {onRemoveItem && (
+            <Tooltip label={t`post-share.remove`}>
+              <IconButton
+                aria-label={t`post-share.remove` + ' mention'}
+                variant="ghost"
+                onClick={() => onRemoveItem(user_data)}
+                colorScheme="blackAlpha"
+                _hover={{ color: 'red.400' }}
+                rounded="full"
+                size="sm"
+                icon={<FaTimes />}
+              />
+            </Tooltip>
+          )}
+          <Tooltip label={t`post-share.add`}>
+            <IconButton
+              aria-label={t`post-share.add` + ' mention'}
+              variant="ghost"
+              onClick={() => onAddItem(user_data)}
+              colorScheme="blackAlpha"
+              _hover={{ color: 'green.400' }}
+              rounded="full"
+              size="sm"
+              icon={<FaPlus />}
+            />
+          </Tooltip>
+        </ButtonGroup>
       </HStack>
     </Tooltip>
   )
