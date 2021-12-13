@@ -95,6 +95,16 @@ export const postShareSlice = createSlice({
         JSON.stringify(state.savedTwitterUsers),
       )
     },
+    removeSavedMention: (state, action: PayloadAction<string>) => {
+      const savedList = state.savedTwitterUsers.filter(
+        user => user.screen_name !== action.payload,
+      )
+      localStorage.setItem(
+        LOCAL_STORAGE_MENTIONS_KEY,
+        JSON.stringify(savedList),
+      )
+      state.savedTwitterUsers = savedList
+    },
   },
   extraReducers: builder => {
     builder.addCase(fetchTwitterUsers.fulfilled, (state, action) => {
@@ -123,6 +133,7 @@ export const postShareSlice = createSlice({
 
 export const {
   addMentionUsername,
+  removeSavedMention,
   removeMentionUsername,
   addTrend,
   removeTrend,
