@@ -15,7 +15,7 @@ import { store } from '@store'
 import theme from '@theme'
 import { getDefaultSeo } from '@utils'
 
-import * as ga from './lib/ga'
+import * as ga from '../src/lib/ga'
 
 import 'swiper/css'
 import 'swiper/css/navigation'
@@ -43,6 +43,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
       router.events.off('routeChangeComplete', handleRouteChange)
     }
   }, [router.events])
+
   return (
     <QueryClientProvider client={queryClientRef.current}>
       <Hydrate state={pageProps.dehydratedState}>
