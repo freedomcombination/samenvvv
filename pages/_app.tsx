@@ -13,9 +13,8 @@ import { Provider as ReduxProvider } from 'react-redux'
 
 import { store } from '@store'
 import theme from '@theme'
-import { getDefaultSeo } from '@utils'
+import { getDefaultSeo, pageview } from '@utils'
 
-import * as gtag from '../src/utils/gtag'
 import 'swiper/css'
 import 'swiper/css/navigation'
 import 'swiper/css/pagination'
@@ -33,7 +32,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
 
   useEffect(() => {
     const handleRouteChange = (url: URL) => {
-      gtag.pageview(url)
+      pageview(url)
     }
     router.events.on('routeChangeComplete', handleRouteChange)
     return () => {
