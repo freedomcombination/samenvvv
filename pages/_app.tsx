@@ -15,8 +15,7 @@ import { store } from '@store'
 import theme from '@theme'
 import { getDefaultSeo } from '@utils'
 
-import { pageview } from '../src/lib/ga'
-
+import * as gtag from '../src/utils/gtag'
 import 'swiper/css'
 import 'swiper/css/navigation'
 import 'swiper/css/pagination'
@@ -33,12 +32,10 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
   }
 
   useEffect(() => {
-    const handleRouteChange = url => {
-      pageview(url)
+    const handleRouteChange = (url: URL) => {
+      gtag.pageview(url)
     }
-
     router.events.on('routeChangeComplete', handleRouteChange)
-
     return () => {
       router.events.off('routeChangeComplete', handleRouteChange)
     }
