@@ -11,10 +11,11 @@ import { ReactQueryDevtools } from 'react-query/devtools'
 import { Hydrate } from 'react-query/hydration'
 import { Provider as ReduxProvider } from 'react-redux'
 
-import { pageview } from '@lib'
 import { store } from '@store'
 import theme from '@theme'
 import { getDefaultSeo } from '@utils'
+
+import { pageview } from '../src/lib/ga'
 
 import 'swiper/css'
 import 'swiper/css/navigation'
