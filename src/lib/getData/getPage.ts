@@ -103,7 +103,6 @@ export const getPage = async (
       slug,
     },
   )
-
   const page = data.pages?.[0]
 
   if (!page) return null
