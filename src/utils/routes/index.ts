@@ -6,12 +6,8 @@ export type RouteLabelType =
   | 'news'
   | 'competition'
   | 'hashtag'
-  | 'helpCenter'
-  | 'termsOfService'
-  | 'legal'
-  | 'privacyPolicy'
-  | 'status'
-  | 'contactUs'
+  | 'terms'
+  | 'privacy'
   | 'contact'
 
 type InternalLinksType = Record<
@@ -118,98 +114,43 @@ export const ROUTES: InternalLinksType = {
       link: '/hashtag-etkinlikleri',
     },
   },
-  helpCenter: {
-    en: {
-      name: 'Help Center',
-      link: '/help-center',
-    },
-    nl: {
-      name: 'Helpcentrum',
-      link: '/help-centrum',
-    },
-    tr: {
-      name: 'Yardım Merkezi',
-      link: '/yardim-merkezi',
-    },
-  },
-  termsOfService: {
+  terms: {
     en: {
       name: 'Terms of service',
-      link: '/terms-of-service',
+      link: '/terms',
     },
     nl: {
-      name: 'Aankondigingen',
-      link: '/aankondigingen',
+      name: 'Algemene Voorwaarden ',
+      link: '/voorwaarden',
     },
     tr: {
       name: 'Kullanım Şartları',
-      link: '/kullanım-sartları',
+      link: '/kullanim-sartlari',
     },
   },
-  legal: {
-    en: {
-      name: 'Legal',
-      link: '/legal',
-    },
-    nl: {
-      name: 'Legaal',
-      link: '/legaal',
-    },
-    tr: {
-      name: 'Yasal',
-      link: '/yasal',
-    },
-  },
-  privacyPolicy: {
+  privacy: {
     en: {
       name: 'Privacy Policy',
-      link: '/privacy-policy',
+      link: '/privacy',
     },
     nl: {
-      name: 'Wedstrijden',
-      link: '/wedstrijden',
+      name: 'Privacybeleid',
+      link: '/privacy',
     },
     tr: {
       name: 'Gizlilik Politikası',
-      link: '/gizlilik-politikası',
+      link: '/gizlilik',
     },
   },
-  status: {
-    en: {
-      name: 'Status',
-      link: '/status',
-    },
-    nl: {
-      name: 'Toestand',
-      link: '/toestand',
-    },
-    tr: {
-      name: 'Durum',
-      link: '/durum',
-    },
-  },
-  contactUs: {
-    en: {
-      name: 'Contact Us',
-      link: '/contact-us',
-    },
-    nl: {
-      name: 'Neem contact op',
-      link: '/neem-contact-op',
-    },
-    tr: {
-      name: 'Bize Ulaşın',
-      link: '/bize-ulasin',
-    },
-  },
+
   contact: {
     en: {
       name: 'Contact',
       link: '/contact',
     },
     nl: {
-      name: 'Neem contact op',
-      link: '/neem-contact-op',
+      name: 'Contact',
+      link: '/contact',
     },
     tr: {
       name: 'İletişim',
@@ -238,15 +179,12 @@ export const FOOTER_MENU: Record<string, { name: string; link: string }>[] = [
 ]
 
 export const SUPPORT_MENU: Record<string, { name: string; link: string }>[] = [
-  ROUTES.helpCenter,
-  ROUTES.termsOfService,
-  ROUTES.legal,
-  ROUTES.privacyPolicy,
-  ROUTES.status,
+  ROUTES.terms,
+  ROUTES.privacy,
 ]
 
 export const SOCIETY_MENU: Record<string, { name: string; link: string }>[] = [
   ROUTES.club,
   ROUTES.about,
-  ROUTES.contactUs,
+  ROUTES.contact,
 ]
