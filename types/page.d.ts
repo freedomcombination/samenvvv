@@ -5,6 +5,13 @@ declare type Page_Type =
   | 'hashtag'
   | 'news'
 
+declare type IStaticPage = {
+  title: string
+  content: string
+  slug: string
+  image?: IUploadFile
+}
+
 declare interface IPage extends LocalizedSlugs {
   __typename?: 'Page'
   id: string

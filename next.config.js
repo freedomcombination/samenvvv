@@ -31,6 +31,22 @@ module.exports = {
         locale: false,
       },
       {
+        source: '/tr/gizlilik',
+        destination: '/tr/privacy',
+        locale: false,
+      },
+      {
+        source: '/tr/kullanim-sartlari',
+        destination: '/tr/voorwaarden',
+        locale: false,
+      },
+      {
+        source: '/en/terms',
+        destination: '/en/voorwaarden',
+        locale: false,
+      },
+      
+      {
         source: '/tr/iletisim',
         destination: '/tr/contact',
         locale: false,
