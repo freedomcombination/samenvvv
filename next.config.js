@@ -9,8 +9,8 @@ module.exports = {
       'picsum.photos',
       'images.unsplash.com',
       'admin.samenvvv.nl',
-      'media.istockphoto.com',
       'samenvvv.nl',
+      'media.istockphoto.com',
     ],
   },
   async rewrites() {
