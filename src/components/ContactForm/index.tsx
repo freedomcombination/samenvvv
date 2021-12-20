@@ -5,7 +5,7 @@ import {
   Button,
   VStack,
 } from '@chakra-ui/react'
-import { yupResolver } from '@hookform/resolvers/yup/dist/yup' // TODO: Check later
+import { yupResolver } from '@hookform/resolvers/yup'
 import axios from 'axios'
 import { useForm } from 'react-hook-form'
 import { TFunction, useTranslation } from 'react-i18next'
