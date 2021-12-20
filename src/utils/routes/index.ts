@@ -157,20 +157,6 @@ export const ROUTES: InternalLinksType = {
       link: '/iletisim',
     },
   },
-  contact: {
-    en: {
-      name: 'Contact',
-      link: '/contact',
-    },
-    nl: {
-      name: 'Neem contact op',
-      link: '/neem-contact-op',
-    },
-    tr: {
-      name: 'İletişim',
-      link: '/iletisim',
-    },
-  },
 }
 
 export const HEADER_MENU: Record<string, { name: string; link: string }>[] = [

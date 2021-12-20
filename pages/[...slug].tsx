@@ -29,7 +29,6 @@ import {
   MainView,
   SubView,
 } from '@views'
-import { getPageSeo } from 'src/utils/getPageSeo'
 
 interface DynamicPageProps {
   locale: string

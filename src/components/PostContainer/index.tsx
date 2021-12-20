@@ -21,7 +21,7 @@ import { ChakraNextImage, Navigate, TagList } from '@components'
 import { useCheckCharacterCount, useItemLink } from '@hooks'
 import {
   removeMentionUsername,
-  removeTrend,
+  removeTrendName,
   setPostContent,
   setPostText,
   useAppDispatch,
@@ -43,9 +43,8 @@ export const PostContainer = ({
 
   const contentRef = useRef<HTMLTextAreaElement | null>(null)
 
-  const { postText, postContent, mentionUsernames, trends } = useAppSelector(
-    state => state.postShare,
-  )
+  const { postText, postContent, mentionUsernames, trendNames } =
+    useAppSelector(state => state.postShare)
 
   const [totalCharCount, isCharacterCountExceeded] = useCheckCharacterCount()
 
@@ -66,17 +65,17 @@ export const PostContainer = ({
   useEffect(() => {
     const mentionsStr = mentionUsernames.join('\n')
     // prettier-ignore
-    const trendsStr = post.hashtag?.hashtag + (trends.length > 0 ? '\n' + trends.join('\n') : '')
+    const trendsStr = post.hashtag?.hashtag + (trendNames.length > 0 ? '\n' + trendNames.join('\n') : '')
     const postContent = `${postText}\n\n${mentionsStr}\n\n${trendsStr}`
 
     dispatch(setPostContent(postContent))
-  }, [postText, mentionUsernames, trends, post, dispatch, locale])
+  }, [postText, mentionUsernames, trendNames, post, dispatch, locale])
 
   const onRemoveMention = (mention: string) => {
     dispatch(removeMentionUsername(mention))
   }
   const onRemoveTrend = (trend: string) => {
-    dispatch(removeTrend(trend))
+    dispatch(removeTrendName(trend))
   }
 
   const onChangeContent = (e: ChangeEvent<HTMLTextAreaElement>): void => {
@@ -180,7 +179,7 @@ export const PostContainer = ({
                   {t`post-share.trends-label`}
                 </Text>
                 <TagList
-                  tags={[post?.hashtag?.hashtag as string, ...trends]}
+                  tags={[post?.hashtag?.hashtag as string, ...trendNames]}
                   onClickButton={onRemoveTrend}
                 />
               </Box>
