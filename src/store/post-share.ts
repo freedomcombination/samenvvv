@@ -4,7 +4,7 @@ import { getMentionList, lookupTwitterUsers } from '@lib'
 
 const LOCAL_STORAGE_MENTIONS_KEY = 'mentions'
 
-const twitterUsersStorage: ITweetUserData[] =
+const searchedMentionsStorage: ITweetUserData[] =
   typeof window !== 'undefined' &&
   localStorage.getItem(LOCAL_STORAGE_MENTIONS_KEY)
     ? JSON.parse(localStorage.getItem(LOCAL_STORAGE_MENTIONS_KEY) as string)
@@ -14,13 +14,13 @@ export type PostShareState = {
   postText: string
   postContent: string
   mentionUsernames: string[]
-  twitterUsers: ITweetUserData[]
-  savedTwitterUsers: ITweetUserData[]
-  isTwitterUsersLoading: boolean
+  searchedMentions: ITweetUserData[]
+  savedMentions: ITweetUserData[]
+  isSearchedMentionsLoading: boolean
   initialMentions: IMention[]
   mentions: IMention[]
   isMentionListLoading: boolean
-  trends: string[]
+  trendNames: string[]
   mentionSearchKey: string
 }
 
@@ -28,26 +28,29 @@ const initialState: PostShareState = {
   postText: '',
   postContent: '',
   mentionUsernames: ['@samenvvv'],
-  twitterUsers: [],
-  savedTwitterUsers: twitterUsersStorage,
-  isTwitterUsersLoading: false,
+  searchedMentions: [],
+  savedMentions: searchedMentionsStorage,
+  isSearchedMentionsLoading: false,
   initialMentions: [],
   mentions: [],
   isMentionListLoading: false,
-  trends: [],
+  trendNames: [],
   mentionSearchKey: '',
 }
 
-export const fetchTwitterUsers = createAsyncThunk(
-  'mention/twitterUsers',
+export const fetchSearchedMentions = createAsyncThunk(
+  'post-share/searchedMentions',
   async (value: string) => {
     return await lookupTwitterUsers(value)
   },
 )
 
-export const fetchMentions = createAsyncThunk('mention/mentions', async () => {
-  return await getMentionList()
-})
+export const fetchMentions = createAsyncThunk(
+  'post-share/mentions',
+  async () => {
+    return await getMentionList()
+  },
+)
 
 export const postShareSlice = createSlice({
   name: 'post-share',
@@ -67,11 +70,11 @@ export const postShareSlice = createSlice({
         m => m !== action.payload,
       )
     },
-    addTrend: (state, action: PayloadAction<string>) => {
-      state.trends.push(action.payload)
+    addTrendName: (state, action: PayloadAction<string>) => {
+      state.trendNames.push(action.payload)
     },
-    removeTrend: (state, action: PayloadAction<string>) => {
-      state.trends = state.trends.filter(m => m !== action.payload)
+    removeTrendName: (state, action: PayloadAction<string>) => {
+      state.trendNames = state.trendNames.filter(m => m !== action.payload)
     },
     setPostText: (state, action: PayloadAction<string>) => {
       state.postText = action.payload
@@ -79,8 +82,8 @@ export const postShareSlice = createSlice({
     setPostContent: (state, action: PayloadAction<string>) => {
       state.postContent = action.payload
     },
-    clearTwitterUsers: state => {
-      state.twitterUsers = []
+    clearSearchedMentions: state => {
+      state.searchedMentions = []
     },
     setMentions: (state, action: PayloadAction<IMention[]>) => {
       state.mentions = action.payload
@@ -88,34 +91,37 @@ export const postShareSlice = createSlice({
     resetMentions: state => {
       state.mentions = state.initialMentions
     },
-    updateSaveTwitterUsers: (state, action: PayloadAction<ITweetUserData>) => {
-      state.savedTwitterUsers.push(action.payload)
+    updateSavedSearchedMentions: (
+      state,
+      action: PayloadAction<ITweetUserData>,
+    ) => {
+      state.savedMentions.push(action.payload)
       localStorage.setItem(
         LOCAL_STORAGE_MENTIONS_KEY,
-        JSON.stringify(state.savedTwitterUsers),
+        JSON.stringify(state.savedMentions),
       )
     },
     removeSavedMention: (state, action: PayloadAction<string>) => {
-      const savedList = state.savedTwitterUsers.filter(
+      const savedList = state.savedMentions.filter(
         user => user.screen_name !== action.payload,
       )
       localStorage.setItem(
         LOCAL_STORAGE_MENTIONS_KEY,
         JSON.stringify(savedList),
       )
-      state.savedTwitterUsers = savedList
+      state.savedMentions = savedList
     },
   },
   extraReducers: builder => {
-    builder.addCase(fetchTwitterUsers.fulfilled, (state, action) => {
-      state.twitterUsers = action.payload
-      state.isTwitterUsersLoading = false
+    builder.addCase(fetchSearchedMentions.fulfilled, (state, action) => {
+      state.searchedMentions = action.payload
+      state.isSearchedMentionsLoading = false
     }),
-      builder.addCase(fetchTwitterUsers.pending, state => {
-        state.isTwitterUsersLoading = true
+      builder.addCase(fetchSearchedMentions.pending, state => {
+        state.isSearchedMentionsLoading = true
       }),
-      builder.addCase(fetchTwitterUsers.rejected, state => {
-        state.isTwitterUsersLoading = false
+      builder.addCase(fetchSearchedMentions.rejected, state => {
+        state.isSearchedMentionsLoading = false
       }),
       builder.addCase(fetchMentions.fulfilled, (state, action) => {
         state.initialMentions = action.payload
@@ -135,16 +141,16 @@ export const {
   addMentionUsername,
   removeSavedMention,
   removeMentionUsername,
-  addTrend,
-  removeTrend,
+  addTrendName,
+  removeTrendName,
   setPostText,
   setPostContent,
   setMentionSearchKey,
   clearMentionSearchKey,
-  clearTwitterUsers,
+  clearSearchedMentions,
   setMentions,
   resetMentions,
-  updateSaveTwitterUsers,
+  updateSavedSearchedMentions,
 } = postShareSlice.actions
 
 export const { reducer: postShareReducer } = postShareSlice

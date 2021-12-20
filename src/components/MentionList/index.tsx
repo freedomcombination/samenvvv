@@ -15,11 +15,11 @@ import { MentionListItem, MentionListSkeleton } from '@components'
 import {
   addMentionUsername,
   clearMentionSearchKey,
-  clearTwitterUsers,
+  clearSearchedMentions,
   fetchMentions,
   removeSavedMention,
   resetMentions,
-  updateSaveTwitterUsers,
+  updateSavedSearchedMentions,
   useAppDispatch,
   useAppSelector,
 } from '@store'
@@ -30,9 +30,9 @@ export const MentionList = (): JSX.Element => {
     mentionUsernames,
     initialMentions,
     isMentionListLoading,
-    isTwitterUsersLoading,
-    twitterUsers,
-    savedTwitterUsers,
+    isSearchedMentionsLoading,
+    searchedMentions,
+    savedMentions,
   } = useAppSelector(state => state.postShare)
   const dispatch = useAppDispatch()
   const { t } = useTranslation()
@@ -60,8 +60,8 @@ export const MentionList = (): JSX.Element => {
 
   const onAddUserMention = (value: ITweetUserData) => {
     onAddMention(value)
-    dispatch(updateSaveTwitterUsers(value))
-    dispatch(clearTwitterUsers())
+    dispatch(updateSavedSearchedMentions(value))
+    dispatch(clearSearchedMentions())
   }
 
   return (
@@ -80,10 +80,10 @@ export const MentionList = (): JSX.Element => {
         bg="white"
         overflowY="auto"
       >
-        {isTwitterUsersLoading ? (
+        {isSearchedMentionsLoading ? (
           <MentionListSkeleton />
-        ) : twitterUsers.length > 0 ? (
-          twitterUsers.map((user_data, i) => (
+        ) : searchedMentions.length > 0 ? (
+          searchedMentions.map((user_data, i) => (
             <MentionListItem
               key={i}
               user_data={user_data}
@@ -128,7 +128,7 @@ export const MentionList = (): JSX.Element => {
                 )}
               </TabPanel>
               <TabPanel p={0}>
-                {savedTwitterUsers
+                {savedMentions
                   .filter(
                     user_data =>
                       !mentionUsernames.includes('@' + user_data.screen_name),

@@ -4,8 +4,8 @@ import { Box, FormControl, FormLabel, Input } from '@chakra-ui/react'
 import { useTranslation } from 'react-i18next'
 
 import {
-  clearTwitterUsers,
-  fetchTwitterUsers,
+  clearSearchedMentions,
+  fetchSearchedMentions,
   resetMentions,
   setMentions,
   setMentionSearchKey,
@@ -37,10 +37,10 @@ export const MentionSearch = (): JSX.Element => {
         dispatch(setMentions(filteredData))
 
         if (filteredData.length === 0) {
-          dispatch(fetchTwitterUsers(searchKey))
+          dispatch(fetchSearchedMentions(searchKey))
         }
       } else {
-        dispatch(clearTwitterUsers())
+        dispatch(clearSearchedMentions())
         dispatch(resetMentions())
       }
     },
