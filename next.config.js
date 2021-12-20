@@ -1,5 +1,7 @@
 const { i18n } = require('./next-i18next.config')
 
+// Test command
+
 module.exports = {
   i18n,
   images: {
