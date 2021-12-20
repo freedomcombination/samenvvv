@@ -179,7 +179,11 @@ export const PostContainer = ({
                   {t`post-share.trends-label`}
                 </Text>
                 <TagList
-                  tags={[post?.hashtag?.hashtag as string, ...trendNames]}
+                  tags={[
+                    post?.hashtag?.hashtag as string,
+                    post?.hashtag?.hashtag_extra as string,
+                    ...trendNames,
+                  ]}
                   onClickButton={onRemoveTrend}
                 />
               </Box>
