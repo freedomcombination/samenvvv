@@ -54,34 +54,30 @@ export const TrendList = ({ hashtag }: TrendListProps): JSX.Element => {
           <Spinner />
         ) : (
           <Wrap>
-            {currentTrendList
-              .filter(tag => tag.name !== hashtag)
-              .map((tag, i) => {
-                const isCurrentHashtag = hashtagInTrends?.name === tag.name
-                return (
-                  <Tag
-                    rounded="full"
-                    key={i}
-                    variant={isCurrentHashtag ? 'outline' : 'outline'}
-                    colorScheme={isCurrentHashtag ? 'blackAlpha' : 'primary'}
-                    onClick={() =>
-                      !isCurrentHashtag && onAddTrendName(tag.name)
-                    }
-                    cursor={isCurrentHashtag ? 'not-allowed' : 'pointer'}
-                    py={1}
-                  >
-                    <TagLabel as={HStack}>
-                      <Box>{i > 2 ? i - 2 : '🌎'}</Box>
-                      <Box>{tag.name}</Box>
-                      {tag.tweet_volume && (
-                        <Box fontSize="0.8em">
-                          ({formatNumber(tag.tweet_volume)})
-                        </Box>
-                      )}
-                    </TagLabel>
-                  </Tag>
-                )
-              })}
+            {currentTrendList.map((tag, i) => {
+              const isCurrentHashtag = hashtagInTrends?.name === tag.name
+              return (
+                <Tag
+                  rounded="full"
+                  key={i}
+                  variant={isCurrentHashtag ? 'outline' : 'outline'}
+                  colorScheme={isCurrentHashtag ? 'blackAlpha' : 'primary'}
+                  onClick={() => !isCurrentHashtag && onAddTrendName(tag.name)}
+                  cursor={isCurrentHashtag ? 'not-allowed' : 'pointer'}
+                  py={1}
+                >
+                  <TagLabel as={HStack}>
+                    <Box>{i > 2 ? i - 2 : '🌎'}</Box>
+                    <Box>{tag.name}</Box>
+                    {tag.tweet_volume && (
+                      <Box fontSize="0.8em">
+                        ({formatNumber(tag.tweet_volume)})
+                      </Box>
+                    )}
+                  </TagLabel>
+                </Tag>
+              )
+            })}
           </Wrap>
         )}
       </VStack>
