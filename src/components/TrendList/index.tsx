@@ -1,86 +1,96 @@
-import { useMemo } from 'react'
-
 import {
   Box,
   HStack,
   Spinner,
   Tag,
   TagLabel,
-  Text,
   VStack,
   Wrap,
 } from '@chakra-ui/react'
-import { useTranslation } from 'react-i18next'
 
-import { useFindHashtagInTrends, useTrends } from '@lib'
-import { addTrendName, useAppDispatch, useAppSelector } from '@store'
+import {
+  addTrendName,
+  removeTrendName,
+  useAppDispatch,
+  useAppSelector,
+} from '@store'
 import { formatNumber } from '@utils'
 
 interface TrendListProps {
-  hashtag?: string
+  trends?: ITrends[] | null
+  isLoading: boolean
+  hashtagInTrends?: ITrends
+  hashtagExtraInTrends?: ITrends
 }
 
-export const TrendList = ({ hashtag }: TrendListProps): JSX.Element => {
-  const { t } = useTranslation()
+export const TrendList = ({
+  trends,
+  isLoading,
+  hashtagInTrends,
+  hashtagExtraInTrends,
+}: TrendListProps): JSX.Element => {
   const { trendNames } = useAppSelector(state => state.postShare)
-  const dispatch = useAppDispatch()
 
-  const { data: trends, isLoading } = useTrends()
-  const hashtagInTrends = useFindHashtagInTrends(hashtag)
+  const dispatch = useAppDispatch()
 
   const onAddTrendName = (value: string) => {
     dispatch(addTrendName(value))
   }
 
-  const currentTrendList = useMemo(
-    () => trends?.filter(trend => !trendNames.includes(trend.name)),
-    [trendNames, trends],
-  )
+  const onRemoveTrendName = (value: string) => {
+    dispatch(removeTrendName(value))
+  }
 
   return (
-    <VStack w="full" align="stretch">
-      <Text color="gray.500" fontSize="sm">{t`post-share.trends-label`}</Text>
-      <VStack
-        align="stretch"
-        rounded="lg"
-        borderColor="gray.500"
-        borderWidth={1}
-        bg="white"
-        overflowY="auto"
-        p={4}
-        maxH={200}
-      >
-        {isLoading || !currentTrendList ? (
-          <Spinner />
-        ) : (
-          <Wrap>
-            {currentTrendList.map((tag, i) => {
-              const isCurrentHashtag = hashtagInTrends?.name === tag.name
-              return (
-                <Tag
-                  rounded="full"
-                  key={i}
-                  variant={isCurrentHashtag ? 'outline' : 'outline'}
-                  colorScheme={isCurrentHashtag ? 'blackAlpha' : 'primary'}
-                  onClick={() => !isCurrentHashtag && onAddTrendName(tag.name)}
-                  cursor={isCurrentHashtag ? 'not-allowed' : 'pointer'}
-                  py={1}
-                >
-                  <TagLabel as={HStack}>
-                    <Box>{i > 2 ? i - 2 : '🌎'}</Box>
-                    <Box>{tag.name}</Box>
-                    {tag.tweet_volume && (
-                      <Box fontSize="0.8em">
-                        ({formatNumber(tag.tweet_volume)})
-                      </Box>
-                    )}
-                  </TagLabel>
-                </Tag>
-              )
-            })}
-          </Wrap>
-        )}
-      </VStack>
+    <VStack align="stretch">
+      {isLoading || !trends ? (
+        <Spinner />
+      ) : (
+        <Wrap>
+          {trends.map((tag, i) => {
+            const isCurrentHashtag =
+              hashtagInTrends?.name === tag.name ||
+              hashtagExtraInTrends?.name === tag.name
+
+            const isSelectedHashtag = trendNames.includes(tag.name)
+
+            const colorScheme = isCurrentHashtag
+              ? 'twitter'
+              : isSelectedHashtag
+              ? 'blackAlpha'
+              : 'primary'
+
+            return (
+              <Tag
+                rounded="full"
+                key={i}
+                variant="outline"
+                colorScheme={colorScheme}
+                cursor="pointer"
+                onClick={() => onAddTrendName(tag.name)}
+                {...(isSelectedHashtag && {
+                  onClick: () => onRemoveTrendName(tag.name),
+                })}
+                {...(isCurrentHashtag && {
+                  cursor: 'not-allowed',
+                  onClick: () => {},
+                })}
+                py={1}
+              >
+                <TagLabel as={HStack}>
+                  <Box>{i + 1}</Box>
+                  <Box>{tag.name}</Box>
+                  {tag.tweet_volume && (
+                    <Box fontSize="0.8em">
+                      ({formatNumber(tag.tweet_volume)})
+                    </Box>
+                  )}
+                </TagLabel>
+              </Tag>
+            )
+          })}
+        </Wrap>
+      )}
     </VStack>
   )
 }

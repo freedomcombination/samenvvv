@@ -28,7 +28,7 @@ import {
   MentionSearch,
   PostArchive,
   PostContainer,
-  TrendList,
+  TrendListTabs,
   TweetWidget,
 } from '@components'
 
@@ -99,7 +99,12 @@ const HashtagPostView = ({ pageData, seo }: HashtagProps): JSX.Element => {
                   >
                     <MentionSearch />
                     <MentionList />
-                    <TrendList hashtag={pageData.hashtag?.hashtag} />
+                    <TrendListTabs
+                      hashtags={[
+                        pageData.hashtag?.hashtag,
+                        pageData.hashtag?.hashtag_extra,
+                      ]}
+                    />
                   </VStack>
                   <Drawer isOpen={isOpen} placement="left" onClose={onClose}>
                     <DrawerOverlay />
@@ -108,7 +113,12 @@ const HashtagPostView = ({ pageData, seo }: HashtagProps): JSX.Element => {
                       <DrawerBody as={VStack} w={300} align="stretch">
                         <MentionSearch />
                         <MentionList />
-                        <TrendList hashtag={pageData.hashtag?.hashtag} />
+                        <TrendListTabs
+                          hashtags={[
+                            pageData.hashtag?.hashtag,
+                            pageData.hashtag?.hashtag_extra,
+                          ]}
+                        />
                       </DrawerBody>
                     </DrawerContent>
                   </Drawer>
