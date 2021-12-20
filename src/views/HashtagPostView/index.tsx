@@ -99,7 +99,7 @@ const HashtagPostView = ({ pageData, seo }: HashtagProps): JSX.Element => {
                   >
                     <MentionSearch />
                     <MentionList />
-                    <TrendList />
+                    <TrendList hashtag={pageData.hashtag?.hashtag} />
                   </VStack>
                   <Drawer isOpen={isOpen} placement="left" onClose={onClose}>
                     <DrawerOverlay />
@@ -108,7 +108,7 @@ const HashtagPostView = ({ pageData, seo }: HashtagProps): JSX.Element => {
                       <DrawerBody as={VStack} w={300} align="stretch">
                         <MentionSearch />
                         <MentionList />
-                        <TrendList />
+                        <TrendList hashtag={pageData.hashtag?.hashtag} />
                       </DrawerBody>
                     </DrawerContent>
                   </Drawer>

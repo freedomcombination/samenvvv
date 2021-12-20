@@ -45,7 +45,6 @@ module.exports = {
         destination: '/en/voorwaarden',
         locale: false,
       },
-      
       {
         source: '/tr/iletisim',
         destination: '/tr/contact',
