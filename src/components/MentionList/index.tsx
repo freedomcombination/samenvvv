@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 
 import {
+  Box,
   Tab,
   TabList,
   TabPanel,
@@ -11,15 +12,19 @@ import {
 } from '@chakra-ui/react'
 import { useTranslation } from 'react-i18next'
 
-import { MentionListItem, MentionListSkeleton } from '@components'
+import {
+  MentionListItem,
+  MentionListSkeleton,
+  MentionSearch,
+} from '@components'
 import {
   addMentionUsername,
   clearMentionSearchKey,
-  clearTwitterUsers,
+  clearSearchedMentions,
   fetchMentions,
   removeSavedMention,
   resetMentions,
-  updateSaveTwitterUsers,
+  updateSavedSearchedMentions,
   useAppDispatch,
   useAppSelector,
 } from '@store'
@@ -30,9 +35,9 @@ export const MentionList = (): JSX.Element => {
     mentionUsernames,
     initialMentions,
     isMentionListLoading,
-    isTwitterUsersLoading,
-    twitterUsers,
-    savedTwitterUsers,
+    isSearchedMentionsLoading,
+    searchedMentions,
+    savedMentions,
   } = useAppSelector(state => state.postShare)
   const dispatch = useAppDispatch()
   const { t } = useTranslation()
@@ -60,92 +65,85 @@ export const MentionList = (): JSX.Element => {
 
   const onAddUserMention = (value: ITweetUserData) => {
     onAddMention(value)
-    dispatch(updateSaveTwitterUsers(value))
-    dispatch(clearTwitterUsers())
+    dispatch(updateSavedSearchedMentions(value))
+    dispatch(clearSearchedMentions())
   }
 
   return (
-    <>
+    <VStack align="stretch" h="60%">
       <Text
         color="gray.500"
         fontSize="sm"
       >{t`post-share.mention-list-label`}</Text>
       <VStack
         minH="0"
-        h={400}
+        h="full"
         align="stretch"
-        rounded="lg"
-        borderColor="gray.500"
-        borderWidth={1}
         bg="white"
         overflowY="auto"
+        shadow="md"
       >
-        {isTwitterUsersLoading ? (
-          <MentionListSkeleton />
-        ) : twitterUsers.length > 0 ? (
-          twitterUsers.map((user_data, i) => (
-            <MentionListItem
-              key={i}
-              user_data={user_data}
-              onAddItem={onAddUserMention}
-            />
-          ))
-        ) : (
-          <Tabs
-            size="sm"
-            isFitted
-            colorScheme="primary"
-            variant="line"
-            bg="white"
-          >
-            <TabList zIndex="tooltip" pos="sticky" top="0" bg="white">
-              <Tab py={2} fontWeight="bold">
-                {t`post-share.mention-tab-popular`}
-              </Tab>
-              <Tab py={2} fontWeight="bold">
-                {t`post-share.mention-tab-saved`}
-              </Tab>
-            </TabList>
-            <TabPanels>
-              <TabPanel p={0}>
-                {isMentionListLoading ? (
-                  <MentionListSkeleton />
-                ) : (
-                  mentions
-                    .filter(
-                      user_data =>
-                        !mentionUsernames.includes(
-                          '@' + user_data.user_data?.screen_name,
-                        ),
-                    )
-                    ?.map(({ user_data }, i) => (
-                      <MentionListItem
-                        key={i}
-                        user_data={user_data as ITweetUserData}
-                        onAddItem={onAddMention}
-                      />
-                    ))
-                )}
-              </TabPanel>
-              <TabPanel p={0}>
-                {savedTwitterUsers
+        <Tabs
+          size="sm"
+          isFitted
+          colorScheme="primary"
+          variant="line"
+          bg="white"
+        >
+          <TabList zIndex="tooltip" pos="sticky" top="0" bg="white">
+            <Tab>{t`post-share.mention-tab-popular`}</Tab>
+            <Tab>{t`post-share.mention-tab-saved`}</Tab>
+          </TabList>
+          <TabPanels>
+            <TabPanel p={0}>
+              <Box zIndex="tooltip" pos="sticky" top="31px">
+                <MentionSearch />
+              </Box>
+              {isSearchedMentionsLoading || isMentionListLoading ? (
+                <MentionListSkeleton />
+              ) : searchedMentions.length > 0 ? (
+                searchedMentions.map((user_data, i) => (
+                  <MentionListItem
+                    key={i}
+                    user_data={user_data}
+                    onAddItem={onAddUserMention}
+                  />
+                ))
+              ) : (
+                mentions
                   .filter(
                     user_data =>
-                      !mentionUsernames.includes('@' + user_data.screen_name),
+                      !mentionUsernames.includes(
+                        '@' + user_data.user_data?.screen_name,
+                      ),
                   )
-                  ?.map((user_data, i) => (
+                  ?.map(({ user_data }, i) => (
                     <MentionListItem
                       key={i}
-                      user_data={user_data}
-                      onRemoveItem={onRemoveMention}
+                      user_data={user_data as ITweetUserData}
                       onAddItem={onAddMention}
                     />
-                  ))}
-              </TabPanel>
-            </TabPanels>
-          </Tabs>
-        )}
+                  ))
+              )}
+            </TabPanel>
+            <TabPanel p={0}>
+              {savedMentions
+                .filter(
+                  user_data =>
+                    !mentionUsernames.includes('@' + user_data.screen_name),
+                )
+                ?.map((user_data, i) => (
+                  <MentionListItem
+                    key={i}
+                    user_data={user_data}
+                    onRemoveItem={onRemoveMention}
+                    onAddItem={onAddMention}
+                  />
+                ))}
+            </TabPanel>
+          </TabPanels>
+        </Tabs>
       </VStack>
-    </>
+    </VStack>
   )
 }

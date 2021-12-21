@@ -9,6 +9,7 @@ declare interface IHashtag extends LocalizedSlugs {
   image?: IUploadFile
   date: string
   hashtag: string
+  hashtag_extra?: string
   page?: IPage
   locale?: string
   published_at?: string
@@ -23,6 +24,7 @@ declare interface IHashtagInput {
   image?: string
   date: string
   hashtag: string
+  hashtag_extra?: string
   page?: string
   posts?: Array<string>
   localizations?: Array<string>

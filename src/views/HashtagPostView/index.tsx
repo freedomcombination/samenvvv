@@ -1,15 +1,16 @@
 import {
   Box,
+  Button,
   Drawer,
   DrawerBody,
   DrawerCloseButton,
   DrawerContent,
   DrawerOverlay,
+  Grid,
   Heading,
-  HStack,
+  IconButton,
   Stack,
   Tab,
-  TabList,
   TabPanel,
   TabPanels,
   Tabs,
@@ -20,15 +21,15 @@ import {
 import { MDXRemoteSerializeResult } from 'next-mdx-remote'
 import { NextSeoProps } from 'next-seo'
 import { useTranslation } from 'react-i18next'
+import { FaImages, FaQuestionCircle, FaTwitter } from 'react-icons/fa'
 
 import {
   Container,
   Layout,
   MentionList,
-  MentionSearch,
   PostArchive,
   PostContainer,
-  TrendList,
+  TrendListTabs,
   TweetWidget,
 } from '@components'
 
@@ -47,6 +48,21 @@ const HashtagPostView = ({ pageData, seo }: HashtagProps): JSX.Element => {
 
   return (
     <Layout seo={seo}>
+      <Drawer isOpen={isOpen} placement="left" onClose={onClose}>
+        <DrawerOverlay />
+        <DrawerContent py={4}>
+          <DrawerCloseButton />
+          <DrawerBody as={VStack} w={300} align="stretch">
+            <MentionList />
+            <TrendListTabs
+              hashtags={[
+                pageData.hashtag?.hashtag,
+                pageData.hashtag?.hashtag_extra,
+              ]}
+            />
+          </DrawerBody>
+        </DrawerContent>
+      </Drawer>
       <Container py={4}>
         <Box textAlign="center">
           <Heading>{pageData?.hashtag?.title}</Heading>
@@ -54,83 +70,100 @@ const HashtagPostView = ({ pageData, seo }: HashtagProps): JSX.Element => {
             {pageData?.hashtag?.content}
           </Text>
         </Box>
-        <Stack spacing={4} direction={{ base: 'column', lg: 'row' }}>
-          <Tabs flex={1} variant="soft-rounded" isFitted colorScheme="primary">
-            <TabList>
-              <Tab
-                color="gray.400"
-                fontWeight="bold"
-                borderBottomWidth={2}
-                _selected={{
-                  bg: 'primary.100',
-                  color: 'primary.400',
-                  borderColor: 'primary.400',
-                }}
+
+        <Tabs flex={1} isFitted colorScheme="primary">
+          <Stack
+            direction={{ base: 'row', lg: 'column' }}
+            pos={{ base: 'static', lg: 'fixed' }}
+            top="50%"
+            left={0}
+            transform={{ lg: 'translateY(-50%)' }}
+            spacing={1}
+          >
+            <Tab
+              borderWidth={1}
+              borderColor="gray.300"
+              mb={0}
+              bg="white"
+              borderRadius={{ base: 'sm', lg: 'none' }}
+              _selected={{
+                bg: 'primary.400',
+                borderColor: 'primary.400',
+                color: 'white',
+              }}
+            >
+              <Box as={FaTwitter} mr={2} />
+              <Box>{t`post-share.tabs.share`}</Box>
+            </Tab>
+            <Tab
+              borderWidth={1}
+              borderColor="gray.300"
+              bg="white"
+              borderRadius={{ base: 'sm', lg: 'none' }}
+              _selected={{
+                bg: 'primary.400',
+                borderColor: 'primary.400',
+                color: 'white',
+              }}
+            >
+              <Box as={FaImages} mr={2} />
+              <Box>{t`post-share.tabs.archive`}</Box>
+            </Tab>
+          </Stack>
+          <TabPanels>
+            <TabPanel px={0} py={4}>
+              <Grid
+                gap={4}
+                gridTemplateColumns={{ base: '1fr', lg: '300px 1fr 300px' }}
+                h={{ base: 'auto', lg: 640 }}
               >
-                {t`post-share.tabs.share`}
-              </Tab>
-              <Tab
-                color="gray.400"
-                fontWeight="bold"
-                borderBottomWidth={2}
-                _selected={{
-                  bg: 'primary.100',
-                  color: 'primary.400',
-                  borderBottomWidth: 2,
-                  borderColor: 'primary.400',
-                }}
-              >
-                {t`post-share.tabs.archive`}
-              </Tab>
-            </TabList>
-            <TabPanels>
-              <TabPanel px={0}>
-                <HStack
-                  justify="stretch"
-                  align="stretch"
-                  minH={0}
-                  maxH={{ base: 'min-content', lg: 650 }}
-                  spacing={{ base: 0, lg: 4 }}
-                >
-                  <VStack
-                    w={300}
-                    align="stretch"
-                    display={{ base: 'none', lg: 'flex' }}
-                  >
-                    <MentionSearch />
-                    <MentionList />
-                    <TrendList />
-                  </VStack>
-                  <Drawer isOpen={isOpen} placement="left" onClose={onClose}>
-                    <DrawerOverlay />
-                    <DrawerContent py={4}>
-                      <DrawerCloseButton />
-                      <DrawerBody as={VStack} w={300} align="stretch">
-                        <MentionSearch />
-                        <MentionList />
-                        <TrendList />
-                      </DrawerBody>
-                    </DrawerContent>
-                  </Drawer>
-                  <PostContainer onOpen={onOpen} post={pageData} />
-                </HStack>
-              </TabPanel>
-              <TabPanel px={0}>
-                <PostArchive
-                  posts={
-                    pageData.posts?.map(post => ({
-                      ...post,
-                      hashtag: pageData.hashtag,
-                    })) as IHashtagPost[]
-                  }
-                />
-              </TabPanel>
-            </TabPanels>
-          </Tabs>
-          <Box w={{ base: 'full', lg: '300px' }}>
-            <TweetWidget title={t`post-share.latest-tweets-label`} />
-          </Box>
-        </Stack>
+                <Box display={{ base: 'none', lg: 'block' }} h="inherit">
+                  <MentionList />
+                  <TrendListTabs
+                    hashtags={[
+                      pageData.hashtag?.hashtag,
+                      pageData.hashtag?.hashtag_extra,
+                    ]}
+                  />
+                </Box>
+                <PostContainer onOpen={onOpen} post={pageData} />
+                <Box>
+                  <TweetWidget title={t`post-share.latest-tweets-label`} />
+                </Box>
+              </Grid>
+            </TabPanel>
+            <TabPanel p={0} py={4}>
+              <PostArchive
+                posts={
+                  pageData.posts?.map(post => ({
+                    ...post,
+                    hashtag: pageData.hashtag,
+                  })) as IHashtagPost[]
+                }
+              />
+            </TabPanel>
+          </TabPanels>
+        </Tabs>
+        <Button
+          display={{ base: 'none', lg: 'flex' }}
+          pos="fixed"
+          right={4}
+          bottom={4}
+          colorScheme="primary"
+          leftIcon={<FaQuestionCircle />}
+        >
+          {t`post-share.help`}
+        </Button>
+        <IconButton
+          display={{ base: 'flex', lg: 'none' }}
+          pos="fixed"
+          right={2}
+          bottom={2}
+          rounded="full"
+          colorScheme="primary"
+          aria-label="help"
+          icon={<FaQuestionCircle />}
+        />
       </Container>
     </Layout>
   )

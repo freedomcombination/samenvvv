@@ -8,19 +8,11 @@ interface TweetWidgetProps {
 
 export const TweetWidget = ({ title }: TweetWidgetProps): JSX.Element => {
   return (
-    <VStack align="stretch" justify="stretch">
+    <VStack align="stretch" justify="stretch" h={640}>
       <Text color="gray.500" fontSize="sm">
         {title}
       </Text>
-      <Box
-        bg="white"
-        p={4}
-        borderColor="gray.500"
-        borderWidth={1}
-        rounded="lg"
-        h={680}
-        overflow="auto"
-      >
+      <Box bg="white" p={4} overflow="auto" shadow="md">
         <HashtagTimeline />
       </Box>
     </VStack>

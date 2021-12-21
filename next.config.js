@@ -9,8 +9,8 @@ module.exports = {
       'picsum.photos',
       'images.unsplash.com',
       'admin.samenvvv.nl',
-      'media.istockphoto.com',
       'samenvvv.nl',
+      'media.istockphoto.com',
     ],
   },
   async rewrites() {
@@ -45,7 +45,6 @@ module.exports = {
         destination: '/en/voorwaarden',
         locale: false,
       },
-      
       {
         source: '/tr/iletisim',
         destination: '/tr/contact',

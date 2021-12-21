@@ -1,50 +1,96 @@
-import { useMemo } from 'react'
+import {
+  Box,
+  HStack,
+  SkeletonText,
+  Tag,
+  TagLabel,
+  VStack,
+  Wrap,
+} from '@chakra-ui/react'
 
-import { Text, VStack } from '@chakra-ui/react'
-import { useTranslation } from 'react-i18next'
+import {
+  addTrendName,
+  removeTrendName,
+  useAppDispatch,
+  useAppSelector,
+} from '@store'
+import { formatNumber } from '@utils'
 
-import { TagList } from '@components'
-import { addTrend, useAppDispatch, useAppSelector } from '@store'
+interface TrendListProps {
+  trends?: ITrend[] | null
+  isLoading: boolean
+  hashtagInTrends?: ITrend
+  hashtagExtraInTrends?: ITrend
+}
 
-// TODO: Data should be fetched from API
-const EXAMPLE_TRENDS = [
-  'Example Trend',
-  '#AnotherExampleTrend',
-  'TheBest Hashtag',
-]
+export const TrendList = ({
+  trends,
+  isLoading,
+  hashtagInTrends,
+  hashtagExtraInTrends,
+}: TrendListProps): JSX.Element => {
+  const { trendNames } = useAppSelector(state => state.postShare)
 
-export const TrendList = (): JSX.Element => {
-  const { t } = useTranslation()
-  const { trends } = useAppSelector(state => state.postShare)
   const dispatch = useAppDispatch()
 
-  const onAddTrend = (value: string) => {
-    dispatch(addTrend(value))
+  const onAddTrendName = (value: string) => {
+    dispatch(addTrendName(value))
   }
 
-  const currentTrendList = useMemo(
-    () => EXAMPLE_TRENDS?.filter(t => !trends.includes(t)),
-    [trends],
-  )
+  const onRemoveTrendName = (value: string) => {
+    dispatch(removeTrendName(value))
+  }
 
   return (
-    <VStack w="full" align="stretch">
-      <Text color="gray.500" fontSize="sm">{t`post-share.trends-label`}</Text>
-      <VStack
-        align="stretch"
-        rounded="lg"
-        borderColor="gray.500"
-        borderWidth={1}
-        bg="white"
-        overflowY="auto"
-        p={4}
-      >
-        <TagList
-          tags={currentTrendList}
-          onClickButton={onAddTrend}
-          action="add"
-        />
-      </VStack>
+    <VStack align="stretch">
+      {isLoading || !trends ? (
+        <SkeletonText skeletonHeight={6} noOfLines={5} />
+      ) : (
+        <Wrap>
+          {trends.map((tag, i) => {
+            const isCurrentHashtag =
+              hashtagInTrends?.name === tag.name ||
+              hashtagExtraInTrends?.name === tag.name
+
+            const isSelectedHashtag = trendNames.includes(tag.name)
+
+            const colorScheme = isCurrentHashtag
+              ? 'twitter'
+              : isSelectedHashtag
+              ? 'blackAlpha'
+              : 'primary'
+
+            return (
+              <Tag
+                rounded="full"
+                key={i}
+                variant="outline"
+                colorScheme={colorScheme}
+                cursor="pointer"
+                onClick={() => onAddTrendName(tag.name)}
+                {...(isSelectedHashtag && {
+                  onClick: () => onRemoveTrendName(tag.name),
+                })}
+                {...(isCurrentHashtag && {
+                  cursor: 'not-allowed',
+                  onClick: () => {},
+                })}
+                py={1}
+              >
+                <TagLabel as={HStack}>
+                  <Box>{i + 1}</Box>
+                  <Box>{tag.name}</Box>
+                  {tag.tweet_volume && (
+                    <Box fontSize="0.8em">
+                      ({formatNumber(tag.tweet_volume)})
+                    </Box>
+                  )}
+                </TagLabel>
+              </Tag>
+            )
+          })}
+        </Wrap>
+      )}
     </VStack>
   )
 }
