@@ -1,5 +1,6 @@
 import {
   Box,
+  Button,
   Drawer,
   DrawerBody,
   DrawerCloseButton,
@@ -7,6 +8,7 @@ import {
   DrawerOverlay,
   Grid,
   Heading,
+  IconButton,
   Stack,
   Tab,
   TabPanel,
@@ -19,7 +21,7 @@ import {
 import { MDXRemoteSerializeResult } from 'next-mdx-remote'
 import { NextSeoProps } from 'next-seo'
 import { useTranslation } from 'react-i18next'
-import { FaImages, FaTwitter } from 'react-icons/fa'
+import { FaImages, FaQuestionCircle, FaTwitter } from 'react-icons/fa'
 
 import {
   Container,
@@ -76,12 +78,34 @@ const HashtagPostView = ({ pageData, seo }: HashtagProps): JSX.Element => {
             top="50%"
             left={0}
             transform={{ lg: 'translateY(-50%)' }}
+            spacing={1}
           >
-            <Tab _selected={{ bg: 'primary.400', color: 'white' }}>
+            <Tab
+              borderWidth={1}
+              borderColor="gray.300"
+              mb={0}
+              bg="white"
+              borderRadius={{ base: 'sm', lg: 'none' }}
+              _selected={{
+                bg: 'primary.400',
+                borderColor: 'primary.400',
+                color: 'white',
+              }}
+            >
               <Box as={FaTwitter} mr={2} />
               <Box>{t`post-share.tabs.share`}</Box>
             </Tab>
-            <Tab _selected={{ bg: 'primary.400', color: 'white' }}>
+            <Tab
+              borderWidth={1}
+              borderColor="gray.300"
+              bg="white"
+              borderRadius={{ base: 'sm', lg: 'none' }}
+              _selected={{
+                bg: 'primary.400',
+                borderColor: 'primary.400',
+                color: 'white',
+              }}
+            >
               <Box as={FaImages} mr={2} />
               <Box>{t`post-share.tabs.archive`}</Box>
             </Tab>
@@ -108,7 +132,7 @@ const HashtagPostView = ({ pageData, seo }: HashtagProps): JSX.Element => {
                 </Box>
               </Grid>
             </TabPanel>
-            <TabPanel p={0}>
+            <TabPanel p={0} py={4}>
               <PostArchive
                 posts={
                   pageData.posts?.map(post => ({
@@ -120,6 +144,26 @@ const HashtagPostView = ({ pageData, seo }: HashtagProps): JSX.Element => {
             </TabPanel>
           </TabPanels>
         </Tabs>
+        <Button
+          display={{ base: 'none', lg: 'flex' }}
+          pos="fixed"
+          right={4}
+          bottom={4}
+          colorScheme="primary"
+          leftIcon={<FaQuestionCircle />}
+        >
+          {t`post-share.help`}
+        </Button>
+        <IconButton
+          display={{ base: 'flex', lg: 'none' }}
+          pos="fixed"
+          right={2}
+          bottom={2}
+          rounded="full"
+          colorScheme="primary"
+          aria-label="help"
+          icon={<FaQuestionCircle />}
+        />
       </Container>
     </Layout>
   )
