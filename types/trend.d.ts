@@ -1,6 +1,4 @@
-type
-
-declare interface ITrends {
+declare interface ITrend {
   name: string
   url: string
   promoted_content: string | null

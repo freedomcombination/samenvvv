@@ -32,9 +32,9 @@ export const useFindHashtagInTrends = (hashtag?: string) => {
 
   if (!hashtag || !nl || !tr || !en) return null
 
-  const indexEn = en?.findIndex((trend: ITrends) => trend.name === hashtag)
-  const indexNl = nl?.findIndex((trend: ITrends) => trend.name === hashtag)
-  const indexTr = tr?.findIndex((trend: ITrends) => trend.name === hashtag)
+  const indexEn = en?.findIndex((trend: ITrend) => trend.name === hashtag)
+  const indexNl = nl?.findIndex((trend: ITrend) => trend.name === hashtag)
+  const indexTr = tr?.findIndex((trend: ITrend) => trend.name === hashtag)
 
   if (!indexEn || !indexNl || !indexTr) return null
 
