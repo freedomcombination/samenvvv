@@ -1,7 +1,8 @@
 import { ChangeEvent, useCallback } from 'react'
 
-import { Box, FormControl, FormLabel, Input } from '@chakra-ui/react'
+import { Box, Input, InputGroup, InputLeftElement } from '@chakra-ui/react'
 import { useTranslation } from 'react-i18next'
+import { FaSearch } from 'react-icons/fa'
 
 import {
   clearSearchedMentions,
@@ -48,21 +49,24 @@ export const MentionSearch = (): JSX.Element => {
   )
 
   return (
-    <Box>
-      <FormControl>
-        <FormLabel color="gray.500" fontSize="sm" htmlFor="mention-search">
-          {t`post-share.search-label`}
-        </FormLabel>
-        <Input
-          bg="white"
-          borderColor="gray.500"
-          id="mention-search"
-          placeholder={t`post-share.search-label`}
-          onChange={onSearchMention}
-          value={mentionSearchKey}
-          _focus={{ borderColor: 'gray.500', borderWidth: 2 }}
-        />
-      </FormControl>
-    </Box>
+    <InputGroup>
+      <InputLeftElement pointerEvents="none">
+        <Box color="gray.300" as={FaSearch} />
+      </InputLeftElement>
+      <Input
+        bg="white"
+        borderWidth={0}
+        borderBottomWidth={2}
+        rounded={0}
+        id="mention-search"
+        placeholder={t`post-share.search-label`}
+        onChange={onSearchMention}
+        value={mentionSearchKey}
+        _focus={{
+          borderBottomWidth: 2,
+          borderBottomColor: 'gray.300',
+        }}
+      />
+    </InputGroup>
   )
 }
