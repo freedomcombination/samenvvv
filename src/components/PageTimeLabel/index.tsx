@@ -1,11 +1,9 @@
 import { Box, HStack, StackProps } from '@chakra-ui/react'
-/* eslint-disable import/no-duplicates */
 import { format } from 'date-fns'
-import { enIN as en, nl, tr } from 'date-fns/locale'
 import { useRouter } from 'next/router'
 import { MdEvent } from 'react-icons/md'
 
-const timeLocale: Record<string, Locale> = { en, nl, tr }
+import { timeLocale } from '@utils'
 
 interface PageTimeLabelProps {
   pageData: ISubpage | IHashtag

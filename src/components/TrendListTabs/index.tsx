@@ -1,18 +1,23 @@
 import {
   Box,
+  HStack,
   Tab,
   TabList,
   TabPanel,
   TabPanels,
   Tabs,
   Text,
+  Tooltip,
   VStack,
 } from '@chakra-ui/react'
+import { formatDistanceToNow } from 'date-fns'
+import { useRouter } from 'next/router'
 import { useTranslation } from 'react-i18next'
+import { FaInfoCircle } from 'react-icons/fa'
 
+import { TrendList } from '@components'
 import { useFindHashtagInTrends, useTrendsData } from '@lib'
-
-import { TrendList } from '../TrendList'
+import { timeLocale } from '@utils'
 
 interface TrendListProps {
   hashtags: [string | undefined, string | undefined]
@@ -20,34 +25,42 @@ interface TrendListProps {
 
 export const TrendListTabs = ({ hashtags }: TrendListProps): JSX.Element => {
   const { t } = useTranslation()
+  const { locale } = useRouter()
   const hashtagInTrends = useFindHashtagInTrends(hashtags[0])
   const hashtagExtraInTrends = useFindHashtagInTrends(hashtags[1])
 
   const { data: trends, isLoading } = useTrendsData()
 
-  return (
-    <VStack w="full" align="stretch">
-      <Text color="gray.500" fontSize="sm">{t`post-share.trends-label`}</Text>
+  const distance =
+    trends?.updated_at &&
+    formatDistanceToNow(new Date(trends?.updated_at), {
+      locale: timeLocale[locale as string],
+      addSuffix: true,
+    })
 
-      <Box
-        maxH={200}
-        overflowY="auto"
-        rounded="lg"
-        borderColor="gray.500"
-        borderWidth={1}
-        bg="white"
-      >
+  return (
+    <VStack w="full" align="stretch" h="40%" pt={4}>
+      <HStack pos="relative">
+        <Text color="gray.500" fontSize="sm">{t`post-share.trends-label`}</Text>
+
+        <Tooltip
+          placement="top"
+          label={distance}
+          aria-label="Trends updated"
+          hasArrow
+        >
+          <Box>
+            <FaInfoCircle />
+          </Box>
+        </Tooltip>
+      </HStack>
+
+      <Box overflowY="auto" shadow="md" bg="white">
         <Tabs colorScheme="primary" isFitted size="sm">
-          <TabList>
-            <Tab py={2} fontWeight="bold">
-              World
-            </Tab>
-            <Tab py={2} fontWeight="bold">
-              TR
-            </Tab>
-            <Tab py={2} fontWeight="bold">
-              NL
-            </Tab>
+          <TabList zIndex="tooltip" pos="sticky" top="0" bg="white">
+            <Tab>World</Tab>
+            <Tab>TR</Tab>
+            <Tab>NL</Tab>
           </TabList>
           <TabPanels>
             <TabPanel>

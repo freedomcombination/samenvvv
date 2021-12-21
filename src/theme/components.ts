@@ -7,24 +7,25 @@ export const components = {
     },
   },
   Button: {
-    baseStyle: {
-      zIndex: 2,
-      borderRadius: 'md',
-    },
     variants: {
-      reverse: {
-        borderWidth: 1,
-        borderColor: 'primary.400',
-        color: 'primary.400',
-        _hover: {
-          color: 'primary.600',
-          bg: 'primary.50',
-        },
-      },
       normal: {
         bg: 'primary.400',
         color: 'white',
         _hover: { bg: 'primary.300' },
+      },
+    },
+  },
+  Tabs: {
+    parts: ['tabs', 'tablist', 'tab'],
+    baseStyle: {
+      tab: {
+        color: 'gray.400',
+        fontWeight: '600',
+        borderBottomWidth: 2,
+        _selected: {
+          color: 'primary.400',
+          borderColor: 'primary.400',
+        },
       },
     },
   },

@@ -9,6 +9,7 @@ export const GET_TRENDS_LIST = gql`
       en
       tr
       nl
+      updated_at
     }
   }
 `

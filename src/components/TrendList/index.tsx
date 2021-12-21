@@ -1,7 +1,7 @@
 import {
   Box,
   HStack,
-  Spinner,
+  SkeletonText,
   Tag,
   TagLabel,
   VStack,
@@ -44,7 +44,7 @@ export const TrendList = ({
   return (
     <VStack align="stretch">
       {isLoading || !trends ? (
-        <Spinner />
+        <SkeletonText skeletonHeight={6} noOfLines={5} />
       ) : (
         <Wrap>
           {trends.map((tag, i) => {

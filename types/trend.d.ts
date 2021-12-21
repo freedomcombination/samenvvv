@@ -12,4 +12,5 @@ declare interface ITrendsData {
   tr: ITrend[] | null
   en: ITrend[] | null
   nl: ITrend[] | null
+  updated_at: string
 }

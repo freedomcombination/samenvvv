@@ -20,7 +20,7 @@ export const SubpageSidebarTabs = ({
   const { t } = useTranslation()
 
   return (
-    <Tabs isFitted colorScheme="primary" variant="soft-rounded">
+    <Tabs isFitted colorScheme="primary">
       <TabList>
         <Tab textTransform="capitalize">{t`subpage.latest`}</Tab>
         <Tab textTransform="capitalize">{t`subpage.most-readed`}</Tab>

@@ -96,11 +96,9 @@ export const PostContainer = ({
   return (
     <Stack
       p={4}
-      rounded="lg"
+      shadow="md"
       bg="orange.50"
-      borderWidth={1}
       align="stretch"
-      borderColor="gray.500"
       spacing={4}
       flex={1}
       direction={{ base: 'column', lg: 'row' }}
@@ -123,13 +121,13 @@ export const PostContainer = ({
             /280
           </Text>
         </Flex>
-        <Box h={{ base: 'auto', lg: 600 }} overflow="auto">
+        <Box overflow="auto">
           <Box
             p={4}
-            rounded="lg"
+            rounded="sm"
             borderWidth={1}
             bg={isCharacterCountExceeded ? 'red.50' : 'gray.50'}
-            borderColor={isCharacterCountExceeded ? 'red.500' : 'gray.500'}
+            borderColor={isCharacterCountExceeded ? 'red.500' : 'gray.200'}
           >
             {editable ? (
               <chakra.textarea
@@ -190,13 +188,13 @@ export const PostContainer = ({
             </Box>
             {post?.image && (
               <AspectRatio
-                borderColor="gray.500"
-                borderWidth={1}
-                rounded="2xl"
+                rounded="md"
                 pos="relative"
                 ratio={1200 / 675}
                 overflow="hidden"
                 flexShrink={0}
+                borderColor="gray.300"
+                borderWidth={1}
               >
                 <ChakraNextImage h={'100%'} image={post?.image.url} />
               </AspectRatio>
@@ -280,9 +278,8 @@ export const PostContainer = ({
               return (
                 <Box
                   key={i}
-                  borderWidth={1}
-                  borderColor="gray.500"
-                  rounded="lg"
+                  rounded="md"
+                  shadow="base"
                   overflow="hidden"
                   flexShrink={0}
                 >
