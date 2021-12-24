@@ -18,6 +18,7 @@ import {
   useDisclosure,
   VStack,
 } from '@chakra-ui/react'
+import { useTour } from '@reactour/tour'
 import { MDXRemoteSerializeResult } from 'next-mdx-remote'
 import { NextSeoProps } from 'next-seo'
 import { useTranslation } from 'react-i18next'
@@ -45,6 +46,7 @@ const HashtagPostView = ({ pageData, seo }: HashtagProps): JSX.Element => {
   const { isOpen, onOpen, onClose } = useDisclosure()
 
   const { t } = useTranslation()
+  const { setIsOpen } = useTour()
 
   return (
     <Layout seo={seo}>
@@ -151,6 +153,7 @@ const HashtagPostView = ({ pageData, seo }: HashtagProps): JSX.Element => {
           bottom={4}
           colorScheme="primary"
           leftIcon={<FaQuestionCircle />}
+          onClick={() => setIsOpen(true)}
         >
           {t`post-share.help`}
         </Button>

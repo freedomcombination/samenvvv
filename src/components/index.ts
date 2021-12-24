@@ -35,6 +35,7 @@ export {
   SliderHeroSkeleton,
 } from './Skeletons'
 export { SliderHero } from './SliderHero'
+export { steps } from './PostMakerHelp'
 export { SubpageSidebarTabs } from './SubpageSidebarTabs'
 export { TagList } from './TagList'
 export { TrendList } from './TrendList'

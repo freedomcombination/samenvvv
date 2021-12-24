@@ -9,6 +9,18 @@
     "title": "What wij doen?",
     "description": "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga."
   },
+  "steps": {
+    "step1": "1.stap in Nederland",
+    "step2": "2.stap in Nederland",
+    "step3": "3.stap in Nederland",
+    "step4": "4.stap in Nederland",
+    "step5": "5.stap in Nederland",
+    "step6": "6.stap in Nederland",
+    "step7": "7.stap in Nederland",
+    "step8": "8.stap in Nederland",
+    "step9": "9.stap in Nederland"
+  },
+
   "copyright": "@2021 Samenvvv. Alle rechten voorbehouden",
   "support": "Steun",
   "footer_menu": "Menu's",

@@ -109,7 +109,7 @@ export const PostContainer = ({
             color="gray.500"
             fontSize="sm"
           >{t`post-share.content-label`}</Text>
-          <Text color="gray.500" fontSize="sm">
+          <Text color="gray.500" fontSize="sm" data-tour="step-7">
             <chakra.span
               {...(isCharacterCountExceeded && {
                 color: 'red.400',
@@ -123,6 +123,7 @@ export const PostContainer = ({
         </Flex>
         <Box overflow="auto">
           <Box
+            data-tour="step-1"
             p={4}
             rounded="sm"
             borderWidth={1}
@@ -145,6 +146,7 @@ export const PostContainer = ({
               </chakra.textarea>
             ) : (
               <chakra.div
+                data-tour="step-2"
                 p={2}
                 cursor="text"
                 borderWidth={2}
@@ -161,7 +163,7 @@ export const PostContainer = ({
             )}
             <Box mt={2}>
               {mentionUsernames?.length > 0 && (
-                <Box mb={2}>
+                <Box mb={2} data-tour="step-3">
                   <Text color="gray.500" fontSize="sm">
                     Mentions
                   </Text>
@@ -229,6 +231,7 @@ export const PostContainer = ({
             {t`post-share.edit-content`}
           </Button>
           <Button
+            data-tour="step-9"
             isFullWidth
             rounded="full"
             colorScheme="primary"
@@ -242,6 +245,7 @@ export const PostContainer = ({
             url={postUrlAbsolute as string}
           >
             <Button
+              data-tour="step-8"
               as="span"
               isFullWidth
               rounded="full"

@@ -9,6 +9,17 @@
     "title": "Ne yapıyoruz?",
     "description": "something"
   },
+  "steps": {
+    "step1": "1. adimda yapilacaklar",
+    "step2": "2. adimda yapilacaklar",
+    "step3": "3. adimda yapilacaklar",
+    "step4": "4. adimda yapilacaklar",
+    "step5": "5. adimda yapilacaklar",
+    "step6": "6. adimda yapilacaklar",
+    "step7": "7. adimda yapilacaklar",
+    "step8": "8. adimda yapilacaklar",
+    "step9": "9. adimda yapilacaklar"
+  },
   "copyright": "@2021 Samenvvv. Bütün hakları saklıdır",
   "support": "Destek",
   "footer_menu": "Menuler",

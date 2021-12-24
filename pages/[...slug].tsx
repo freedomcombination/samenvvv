@@ -1,5 +1,7 @@
 import { Center, Spinner } from '@chakra-ui/react'
+import { TourProvider } from '@reactour/tour'
 import { GetStaticPaths, GetStaticProps } from 'next'
+import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { MDXRemoteSerializeResult } from 'next-mdx-remote'
 import { serialize } from 'next-mdx-remote/serialize'
@@ -8,7 +10,7 @@ import { useRouter } from 'next/router'
 import { DehydratedState, QueryClient } from 'react-query'
 import { dehydrate } from 'react-query/hydration'
 
-import { Layout } from '@components'
+import { Layout, steps } from '@components'
 import {
   getAllPagePaths,
   getApplication,
@@ -48,7 +50,7 @@ interface DynamicPageProps {
 const DynamicPage = (props: DynamicPageProps): JSX.Element => {
   const router = useRouter()
   const { slug, pageType, isPage, source, pageData, seo, link } = props
-
+  const { t } = useTranslation()
   if (router.isFallback)
     return (
       <Layout>
@@ -77,7 +79,9 @@ const DynamicPage = (props: DynamicPageProps): JSX.Element => {
       {isCompetitionPage && <CompetitionView {...pageProps} />}
       {isApplicationPage && <ApplicationView {...pageProps} />}
       {isHashtagsPage && <MainHashtagsView {...pageProps} />}
-      {isHashtagPage && <HashtagPostView {...pageProps} />}
+      <TourProvider steps={steps(t)} components={undefined}>
+        {isHashtagPage && <HashtagPostView {...pageProps} />}
+      </TourProvider>
       {isHashtagPostPage && <HashtagPostView {...pageProps} />}
     </>
   )
