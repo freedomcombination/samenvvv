@@ -71,6 +71,7 @@ export const MentionList = (): JSX.Element => {
 
   return (
     <VStack align="stretch" h="60%" data-tour="step-4">
+    <VStack align="stretch" h="60%">
       <Text
         color="gray.500"
         fontSize="sm"
