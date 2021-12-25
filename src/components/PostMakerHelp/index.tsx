@@ -1,6 +1,6 @@
-import React from 'react'
+import { TFunction } from 'react-i18next'
 
-export const steps = t => [
+export const steps = (t: TFunction<'translation', undefined>): any => [
   {
     selector: '[data-tour="step-1"]',
     content: <p>{t`steps.step1`}</p>,
