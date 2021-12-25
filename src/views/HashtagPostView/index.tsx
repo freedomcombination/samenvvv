@@ -166,6 +166,7 @@ const HashtagPostView = ({ pageData, seo }: HashtagProps): JSX.Element => {
           colorScheme="primary"
           aria-label="help"
           icon={<FaQuestionCircle />}
+          onClick={() => setIsOpen(true)}
         />
       </Container>
     </Layout>
