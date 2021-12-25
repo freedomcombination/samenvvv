@@ -79,7 +79,7 @@ const DynamicPage = (props: DynamicPageProps): JSX.Element => {
       {isCompetitionPage && <CompetitionView {...pageProps} />}
       {isApplicationPage && <ApplicationView {...pageProps} />}
       {isHashtagsPage && <MainHashtagsView {...pageProps} />}
-      {/* eslint-disable-next-line no-use-before-define*/}
+      {/* @ts-ignore: Unreachable code error*/}
       <TourProvider steps={steps(t)} components={undefined}>
         {isHashtagPage && <HashtagPostView {...pageProps} />}
       </TourProvider>

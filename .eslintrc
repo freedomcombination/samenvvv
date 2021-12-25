@@ -37,6 +37,7 @@
   ],
   "rules": {
     "@typescript-eslint/no-empty-function": "warn",
+    "@typescript-eslint/ban-ts-comment": "off",
     "prettier/prettier": [
       "error",
       {
