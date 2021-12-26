@@ -16,7 +16,6 @@ import {
   Tabs,
   Text,
   useDisclosure,
-  VStack,
 } from '@chakra-ui/react'
 import { useTour } from '@reactour/tour'
 import { MDXRemoteSerializeResult } from 'next-mdx-remote'
@@ -54,7 +53,7 @@ const HashtagPostView = ({ pageData, seo }: HashtagProps): JSX.Element => {
         <DrawerOverlay />
         <DrawerContent py={4}>
           <DrawerCloseButton />
-          <DrawerBody as={VStack} w={300} align="stretch">
+          <DrawerBody px={4}>
             <MentionList />
             <TrendListTabs
               hashtags={[
