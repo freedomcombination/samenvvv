@@ -10,7 +10,7 @@ import { useRouter } from 'next/router'
 import { DehydratedState, QueryClient } from 'react-query'
 import { dehydrate } from 'react-query/hydration'
 
-import { Layout, steps } from '@components'
+import { Layout } from '@components'
 import {
   getAllPagePaths,
   getApplication,
@@ -21,7 +21,7 @@ import {
   getPageType,
   getSubpage,
 } from '@lib'
-import { getPageSeo } from '@utils'
+import { getPageSeo, getSteps } from '@utils'
 import {
   ApplicationView,
   CompetitionView,
@@ -51,6 +51,9 @@ const DynamicPage = (props: DynamicPageProps): JSX.Element => {
   const router = useRouter()
   const { slug, pageType, isPage, source, pageData, seo, link } = props
   const { t } = useTranslation()
+
+  const steps = getSteps(t)
+
   if (router.isFallback)
     return (
       <Layout>
@@ -79,10 +82,11 @@ const DynamicPage = (props: DynamicPageProps): JSX.Element => {
       {isCompetitionPage && <CompetitionView {...pageProps} />}
       {isApplicationPage && <ApplicationView {...pageProps} />}
       {isHashtagsPage && <MainHashtagsView {...pageProps} />}
-      {/* @ts-ignore: Unreachable code error*/}
-      <TourProvider steps={steps(t)} components={undefined}>
-        {isHashtagPage && <HashtagPostView {...pageProps} />}
-      </TourProvider>
+      {isHashtagPage && (
+        <TourProvider steps={steps} components={{}}>
+          <HashtagPostView {...pageProps} />
+        </TourProvider>
+      )}
       {isHashtagPostPage && <HashtagPostView {...pageProps} />}
     </>
   )
