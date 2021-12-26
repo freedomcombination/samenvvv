@@ -1,40 +1,43 @@
+import { StepType } from '@reactour/tour'
 import { TFunction } from 'react-i18next'
 
-export const steps = (t: TFunction<'translation', undefined>): any => [
+export const getSteps = (
+  t: TFunction<'translation', undefined>,
+): StepType[] => [
   {
     selector: '[data-tour="step-1"]',
-    content: <p>{t`steps.step1`}</p>,
+    content: t`steps.step1`,
   },
   {
     selector: '[data-tour="step-2"]',
-    content: <p>{t`steps.step2`}</p>,
+    content: t`steps.step2`,
   },
   {
     selector: '[data-tour="step-3"]',
-    content: <p>{t`steps.step3`}</p>,
+    content: t`steps.step3`,
   },
   {
     selector: '[data-tour="step-4"]',
-    content: <p>{t`steps.step4`}</p>,
+    content: t`steps.step4`,
   },
   {
     selector: '[data-tour="step-5"]',
-    content: <p>{t`steps.step5`}</p>,
+    content: t`steps.step5`,
   },
   {
     selector: '[data-tour="step-6"]',
-    content: <p>{t`steps.step6`}</p>,
+    content: t`steps.step6`,
   },
   {
     selector: '[data-tour="step-7"]',
-    content: <p>{t`steps.step7`}</p>,
+    content: t`steps.step7`,
   },
   {
     selector: '[data-tour="step-8"]',
-    content: <p>{t`steps.step8`}</p>,
+    content: t`steps.step8`,
   },
   {
     selector: '[data-tour="step-9"]',
-    content: <p>{t`steps.step9`}</p>,
+    content: t`steps.step9`,
   },
 ]
