@@ -16,8 +16,8 @@ import {
   Tabs,
   Text,
   useDisclosure,
-  VStack,
 } from '@chakra-ui/react'
+import { useTour } from '@reactour/tour'
 import { MDXRemoteSerializeResult } from 'next-mdx-remote'
 import { NextSeoProps } from 'next-seo'
 import { useTranslation } from 'react-i18next'
@@ -45,6 +45,7 @@ const HashtagPostView = ({ pageData, seo }: HashtagProps): JSX.Element => {
   const { isOpen, onOpen, onClose } = useDisclosure()
 
   const { t } = useTranslation()
+  const { setIsOpen } = useTour()
 
   return (
     <Layout seo={seo}>
@@ -52,7 +53,7 @@ const HashtagPostView = ({ pageData, seo }: HashtagProps): JSX.Element => {
         <DrawerOverlay />
         <DrawerContent py={4}>
           <DrawerCloseButton />
-          <DrawerBody as={VStack} w={300} align="stretch">
+          <DrawerBody px={4}>
             <MentionList />
             <TrendListTabs
               hashtags={[
@@ -151,6 +152,7 @@ const HashtagPostView = ({ pageData, seo }: HashtagProps): JSX.Element => {
           bottom={4}
           colorScheme="primary"
           leftIcon={<FaQuestionCircle />}
+          onClick={() => setIsOpen(true)}
         >
           {t`post-share.help`}
         </Button>
@@ -163,6 +165,7 @@ const HashtagPostView = ({ pageData, seo }: HashtagProps): JSX.Element => {
           colorScheme="primary"
           aria-label="help"
           icon={<FaQuestionCircle />}
+          onClick={() => setIsOpen(true)}
         />
       </Container>
     </Layout>
