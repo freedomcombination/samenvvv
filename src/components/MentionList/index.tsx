@@ -39,6 +39,7 @@ export const MentionList = (): JSX.Element => {
     searchedMentions,
     savedMentions,
   } = useAppSelector(state => state.postShare)
+
   const dispatch = useAppDispatch()
   const { t } = useTranslation()
 

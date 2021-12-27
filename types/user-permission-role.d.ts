@@ -7,8 +7,10 @@ declare interface IAdminUser {
 }
 
 declare interface IUserInput {
+  fullname?: string
   username: string
   email: string
+  avatar?: IUploadFile
   provider?: string
   password?: string
   resetPasswordToken?: string
@@ -27,8 +29,10 @@ declare interface IUsersPermissionsUser {
   id: string
   created_at: string
   updated_at: string
+  fullname?: string
   username: string
   email: string
+  avatar?: IUploadFile
   provider?: string
   confirmed?: boolean
   blocked?: boolean
@@ -40,8 +44,10 @@ declare interface IUsersPermissionsUser {
 declare interface IUsersPermissionsMe {
   __typename?: 'UsersPermissionsMe'
   id: string
+  fullname: string
   username: string
   email: string
+  avatar?: IUploadFile
   confirmed?: boolean
   blocked?: boolean
   role?: IUsersPermissionsMeRole
