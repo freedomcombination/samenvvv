@@ -107,24 +107,28 @@ const Post = ({
             textTransform="capitalize"
             spacing={4}
           >
-            <HStack spacing={4}>
+            <Wrap spacing={4} justify="center">
               <HStack>
-                <Icon as={FaCalendarDay} />
-                <Text>{date}</Text>
+                <HStack>
+                  <Icon as={FaCalendarDay} />
+                  <Text>{date}</Text>
+                </HStack>
+                <HStack>
+                  <Icon as={FaClock} />
+                  <Text>{readingTime}</Text>
+                </HStack>
               </HStack>
               <HStack>
-                <Icon as={FaClock} />
-                <Text>{readingTime}</Text>
+                <HStack>
+                  <Box as={FaEye} />
+                  <Text>{data.views}</Text>
+                </HStack>
+                <HStack>
+                  <Box as={AiFillHeart} />
+                  <Text>{data.likes}</Text>
+                </HStack>
               </HStack>
-              <HStack>
-                <Box as={FaEye} />
-                <Text>{data.views}</Text>
-              </HStack>
-              <HStack>
-                <Box as={AiFillHeart} />
-                <Text>{data.likes}</Text>
-              </HStack>
-            </HStack>
+            </Wrap>
             <HStack>
               <IconButton
                 rounded="full"

@@ -1,12 +1,12 @@
 import {
   Box,
-  Flex,
   Heading,
   HStack,
   Icon,
   Stack,
   Text,
   useBreakpointValue,
+  Wrap,
 } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
 import { FaCalendarDay, FaClock, FaEye, FaHeart } from 'react-icons/fa'
@@ -44,7 +44,7 @@ export const BlogCard = ({ post, isFeatured }: BlogCardProps) => {
         />
         <Stack
           rounded="sm"
-          m={8}
+          m={{ base: 4, lg: 8 }}
           mt={-8}
           maxW={600}
           pos="relative"
@@ -59,7 +59,11 @@ export const BlogCard = ({ post, isFeatured }: BlogCardProps) => {
             m: 0,
           })}
         >
-          <Flex justify="space-between" fontSize="sm" color="gray.500">
+          <Wrap
+            justify={{ base: 'center', md: 'space-between' }}
+            fontSize="sm"
+            color="gray.500"
+          >
             <HStack>
               <HStack>
                 <Icon as={FaCalendarDay} />
@@ -84,7 +88,7 @@ export const BlogCard = ({ post, isFeatured }: BlogCardProps) => {
                 </HStack>
               )}
             </HStack>
-          </Flex>
+          </Wrap>
           <Heading as="h3" size="md">
             {post.title}
           </Heading>
