@@ -9,6 +9,7 @@ declare interface IHashtagPost extends LocalizedSlugs {
   hashtag?: IHashtag
   posts?: IHashtagPost[]
   locale?: string
+  likes: number
   published_at?: string
   localizations?: Array<IHashtagPost>
 }
@@ -20,6 +21,7 @@ declare interface IHashtagPostInput {
   hashtag?: string
   localizations?: Array<string>
   locale?: string
+  likes: number
   published_at?: string
   created_by?: string
   updated_by?: string
