@@ -12,7 +12,7 @@ export const HeaderNavItem = (props: HeaderNavItemProps): JSX.Element => {
 
   return (
     <Navigate
-      fontSize="1.125em"
+      fontSize="md"
       fontWeight="bold"
       pos="relative"
       color={

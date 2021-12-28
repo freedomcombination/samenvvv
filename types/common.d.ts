@@ -76,6 +76,9 @@ declare type LocalizedSlugs = {
 declare interface BaseVariables {
   locale: string
   slug?: string
+  type?: string
+  sort?: string
+  limit?: number
 }
 
 declare type Morph =

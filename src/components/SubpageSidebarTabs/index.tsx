@@ -6,18 +6,31 @@ import {
   Tabs,
   VStack,
 } from '@chakra-ui/react'
+import { useRouter } from 'next/router'
 import { useTranslation } from 'react-i18next'
 
 import { Card } from '@components'
+import { useSubpagesQuery } from '@lib'
 
 interface SubpageSidebarTabsProps {
   page: IPage
 }
 
+// TODO: Show loading skeletons
 export const SubpageSidebarTabs = ({
   page,
 }: SubpageSidebarTabsProps): JSX.Element => {
   const { t } = useTranslation()
+  const router = useRouter()
+  const locale = router.locale as string
+  const type = page.type
+
+  const { data: latestSubpages } = useSubpagesQuery({ locale, type })
+  const { data: mostReadedSubpages } = useSubpagesQuery({
+    locale,
+    type,
+    sort: 'views:desc',
+  })
 
   return (
     <Tabs isFitted colorScheme="primary">
@@ -35,14 +48,14 @@ export const SubpageSidebarTabs = ({
       >
         <TabPanel>
           <VStack spacing={4}>
-            {page.subpages?.slice(0, 5)?.map((subpage, i) => (
+            {latestSubpages?.slice(0, 5)?.map((subpage, i) => (
               <Card key={i} item={{ ...subpage, page }} shadow="sm" hasLink />
             ))}
           </VStack>
         </TabPanel>
         <TabPanel>
           <VStack spacing={4}>
-            {page.popular?.map((subpage, i) => (
+            {mostReadedSubpages?.slice(0, 5)?.map((subpage, i) => (
               <Card key={i} item={{ ...subpage, page }} hasLink shadow="sm" />
             ))}
           </VStack>

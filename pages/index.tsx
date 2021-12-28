@@ -1,4 +1,4 @@
-import { Box } from '@chakra-ui/react'
+import { Box, Heading, Stack } from '@chakra-ui/react'
 import { GetStaticProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { NextSeoProps } from 'next-seo'
@@ -8,17 +8,26 @@ import { QueryClient } from 'react-query'
 import { dehydrate } from 'react-query/hydration'
 
 import { Container, Hero, Layout, Slider } from '@components'
-import { getSubpages } from '@lib'
+import {
+  getHashtags,
+  getSubpages,
+  useHashtagsQuery,
+  useSubpagesQuery,
+} from '@lib'
 import { ROUTES } from '@utils'
 
 interface HomeProps {
-  hashtags: IHashtag[]
-  subpages: ISubpage[]
   seo: NextSeoProps
 }
 
-const Home = ({ subpages, seo }: HomeProps): JSX.Element => {
-  const { locale } = useRouter()
+const Home = ({ seo }: HomeProps): JSX.Element => {
+  const router = useRouter()
+  const locale = router.locale as string
+
+  const hashtagQuery = useHashtagsQuery(locale)
+  const subpageQuery = useSubpagesQuery({
+    locale,
+  })
 
   const { t } = useTranslation(['common'])
 
@@ -32,19 +41,41 @@ const Home = ({ subpages, seo }: HomeProps): JSX.Element => {
         link={ROUTES.event[locale as string].link}
       />
       <Container>
-        <Box>
-          <Slider items={subpages} hasThumb />
-        </Box>
+        <Stack spacing={16} py={16}>
+          <Box p={8} bg="white" shadow="lg" rounded="sm">
+            <Slider
+              items={subpageQuery.data}
+              hasThumb
+              isLoading={subpageQuery.isLoading}
+            />
+          </Box>
+          <Box p={8} bg="white" shadow="lg" rounded="sm">
+            <Heading
+              textAlign="center"
+              mb={8}
+              fontWeight="bold"
+            >{t`hashtag-events`}</Heading>
+            <Slider
+              items={hashtagQuery.data}
+              hasThumb
+              isLoading={hashtagQuery.isLoading}
+            />
+          </Box>
+        </Stack>
       </Container>
     </Layout>
   )
 }
 
-export const getStaticProps: GetStaticProps = async ({ locale }) => {
+export const getStaticProps: GetStaticProps = async context => {
   const queryClient = new QueryClient()
+  const locale = context.locale as string
 
   await queryClient.prefetchQuery(['subpages', [locale]], () =>
-    getSubpages(locale as string),
+    getSubpages({ locale }),
+  )
+  await queryClient.prefetchQuery(['hashtags', [locale]], () =>
+    getHashtags(locale),
   )
 
   const title: Record<string, string> = {
@@ -54,16 +85,13 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
   }
 
   const seo: NextSeoProps = {
-    title: title[locale as string],
+    title: title[locale],
   }
-
-  const subpages = queryClient.getQueryData(['subpages', [locale]]) ?? []
 
   return {
     props: {
-      ...(await serverSideTranslations(locale as string, ['common'])),
+      ...(await serverSideTranslations(locale, ['common'])),
       dehydratedState: dehydrate(queryClient),
-      subpages,
       seo,
     },
   }

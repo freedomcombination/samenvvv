@@ -51,7 +51,7 @@ export const MentionListItem = ({
             shadow="base"
           />
           <Box fontWeight="bold">
-            <Text fontSize="1.5em">{user_data?.name}</Text>
+            <Text fontSize="xl">{user_data?.name}</Text>
             <Text color="twitter.400">@{user_data.screen_name}</Text>
           </Box>
 

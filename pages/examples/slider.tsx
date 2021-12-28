@@ -25,11 +25,12 @@ const EVENTS_DATA: Record<string, unknown> = {
 }
 
 const SliderPage = (): JSX.Element => {
-  const { locale } = useRouter()
-  const { data, isLoading } = useSubpagesQuery(locale as string)
+  const router = useRouter()
+  const locale = router.locale as string
+  const { data, isLoading } = useSubpagesQuery({ locale })
   const [loading, setLoading] = useState<boolean>(true)
 
-  const mockEvents = EVENTS_DATA[locale as string] as ISubpage[]
+  const mockEvents = EVENTS_DATA[locale] as ISubpage[]
 
   return (
     <Layout seo={{ nofollow: true, noindex: true, disableGooglebot: true }}>
