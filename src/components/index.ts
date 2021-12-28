@@ -1,4 +1,5 @@
 export { AnimatedBox } from './AnimatedBox'
+export { BlogCard } from './BlogCard'
 export { Card } from './Card'
 export { CardIcon } from './CardIcon'
 export { CardGroup } from './CardGroup'

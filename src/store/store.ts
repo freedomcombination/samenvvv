@@ -1,11 +1,13 @@
 import { Action, configureStore, ThunkAction } from '@reduxjs/toolkit'
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 
+import { blogReducer } from './blog'
 import { postShareReducer } from './post-share'
 
 export const store = configureStore({
   reducer: {
     postShare: postShareReducer,
+    blog: blogReducer,
   },
 })
 
