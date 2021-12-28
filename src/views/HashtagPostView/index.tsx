@@ -1,3 +1,5 @@
+import { useEffect, useState } from 'react'
+
 import {
   Box,
   Button,
@@ -18,6 +20,7 @@ import {
   useDisclosure,
   VStack,
 } from '@chakra-ui/react'
+import { addDays, isPast } from 'date-fns'
 import { MDXRemoteSerializeResult } from 'next-mdx-remote'
 import { NextSeoProps } from 'next-seo'
 import { useTranslation } from 'react-i18next'
@@ -43,6 +46,18 @@ interface HashtagProps {
 
 const HashtagPostView = ({ pageData, seo }: HashtagProps): JSX.Element => {
   const { isOpen, onOpen, onClose } = useDisclosure()
+
+  const [tabIndex, setTabIndex] = useState<number>(0)
+
+  useEffect(() => {
+    const dateStr = pageData.hashtag?.date
+    if (dateStr) {
+      const date = new Date(dateStr)
+      const hasEventPassed = isPast(addDays(date, 1))
+
+      if (hasEventPassed) setTabIndex(1)
+    }
+  }, [pageData.hashtag?.date])
 
   const { t } = useTranslation()
 
@@ -71,14 +86,22 @@ const HashtagPostView = ({ pageData, seo }: HashtagProps): JSX.Element => {
           </Text>
         </Box>
 
-        <Tabs flex={1} isFitted colorScheme="primary">
+        <Tabs
+          flex={1}
+          isFitted
+          colorScheme="primary"
+          index={tabIndex}
+          onChange={setTabIndex}
+          isLazy
+        >
           <Stack
-            direction={{ base: 'row', lg: 'column' }}
-            pos={{ base: 'static', lg: 'fixed' }}
+            direction={{ base: 'row', xl: 'column' }}
+            pos={{ base: 'static', xl: 'fixed' }}
             top="50%"
             left={0}
-            transform={{ lg: 'translateY(-50%)' }}
+            transform={{ xl: 'translateY(-50%)' }}
             spacing={1}
+            zIndex="tooltip"
           >
             <Tab
               borderWidth={1}
@@ -157,11 +180,13 @@ const HashtagPostView = ({ pageData, seo }: HashtagProps): JSX.Element => {
         <IconButton
           display={{ base: 'flex', lg: 'none' }}
           pos="fixed"
+          size="lg"
           right={2}
           bottom={2}
           rounded="full"
           colorScheme="primary"
           aria-label="help"
+          shadow="dark-lg"
           icon={<FaQuestionCircle />}
         />
       </Container>

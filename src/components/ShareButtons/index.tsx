@@ -23,6 +23,7 @@ export const ShareButtons = (
 
   return (
     <ButtonGroup variant="outline" size={size} {...props}>
+      {props.children}
       <FacebookShareButton title={title} quote={twitterContent} url={url}>
         <IconButton
           as="span"

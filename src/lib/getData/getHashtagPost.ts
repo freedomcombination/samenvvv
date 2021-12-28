@@ -26,6 +26,7 @@ export const GET_HASHTAG_POST = gql`
         hashtag_extra
         title
         content
+        date
         page {
           slug
         }
