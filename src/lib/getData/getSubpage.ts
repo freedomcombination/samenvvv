@@ -8,8 +8,19 @@ import { getLocalizedSubpageSlugs } from '../getLocalizedSlugs'
 export type GetSubpageQuery = { subpages?: ISubpage[] }
 
 export const GET_SUBPAGE = gql`
-  query getSubpages($locale: String!, $slug: String) {
-    subpages(locale: $locale, where: { slug: $slug }) {
+  query getSubpages(
+    $locale: String!
+    $slug: String
+    $type: String
+    $sort: String
+    $limit: Int
+  ) {
+    subpages(
+      locale: $locale
+      sort: $sort
+      limit: $limit
+      where: { slug: $slug, type: $type }
+    ) {
       id
       slug
       title
@@ -17,6 +28,7 @@ export const GET_SUBPAGE = gql`
       start
       end
       type
+      views
       image {
         url
         size
@@ -24,40 +36,10 @@ export const GET_SUBPAGE = gql`
         width
         height
       }
-      type
-      start
-      end
       locale
       page {
         slug
-        subpages {
-          slug
-          title
-          content
-          start
-          end
-          type
-          image {
-            url
-          }
-          start
-          end
-          locale
-        }
-        popular: subpages(sort: "slug:desc", limit: 5) {
-          slug
-          title
-          content
-          start
-          end
-          type
-          image {
-            url
-          }
-          start
-          end
-          locale
-        }
+        type
       }
       localizations {
         slug
@@ -91,13 +73,19 @@ export const getSubpage = async (
   return { ...subpage, slugs }
 }
 
-export const getSubpages = async (
-  locale: string,
-): Promise<ISubpage[] | null> => {
+export const getSubpages = async ({
+  locale,
+  type,
+  sort,
+  limit,
+}: BaseVariables): Promise<ISubpage[] | null> => {
   const data = await graphQLClient.request<GetSubpageQuery, BaseVariables>(
     GET_SUBPAGE,
     {
       locale,
+      type,
+      sort: sort || 'start:desc',
+      limit,
     },
   )
 
@@ -113,8 +101,12 @@ export const useSubpageQuery = (
     queryFn: () => getSubpage(locale, slug),
   })
 
-export const useSubpagesQuery = (locale: string): UseQueryResult<ISubpage[]> =>
-  useQuery({
-    queryKey: ['subpages', [locale]],
-    queryFn: () => getSubpages(locale),
+export const useSubpagesQuery = (
+  args: BaseVariables,
+): UseQueryResult<ISubpage[]> => {
+  const { locale, type, sort, limit } = args
+  return useQuery({
+    queryKey: ['subpages', [locale, type, sort || 'start:desc', limit ?? 5]],
+    queryFn: () => getSubpages(args),
   })
+}

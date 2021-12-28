@@ -81,9 +81,7 @@ export const TrendList = ({
                   <Box>{i + 1}</Box>
                   <Box>{tag.name}</Box>
                   {tag.tweet_volume && (
-                    <Box fontSize="0.8em">
-                      ({formatNumber(tag.tweet_volume)})
-                    </Box>
+                    <Box fontSize="xs">({formatNumber(tag.tweet_volume)})</Box>
                   )}
                 </TagLabel>
               </Tag>

@@ -162,6 +162,7 @@ export const Slider = (
                 )}
               </SwiperSlide>
             )) ||
+            // TODO: create better ui for empty data
             'No data found'}
       </SwiperBox>
     </Box>

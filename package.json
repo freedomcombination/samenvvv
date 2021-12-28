@@ -44,7 +44,7 @@
     "react-query": "^3.34.5",
     "react-redux": "^7.2.6",
     "remove-markdown": "^0.3.0",
-    "swiper": "^7.3.3",
+    "swiper": "^7.4.1",
     "yup": "^0.32.11"
   },
   "devDependencies": {

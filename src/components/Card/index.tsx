@@ -99,7 +99,7 @@ export const Card = (props: CardProps): JSX.Element => {
                 </Tooltip>
               )}
 
-              <Text noOfLines={2} fontSize="1rem" mt={2}>
+              <Text noOfLines={2} mt={2}>
                 {content}
               </Text>
             </>
