@@ -19,11 +19,12 @@ export const getLocalizedPageSlugs = (
 }
 
 export const getLocalizedSubpageSlugs = (
-  item: ISubpage,
+  item: ISubpage | IHashtag | ICompetition,
 ): { [k: string]: string[] } => {
+  const subpage = item as ISubpage
   return {
-    [item.locale as string]: [item.page?.slug as string, item.slug],
-    ...item.localizations?.reduce<Record<string, string[]>>(
+    [subpage.locale as string]: [subpage.page?.slug as string, subpage.slug],
+    ...subpage.localizations?.reduce<Record<string, string[]>>(
       (obj, { locale, slug, page }) => {
         obj[locale as string] = [page?.slug as string, slug]
         return obj

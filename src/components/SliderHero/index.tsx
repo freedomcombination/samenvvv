@@ -1,6 +1,7 @@
 import { Button, Heading, SimpleGrid, Stack, Text } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
 import { useTranslation } from 'react-i18next'
+import RemoveMarkdown from 'remove-markdown'
 
 import { ChakraNextImage, Navigate } from '@components'
 import { getItemLink } from '@utils'
@@ -16,17 +17,12 @@ export const SliderHero = ({ item }: SliderHeroProps): JSX.Element => {
 
   return (
     <SimpleGrid gap={8} columns={{ base: 1, lg: 2 }} mb={8}>
-      <Stack align="start" h="full" flex={1} spacing={{ base: 5, md: 10 }}>
-        <Heading
-          fontWeight={700}
-          fontSize={{ base: '3xl', lg: '4xl' }}
-          noOfLines={1}
-          color="primary"
-        >
+      <Stack align="start" h="full" flex={1} spacing={8}>
+        <Heading fontWeight="bold" size="lg">
           {item.title}
         </Heading>
-        <Text flex={1} noOfLines={5} fontSize="1.3rem">
-          {item.content}
+        <Text flex={1} noOfLines={4} fontSize="xl">
+          {RemoveMarkdown(item.content)}
         </Text>
 
         <Navigate
@@ -43,7 +39,7 @@ export const SliderHero = ({ item }: SliderHeroProps): JSX.Element => {
         <ChakraNextImage
           rounded="lg"
           shadow="lg"
-          minH={350}
+          ratio="twitter"
           mr={2}
           overflow="hidden"
           image={item.image}
