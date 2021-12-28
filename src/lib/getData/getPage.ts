@@ -8,7 +8,7 @@ import { getLocalizedPageSlugs } from '../getLocalizedSlugs'
 export type GetPageQuery = { pages?: IPage[] }
 
 export const GET_PAGE = gql`
-  query getPages($locale: String!, $slug: String) {
+  query ($locale: String!, $slug: String) {
     pages(locale: $locale, where: { slug: $slug }) {
       id
       slug
@@ -23,7 +23,7 @@ export const GET_PAGE = gql`
         height
       }
       type
-      subpages(limit: 10) {
+      subpages(sort: "start:desc") {
         slug
         title
         start
@@ -40,7 +40,7 @@ export const GET_PAGE = gql`
           slug
         }
       }
-      competitions(limit: 10) {
+      competitions(sort: "start:desc") {
         slug
         title
         start
@@ -57,7 +57,7 @@ export const GET_PAGE = gql`
           slug
         }
       }
-      hashtags(limit: 10) {
+      hashtags(sort: "date:desc") {
         slug
         title
         date
