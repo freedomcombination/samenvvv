@@ -1,6 +1,9 @@
-import { Box, Flex, Heading, HStack } from '@chakra-ui/react'
+import { useEffect } from 'react'
+
+import { Box, Flex, Heading, HStack, Text } from '@chakra-ui/react'
 import { MDXRemoteSerializeResult } from 'next-mdx-remote'
 import { NextSeoProps } from 'next-seo'
+import { FaEye } from 'react-icons/fa'
 
 import {
   ChakraNextImage,
@@ -12,6 +15,8 @@ import {
   ShareButtons,
   SubpageSidebarTabs,
 } from '@components'
+import { useAppDispatch, useAppSelector } from '@store'
+import { viewSubpage } from 'src/store/subpage'
 
 interface SubViewProps {
   slug: Record<string, string[]>
@@ -27,6 +32,28 @@ const SubView = ({
   seo,
   link,
 }: SubViewProps): JSX.Element => {
+  const dispatch = useAppDispatch()
+
+  const { views } = useAppSelector(state => state.subpage)
+
+  useEffect(() => {
+    let timer: NodeJS.Timeout
+
+    if (pageData?.content) {
+      const isViewed = views.some(id => id === pageData.id)
+
+      if (!isViewed) {
+        timer = setTimeout(() => {
+          dispatch(viewSubpage(pageData))
+        }, 5000)
+      }
+    }
+
+    return () => {
+      clearTimeout(timer)
+    }
+  }, [pageData, dispatch, views])
+
   return (
     <Layout seo={seo}>
       <Container>
@@ -35,13 +62,19 @@ const SubView = ({
             {pageData.image && (
               <ChakraNextImage h="300px" image={pageData.image} />
             )}
-            <HStack align="center" mt={4} spacing={8}>
+            <HStack justify="space-between" align="center" mt={4} spacing={8}>
               <PageTimeLabel pageData={pageData} />
-              <ShareButtons
-                title={pageData.title}
-                quote={pageData.content}
-                url={link}
-              />
+              <HStack>
+                <HStack display={{ base: 'none', sm: 'flex' }}>
+                  <Box as={FaEye} />
+                  <Text>{pageData.views}</Text>
+                </HStack>
+                <ShareButtons
+                  title={pageData.title}
+                  quote={pageData.content}
+                  url={link}
+                />
+              </HStack>
             </HStack>
             <Heading my={4}>{pageData.title}</Heading>
             <Box flex={1}>{source && <Markdown source={source} />}</Box>

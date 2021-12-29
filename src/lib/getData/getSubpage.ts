@@ -39,6 +39,20 @@ export const GET_SUBPAGE = gql`
       locale
       page {
         slug
+        subpages {
+          slug
+          title
+          content
+          start
+          end
+          type
+          image {
+            url
+          }
+          start
+          end
+          locale
+        }
         type
       }
       localizations {
