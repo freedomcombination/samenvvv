@@ -51,7 +51,17 @@ export const Footer = (): JSX.Element => {
                     />
                   </Link>
                 </motion.div>
-                <Text mt={4}> {t('footer_about')} </Text>
+                <Text
+                  color={'white'}
+                  justifyContent={'center'}
+                  paddingLeft={6}
+                  mx={2}
+                  my={2}
+                >
+                  {' '}
+                  {t('footer_about')}{' '}
+                </Text>{' '}
+                <SocialButtons />
               </Flex>
             </Box>
           </Stack>
@@ -60,17 +70,14 @@ export const Footer = (): JSX.Element => {
         <Flex
           justify="space-between"
           borderTopWidth="5px"
-          borderTopColor="whiteAlpha.300"
-          align="center"
-          pt="5"
+          borderTopColor="whiteAlpha.500"
           py={10}
           m=""
         >
-          <Text fontSize={'sm'}>{t('copyright')}</Text>
-          <Stack direction="row" spacing={6}>
-            <ListHeader>{t('follow_us')}</ListHeader>
-            <SocialButtons />
-          </Stack>
+          <Text fontSize={'sm'}>
+            &copy; {new Date().getFullYear()}
+            {t('copyright')}
+          </Text>
         </Flex>
       </Container>
     </Box>
