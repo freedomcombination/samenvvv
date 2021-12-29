@@ -20,14 +20,16 @@ const Blog = ({ seo }: BlogProps): JSX.Element => {
   return (
     <Layout seo={seo} scrollHeight={hasData ? 100 : null} isLoading={isLoading}>
       {hasData ? (
-        <Container maxW="container.lg">
+        <>
           <Hero title="Blog" isFullHeight={false} />
-          <SimpleGrid gap={8} py={8} columns={{ base: 1, lg: 2 }}>
-            {data?.map((post, index) => (
-              <BlogCard key={index} isFeatured={index === 0} post={post} />
-            ))}
-          </SimpleGrid>
-        </Container>
+          <Container maxW="container.lg">
+            <SimpleGrid gap={8} py={8} columns={{ base: 1, lg: 2 }}>
+              {data?.map((post, index) => (
+                <BlogCard key={index} isFeatured={index === 0} post={post} />
+              ))}
+            </SimpleGrid>
+          </Container>
+        </>
       ) : (
         <Stack minH="inherit" justify="center" align="center" spacing={8}>
           <Image h={200} src="/images/no-blog.svg" alt="no blog" />
