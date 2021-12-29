@@ -44,7 +44,8 @@ export const BlogCard = ({ post, isFeatured }: BlogCardProps) => {
         />
         <Stack
           rounded="sm"
-          m={{ base: 4, lg: 8 }}
+          mx={{ base: 4, lg: 8 }}
+          mb={{ base: 4, lg: 8 }}
           mt={-8}
           maxW={600}
           pos="relative"
