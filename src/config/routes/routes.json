@@ -1,0 +1,156 @@
+{
+  "event": {
+    "en": {
+      "label": "Events",
+      "link": "/events"
+    },
+    "nl": {
+      "label": "Evenementen",
+      "link": "/evenementen"
+    },
+    "tr": {
+      "label": "Etkinlikler",
+      "link": "/etkinlikler"
+    }
+  },
+  "announcement": {
+    "en": {
+      "label": "Announcements",
+      "link": "/announcements"
+    },
+    "nl": {
+      "label": "Aankondigingen",
+      "link": "/aankondigingen"
+    },
+    "tr": {
+      "label": "Duyurular",
+      "link": "/duyurular"
+    }
+  },
+  "club": {
+    "en": {
+      "label": "Club",
+      "link": "/club"
+    },
+    "nl": {
+      "label": "Club",
+      "link": "/club"
+    },
+    "tr": {
+      "label": "Club",
+      "link": "/kulup"
+    }
+  },
+  "about": {
+    "en": {
+      "label": "About Us",
+      "link": "/about-us"
+    },
+    "nl": {
+      "label": "Over Ons",
+      "link": "/over-ons"
+    },
+    "tr": {
+      "label": "Hakkımızda",
+      "link": "/hakkimizda"
+    }
+  },
+  "news": {
+    "en": {
+      "label": "News",
+      "link": "/news"
+    },
+    "nl": {
+      "label": "Nieuws",
+      "link": "/nieuws"
+    },
+    "tr": {
+      "label": "Haberler",
+      "link": "/haberler"
+    }
+  },
+  "competition": {
+    "en": {
+      "label": "Competitions",
+      "link": "/competitions"
+    },
+    "nl": {
+      "label": "Wedstrijden",
+      "link": "/wedstrijden"
+    },
+    "tr": {
+      "label": "Yarışmalar",
+      "link": "/yarismalar"
+    }
+  },
+  "hashtag": {
+    "en": {
+      "label": "Hashtag Events",
+      "link": "/hashtag-events"
+    },
+    "nl": {
+      "label": "Hashtag Evenementen",
+      "link": "/hashtag-evenementen"
+    },
+    "tr": {
+      "label": "Hashtag Etkinlikleri",
+      "link": "/hashtag-etkinlikleri"
+    }
+  },
+  "terms": {
+    "en": {
+      "label": "Terms of service",
+      "link": "/terms"
+    },
+    "nl": {
+      "label": "Algemene Voorwaarden ",
+      "link": "/voorwaarden"
+    },
+    "tr": {
+      "label": "Kullanım Şartları",
+      "link": "/kullanim-sartlari"
+    }
+  },
+  "privacy": {
+    "en": {
+      "label": "Privacy Policy",
+      "link": "/privacy"
+    },
+    "nl": {
+      "label": "Privacybeleid",
+      "link": "/privacy"
+    },
+    "tr": {
+      "label": "Gizlilik Politikası",
+      "link": "/gizlilik"
+    }
+  },
+  "contact": {
+    "en": {
+      "label": "Contact",
+      "link": "/contact"
+    },
+    "nl": {
+      "label": "Contact",
+      "link": "/contact"
+    },
+    "tr": {
+      "label": "İletişim",
+      "link": "/iletisim"
+    }
+  },
+  "blog": {
+    "en": {
+      "label": "Blog",
+      "link": "/blog"
+    },
+    "nl": {
+      "label": "Blog",
+      "link": "/blog"
+    },
+    "tr": {
+      "label": "Blog",
+      "link": "/blog"
+    }
+  }
+}

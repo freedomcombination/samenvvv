@@ -11,7 +11,7 @@ interface HeaderProps {
 
 export const Header = ({ isScrolled, hasScroll }: HeaderProps): JSX.Element => {
   return (
-    <Box as={Headroom} zIndex="sticky">
+    <Box as={Headroom}>
       <Flex
         bg={!hasScroll ? 'white' : isScrolled ? 'white' : 'transparent'}
         borderBottomWidth={!hasScroll ? 1 : isScrolled ? 1 : 0}

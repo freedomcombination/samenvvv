@@ -8,13 +8,13 @@ import { QueryClient } from 'react-query'
 import { dehydrate } from 'react-query/hydration'
 
 import { Container, Hero, Layout, Slider } from '@components'
+import { ROUTES } from '@config'
 import {
   getHashtags,
   getSubpages,
   useHashtagsQuery,
   useSubpagesQuery,
 } from '@lib'
-import { ROUTES } from '@utils'
 
 interface HomeProps {
   seo: NextSeoProps
@@ -22,7 +22,7 @@ interface HomeProps {
 
 const Home = ({ seo }: HomeProps): JSX.Element => {
   const router = useRouter()
-  const locale = router.locale as string
+  const locale = router.locale as ILocale
 
   const hashtagQuery = useHashtagsQuery(locale)
   const subpageQuery = useSubpagesQuery({
@@ -38,7 +38,7 @@ const Home = ({ seo }: HomeProps): JSX.Element => {
         description="Ipsum esse cupidatat ex magna labore aliquip non aliqua. Minim mollit magna irure deserunt ex irure et ad ad ea culpa ad eu. Labore labore pariatur mollit culpa cupidatat consequat quis amet ut et eiusmod amet ad. Exercitation aute dolore ipsum qui amet aliqua nisi. Id dolore dolore aliquip eiusmod proident nostrud laboris aliqua dolor. Fugiat occaecat incididunt non sunt adipisicing adipisicing amet sit eu mollit aliqua incididunt exercitation exercitation."
         video="/images/Alley_hero_aug_2020-transcode.webm"
         buttonText={t`read-more`}
-        link={ROUTES.event[locale as string].link}
+        link={ROUTES.event[locale].link}
       />
       <Container>
         <Stack spacing={16} py={16}>
