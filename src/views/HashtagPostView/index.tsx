@@ -151,7 +151,10 @@ const HashtagPostView = ({ pageData, seo }: HashtagProps): JSX.Element => {
                 </Box>
                 <PostContainer onOpen={onOpen} post={pageData} />
                 <Box>
-                  <TweetWidget title={t`post-share.latest-tweets-label`} />
+                  <TweetWidget
+                    title={t`post-share.latest-tweets-label`}
+                    tweets={pageData.hashtag?.tweets}
+                  />
                 </Box>
               </Grid>
             </TabPanel>

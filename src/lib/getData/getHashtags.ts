@@ -15,6 +15,7 @@ export const GET_HASHTAG = gql`
       title
       content
       date
+      tweets
       image {
         url
         size

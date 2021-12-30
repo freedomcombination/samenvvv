@@ -11,6 +11,7 @@ module.exports = {
       'admin.samenvvv.nl',
       'samenvvv.nl',
       'media.istockphoto.com',
+      'pbs.twimg.com',
     ],
   },
   async rewrites() {
