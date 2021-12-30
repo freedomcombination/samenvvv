@@ -20,7 +20,7 @@ export const FooterNav = (): JSX.Element => {
       {footerMenus.map((itm, s) => {
         return (
           <Stack
-            align={'flex-start'}
+            align={{ base: 'center', sm: 'start' }}
             marginX={4}
             fontSize="lg"
             color={'teal.500'}
