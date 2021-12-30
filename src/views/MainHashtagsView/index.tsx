@@ -1,4 +1,4 @@
-import { Divider } from '@chakra-ui/react'
+import { Box, Stack } from '@chakra-ui/react'
 import { MDXRemoteSerializeResult } from 'next-mdx-remote'
 import { NextSeoProps } from 'next-seo'
 
@@ -33,31 +33,43 @@ const MainHashtagsView = ({
         image={pageData.image}
       />
       <Container>
-        {source && <Markdown source={source} />}
-        {pageData.hashtags?.map((hashtag, i) => (
-          <>
+        {source && (
+          <Box
+            my={4}
+            fontSize="md"
+            maxW="container.md"
+            mx="auto"
+            textAlign="center"
+          >
+            <Markdown source={source} />
+          </Box>
+        )}
+
+        <Stack spacing={16}>
+          {pageData.hashtags?.map((hashtag, i) => (
             <AnimatedBox
               directing={i % 2 === 0 ? 'to-left' : 'to-right'}
               delay={5}
               key={i}
             >
-              <SliderHero item={hashtag} />
-              <Slider
-                slides={{ base: 1, md: 2, lg: 3 }}
-                posts={hashtag.posts?.map(post => ({
-                  ...post,
-                  hashtag: { ...hashtag, page: pageData },
-                }))}
-                loop
-                hasSocialCard
-                customStyles={{ opacity: 0.5 }}
-                activeStyles={{ opacity: 1 }}
-                hasLink
-              />
+              <Box px={8} pt={8} pb={4} bg="white" shadow="lg">
+                <SliderHero item={hashtag} />
+                <Slider
+                  slides={{ base: 1, md: 2, lg: 3 }}
+                  posts={hashtag.posts?.map(post => ({
+                    ...post,
+                    hashtag: { ...hashtag, page: pageData },
+                  }))}
+                  loop
+                  hasSocialCard
+                  customStyles={{ opacity: 0.5 }}
+                  activeStyles={{ opacity: 1 }}
+                  hasLink
+                />
+              </Box>
             </AnimatedBox>
-            <Divider my={16} />
-          </>
-        ))}
+          ))}
+        </Stack>
       </Container>
     </Layout>
   )
