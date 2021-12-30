@@ -4,18 +4,29 @@
   "next": "Volgende",
   "prev": "Vorige",
   "announcement": "Aankondiging",
-  "hashtag-events": "Hashtag Evenementen",
   "news": "Nieuws",
   "about": {
     "title": "What wij doen?",
     "description": "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga."
   },
-  "copyright": "@2021 Samenvvv. Alle rechten voorbehouden",
+  "steps": {
+    "step1": "1.stap in Nederland",
+    "step2": "2.stap in Nederland",
+    "step3": "3.stap in Nederland",
+    "step4": "4.stap in Nederland",
+    "step5": "5.stap in Nederland",
+    "step6": "6.stap in Nederland",
+    "step7": "7.stap in Nederland",
+    "step8": "8.stap in Nederland",
+    "step9": "9.stap in Nederland"
+  },
+
+  "copyright": " Samenvvv. Alle rechten voorbehouden.",
   "support": "Steun",
   "footer_menu": "Menu's",
   "follow_us": "Volg ons",
   "society": "Stichting",
-  "footer_about": " NL ===Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolores, blanditiis dignissimos recusandae fuga commodi sunt ipsam quas magni expedita ut soluta tempore dolorem inventore voluptates autem error doloremque quidem sed?",
+  "footer_about": "Stilte is de grootste vijand van vrijheid.",
   "contact": {
     "title": "Contact",
     "fill-form": "Vul het formulier in om contact op te nemen",

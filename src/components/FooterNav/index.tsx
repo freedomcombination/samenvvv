@@ -19,7 +19,14 @@ export const FooterNav = (): JSX.Element => {
     <>
       {footerMenus.map((itm, s) => {
         return (
-          <Stack align={'flex-start'} key={s}>
+          <Stack
+            align={'flex-start'}
+            marginX={4}
+            fontSize="lg"
+            color={'teal.500'}
+            key={s}
+            py={4}
+          >
             <ListHeader>{t(itm.location)}</ListHeader>
             {itm.menu.map((item, i) => {
               return <FooterNavItem key={i} navItem={item[locale as string]} />

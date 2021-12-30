@@ -51,26 +51,34 @@ export const Footer = (): JSX.Element => {
                     />
                   </Link>
                 </motion.div>
-                <Text mt={4}> {t('footer_about')} </Text>
+                <Text
+                  color={'white'}
+                  justifyContent={'center'}
+                  paddingLeft={1}
+                  mx={2}
+                  my={2}
+                >
+                  {' '}
+                  {t('footer_about')}{' '}
+                </Text>{' '}
               </Flex>
             </Box>
           </Stack>
           <FooterNav />
         </SimpleGrid>
         <Flex
+          flexWrap={'wrap-reverse'}
           justify="space-between"
           borderTopWidth="5px"
-          borderTopColor="whiteAlpha.300"
-          align="center"
-          pt="5"
-          py={10}
+          borderTopColor="whiteAlpha.500"
+          py={6}
           m=""
         >
-          <Text fontSize={'sm'}>{t('copyright')}</Text>
-          <Stack direction="row" spacing={6}>
-            <ListHeader>{t('follow_us')}</ListHeader>
-            <SocialButtons />
-          </Stack>
+          <Text fontSize={'sm'} marginTop={2}>
+            &copy; {new Date().getFullYear()}
+            {t('copyright')}
+          </Text>
+          <SocialButtons />
         </Flex>
       </Container>
     </Box>

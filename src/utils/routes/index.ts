@@ -9,6 +9,7 @@ export type RouteLabelType =
   | 'terms'
   | 'privacy'
   | 'contact'
+  | 'blog'
 
 type InternalLinksType = Record<
   RouteLabelType,
@@ -157,6 +158,20 @@ export const ROUTES: InternalLinksType = {
       link: '/iletisim',
     },
   },
+  blog: {
+    en: {
+      name: 'blog',
+      link: '/blog',
+    },
+    nl: {
+      name: 'blog',
+      link: '/blog',
+    },
+    tr: {
+      name: 'blog',
+      link: '/blog',
+    },
+  },
 }
 
 export const HEADER_MENU: Record<string, { name: string; link: string }>[] = [
@@ -168,14 +183,13 @@ export const HEADER_MENU: Record<string, { name: string; link: string }>[] = [
   ROUTES.club,
   ROUTES.about,
   ROUTES.contact,
+  ROUTES.blog,
 ]
 
 export const FOOTER_MENU: Record<string, { name: string; link: string }>[] = [
-  ROUTES.announcement,
-  ROUTES.news,
-  ROUTES.event,
-  ROUTES.competition,
   ROUTES.hashtag,
+  ROUTES.event,
+  ROUTES.blog,
 ]
 
 export const SUPPORT_MENU: Record<string, { name: string; link: string }>[] = [
@@ -184,7 +198,7 @@ export const SUPPORT_MENU: Record<string, { name: string; link: string }>[] = [
 ]
 
 export const SOCIETY_MENU: Record<string, { name: string; link: string }>[] = [
-  ROUTES.club,
   ROUTES.about,
   ROUTES.contact,
+  ROUTES.club,
 ]

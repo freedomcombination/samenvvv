@@ -5,23 +5,33 @@
   "prev": "Previous",
   "event": "Event",
   "announcement": "Announcement",
-  "hashtag-events": "Hashtag Events",
   "news": "News",
   "about": {
     "title": "What we do?",
     "description": "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga."
   },
-  "copyright": "@2021 Samenvvv. All right reserved",
+  "steps": {
+    "step1": "1.step in help tour",
+    "step2": "2.step in help tour",
+    "step3": "3.step in help tour",
+    "step4": "4.step in help tour",
+    "step5": "5.step in help tour",
+    "step6": "6.step in help tour",
+    "step7": "7.step in help tour",
+    "step8": "8.step in help tour",
+    "step9": "9.step in help tour"
+  },
+  "copyright": " Samenvvv. All right reserved.",
   "support": "Support",
   "footer_menu": "Menus",
   "follow_us": "Folow us",
   "society": "Society",
-  "footer_about": " EN ===Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolores, blanditiis dignissimos recusandae fuga commodi sunt ipsam quas magni expedita ut soluta tempore dolorem inventore voluptates autem error doloremque quidem sed?",
+  "footer_about": "Silence is the worst enemy of freedom.",
   "contact": {
     "title": "Contact",
     "fill-form": "Fill up the form to contact",
     "form": {
-      "fullname-label": "Your Name",
+      "fullname-label": "Your Full Name",
       "fullname-required": "Fullname cannot be empty.",
       "email-required": "Mail cannot be empty.",
       "email-invalid": "Invalid email address.",
