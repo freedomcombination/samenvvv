@@ -27,6 +27,7 @@ export const GET_HASHTAG_POST = gql`
         title
         content
         date
+        tweets
         page {
           slug
         }

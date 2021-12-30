@@ -10,7 +10,18 @@
     "title": "Ne yapıyoruz?",
     "description": "something"
   },
-  "copyright": "@2021 Samenvvv. Bütün hakları saklıdır",
+  "steps": {
+    "step1": "1. adimda yapilacaklar",
+    "step2": "2. adimda yapilacaklar",
+    "step3": "3. adimda yapilacaklar",
+    "step4": "4. adimda yapilacaklar",
+    "step5": "5. adimda yapilacaklar",
+    "step6": "6. adimda yapilacaklar",
+    "step7": "7. adimda yapilacaklar",
+    "step8": "8. adimda yapilacaklar",
+    "step9": "9. adimda yapilacaklar"
+  },
+  "copyright": " Samenvvv. Bütün hakları saklıdır.",
   "support": "Destek",
   "footer_menu": "Menuler",
   "follow_us": "Bizi takip edin",
@@ -50,6 +61,7 @@
     "other-posts": "Diğer Postlar",
     "add-mention": "Mention/Trend Ekle",
     "latest-tweets-label": "Son Tweetler",
+    "no-tweet": "Tweet bulunamadı",
     "tabs": {
       "share": "Paylaş",
       "archive": "Arşiv"
