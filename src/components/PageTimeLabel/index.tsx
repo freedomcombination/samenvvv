@@ -3,7 +3,7 @@ import { format } from 'date-fns'
 import { useRouter } from 'next/router'
 import { MdEvent } from 'react-icons/md'
 
-import { timeLocale } from '@utils'
+import { timeLocale } from '@config'
 
 interface PageTimeLabelProps {
   pageData: ISubpage | IHashtag

@@ -24,8 +24,18 @@ const CompetitionView = ({
         image={pageData.image}
         isFullHeight={false}
       />
-      <Container my={8}>
-        {source && <Markdown source={source} />}
+      <Container>
+        {source && (
+          <Box
+            my={4}
+            fontSize="md"
+            maxW="container.md"
+            mx="auto"
+            textAlign="center"
+          >
+            <Markdown source={source} />
+          </Box>
+        )}
         {pageData?.applications?.map(application => (
           <Box key={application.id} p={4} boxShadow="lg">
             {application.title}

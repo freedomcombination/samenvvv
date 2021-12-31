@@ -1,10 +1,11 @@
 import { Navigate } from '@components'
+import { ChildMenuType } from '@config'
 
-interface HeaderNavItemProps {
-  navItem: { name: string; link: string }
+interface FooterNavItemProps {
+  navItem: ChildMenuType
 }
 
-export const FooterNavItem = (props: HeaderNavItemProps): JSX.Element => {
+export const FooterNavItem = (props: FooterNavItemProps): JSX.Element => {
   const { navItem } = props
 
   return (
@@ -16,7 +17,7 @@ export const FooterNavItem = (props: HeaderNavItemProps): JSX.Element => {
       key={navItem.link}
       href={navItem.link}
     >
-      {navItem.name}
+      {navItem.label}
     </Navigate>
   )
 }

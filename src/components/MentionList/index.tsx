@@ -91,13 +91,13 @@ export const MentionList = (): JSX.Element => {
           variant="line"
           bg="white"
         >
-          <TabList zIndex="tooltip" pos="sticky" top="0" bg="white">
+          <TabList pos="sticky" top="0" bg="white">
             <Tab>{t`post-share.mention-tab-popular`}</Tab>
             <Tab>{t`post-share.mention-tab-saved`}</Tab>
           </TabList>
           <TabPanels>
             <TabPanel p={0}>
-              <Box zIndex="tooltip" pos="sticky" top="31px">
+              <Box pos="sticky" top="31px">
                 <MentionSearch />
               </Box>
               {isSearchedMentionsLoading || isMentionListLoading ? (

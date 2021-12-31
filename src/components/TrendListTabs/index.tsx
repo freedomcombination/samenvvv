@@ -16,8 +16,8 @@ import { useTranslation } from 'react-i18next'
 import { FaInfoCircle } from 'react-icons/fa'
 
 import { TrendList } from '@components'
+import { timeLocale } from '@config'
 import { useFindHashtagInTrends, useTrendsData } from '@lib'
-import { timeLocale } from '@utils'
 
 interface TrendListProps {
   hashtags: [string | undefined, string | undefined]
@@ -57,7 +57,7 @@ export const TrendListTabs = ({ hashtags }: TrendListProps): JSX.Element => {
 
       <Box overflowY="auto" shadow="md" bg="white">
         <Tabs colorScheme="primary" isFitted size="sm">
-          <TabList zIndex="tooltip" pos="sticky" top="0" bg="white">
+          <TabList pos="sticky" top="0" bg="white">
             <Tab>World</Tab>
             <Tab>TR</Tab>
             <Tab>NL</Tab>
