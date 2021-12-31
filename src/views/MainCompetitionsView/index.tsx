@@ -1,3 +1,4 @@
+import { Box, Stack } from '@chakra-ui/react'
 import { MDXRemoteSerializeResult } from 'next-mdx-remote'
 import { NextSeoProps } from 'next-seo'
 
@@ -24,12 +25,24 @@ const MainCompetitionsView = ({
         isFullHeight={false}
       />
       <Container>
-        {source && <Markdown source={source} />}
-        <CardGroup
-          items={pageData?.competitions as ISubpage[]}
-          isSimple={true}
-          hasLink
-        />
+        <Stack my={8} spacing={8}>
+          {source && (
+            <Box
+              my={4}
+              fontSize="md"
+              maxW="container.md"
+              mx="auto"
+              textAlign="center"
+            >
+              <Markdown source={source} />
+            </Box>
+          )}
+          <CardGroup
+            items={pageData?.competitions as ISubpage[]}
+            isSimple={true}
+            hasLink
+          />
+        </Stack>
       </Container>
     </Layout>
   )

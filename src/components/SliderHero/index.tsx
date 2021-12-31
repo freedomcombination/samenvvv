@@ -21,7 +21,7 @@ export const SliderHero = ({ item }: SliderHeroProps): JSX.Element => {
         <Heading fontWeight="bold" size="lg">
           {item.title}
         </Heading>
-        <Text flex={1} noOfLines={4} fontSize="xl">
+        <Text flex={1} noOfLines={4} fontSize="md">
           {RemoveMarkdown(item.content)}
         </Text>
 

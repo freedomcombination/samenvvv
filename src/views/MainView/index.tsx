@@ -1,3 +1,4 @@
+import { Box, Stack } from '@chakra-ui/react'
 import { MDXRemoteSerializeResult } from 'next-mdx-remote'
 import { NextSeoProps } from 'next-seo'
 
@@ -11,7 +12,7 @@ interface MainViewProps {
   link: string
 }
 
-const MainView = ({ source, pageData, seo }: MainViewProps): JSX.Element => {
+const MainView = ({ pageData, seo, source }: MainViewProps): JSX.Element => {
   return (
     <Layout scrollHeight={100} seo={seo}>
       <Hero
@@ -20,8 +21,24 @@ const MainView = ({ source, pageData, seo }: MainViewProps): JSX.Element => {
         image={pageData.image}
       />
       <Container>
-        {source && <Markdown source={source} />}
-        <CardGroup items={pageData?.subpages as ISubpage[]} isSocial hasLink />
+        <Stack spacing={8} my={8}>
+          {source && (
+            <Box
+              my={4}
+              fontSize="md"
+              maxW="container.md"
+              mx="auto"
+              textAlign="center"
+            >
+              <Markdown source={source} />
+            </Box>
+          )}
+          <CardGroup
+            items={pageData?.subpages as ISubpage[]}
+            isSocial
+            hasLink
+          />
+        </Stack>
       </Container>
     </Layout>
   )

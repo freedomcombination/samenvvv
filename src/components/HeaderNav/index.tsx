@@ -2,7 +2,7 @@ import { Stack } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
 
 import { HeaderNavItem } from '@components'
-import { HEADER_MENU } from '@utils'
+import { HEADER_MENU } from '@config'
 
 interface HeaderNavProps {
   direction?: 'column' | 'row'
@@ -16,7 +16,7 @@ export const HeaderNav = ({
   return (
     <Stack direction={direction}>
       {HEADER_MENU.map((item, i) => {
-        return <HeaderNavItem key={i} navItem={item[locale as string]} />
+        return <HeaderNavItem key={i} navItem={item[locale as ILocale]} />
       })}
     </Stack>
   )
