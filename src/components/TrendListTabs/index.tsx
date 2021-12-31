@@ -57,7 +57,7 @@ export const TrendListTabs = ({ hashtags }: TrendListProps): JSX.Element => {
 
       <Box overflowY="auto" shadow="md" bg="white">
         <Tabs colorScheme="primary" isFitted size="sm">
-          <TabList zIndex="tooltip" pos="sticky" top="0" bg="white">
+          <TabList pos="sticky" top="0" bg="white">
             <Tab>World</Tab>
             <Tab>TR</Tab>
             <Tab>NL</Tab>

@@ -87,6 +87,7 @@ export const MentionListItem = ({
             name={user_data.screen_name}
             src={user_data?.profile_image_url_https}
             size="sm"
+            pos="static"
           />
           <Box>
             <Text isTruncated maxW="120px">
@@ -99,6 +100,7 @@ export const MentionListItem = ({
           {onRemoveItem && (
             <Tooltip label={t`post-share.remove`}>
               <IconButton
+                pos="static"
                 aria-label={t`post-share.remove` + ' mention'}
                 variant="ghost"
                 onClick={() => onRemoveItem(user_data)}
@@ -112,6 +114,7 @@ export const MentionListItem = ({
           )}
           <Tooltip label={t`post-share.add`}>
             <IconButton
+              pos="static"
               aria-label={t`post-share.add` + ' mention'}
               variant="ghost"
               onClick={() => onAddItem(user_data)}
