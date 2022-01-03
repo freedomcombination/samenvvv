@@ -2,12 +2,12 @@ import ROUTES from './routes.json'
 
 const {
   announcement,
-  news,
-  event,
-  competition,
+  // news,
+  // event,
+  // competition,
   hashtag,
   blog,
-  club,
+  // club,
   about,
   contact,
   terms,
@@ -24,34 +24,35 @@ export type MenuType = ChildMenuType | ParentMenuType
 export type LocalizedMenuType = ILocalize<MenuType>
 
 export const HEADER_MENU: Array<LocalizedMenuType> = [
-  {
-    en: {
-      label: 'Menu',
-      children: [announcement.en, news.en, event.en, competition.en],
-    },
-    nl: {
-      label: 'Menu',
-      children: [announcement.nl, news.nl, event.nl, competition.nl],
-    },
-    tr: {
-      label: 'Menü',
-      children: [announcement.tr, news.tr, event.tr, competition.tr],
-    },
-  },
+  // {
+  //   en: {
+  //     label: 'Menu',
+  //     children: [announcement.en, news.en, event.en, competition.en],
+  //   },
+  //   nl: {
+  //     label: 'Menu',
+  //     children: [announcement.nl, news.nl, event.nl, competition.nl],
+  //   },
+  //   tr: {
+  //     label: 'Menü',
+  //     children: [announcement.tr, news.tr, event.tr, competition.tr],
+  //   },
+  // },
+  announcement,
   hashtag,
   blog,
   {
     en: {
       label: 'Samenvvv',
-      children: [club.en, about.en, contact.en],
+      children: [about.en, contact.en],
     },
     nl: {
       label: 'Samenvvv',
-      children: [club.nl, about.nl, contact.nl],
+      children: [about.nl, contact.nl],
     },
     tr: {
       label: 'Samenvvv',
-      children: [club.tr, about.tr, contact.tr],
+      children: [about.tr, contact.tr],
     },
   },
 ]
@@ -60,15 +61,15 @@ export const FOOTER_MENU: Array<ILocalize<ParentMenuType>> = [
   {
     en: {
       label: 'Foundation',
-      children: [club.en, about.en, contact.en],
+      children: [about.en, contact.en],
     },
     nl: {
       label: 'Stichting',
-      children: [club.nl, about.nl, contact.nl],
+      children: [about.nl, contact.nl],
     },
     tr: {
       label: 'Vakıf',
-      children: [club.tr, about.tr, contact.tr],
+      children: [about.tr, contact.tr],
     },
   },
   {
@@ -76,30 +77,33 @@ export const FOOTER_MENU: Array<ILocalize<ParentMenuType>> = [
       label: 'Menu',
       children: [
         announcement.en,
-        news.en,
-        event.en,
-        competition.en,
+        // news.en,
+        // event.en,
+        // competition.en,
         hashtag.en,
+        blog.en,
       ],
     },
     nl: {
       label: 'Menu',
       children: [
         announcement.nl,
-        news.nl,
-        event.nl,
-        competition.nl,
+        // news.nl,
+        // event.nl,
+        // competition.nl,
         hashtag.nl,
+        blog.nl,
       ],
     },
     tr: {
       label: 'Menu',
       children: [
         announcement.tr,
-        news.tr,
-        event.tr,
-        competition.tr,
+        // news.tr,
+        // event.tr,
+        // competition.tr,
         hashtag.tr,
+        blog.tr,
       ],
     },
   },
