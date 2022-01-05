@@ -20,6 +20,7 @@ import {
   useDisclosure,
   VStack,
 } from '@chakra-ui/react'
+import { useTour } from '@reactour/tour'
 import { addDays, isPast } from 'date-fns'
 import { MDXRemoteSerializeResult } from 'next-mdx-remote'
 import { NextSeoProps } from 'next-seo'
@@ -60,6 +61,7 @@ const HashtagPostView = ({ pageData, seo }: HashtagProps): JSX.Element => {
   }, [pageData.hashtag?.date])
 
   const { t } = useTranslation()
+  const { setIsOpen } = useTour()
 
   return (
     <Layout seo={seo}>
@@ -177,6 +179,7 @@ const HashtagPostView = ({ pageData, seo }: HashtagProps): JSX.Element => {
           bottom={4}
           colorScheme="primary"
           leftIcon={<FaQuestionCircle />}
+          onClick={() => setIsOpen(true)}
         >
           {t`post-share.help`}
         </Button>
@@ -191,6 +194,7 @@ const HashtagPostView = ({ pageData, seo }: HashtagProps): JSX.Element => {
           aria-label="help"
           shadow="dark-lg"
           icon={<FaQuestionCircle />}
+          onClick={() => setIsOpen(true)}
         />
       </Container>
     </Layout>
