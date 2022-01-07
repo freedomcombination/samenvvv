@@ -109,7 +109,12 @@ export const PostContainer = ({
             color="gray.500"
             fontSize="sm"
           >{t`post-share.content-label`}</Text>
-          <Text color="gray.500" fontSize="sm" data-tour="step-7">
+          <Text
+            color="gray.500"
+            fontSize="sm"
+            data-tour="step-7"
+            data-tour-mob="step-6"
+          >
             <chakra.span
               {...(isCharacterCountExceeded && {
                 color: 'red.400',
@@ -124,6 +129,7 @@ export const PostContainer = ({
         <Box overflow="auto">
           <Box
             data-tour="step-1"
+            data-tour-mob="step-1"
             p={4}
             rounded="sm"
             borderWidth={1}
@@ -147,6 +153,7 @@ export const PostContainer = ({
             ) : (
               <chakra.div
                 data-tour="step-2"
+                data-tour-mob="step-2"
                 p={2}
                 cursor="text"
                 borderWidth={2}
@@ -161,7 +168,7 @@ export const PostContainer = ({
                 {postText}
               </chakra.div>
             )}
-            <Box mt={2}>
+            <Box mt={2} data-tour-mob="step-4">
               {mentionUsernames?.length > 0 && (
                 <Box mb={2} data-tour="step-3">
                   <Text color="gray.500" fontSize="sm">
@@ -211,6 +218,7 @@ export const PostContainer = ({
           alignContent="end"
         >
           <Button
+            data-tour-mob="step-5"
             display={{ base: 'flex', lg: 'none' }}
             isFullWidth
             rounded="full"
@@ -221,6 +229,7 @@ export const PostContainer = ({
             {t`post-share.add-mention`}
           </Button>
           <Button
+            data-tour-mob="step-3"
             display={{ base: 'flex', lg: 'none' }}
             isFullWidth
             rounded="full"
@@ -231,6 +240,7 @@ export const PostContainer = ({
             {t`post-share.edit-content`}
           </Button>
           <Button
+            data-tour-mob="step-8"
             data-tour="step-9"
             isFullWidth
             rounded="full"
@@ -245,6 +255,7 @@ export const PostContainer = ({
             url={postUrlAbsolute as string}
           >
             <Button
+              data-tour-mob="step-7"
               data-tour="step-8"
               as="span"
               isFullWidth

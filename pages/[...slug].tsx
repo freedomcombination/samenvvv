@@ -1,5 +1,6 @@
-import { Center, Spinner } from '@chakra-ui/react'
+import { Center, Spinner, useMediaQuery } from '@chakra-ui/react'
 import { TourProvider } from '@reactour/tour'
+import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock'
 import { GetStaticPaths, GetStaticProps } from 'next'
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
@@ -21,7 +22,7 @@ import {
   getPageType,
   getSubpage,
 } from '@lib'
-import { getPageSeo, getSteps } from '@utils'
+import { getPageSeo, getSteps, getStepsMob } from '@utils'
 import {
   ApplicationView,
   CompetitionView,
@@ -51,8 +52,10 @@ const DynamicPage = (props: DynamicPageProps): JSX.Element => {
   const router = useRouter()
   const { slug, pageType, isPage, source, pageData, seo, link } = props
   const { t } = useTranslation()
-
-  const steps = getSteps(t)
+  const [isLargerThan1000] = useMediaQuery('(min-width: 1000px)')
+  const steps = isLargerThan1000 ? getSteps(t) : getStepsMob(t)
+  const disableBody = (target: any) => disableBodyScroll(target)
+  const enableBody = (target: any) => enableBodyScroll(target)
 
   if (router.isFallback)
     return (
@@ -83,7 +86,12 @@ const DynamicPage = (props: DynamicPageProps): JSX.Element => {
       {isApplicationPage && <ApplicationView {...pageProps} />}
       {isHashtagsPage && <MainHashtagsView {...pageProps} />}
       {isHashtagPage && (
-        <TourProvider steps={steps} components={{}}>
+        <TourProvider
+          steps={steps}
+          components={{}}
+          afterOpen={disableBody}
+          beforeClose={enableBody}
+        >
           <HashtagPostView {...pageProps} />
         </TourProvider>
       )}
