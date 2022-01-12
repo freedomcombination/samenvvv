@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import {
   Box,
   Button,
+  Collapse,
   Drawer,
   DrawerBody,
   DrawerCloseButton,
@@ -48,7 +49,9 @@ const HashtagPostView = ({ pageData, seo }: HashtagProps): JSX.Element => {
   const { isOpen, onOpen, onClose } = useDisclosure()
 
   const [tabIndex, setTabIndex] = useState<number>(0)
+  const [show, setShow] = useState<boolean>(false)
 
+  const handleToggle = () => setShow(!show)
   useEffect(() => {
     const dateStr = pageData.hashtag?.date
     if (dateStr) {
@@ -81,11 +84,21 @@ const HashtagPostView = ({ pageData, seo }: HashtagProps): JSX.Element => {
       <Container py={4}>
         <Box textAlign="center">
           <Heading>{pageData?.hashtag?.title}</Heading>
-          <Text my={4} maxW="container.md" mx="auto">
-            {pageData?.hashtag?.content}
-          </Text>
+          <Collapse startingHeight={35} in={show}>
+            <Text my={4} maxW="container.md" mx="auto">
+              {pageData?.hashtag?.content}{' '}
+            </Text>
+          </Collapse>
+          <Button
+            bg="transparent"
+            borderColor="transparent"
+            color="primary.500"
+            size="sm"
+            onClick={handleToggle}
+          >
+            {show ? 'Less' : 'More'}
+          </Button>
         </Box>
-
         <Tabs
           flex={1}
           isFitted
