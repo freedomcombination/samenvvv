@@ -1,4 +1,4 @@
-import { Center, Spinner, useMediaQuery } from '@chakra-ui/react'
+import { Center, Spinner, useBreakpointValue } from '@chakra-ui/react'
 import { TourProvider } from '@reactour/tour'
 import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock'
 import { GetStaticPaths, GetStaticProps } from 'next'
@@ -52,8 +52,9 @@ const DynamicPage = (props: DynamicPageProps): JSX.Element => {
   const router = useRouter()
   const { slug, pageType, isPage, source, pageData, seo, link } = props
   const { t } = useTranslation()
-  const [isLargerThan1000] = useMediaQuery('(min-width: 1000px)')
-  const steps = isLargerThan1000 ? getSteps(t) : getStepsMob(t)
+
+  const isMobile = useBreakpointValue({ base: true, lg: false })
+  const steps = isMobile ? getStepsMob(t) : getSteps(t)
   const disableBody = (target: any) => disableBodyScroll(target)
   const enableBody = (target: any) => enableBodyScroll(target)
 

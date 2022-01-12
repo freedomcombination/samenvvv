@@ -218,17 +218,6 @@ export const PostContainer = ({
           alignContent="end"
         >
           <Button
-            data-tour-mob="step-5"
-            display={{ base: 'flex', lg: 'none' }}
-            isFullWidth
-            rounded="full"
-            colorScheme="purple"
-            onClick={onOpen}
-            rightIcon={<FaAt />}
-          >
-            {t`post-share.add-mention`}
-          </Button>
-          <Button
             data-tour-mob="step-3"
             display={{ base: 'flex', lg: 'none' }}
             isFullWidth
@@ -240,15 +229,15 @@ export const PostContainer = ({
             {t`post-share.edit-content`}
           </Button>
           <Button
-            data-tour-mob="step-8"
-            data-tour="step-9"
+            data-tour-mob="step-5"
+            display={{ base: 'flex', lg: 'none' }}
             isFullWidth
             rounded="full"
-            colorScheme="primary"
-            onClick={redirectToRandomPost}
-            rightIcon={<FaRandom />}
+            colorScheme="purple"
+            onClick={onOpen}
+            rightIcon={<FaAt />}
           >
-            {t`post-share.next-tweet`}
+            {t`post-share.add-mention`}
           </Button>
           <TwitterShareButton
             title={postContent}
@@ -267,6 +256,17 @@ export const PostContainer = ({
               {t`post-share.share-tweet`}
             </Button>
           </TwitterShareButton>
+          <Button
+            data-tour-mob="step-8"
+            data-tour="step-9"
+            isFullWidth
+            rounded="full"
+            colorScheme="primary"
+            onClick={redirectToRandomPost}
+            rightIcon={<FaRandom />}
+          >
+            {t`post-share.next-tweet`}
+          </Button>
         </SimpleGrid>
       </VStack>
       <Box
