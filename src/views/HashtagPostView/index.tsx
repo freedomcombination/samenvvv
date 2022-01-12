@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 
+import { ChevronDownIcon, ChevronUpIcon } from '@chakra-ui/icons'
 import {
   Box,
   Button,
@@ -96,7 +97,21 @@ const HashtagPostView = ({ pageData, seo }: HashtagProps): JSX.Element => {
             size="sm"
             onClick={handleToggle}
           >
-            {show ? <>{t`less`}</> : <>{t`more`}</>}
+            {show ? (
+              <IconButton
+                icon={<ChevronUpIcon />}
+                aria-label="up"
+                bg={'transparent'}
+                _hover={{ bg: 'transparent' }}
+              />
+            ) : (
+              <IconButton
+                icon={<ChevronDownIcon />}
+                aria-label="down"
+                bg={'transparent'}
+                _hover={{ bg: 'transparent' }}
+              />
+            )}
           </Button>
         </Box>
         <Tabs
