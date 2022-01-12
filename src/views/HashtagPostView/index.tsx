@@ -96,7 +96,7 @@ const HashtagPostView = ({ pageData, seo }: HashtagProps): JSX.Element => {
             size="sm"
             onClick={handleToggle}
           >
-            {show ? 'Less' : 'More'}
+            {show ? <>{t`less`}</> : <>{t`more`}</>}
           </Button>
         </Box>
         <Tabs
