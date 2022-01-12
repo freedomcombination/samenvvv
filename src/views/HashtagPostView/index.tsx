@@ -90,29 +90,25 @@ const HashtagPostView = ({ pageData, seo }: HashtagProps): JSX.Element => {
               {pageData?.hashtag?.content}{' '}
             </Text>
           </Collapse>
-          <Button
-            bg="transparent"
-            borderColor="transparent"
-            color="primary.500"
-            size="sm"
-            onClick={handleToggle}
-          >
-            {show ? (
-              <IconButton
-                icon={<ChevronUpIcon />}
-                aria-label="up"
-                bg={'transparent'}
-                _hover={{ bg: 'transparent' }}
-              />
-            ) : (
-              <IconButton
-                icon={<ChevronDownIcon />}
-                aria-label="down"
-                bg={'transparent'}
-                _hover={{ bg: 'transparent' }}
-              />
-            )}
-          </Button>
+          {show ? (
+            <IconButton
+              variant="ghost"
+              size="sm"
+              icon={<ChevronUpIcon />}
+              aria-label="up"
+              bg={'transparent'}
+              _hover={{ color: 'green.400' }}
+              onClick={handleToggle}
+            />
+          ) : (
+            <IconButton
+              icon={<ChevronDownIcon />}
+              aria-label="down"
+              bg={'transparent'}
+              _hover={{ color: 'green.400' }}
+              onClick={handleToggle}
+            />
+          )}
         </Box>
         <Tabs
           flex={1}
