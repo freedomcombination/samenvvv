@@ -84,7 +84,7 @@ const HashtagPostView = ({ pageData, seo }: HashtagProps): JSX.Element => {
       <Container py={4}>
         <Box textAlign="center">
           <Heading>{pageData?.hashtag?.title}</Heading>
-          <Collapse startingHeight={35} in={show}>
+          <Collapse startingHeight={50} in={show}>
             <Text my={4} maxW="container.md" mx="auto">
               {pageData?.hashtag?.content}{' '}
             </Text>
