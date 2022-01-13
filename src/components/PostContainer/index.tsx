@@ -112,8 +112,8 @@ export const PostContainer = ({
           <Text
             color="gray.500"
             fontSize="sm"
-            data-tour="step-7"
-            data-tour-mob="step-6"
+            data-tour="step-character-limit"
+            data-tour-mob="step-trends"
           >
             <chakra.span
               {...(isCharacterCountExceeded && {
@@ -128,8 +128,8 @@ export const PostContainer = ({
         </Flex>
         <Box overflow="auto">
           <Box
-            data-tour="step-1"
-            data-tour-mob="step-1"
+            data-tour="step-post-content"
+            data-tour-mob="step-post-content"
             p={4}
             rounded="sm"
             borderWidth={1}
@@ -152,8 +152,8 @@ export const PostContainer = ({
               </chakra.textarea>
             ) : (
               <chakra.div
-                data-tour="step-2"
-                data-tour-mob="step-2"
+                data-tour="step-post-text"
+                data-tour-mob="step-post-text"
                 p={2}
                 cursor="text"
                 borderWidth={2}
@@ -168,9 +168,9 @@ export const PostContainer = ({
                 {postText}
               </chakra.div>
             )}
-            <Box mt={2} data-tour-mob="step-4">
+            <Box mt={2} data-tour-mob="step-mention-list">
               {mentionUsernames?.length > 0 && (
-                <Box mb={2} data-tour="step-3">
+                <Box mb={2} data-tour="step-post-mentions">
                   <Text color="gray.500" fontSize="sm">
                     Mentions
                   </Text>
@@ -218,7 +218,7 @@ export const PostContainer = ({
           alignContent="end"
         >
           <Button
-            data-tour-mob="step-3"
+            data-tour-mob="step-post-mentions"
             display={{ base: 'flex', lg: 'none' }}
             isFullWidth
             rounded="full"
@@ -229,7 +229,7 @@ export const PostContainer = ({
             {t`post-share.edit-content`}
           </Button>
           <Button
-            data-tour-mob="step-5"
+            data-tour-mob="step-search"
             display={{ base: 'flex', lg: 'none' }}
             isFullWidth
             rounded="full"
@@ -244,8 +244,8 @@ export const PostContainer = ({
             url={postUrlAbsolute as string}
           >
             <Button
-              data-tour-mob="step-7"
-              data-tour="step-8"
+              data-tour-mob="step-character-limit"
+              data-tour="step-share-button"
               as="span"
               isFullWidth
               rounded="full"
@@ -257,8 +257,8 @@ export const PostContainer = ({
             </Button>
           </TwitterShareButton>
           <Button
-            data-tour-mob="step-8"
-            data-tour="step-9"
+            data-tour-mob="step-share-button"
+            data-tour="step-next-button"
             isFullWidth
             rounded="full"
             colorScheme="primary"

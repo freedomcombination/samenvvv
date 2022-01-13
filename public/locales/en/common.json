@@ -12,15 +12,15 @@
     "description": "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga."
   },
   "steps": {
-    "step1": "1.step in help tour",
-    "step2": "2.step in help tour",
-    "step3": "3.step in help tour",
-    "step4": "4.step in help tour",
-    "step5": "5.step in help tour",
-    "step6": "6.step in help tour",
-    "step7": "7.step in help tour",
-    "step8": "8.step in help tour",
-    "step9": "9.step in help tour"
+    "step-post-content": "1.step in help tour",
+    "step-post-text": "2.step in help tour",
+    "step-post-mentions": "3.step in help tour",
+    "step-mention-list": "4.step in help tour",
+    "step-search": "5.step in help tour",
+    "step-trends": "6.step in help tour",
+    "step-character-limit": "7.step in help tour",
+    "step-share-button": "8.step in help tour",
+    "step-next-button": "9.step in help tour"
   },
   "copyright": "@2021 Samenvvv. All right reserved",
   "support": "Support",
