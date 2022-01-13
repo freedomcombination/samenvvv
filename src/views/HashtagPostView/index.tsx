@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 
-import { ChevronDownIcon, ChevronUpIcon } from '@chakra-ui/icons'
 import {
   Box,
   Button,
@@ -26,7 +25,13 @@ import { addDays, isPast } from 'date-fns'
 import { MDXRemoteSerializeResult } from 'next-mdx-remote'
 import { NextSeoProps } from 'next-seo'
 import { useTranslation } from 'react-i18next'
-import { FaImages, FaQuestionCircle, FaTwitter } from 'react-icons/fa'
+import {
+  FaChevronDown,
+  FaChevronUp,
+  FaImages,
+  FaQuestionCircle,
+  FaTwitter,
+} from 'react-icons/fa'
 
 import {
   Container,
@@ -90,25 +95,14 @@ const HashtagPostView = ({ pageData, seo }: HashtagProps): JSX.Element => {
               {pageData?.hashtag?.content}{' '}
             </Text>
           </Collapse>
-          {show ? (
-            <IconButton
-              variant="ghost"
-              size="sm"
-              icon={<ChevronUpIcon />}
-              aria-label="up"
-              bg={'transparent'}
-              _hover={{ color: 'green.400' }}
-              onClick={handleToggle}
-            />
-          ) : (
-            <IconButton
-              icon={<ChevronDownIcon />}
-              aria-label="down"
-              bg={'transparent'}
-              _hover={{ color: 'green.400' }}
-              onClick={handleToggle}
-            />
-          )}
+          <IconButton
+            variant="ghost"
+            size="sm"
+            icon={show ? <FaChevronUp /> : <FaChevronDown />}
+            aria-label={show ? 'up' : 'down'}
+            _hover={{ bg: 'transparent' }}
+            onClick={handleToggle}
+          />
         </Box>
         <Tabs
           flex={1}
