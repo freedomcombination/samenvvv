@@ -79,25 +79,21 @@ const DynamicPage = (props: DynamicPageProps): JSX.Element => {
   const pageProps = { slug, source, pageData, seo, link }
 
   return (
-    <>
+    <TourProvider
+      steps={steps}
+      components={{}}
+      afterOpen={disableBody}
+      beforeClose={enableBody}
+    >
       {isMainPage && <MainView {...pageProps} />}
       {isSubpage && <SubView {...pageProps} />}
       {isCompetitionsPage && <MainCompetitionsView {...pageProps} />}
       {isCompetitionPage && <CompetitionView {...pageProps} />}
       {isApplicationPage && <ApplicationView {...pageProps} />}
       {isHashtagsPage && <MainHashtagsView {...pageProps} />}
-      {isHashtagPage && (
-        <TourProvider
-          steps={steps}
-          components={{}}
-          afterOpen={disableBody}
-          beforeClose={enableBody}
-        >
-          <HashtagPostView {...pageProps} />
-        </TourProvider>
-      )}
+      {isHashtagPage && <HashtagPostView {...pageProps} />}
       {isHashtagPostPage && <HashtagPostView {...pageProps} />}
-    </>
+    </TourProvider>
   )
 }
 
