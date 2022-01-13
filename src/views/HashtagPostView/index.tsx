@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import {
   Box,
   Button,
+  Collapse,
   Drawer,
   DrawerBody,
   DrawerCloseButton,
@@ -24,7 +25,13 @@ import { addDays, isPast } from 'date-fns'
 import { MDXRemoteSerializeResult } from 'next-mdx-remote'
 import { NextSeoProps } from 'next-seo'
 import { useTranslation } from 'react-i18next'
-import { FaImages, FaQuestionCircle, FaTwitter } from 'react-icons/fa'
+import {
+  FaChevronDown,
+  FaChevronUp,
+  FaImages,
+  FaQuestionCircle,
+  FaTwitter,
+} from 'react-icons/fa'
 
 import {
   Container,
@@ -48,7 +55,9 @@ const HashtagPostView = ({ pageData, seo }: HashtagProps): JSX.Element => {
   const { isOpen, onOpen, onClose } = useDisclosure()
 
   const [tabIndex, setTabIndex] = useState<number>(0)
+  const [show, setShow] = useState<boolean>(false)
 
+  const handleToggle = () => setShow(!show)
   useEffect(() => {
     const dateStr = pageData.hashtag?.date
     if (dateStr) {
@@ -81,11 +90,20 @@ const HashtagPostView = ({ pageData, seo }: HashtagProps): JSX.Element => {
       <Container py={4}>
         <Box textAlign="center">
           <Heading>{pageData?.hashtag?.title}</Heading>
-          <Text my={4} maxW="container.md" mx="auto">
-            {pageData?.hashtag?.content}
-          </Text>
+          <Collapse startingHeight={50} in={show}>
+            <Text my={4} maxW="container.md" mx="auto">
+              {pageData?.hashtag?.content}{' '}
+            </Text>
+          </Collapse>
+          <IconButton
+            variant="ghost"
+            size="sm"
+            icon={show ? <FaChevronUp /> : <FaChevronDown />}
+            aria-label={show ? 'up' : 'down'}
+            _hover={{ bg: 'transparent' }}
+            onClick={handleToggle}
+          />
         </Box>
-
         <Tabs
           flex={1}
           isFitted

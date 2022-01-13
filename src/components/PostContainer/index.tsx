@@ -105,10 +105,9 @@ export const PostContainer = ({
     >
       <VStack align="stretch" flex="1">
         <Flex justify="space-between">
-          <Text
-            color="gray.500"
-            fontSize="sm"
-          >{t`post-share.content-label`}</Text>
+          <Text color="gray.500" fontSize="sm">
+            {t`post-share.content-label`}
+          </Text>
           <Text color="gray.500" fontSize="sm">
             <chakra.span
               {...(isCharacterCountExceeded && {
