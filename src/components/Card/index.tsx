@@ -2,18 +2,15 @@ import { ReactNode } from 'react'
 
 import {
   Badge,
-  Box,
   ChakraProps,
   Divider,
+  Flex,
   Heading,
   HStack,
-  IconButton,
+  Stack,
   Text,
-  Tooltip,
   useBreakpointValue,
-  VStack,
 } from '@chakra-ui/react'
-import { FaArrowRight } from 'react-icons/fa'
 import removeMarkdown from 'remove-markdown'
 
 import {
@@ -29,17 +26,32 @@ interface CardWrapperProps {
   link: string | null
 }
 
-const CardWrapper = ({ children, link }: CardWrapperProps) =>
-  link ? <Navigate href={link}>{children}</Navigate> : <>{children}</>
 interface CardProps extends ChakraProps {
   isSimple?: boolean
   isSocial?: boolean
   item: ISubpage | ICompetition | IHashtag | IApplication | IHashtagPost
   hasLink?: boolean
+  hasDescription?: boolean
 }
 
+const CardWrapper = ({ children, link }: CardWrapperProps) =>
+  link ? (
+    <Navigate h="full" href={link}>
+      {children}
+    </Navigate>
+  ) : (
+    <>{children}</>
+  )
+
 export const Card = (props: CardProps): JSX.Element => {
-  const { item, isSimple, isSocial, hasLink, ...rest } = props
+  const {
+    item,
+    isSimple,
+    isSocial,
+    hasLink,
+    hasDescription = true,
+    ...rest
+  } = props
 
   const buttonSize = useBreakpointValue({ base: 'lg', lg: 'md' })
 
@@ -54,9 +66,12 @@ export const Card = (props: CardProps): JSX.Element => {
   const content = post.text || removeMarkdown(subpageOrApplication.content)
   const type = subpage.type
 
+  const isPostWithSocial = post.text && isSocial
+
   return (
     <CardWrapper link={hasLink && !post.text ? link : null}>
-      <Box
+      <Flex
+        flexDir="column"
         role="group"
         pos="relative"
         boxShadow={isSimple ? 'none' : 'base'}
@@ -65,6 +80,7 @@ export const Card = (props: CardProps): JSX.Element => {
         backgroundColor="white"
         userSelect="none"
         transition="all 0.3s ease-in-out"
+        h="full"
         {...rest}
       >
         <ChakraNextImage ratio="twitter" image={item.image?.url as string} />
@@ -81,54 +97,47 @@ export const Card = (props: CardProps): JSX.Element => {
           </Badge>
         )}
 
-        <VStack p={4} spacing={post.text ? 0 : 4} align="stretch">
-          {!post.text && (
-            <>
-              {!isSimple && subpage.page && (
-                <PageTimeLabel
-                  color="gray.500"
-                  fontSize="sm"
-                  pageData={subpage}
-                />
-              )}
-              {title && (
-                <Tooltip label={title}>
-                  <Heading as="h3" size="md" noOfLines={1} fontWeight="bold">
+        {(isPostWithSocial || title) && (
+          <Stack p={4} spacing={2} flex={1}>
+            {!post.text && (
+              <>
+                {!isSimple && subpage.page && (
+                  <PageTimeLabel
+                    color="gray.500"
+                    fontSize="sm"
+                    pageData={subpage}
+                  />
+                )}
+                {title && (
+                  <Heading flex={1} as="h3" size="md" fontWeight="bold">
                     {title}
                   </Heading>
-                </Tooltip>
-              )}
+                )}
 
-              <Text noOfLines={2} mt={2}>
-                {content}
-              </Text>
-            </>
-          )}
+                {hasDescription && (
+                  <Text noOfLines={2} mt={2}>
+                    {content}
+                  </Text>
+                )}
+              </>
+            )}
 
-          {(isSocial || hasLink) && (
-            <>
-              {!post.text && <Divider />}
-              <HStack justify="space-between">
-                <ShareButtons
-                  title={title as string}
-                  quote={content}
-                  url={absoluteLink as string}
-                  size={buttonSize}
-                />
-                <Navigate href={link as string}>
-                  <IconButton
-                    aria-label="read-more"
-                    colorScheme="gray"
-                    variant="ghost"
-                    icon={<FaArrowRight />}
+            {isSocial && (
+              <>
+                {!post.text && <Divider />}
+                <HStack justify="space-between">
+                  <ShareButtons
+                    title={title as string}
+                    quote={content}
+                    url={absoluteLink as string}
                     size={buttonSize}
                   />
-                </Navigate>
-              </HStack>
-            </>
-          )}
-        </VStack>
-      </Box>
+                </HStack>
+              </>
+            )}
+          </Stack>
+        )}
+      </Flex>
     </CardWrapper>
   )
 }

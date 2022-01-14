@@ -33,11 +33,7 @@ const MainView = ({ pageData, seo, source }: MainViewProps): JSX.Element => {
               <Markdown source={source} />
             </Box>
           )}
-          <CardGroup
-            items={pageData?.subpages as ISubpage[]}
-            isSocial
-            hasLink
-          />
+          <CardGroup items={pageData?.subpages as ISubpage[]} hasLink />
         </Stack>
       </Container>
     </Layout>
