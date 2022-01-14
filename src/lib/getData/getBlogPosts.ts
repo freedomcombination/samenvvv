@@ -8,7 +8,7 @@ export type GetPostsQuery = { posts?: IPost[] }
 
 export const GET_POSTS = gql`
   query getPosts($locale: String) {
-    posts(where: { locale: $locale }) {
+    posts(where: { locale: $locale }, sort: "published_at:desc") {
       id
       slug
       title
