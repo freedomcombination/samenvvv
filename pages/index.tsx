@@ -27,6 +27,7 @@ const Home = ({ seo }: HomeProps): JSX.Element => {
   const hashtagQuery = useHashtagsQuery(locale)
   const subpageQuery = useSubpagesQuery({
     locale,
+    type: 'announcement',
   })
 
   const { t } = useTranslation(['common'])
@@ -71,8 +72,8 @@ export const getStaticProps: GetStaticProps = async context => {
   const queryClient = new QueryClient()
   const locale = context.locale as string
 
-  await queryClient.prefetchQuery(['subpages', [locale]], () =>
-    getSubpages({ locale }),
+  await queryClient.prefetchQuery(['subpages', [locale, 'announcement']], () =>
+    getSubpages({ locale, type: 'announcement' }),
   )
   await queryClient.prefetchQuery(['hashtags', [locale]], () =>
     getHashtags(locale),

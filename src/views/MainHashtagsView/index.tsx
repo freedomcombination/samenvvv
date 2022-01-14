@@ -61,10 +61,8 @@ const MainHashtagsView = ({
                     hashtag: { ...hashtag, page: pageData },
                   }))}
                   loop
-                  hasSocialCard
                   customStyles={{ opacity: 0.5 }}
                   activeStyles={{ opacity: 1 }}
-                  hasLink
                 />
               </Box>
             </AnimatedBox>
