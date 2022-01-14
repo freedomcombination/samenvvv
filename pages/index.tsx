@@ -48,6 +48,7 @@ const Home = ({ seo }: HomeProps): JSX.Element => {
               items={subpageQuery.data}
               hasThumb
               isLoading={subpageQuery.isLoading}
+              centeredSlides={false}
             />
           </Box>
           <Box p={8} bg="white" shadow="lg" rounded="sm">
@@ -60,6 +61,7 @@ const Home = ({ seo }: HomeProps): JSX.Element => {
               items={hashtagQuery.data}
               hasThumb
               isLoading={hashtagQuery.isLoading}
+              centeredSlides={false}
             />
           </Box>
         </Stack>
