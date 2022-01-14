@@ -116,7 +116,7 @@ export const MentionListItem = ({
             <Text color="twitter.400">@{user_data.screen_name}</Text>
           </Box>
 
-          <Text>{user_data.description}</Text>
+          <Text px={4}>{user_data.description}</Text>
 
           <Divider />
 
