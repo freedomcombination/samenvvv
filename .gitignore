@@ -33,4 +33,7 @@ yarn-error.log*
 
 # vercel
 .vercel
+
+# other
 package-lock.json
+tsconfig.tsbuildinfo

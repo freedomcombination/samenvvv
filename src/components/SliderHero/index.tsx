@@ -1,6 +1,7 @@
-import { Button, Heading, SimpleGrid, Stack, Text } from '@chakra-ui/react'
+import { Box, Button, Heading, SimpleGrid, Stack, Text } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
 import { useTranslation } from 'react-i18next'
+import { FaArrowRight } from 'react-icons/fa'
 import RemoveMarkdown from 'remove-markdown'
 
 import { ChakraNextImage, Navigate } from '@components'
@@ -16,20 +17,23 @@ export const SliderHero = ({ item }: SliderHeroProps): JSX.Element => {
   const link = getItemLink(item, locale as string)
 
   return (
-    <SimpleGrid gap={8} columns={{ base: 1, lg: 2 }} mb={8}>
-      <Stack align="start" h="full" flex={1} spacing={8}>
+    <SimpleGrid gap={8} columns={{ base: 1, lg: 2 }} mb={8} alignItems="center">
+      <Stack align="start" flex={1} spacing={8}>
         <Heading fontWeight="bold" size="lg">
           {item.title}
         </Heading>
-        <Text flex={1} noOfLines={4} fontSize="md">
-          {RemoveMarkdown(item.content)}
-        </Text>
+        <Box>
+          <Text flex={1} noOfLines={4} fontSize="lg">
+            {RemoveMarkdown(item.content)}
+          </Text>
+        </Box>
 
         <Navigate
+          justifySelf="end"
           as={Button}
           href={link as string}
           colorScheme="primary"
-          size="lg"
+          rightIcon={<FaArrowRight />}
         >
           {t`read-more`}
         </Navigate>
@@ -37,6 +41,7 @@ export const SliderHero = ({ item }: SliderHeroProps): JSX.Element => {
 
       {item.image && (
         <ChakraNextImage
+          display={{ base: 'none', lg: 'block' }}
           rounded="lg"
           shadow="lg"
           ratio="twitter"

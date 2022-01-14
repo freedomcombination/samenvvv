@@ -22,6 +22,7 @@ export type PostShareState = {
   isMentionListLoading: boolean
   trendNames: string[]
   mentionSearchKey: string
+  defaultTab: number | null
 }
 
 const initialState: PostShareState = {
@@ -36,6 +37,7 @@ const initialState: PostShareState = {
   isMentionListLoading: false,
   trendNames: [],
   mentionSearchKey: '',
+  defaultTab: null,
 }
 
 export const fetchSearchedMentions = createAsyncThunk(
@@ -111,6 +113,9 @@ export const postShareSlice = createSlice({
       )
       state.savedMentions = savedList
     },
+    setDefaultTab: (state, action: PayloadAction<number>) => {
+      state.defaultTab = action.payload
+    },
   },
   extraReducers: builder => {
     builder.addCase(fetchSearchedMentions.fulfilled, (state, action) => {
@@ -151,6 +156,7 @@ export const {
   setMentions,
   resetMentions,
   updateSavedSearchedMentions,
+  setDefaultTab,
 } = postShareSlice.actions
 
 export const { reducer: postShareReducer } = postShareSlice

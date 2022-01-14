@@ -9,7 +9,7 @@ import {
   ResponsiveValue,
   useBreakpointValue,
 } from '@chakra-ui/react'
-import SwiperCore, { FreeMode, Navigation, Pagination, Thumbs } from 'swiper'
+import SwiperCore, { Navigation, Pagination, Thumbs } from 'swiper'
 // eslint-disable-next-line import/no-unresolved
 import { Swiper, SwiperProps, SwiperSlide } from 'swiper/react'
 
@@ -35,6 +35,7 @@ interface SliderProps {
   hasPagination: boolean
   hasThumb: boolean
   centeredSlides: boolean
+  loop: boolean
 }
 
 export const Slider = (
@@ -58,6 +59,7 @@ export const Slider = (
     hasPagination = false,
     hasThumb = false,
     centeredSlides = true,
+    loop,
   } = props
 
   const [thumbsSwiper, setThumbsSwiper] = useState<SwiperCore | null>(null)
@@ -119,16 +121,17 @@ export const Slider = (
         initialSlide={1}
         slideToClickedSlide={Boolean(posts) || !hasLink}
         onSwiper={setThumbsSwiper}
-        loop
+        loop={loop}
         {...(hasThumb && {
-          modules: [Navigation, Pagination, Thumbs, FreeMode],
+          modules: [Navigation, Pagination, Thumbs],
           watchSlidesProgress: true,
           watchOverflow: true,
-          freeMode: true,
           sx: {
             '.swiper-slide-thumb-active': activeStyle,
+            '.swiper-wrapper': { h: 'inherit' },
           },
         })}
+        sx={{ '.swiper-wrapper': { h: 'inherit' } }}
       >
         {/* Render custom children if it's provided instead of default Card list */}
         {isLoading
@@ -138,14 +141,20 @@ export const Slider = (
               </SwiperSlide>
             ))
           : children?.map((child, i) => (
-              <SwiperSlide key={i}>
+              <SwiperSlide
+                key={i}
+                style={{ height: 'inherit', alignSelf: 'stretch' }}
+              >
                 {({ isActive }) => (
                   <Box {...(isActive && activeStyle)}>{child}</Box>
                 )}
               </SwiperSlide>
             )) ||
             (items || posts)?.map((item, i) => (
-              <SwiperSlide key={i}>
+              <SwiperSlide
+                style={{ height: 'inherit', alignSelf: 'stretch' }}
+                key={i}
+              >
                 {({ isActive }) => (
                   <Card
                     item={item}
@@ -158,6 +167,7 @@ export const Slider = (
                     isSimple={isSimple}
                     isSocial={!hasThumb && hasSocialCard}
                     hasLink={!hasThumb && hasLink}
+                    hasDescription={!hasThumb}
                   />
                 )}
               </SwiperSlide>

@@ -21,6 +21,7 @@ import {
   useDisclosure,
   VStack,
 } from '@chakra-ui/react'
+import { useTour } from '@reactour/tour'
 import { addDays, isPast } from 'date-fns'
 import { MDXRemoteSerializeResult } from 'next-mdx-remote'
 import { NextSeoProps } from 'next-seo'
@@ -42,6 +43,7 @@ import {
   TrendListTabs,
   TweetWidget,
 } from '@components'
+import { setDefaultTab, useAppDispatch, useAppSelector } from '@store'
 
 interface HashtagProps {
   slug: Record<string, string[]>
@@ -53,22 +55,25 @@ interface HashtagProps {
 
 const HashtagPostView = ({ pageData, seo }: HashtagProps): JSX.Element => {
   const { isOpen, onOpen, onClose } = useDisclosure()
+  const { defaultTab } = useAppSelector(state => state.postShare)
+  const dispatch = useAppDispatch()
 
-  const [tabIndex, setTabIndex] = useState<number>(0)
   const [show, setShow] = useState<boolean>(false)
 
   const handleToggle = () => setShow(!show)
+
   useEffect(() => {
     const dateStr = pageData.hashtag?.date
     if (dateStr) {
       const date = new Date(dateStr)
       const hasEventPassed = isPast(addDays(date, 1))
 
-      if (hasEventPassed) setTabIndex(1)
+      if (hasEventPassed && defaultTab === null) dispatch(setDefaultTab(1))
     }
-  }, [pageData.hashtag?.date])
+  }, [pageData.hashtag?.date, dispatch, defaultTab])
 
   const { t } = useTranslation()
+  const { setIsOpen } = useTour()
 
   return (
     <Layout seo={seo}>
@@ -108,8 +113,8 @@ const HashtagPostView = ({ pageData, seo }: HashtagProps): JSX.Element => {
           flex={1}
           isFitted
           colorScheme="primary"
-          index={tabIndex}
-          onChange={setTabIndex}
+          index={defaultTab || 0}
+          onChange={index => dispatch(setDefaultTab(index))}
           isLazy
         >
           <Stack
@@ -174,7 +179,31 @@ const HashtagPostView = ({ pageData, seo }: HashtagProps): JSX.Element => {
                     tweets={pageData.hashtag?.tweets}
                   />
                 </Box>
-              </Grid>
+              </Grid>{' '}
+              <Button
+                display={{ base: 'none', lg: 'flex' }}
+                pos="fixed"
+                right={4}
+                bottom={4}
+                colorScheme="primary"
+                leftIcon={<FaQuestionCircle />}
+                onClick={() => setIsOpen(true)}
+              >
+                {t`post-share.help`}
+              </Button>
+              <IconButton
+                display={{ base: 'flex', lg: 'none' }}
+                pos="fixed"
+                size="lg"
+                right={2}
+                bottom={2}
+                rounded="full"
+                colorScheme="primary"
+                aria-label="help"
+                shadow="dark-lg"
+                icon={<FaQuestionCircle />}
+                onClick={() => setIsOpen(true)}
+              />
             </TabPanel>
             <TabPanel p={0} py={4}>
               <PostArchive
@@ -188,28 +217,6 @@ const HashtagPostView = ({ pageData, seo }: HashtagProps): JSX.Element => {
             </TabPanel>
           </TabPanels>
         </Tabs>
-        <Button
-          display={{ base: 'none', lg: 'flex' }}
-          pos="fixed"
-          right={4}
-          bottom={4}
-          colorScheme="primary"
-          leftIcon={<FaQuestionCircle />}
-        >
-          {t`post-share.help`}
-        </Button>
-        <IconButton
-          display={{ base: 'flex', lg: 'none' }}
-          pos="fixed"
-          size="lg"
-          right={2}
-          bottom={2}
-          rounded="full"
-          colorScheme="primary"
-          aria-label="help"
-          shadow="dark-lg"
-          icon={<FaQuestionCircle />}
-        />
       </Container>
     </Layout>
   )

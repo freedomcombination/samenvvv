@@ -1,5 +1,8 @@
-import { Center, Spinner } from '@chakra-ui/react'
+import { Center, Spinner, useBreakpointValue } from '@chakra-ui/react'
+import { TourProvider } from '@reactour/tour'
+import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock'
 import { GetStaticPaths, GetStaticProps } from 'next'
+import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { MDXRemoteSerializeResult } from 'next-mdx-remote'
 import { serialize } from 'next-mdx-remote/serialize'
@@ -8,7 +11,7 @@ import { useRouter } from 'next/router'
 import { DehydratedState, QueryClient } from 'react-query'
 import { dehydrate } from 'react-query/hydration'
 
-import { Layout } from '@components'
+import { Layout, StepsContent } from '@components'
 import {
   getAllPagePaths,
   getApplication,
@@ -19,7 +22,7 @@ import {
   getPageType,
   getSubpage,
 } from '@lib'
-import { getPageSeo } from '@utils'
+import { getPageSeo, getSteps, getStepsMob } from '@utils'
 import {
   ApplicationView,
   CompetitionView,
@@ -48,6 +51,12 @@ interface DynamicPageProps {
 const DynamicPage = (props: DynamicPageProps): JSX.Element => {
   const router = useRouter()
   const { slug, pageType, isPage, source, pageData, seo, link } = props
+  const { t } = useTranslation()
+
+  const isMobile = useBreakpointValue({ base: true, lg: false })
+  const steps = isMobile ? getStepsMob(t) : getSteps(t)
+  const disableBody = (target: any) => disableBodyScroll(target)
+  const enableBody = (target: any) => enableBodyScroll(target)
 
   if (router.isFallback)
     return (
@@ -70,7 +79,21 @@ const DynamicPage = (props: DynamicPageProps): JSX.Element => {
   const pageProps = { slug, source, pageData, seo, link }
 
   return (
-    <>
+    <TourProvider
+      steps={steps}
+      components={{}}
+      afterOpen={disableBody}
+      beforeClose={enableBody}
+      ContentComponent={StepsContent}
+      padding={{ mask: 6 }}
+      styles={{
+        popover: base => ({
+          ...base,
+          padding: 4,
+          backgroundColor: 'transparent',
+        }),
+      }}
+    >
       {isMainPage && <MainView {...pageProps} />}
       {isSubpage && <SubView {...pageProps} />}
       {isCompetitionsPage && <MainCompetitionsView {...pageProps} />}
@@ -79,7 +102,7 @@ const DynamicPage = (props: DynamicPageProps): JSX.Element => {
       {isHashtagsPage && <MainHashtagsView {...pageProps} />}
       {isHashtagPage && <HashtagPostView {...pageProps} />}
       {isHashtagPostPage && <HashtagPostView {...pageProps} />}
-    </>
+    </TourProvider>
   )
 }
 

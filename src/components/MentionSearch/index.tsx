@@ -49,7 +49,7 @@ export const MentionSearch = (): JSX.Element => {
   )
 
   return (
-    <InputGroup>
+    <InputGroup data-tour="step-search">
       <InputLeftElement pointerEvents="none">
         <Box color="gray.300" as={FaSearch} />
       </InputLeftElement>

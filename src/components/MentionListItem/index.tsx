@@ -5,6 +5,9 @@ import {
   Divider,
   HStack,
   IconButton,
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
   Text,
   Tooltip,
   VStack,
@@ -30,19 +33,77 @@ export const MentionListItem = ({
   if (!user_data) return <></>
 
   return (
-    <Tooltip
-      overflow="hidden"
-      placement="right"
-      hasArrow
-      bg="white"
-      color="black"
-      minW={200}
-      rounded="lg"
-      py={2}
-      textAlign="center"
-      openDelay={300}
-      closeDelay={300}
-      label={
+    <Popover trigger="hover" placement="right">
+      <PopoverTrigger>
+        <HStack
+          px={4}
+          py={2}
+          cursor="pointer"
+          transition="padding 0.3s"
+          _hover={{
+            shadow: 'base',
+            pl: 6,
+          }}
+        >
+          <HStack flex="1" fontSize="sm">
+            <Avatar
+              name={user_data.screen_name}
+              src={user_data?.profile_image_url_https}
+              size="sm"
+              pos="static"
+            />
+            <Box>
+              <Text isTruncated maxW="120px">
+                {user_data?.name ?? user_data.name}
+              </Text>
+              <Text>@{user_data.screen_name}</Text>
+            </Box>
+          </HStack>
+          <ButtonGroup>
+            {onRemoveItem && (
+              <Tooltip label={t`post-share.remove`}>
+                <IconButton
+                  pos="static"
+                  aria-label={t`post-share.remove` + ' mention'}
+                  variant="ghost"
+                  onClick={() => onRemoveItem(user_data)}
+                  colorScheme="blackAlpha"
+                  _hover={{ color: 'red.400' }}
+                  rounded="full"
+                  size="sm"
+                  icon={<FaTimes />}
+                />
+              </Tooltip>
+            )}
+            <Tooltip label={t`post-share.add`}>
+              <IconButton
+                pos="static"
+                aria-label={t`post-share.add` + ' mention'}
+                variant="ghost"
+                onClick={() => onAddItem(user_data)}
+                colorScheme="blackAlpha"
+                _hover={{ color: 'green.400' }}
+                rounded="full"
+                size="sm"
+                icon={<FaPlus />}
+              />
+            </Tooltip>
+          </ButtonGroup>
+        </HStack>
+      </PopoverTrigger>
+      <PopoverContent
+        overflow="hidden"
+        placement="right"
+        hasArrow
+        bg="white"
+        color="black"
+        minW={200}
+        rounded="lg"
+        py={2}
+        textAlign="center"
+        openDelay={300}
+        closeDelay={300}
+      >
         <VStack w="full">
           <Avatar
             name={user_data.screen_name}
@@ -55,7 +116,7 @@ export const MentionListItem = ({
             <Text color="twitter.400">@{user_data.screen_name}</Text>
           </Box>
 
-          <Text>{user_data.status?.text}</Text>
+          <Text px={4}>{user_data.description}</Text>
 
           <Divider />
 
@@ -70,63 +131,7 @@ export const MentionListItem = ({
             </Box>
           </HStack>
         </VStack>
-      }
-    >
-      <HStack
-        px={4}
-        py={2}
-        cursor="pointer"
-        transition="padding 0.3s"
-        _hover={{
-          shadow: 'base',
-          pl: 6,
-        }}
-      >
-        <HStack flex="1" fontSize="sm">
-          <Avatar
-            name={user_data.screen_name}
-            src={user_data?.profile_image_url_https}
-            size="sm"
-            pos="static"
-          />
-          <Box>
-            <Text isTruncated maxW="120px">
-              {user_data?.name ?? user_data.name}
-            </Text>
-            <Text>@{user_data.screen_name}</Text>
-          </Box>
-        </HStack>
-        <ButtonGroup>
-          {onRemoveItem && (
-            <Tooltip label={t`post-share.remove`}>
-              <IconButton
-                pos="static"
-                aria-label={t`post-share.remove` + ' mention'}
-                variant="ghost"
-                onClick={() => onRemoveItem(user_data)}
-                colorScheme="blackAlpha"
-                _hover={{ color: 'red.400' }}
-                rounded="full"
-                size="sm"
-                icon={<FaTimes />}
-              />
-            </Tooltip>
-          )}
-          <Tooltip label={t`post-share.add`}>
-            <IconButton
-              pos="static"
-              aria-label={t`post-share.add` + ' mention'}
-              variant="ghost"
-              onClick={() => onAddItem(user_data)}
-              colorScheme="blackAlpha"
-              _hover={{ color: 'green.400' }}
-              rounded="full"
-              size="sm"
-              icon={<FaPlus />}
-            />
-          </Tooltip>
-        </ButtonGroup>
-      </HStack>
-    </Tooltip>
+      </PopoverContent>
+    </Popover>
   )
 }
