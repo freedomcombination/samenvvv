@@ -105,10 +105,16 @@ export const PostContainer = ({
     >
       <VStack align="stretch" flex="1">
         <Flex justify="space-between">
-          <Text color="gray.500" fontSize="sm">
-            {t`post-share.content-label`}
-          </Text>
-          <Text color="gray.500" fontSize="sm">
+          <Text
+            color="gray.500"
+            fontSize="sm"
+          >{t`post-share.content-label`}</Text>
+          <Text
+            color="gray.500"
+            fontSize="sm"
+            data-tour="step-character-limit"
+            data-tour-mob="step-character-limit"
+          >
             <chakra.span
               {...(isCharacterCountExceeded && {
                 color: 'red.400',
@@ -122,6 +128,8 @@ export const PostContainer = ({
         </Flex>
         <Box overflow="auto">
           <Box
+            data-tour="step-post-content"
+            data-tour-mob="step-post-content"
             p={4}
             rounded="sm"
             borderWidth={1}
@@ -144,6 +152,8 @@ export const PostContainer = ({
               </chakra.textarea>
             ) : (
               <chakra.div
+                data-tour="step-post-text"
+                data-tour-mob="step-post-text"
                 p={2}
                 cursor="text"
                 borderWidth={2}
@@ -158,7 +168,11 @@ export const PostContainer = ({
                 {postText}
               </chakra.div>
             )}
-            <Box mt={2}>
+            <Box
+              mt={2}
+              data-tour-mob="step-post-added"
+              data-tour="step-post-added"
+            >
               {mentionUsernames?.length > 0 && (
                 <Box mb={2}>
                   <Text color="gray.500" fontSize="sm">
@@ -211,16 +225,6 @@ export const PostContainer = ({
             display={{ base: 'flex', lg: 'none' }}
             isFullWidth
             rounded="full"
-            colorScheme="purple"
-            onClick={onOpen}
-            rightIcon={<FaAt />}
-          >
-            {t`post-share.add-mention`}
-          </Button>
-          <Button
-            display={{ base: 'flex', lg: 'none' }}
-            isFullWidth
-            rounded="full"
             colorScheme="green"
             onClick={setEditable.on}
             rightIcon={<FaEdit />}
@@ -228,6 +232,19 @@ export const PostContainer = ({
             {t`post-share.edit-content`}
           </Button>
           <Button
+            data-tour-mob="step-mention-button"
+            display={{ base: 'flex', lg: 'none' }}
+            isFullWidth
+            rounded="full"
+            colorScheme="purple"
+            onClick={onOpen}
+            rightIcon={<FaAt />}
+          >
+            {t`post-share.add-mention`}
+          </Button>
+          <Button
+            data-tour-mob="step-next-button"
+            data-tour="step-next-button"
             isFullWidth
             rounded="full"
             colorScheme="primary"
@@ -241,6 +258,8 @@ export const PostContainer = ({
             url={postUrlAbsolute as string}
           >
             <Button
+              data-tour="step-share-button"
+              data-tour-mob="step-share-button"
               as="span"
               isFullWidth
               rounded="full"
@@ -259,7 +278,15 @@ export const PostContainer = ({
         h={{ base: 115, lg: 'full' }}
         overflow="hidden"
       >
-        <Stack pos="absolute" top={0} left={0} h="full" w="full">
+        <Stack
+          pos="absolute"
+          top={0}
+          left={0}
+          h="full"
+          w="full"
+          data-tour="step-other-posts"
+          data-tour-mob="step-other-posts"
+        >
           <Text
             color="gray.500"
             fontSize="sm"

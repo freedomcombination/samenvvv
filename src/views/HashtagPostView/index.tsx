@@ -21,6 +21,7 @@ import {
   useDisclosure,
   VStack,
 } from '@chakra-ui/react'
+import { useTour } from '@reactour/tour'
 import { addDays, isPast } from 'date-fns'
 import { MDXRemoteSerializeResult } from 'next-mdx-remote'
 import { NextSeoProps } from 'next-seo'
@@ -69,6 +70,7 @@ const HashtagPostView = ({ pageData, seo }: HashtagProps): JSX.Element => {
   }, [pageData.hashtag?.date])
 
   const { t } = useTranslation()
+  const { setIsOpen } = useTour()
 
   return (
     <Layout seo={seo}>
@@ -174,7 +176,31 @@ const HashtagPostView = ({ pageData, seo }: HashtagProps): JSX.Element => {
                     tweets={pageData.hashtag?.tweets}
                   />
                 </Box>
-              </Grid>
+              </Grid>{' '}
+              <Button
+                display={{ base: 'none', lg: 'flex' }}
+                pos="fixed"
+                right={4}
+                bottom={4}
+                colorScheme="primary"
+                leftIcon={<FaQuestionCircle />}
+                onClick={() => setIsOpen(true)}
+              >
+                {t`post-share.help`}
+              </Button>
+              <IconButton
+                display={{ base: 'flex', lg: 'none' }}
+                pos="fixed"
+                size="lg"
+                right={2}
+                bottom={2}
+                rounded="full"
+                colorScheme="primary"
+                aria-label="help"
+                shadow="dark-lg"
+                icon={<FaQuestionCircle />}
+                onClick={() => setIsOpen(true)}
+              />
             </TabPanel>
             <TabPanel p={0} py={4}>
               <PostArchive
@@ -188,28 +214,6 @@ const HashtagPostView = ({ pageData, seo }: HashtagProps): JSX.Element => {
             </TabPanel>
           </TabPanels>
         </Tabs>
-        <Button
-          display={{ base: 'none', lg: 'flex' }}
-          pos="fixed"
-          right={4}
-          bottom={4}
-          colorScheme="primary"
-          leftIcon={<FaQuestionCircle />}
-        >
-          {t`post-share.help`}
-        </Button>
-        <IconButton
-          display={{ base: 'flex', lg: 'none' }}
-          pos="fixed"
-          size="lg"
-          right={2}
-          bottom={2}
-          rounded="full"
-          colorScheme="primary"
-          aria-label="help"
-          shadow="dark-lg"
-          icon={<FaQuestionCircle />}
-        />
       </Container>
     </Layout>
   )

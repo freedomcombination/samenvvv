@@ -27,13 +27,14 @@ export { PageTimeLabel } from './PageTimeLabel'
 export { PagePagination } from './PagePagination'
 export { ShareButtons } from './ShareButtons'
 export { Slider } from './Slider'
-export { SocialButtons } from './SocialButtons'
 export {
   CardSkeleton,
   MentionListSkeleton,
   SliderHeroSkeleton,
 } from './Skeletons'
 export { SliderHero } from './SliderHero'
+export { SocialButtons } from './SocialButtons'
+export { StepsContent } from './StepsContent'
 export { SubpageSidebarTabs } from './SubpageSidebarTabs'
 export { TagList } from './TagList'
 export { TrendList } from './TrendList'
