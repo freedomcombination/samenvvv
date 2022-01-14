@@ -35,7 +35,7 @@ const MainView = ({ pageData, seo, source }: MainViewProps): JSX.Element => {
           )}
           <CardGroup
             items={pageData?.subpages as ISubpage[]}
-            isSocial
+            isSocial={false}
             hasLink
           />
         </Stack>

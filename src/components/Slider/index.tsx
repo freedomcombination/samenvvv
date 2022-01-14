@@ -56,7 +56,7 @@ export const Slider = (
     hasSocialCard = false,
     hasLink = false,
     hasPagination = false,
-    hasThumb = false,
+    hasThumb = true,
     centeredSlides = true,
   } = props
 

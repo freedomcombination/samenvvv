@@ -105,7 +105,7 @@ export const Card = (props: CardProps): JSX.Element => {
             </>
           )}
 
-          {(isSocial || hasLink) && (
+          {isSocial && hasLink && (
             <>
               {!post.text && <Divider />}
               <HStack justify="space-between">
