@@ -113,7 +113,7 @@ export const PostContainer = ({
             color="gray.500"
             fontSize="sm"
             data-tour="step-character-limit"
-            data-tour-mob="step-trends"
+            data-tour-mob="step-character-limit"
           >
             <chakra.span
               {...(isCharacterCountExceeded && {
@@ -168,9 +168,13 @@ export const PostContainer = ({
                 {postText}
               </chakra.div>
             )}
-            <Box mt={2} data-tour-mob="step-mention-list">
+            <Box
+              mt={2}
+              data-tour-mob="step-post-added"
+              data-tour="step-post-added"
+            >
               {mentionUsernames?.length > 0 && (
-                <Box mb={2} data-tour="step-post-mentions">
+                <Box mb={2}>
                   <Text color="gray.500" fontSize="sm">
                     Mentions
                   </Text>
@@ -218,7 +222,6 @@ export const PostContainer = ({
           alignContent="end"
         >
           <Button
-            data-tour-mob="step-post-mentions"
             display={{ base: 'flex', lg: 'none' }}
             isFullWidth
             rounded="full"
@@ -229,7 +232,7 @@ export const PostContainer = ({
             {t`post-share.edit-content`}
           </Button>
           <Button
-            data-tour-mob="step-search"
+            data-tour-mob="step-mention-button"
             display={{ base: 'flex', lg: 'none' }}
             isFullWidth
             rounded="full"
@@ -239,13 +242,24 @@ export const PostContainer = ({
           >
             {t`post-share.add-mention`}
           </Button>
+          <Button
+            data-tour-mob="step-next-button"
+            data-tour="step-next-button"
+            isFullWidth
+            rounded="full"
+            colorScheme="primary"
+            onClick={redirectToRandomPost}
+            rightIcon={<FaRandom />}
+          >
+            {t`post-share.next-tweet`}
+          </Button>
           <TwitterShareButton
             title={postContent}
             url={postUrlAbsolute as string}
           >
             <Button
-              data-tour-mob="step-character-limit"
               data-tour="step-share-button"
+              data-tour-mob="step-share-button"
               as="span"
               isFullWidth
               rounded="full"
@@ -256,17 +270,6 @@ export const PostContainer = ({
               {t`post-share.share-tweet`}
             </Button>
           </TwitterShareButton>
-          <Button
-            data-tour-mob="step-share-button"
-            data-tour="step-next-button"
-            isFullWidth
-            rounded="full"
-            colorScheme="primary"
-            onClick={redirectToRandomPost}
-            rightIcon={<FaRandom />}
-          >
-            {t`post-share.next-tweet`}
-          </Button>
         </SimpleGrid>
       </VStack>
       <Box
@@ -275,7 +278,15 @@ export const PostContainer = ({
         h={{ base: 115, lg: 'full' }}
         overflow="hidden"
       >
-        <Stack pos="absolute" top={0} left={0} h="full" w="full">
+        <Stack
+          pos="absolute"
+          top={0}
+          left={0}
+          h="full"
+          w="full"
+          data-tour="step-other-posts"
+          data-tour-mob="step-other-posts"
+        >
           <Text
             color="gray.500"
             fontSize="sm"

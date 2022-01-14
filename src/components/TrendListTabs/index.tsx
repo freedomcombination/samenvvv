@@ -39,7 +39,7 @@ export const TrendListTabs = ({ hashtags }: TrendListProps): JSX.Element => {
     })
 
   return (
-    <VStack w="full" align="stretch" h="40%" pt={4} data-tour="step-trends">
+    <VStack w="full" align="stretch" h="40%" mt={4} data-tour="step-trends">
       <HStack pos="relative">
         <Text color="gray.500" fontSize="sm">{t`post-share.trends-label`}</Text>
 

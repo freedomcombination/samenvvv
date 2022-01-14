@@ -1,5 +1,16 @@
-import { Center, Spinner, useBreakpointValue } from '@chakra-ui/react'
+import {
+  Box,
+  ButtonGroup,
+  Center,
+  CloseButton,
+  Heading,
+  HStack,
+  IconButton,
+  Spinner,
+  useBreakpointValue,
+} from '@chakra-ui/react'
 import { TourProvider } from '@reactour/tour'
+import { PopoverContentProps } from '@reactour/tour/dist/types'
 import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock'
 import { GetStaticPaths, GetStaticProps } from 'next'
 import { useTranslation } from 'next-i18next'
@@ -8,6 +19,7 @@ import { MDXRemoteSerializeResult } from 'next-mdx-remote'
 import { serialize } from 'next-mdx-remote/serialize'
 import { NextSeoProps } from 'next-seo'
 import { useRouter } from 'next/router'
+import { FaCheck, FaChevronLeft, FaChevronRight } from 'react-icons/fa'
 import { DehydratedState, QueryClient } from 'react-query'
 import { dehydrate } from 'react-query/hydration'
 
@@ -48,6 +60,65 @@ interface DynamicPageProps {
   link: string
 }
 
+const StepsContentComponent = (props: PopoverContentProps) => {
+  const { setIsOpen, steps, setCurrentStep, currentStep } = props
+
+  const [title, ...content] = (steps[currentStep].content as string).split('|')
+
+  return (
+    <Box px={6} py={4} rounded="sm" bg="white">
+      {content[0] && (
+        <Heading as="h4" size="md" mb={2}>
+          {title}
+        </Heading>
+      )}
+      <Box>{content[0] || title}</Box>
+      <ButtonGroup
+        mt={4}
+        justifyContent="space-between"
+        alignItems="center"
+        variant="ghost"
+        colorScheme="primary"
+        w="full"
+      >
+        <IconButton
+          visibility={currentStep === 0 ? 'hidden' : 'visible'}
+          aria-label="previous step"
+          icon={<FaChevronLeft />}
+          onClick={() => setCurrentStep(prev => prev - 1)}
+          disabled={currentStep === 0}
+        />
+
+        <HStack spacing={1}>
+          {steps.map((_, i) => (
+            <Box
+              key={i}
+              borderWidth={1}
+              borderColor="primary.400"
+              bg={i === currentStep ? 'primary.400' : 'white'}
+              boxSize={i === currentStep ? 3 : 2}
+              rounded="full"
+            />
+          ))}
+        </HStack>
+        <IconButton
+          aria-label="next step"
+          icon={
+            currentStep === steps.length - 1 ? <FaCheck /> : <FaChevronRight />
+          }
+          onClick={() => setCurrentStep(prev => prev + 1)}
+        />
+      </ButtonGroup>
+      <CloseButton
+        pos="absolute"
+        top={1}
+        right={1}
+        onClick={() => setIsOpen(false)}
+      />
+    </Box>
+  )
+}
+
 const DynamicPage = (props: DynamicPageProps): JSX.Element => {
   const router = useRouter()
   const { slug, pageType, isPage, source, pageData, seo, link } = props
@@ -84,6 +155,15 @@ const DynamicPage = (props: DynamicPageProps): JSX.Element => {
       components={{}}
       afterOpen={disableBody}
       beforeClose={enableBody}
+      ContentComponent={StepsContentComponent}
+      padding={{ mask: 6 }}
+      styles={{
+        popover: base => ({
+          ...base,
+          padding: 4,
+          backgroundColor: 'transparent',
+        }),
+      }}
     >
       {isMainPage && <MainView {...pageProps} />}
       {isSubpage && <SubView {...pageProps} />}

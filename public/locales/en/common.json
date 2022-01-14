@@ -12,15 +12,17 @@
     "description": "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga."
   },
   "steps": {
-    "step-post-content": "1.step in help tour",
-    "step-post-text": "2.step in help tour",
-    "step-post-mentions": "3.step in help tour",
-    "step-mention-list": "4.step in help tour",
-    "step-search": "5.step in help tour",
-    "step-trends": "6.step in help tour",
-    "step-character-limit": "7.step in help tour",
-    "step-share-button": "8.step in help tour",
-    "step-next-button": "9.step in help tour"
+    "step-post-content": "Ready to Share! | We created a ready-to-share tweet including content, mention, hashtag and caps for you. In the next steps, you can edit this part according to your wishes.",
+    "step-post-text": "Tweet Content | If you wish, you can change this part with your own words by clicking on it. It is very important to add your own ideas so that your post can be different from other users and remain original.",
+    "step-mention-list": "Add Mention | In this section you will find some popular social media users. If you wish, you can add these suggested users to your tweet.",
+    "step-mention-button": "Add Mention and Trend | By adding popular users and trends to your post, you can increase the engagement of the post. Click the button and you will see some popular users and current trends.",
+    "step-search": "Search Users | You can search for any user on Twitter and add them to your list of mentions in your post. You can find the users later in the 'Saved' tab if you add them as a result of the search.",
+    "step-trends": "Add Trends | By adding one of the instantly updated trends from Twitter, you can make your share reach more people. It is preferred that the added trend is compatible with your post.",
+    "step-post-added": "Added | Users and trends you add to your share will appear in this section. We recommend using no more than 3 mentions and 2 trends in a post.",
+    "step-character-limit": "Limit | Make sure your post doesn't exceed the 280 character limit allowed by Twitter! Mentions, hashtags and links are included.",
+    "step-next-button": "Continue | You can use this button for the next post we prepared for you.",
+    "step-other-posts": "Other Posts | You can create a new share by clicking any of the pictures in the list.",
+    "step-share-button": "Share | If you think your post is ready to share, you can complete your sharing on Twitter by clicking here. Don't forget to come back for next posts. 🙂"
   },
   "copyright": "@2021 Samenvvv. All right reserved",
   "support": "Support",
