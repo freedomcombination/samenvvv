@@ -43,6 +43,7 @@ import {
   TrendListTabs,
   TweetWidget,
 } from '@components'
+import { setDefaultTab, useAppDispatch, useAppSelector } from '@store'
 
 interface HashtagProps {
   slug: Record<string, string[]>
@@ -54,20 +55,22 @@ interface HashtagProps {
 
 const HashtagPostView = ({ pageData, seo }: HashtagProps): JSX.Element => {
   const { isOpen, onOpen, onClose } = useDisclosure()
+  const { defaultTab } = useAppSelector(state => state.postShare)
+  const dispatch = useAppDispatch()
 
-  const [tabIndex, setTabIndex] = useState<number>(0)
   const [show, setShow] = useState<boolean>(false)
 
   const handleToggle = () => setShow(!show)
+
   useEffect(() => {
     const dateStr = pageData.hashtag?.date
     if (dateStr) {
       const date = new Date(dateStr)
       const hasEventPassed = isPast(addDays(date, 1))
 
-      if (hasEventPassed) setTabIndex(1)
+      if (hasEventPassed && defaultTab === null) dispatch(setDefaultTab(1))
     }
-  }, [pageData.hashtag?.date])
+  }, [pageData.hashtag?.date, dispatch, defaultTab])
 
   const { t } = useTranslation()
   const { setIsOpen } = useTour()
@@ -110,8 +113,8 @@ const HashtagPostView = ({ pageData, seo }: HashtagProps): JSX.Element => {
           flex={1}
           isFitted
           colorScheme="primary"
-          index={tabIndex}
-          onChange={setTabIndex}
+          index={defaultTab || 0}
+          onChange={index => dispatch(setDefaultTab(index))}
           isLazy
         >
           <Stack
