@@ -101,7 +101,7 @@ export const PostContainer = ({
       .join('.')
       .trim()
 
-    const combinedText = randomPostSentence + '\n\n' + randomPostText
+    const combinedText = `${randomPostText}\n\n"${randomPostSentence}"`
 
     dispatch(setPostText(combinedText))
   }, [dispatch, locale, post.text])
@@ -153,8 +153,8 @@ export const PostContainer = ({
         <Box overflow="auto" pos="relative">
           <IconButton
             pos="absolute"
-            top={2}
-            right={2}
+            top={1}
+            right={1}
             rounded="full"
             colorScheme="twitter"
             aria-label="random post"
