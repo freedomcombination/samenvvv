@@ -1,24 +1,21 @@
 const postContentData = {
   en: `
-    Sentence 1
-    Sentence 2
-    Sentence 3
-    Sentence 4
-    Sentence 5
+    Law should be applied equally to all
+    Law is for everyone.
+    Everyone is equal before the law.
+    Respect for human rights is a requirement of being human.
   `,
   tr: `
     Hukuk herkese eşit uygulanmalı 
     Hukuk herkese lazım.
     Yasalar karşısında herkes eşittir.
     İnsan haklarına saygı insan olmanın gereğidir.
-    Cümle 5
   `,
   nl: `
-    Zin 1
-    Zin 2
-    Zin 3
-    Zin 4
-    Zin 5
+    De wet moet voor iedereen gelijk worden toegepast
+    Recht is voor iedereen.
+    Iedereen is gelijk voor de wet.
+    Respect voor mensenrechten is een vereiste om mens te zijn.
   `,
 }
 
