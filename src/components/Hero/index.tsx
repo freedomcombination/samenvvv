@@ -39,7 +39,7 @@ export const Hero = ({
           loop
           position="absolute"
         >
-          <source src={video} type="video/webm" />
+          <source src={video} type="video/mp4" />
         </Box>
       )}
       {image && (
