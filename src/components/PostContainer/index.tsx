@@ -6,6 +6,7 @@ import {
   Button,
   chakra,
   Flex,
+  IconButton,
   SimpleGrid,
   Stack,
   Text,
@@ -27,7 +28,7 @@ import {
   useAppDispatch,
   useAppSelector,
 } from '@store'
-import { getItemLink } from '@utils'
+import { getItemLink, getRandomPostSentence } from '@utils'
 
 export const PostContainer = ({
   onOpen,
@@ -82,9 +83,32 @@ export const PostContainer = ({
     dispatch(setPostText(e.target.value))
   }
 
+  const generateRandomPostText = useCallback(() => {
+    const randomPostSentence = getRandomPostSentence(locale as string)
+    const combinations = [
+      [0, 1],
+      [1, 2],
+      [2, 3],
+      [0, 2],
+      [1, 3],
+    ]
+    const randomCombination =
+      combinations[Math.floor(Math.random() * (combinations.length - 1))]
+
+    const randomPostText = post.text
+      .split('.')
+      .slice(randomCombination[0], randomCombination[1])
+      .join('.')
+      .trim()
+
+    const combinedText = `${randomPostText}\n\n"${randomPostSentence}"`
+
+    dispatch(setPostText(combinedText))
+  }, [dispatch, locale, post.text])
+
   useEffect(() => {
-    dispatch(setPostText(post.text))
-  }, [post, dispatch])
+    generateRandomPostText()
+  }, [generateRandomPostText])
 
   useEffect(() => {
     if (editable) {
@@ -126,7 +150,17 @@ export const PostContainer = ({
             /280
           </Text>
         </Flex>
-        <Box overflow="auto">
+        <Box overflow="auto" pos="relative">
+          <IconButton
+            pos="absolute"
+            top={1}
+            right={1}
+            rounded="full"
+            colorScheme="twitter"
+            aria-label="random post"
+            icon={<FaRandom />}
+            onClick={generateRandomPostText}
+          />
           <Box
             data-tour="step-post-content"
             data-tour-mob="step-post-content"
