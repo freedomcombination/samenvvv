@@ -1,6 +1,7 @@
 import { Box, Button, Heading, Text, VStack } from '@chakra-ui/react'
 
 import { ChakraNextImage, Container, Navigate } from '@components'
+import { useScroll } from '@hooks'
 
 interface HeroProps {
   title: string
@@ -21,6 +22,7 @@ export const Hero = ({
   link,
   isFullHeight = true,
 }: HeroProps): JSX.Element => {
+  const isScrolled = useScroll(100)
   return (
     <Box
       pos="relative"
@@ -38,6 +40,7 @@ export const Hero = ({
           autoPlay
           loop
           position="absolute"
+          muted={isScrolled}
         >
           <source src={video} type="video/mp4" />
         </Box>
