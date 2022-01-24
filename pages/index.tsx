@@ -11,8 +11,10 @@ import { Container, Hero, Layout, Slider } from '@components'
 import { ROUTES } from '@config'
 import {
   getHashtags,
+  getLatestEntry,
   getSubpages,
   useHashtagsQuery,
+  useLatestEntry,
   useSubpagesQuery,
 } from '@lib'
 
@@ -29,15 +31,16 @@ const Home = ({ seo }: HomeProps): JSX.Element => {
     locale,
     type: 'announcement',
   })
-
   const { t } = useTranslation(['common'])
+
+  const latestEntry = useLatestEntry()
 
   return (
     <Layout scrollHeight={100} seo={seo}>
       <Hero
-        title="Welcome to this website"
-        description="Ipsum esse cupidatat ex magna labore aliquip non aliqua. Minim mollit magna irure deserunt ex irure et ad ad ea culpa ad eu. Labore labore pariatur mollit culpa cupidatat consequat quis amet ut et eiusmod amet ad. Exercitation aute dolore ipsum qui amet aliqua nisi. Id dolore dolore aliquip eiusmod proident nostrud laboris aliqua dolor. Fugiat occaecat incididunt non sunt adipisicing adipisicing amet sit eu mollit aliqua incididunt exercitation exercitation."
-        video="/images/Alley_hero_aug_2020-transcode.webm"
+        title={latestEntry?.data?.title}
+        description={latestEntry?.data?.content}
+        video="/images/home-video.webm"
         buttonText={t`read-more`}
         link={ROUTES.event[locale].link}
       />
@@ -80,7 +83,9 @@ export const getStaticProps: GetStaticProps = async context => {
   await queryClient.prefetchQuery(['hashtags', [locale]], () =>
     getHashtags(locale),
   )
-
+  await queryClient.prefetchQuery(['latest-entry', [locale]], () =>
+    getLatestEntry(locale),
+  )
   const title: Record<string, string> = {
     en: 'Home',
     nl: 'Home',
