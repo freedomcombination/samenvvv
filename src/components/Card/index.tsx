@@ -109,13 +109,13 @@ export const Card = (props: CardProps): JSX.Element => {
                   />
                 )}
                 {title && (
-                  <Heading flex={1} as="h3" size="md" fontWeight="bold">
+                  <Heading flex={1} as="h3" size="md">
                     {title}
                   </Heading>
                 )}
 
                 {hasDescription && (
-                  <Text noOfLines={2} mt={2}>
+                  <Text noOfLines={2} mt={2} fontSize="md">
                     {content}
                   </Text>
                 )}

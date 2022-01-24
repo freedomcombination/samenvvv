@@ -19,11 +19,9 @@ export const SliderHero = ({ item }: SliderHeroProps): JSX.Element => {
   return (
     <SimpleGrid gap={8} columns={{ base: 1, lg: 2 }} mb={8} alignItems="center">
       <Stack align="start" flex={1} spacing={8}>
-        <Heading fontWeight="bold" size="lg">
-          {item.title}
-        </Heading>
+        <Heading size="lg">{item.title}</Heading>
         <Box>
-          <Text flex={1} noOfLines={4} fontSize="lg">
+          <Text flex={1} noOfLines={4}>
             {RemoveMarkdown(item.content)}
           </Text>
         </Box>

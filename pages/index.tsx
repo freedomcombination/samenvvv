@@ -1,10 +1,12 @@
+import { useEffect, useRef } from 'react'
+
 import {
   AspectRatio,
   Box,
   Button,
   Center,
+  Grid,
   Heading,
-  SimpleGrid,
   Stack,
   Text,
 } from '@chakra-ui/react'
@@ -13,15 +15,16 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { NextSeoProps } from 'next-seo'
 import { useRouter } from 'next/router'
 import { useTranslation } from 'react-i18next'
-import ReactPlayer from 'react-player'
 import { QueryClient } from 'react-query'
 import { dehydrate } from 'react-query/hydration'
 
-import { Container, Layout, Navigate, Slider } from '@components'
+import { Container, HeroSkeleeton, Layout, Navigate, Slider } from '@components'
 import {
   getHashtags,
+  getLatestEntry,
   getSubpages,
   useHashtagsQuery,
+  useLatestEntry,
   useSubpagesQuery,
 } from '@lib'
 
@@ -32,14 +35,28 @@ interface HomeProps {
 const Home = ({ seo }: HomeProps): JSX.Element => {
   const router = useRouter()
   const locale = router.locale as ILocale
+  const ref = useRef<HTMLVideoElement>()
 
   const hashtagQuery = useHashtagsQuery(locale)
   const subpageQuery = useSubpagesQuery({
     locale,
     type: 'announcement',
   })
-
   const { t } = useTranslation(['common'])
+
+  const { data, isLoading } = useLatestEntry()
+
+  useEffect(() => {
+    if (ref.current) {
+      if (
+        ref.current.paused ||
+        ref.current.ended ||
+        ref.current.currentTime === 0
+      ) {
+        ref.current.play()
+      }
+    }
+  }, [])
 
   return (
     <Layout scrollHeight={100} seo={seo}>
@@ -53,23 +70,31 @@ const Home = ({ seo }: HomeProps): JSX.Element => {
         zIndex={0}
       >
         <Container>
-          <SimpleGrid columns={{ base: 1, lg: 2 }} gap={16}>
-            <Stack spacing={8} alignItems="start">
-              <Heading color="white">Welcome to this website</Heading>
-              <Text color="white" noOfLines={5}>
-                Ipsum esse cupidatat ex magna labore aliquip non aliqua. Minim
-                mollit magna irure deserunt ex irure et ad ad ea culpa ad eu.
-                Labore labore pariatur mollit culpa cupidatat consequat quis
-                amet ut et eiusmod amet ad. Exercitation aute dolore ipsum qui
-                amet aliqua nisi. Id dolore dolore aliquip eiusmod proident
-                nostrud laboris aliqua dolor. Fugiat occaecat incididunt non
-                sunt adipisicing adipisicing amet sit eu mollit aliqua
-                incididunt exercitation exercitation.
-              </Text>
-              <Navigate href="/" as={Button} size="lg" colorScheme="whiteAlpha">
-                {t`read-more`}
-              </Navigate>
-            </Stack>
+          <Grid
+            gridTemplateColumns={{ base: '1fr', lg: '2fr 3fr' }}
+            gap={16}
+            alignItems="center"
+          >
+            {isLoading || !data ? (
+              <HeroSkeleeton />
+            ) : (
+              <Stack spacing={8} alignItems="start">
+                <Heading color="white">{data?.title}</Heading>
+
+                <Text color="white" noOfLines={5}>
+                  {data?.content}
+                </Text>
+
+                <Navigate
+                  href={data?.link as string}
+                  as={Button}
+                  size="lg"
+                  colorScheme="whiteAlpha"
+                >
+                  {t`read-more`}
+                </Navigate>
+              </Stack>
+            )}
 
             <AspectRatio
               rounded="xl"
@@ -77,18 +102,25 @@ const Home = ({ seo }: HomeProps): JSX.Element => {
               shadow="lg"
               ratio={16 / 9}
             >
-              <Box
-                as={ReactPlayer}
-                playing
-                loop
-                url="/images/home-video.webm"
-                light
-              />
+              <Box shadow="inner">
+                <video
+                  ref={el =>
+                    ref.current && (ref.current = el as HTMLVideoElement)
+                  }
+                  muted
+                  autoPlay={true}
+                  playsInline={true}
+                  loop={true}
+                  style={{ width: '100%' }}
+                >
+                  <source src="/images/home-video.webm" type="video/webm" />
+                </video>
+              </Box>
             </AspectRatio>
-          </SimpleGrid>
+          </Grid>
         </Container>
       </Center>
-      <Box bg="white" pos="relative" zIndex={1} mt="100vh">
+      <Box pos="relative" bg="white" mt="100vh">
         <Container>
           <Stack spacing={16} py={16}>
             <Box p={8} bg="white" shadow="lg" rounded="sm">
@@ -100,11 +132,7 @@ const Home = ({ seo }: HomeProps): JSX.Element => {
               />
             </Box>
             <Box p={8} bg="white" shadow="lg" rounded="sm">
-              <Heading
-                textAlign="center"
-                mb={8}
-                fontWeight="bold"
-              >{t`hashtag-events`}</Heading>
+              <Heading textAlign="center" mb={8}>{t`hashtag-events`}</Heading>
               <Slider
                 items={hashtagQuery.data}
                 hasThumb
@@ -129,7 +157,9 @@ export const getStaticProps: GetStaticProps = async context => {
   await queryClient.prefetchQuery(['hashtags', [locale]], () =>
     getHashtags(locale),
   )
-
+  await queryClient.prefetchQuery(['latest-entry', [locale]], () =>
+    getLatestEntry(locale),
+  )
   const title: Record<string, string> = {
     en: 'Home',
     nl: 'Home',

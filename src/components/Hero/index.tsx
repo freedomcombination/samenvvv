@@ -82,7 +82,6 @@ export const Hero = ({
           <Text
             color="white"
             fontSize="lg"
-            fontWeight="medium"
             display={isFullHeight ? 'inherit' : 'none'}
           >
             {description}

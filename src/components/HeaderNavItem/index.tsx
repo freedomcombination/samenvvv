@@ -33,7 +33,7 @@ const ChildMenuItem = ({ item }: ChildMenuItemProps) => {
   return (
     <Navigate
       href={link}
-      fontWeight="bold"
+      fontWeight={600}
       p={2}
       color={link !== '/' && asPath.includes(link) ? 'primary.400' : 'gray.700'}
       _hover={{ color: 'primary.400' }}
@@ -47,7 +47,7 @@ const ParentMenuItem = ({ item }: ParentMenuItemProps) => {
   return (
     <Popover trigger="hover" arrowSize={16}>
       <PopoverTrigger>
-        <Link fontWeight="bold" p={2}>
+        <Link fontWeight={600} p={2}>
           {item.label}
         </Link>
       </PopoverTrigger>

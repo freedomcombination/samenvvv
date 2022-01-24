@@ -30,7 +30,7 @@ export default class Document extends NextDocument {
 
           <link rel="preconnect" href="https://fonts.gstatic.com" />
           <link
-            href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;700&display=swap"
+            href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;600;900&display=swap"
             rel="stylesheet"
           />
           <script

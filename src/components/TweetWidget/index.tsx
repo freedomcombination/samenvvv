@@ -51,9 +51,9 @@ export const TweetWidget = ({
                   <Avatar size="sm" alt={user.name} src={user.profile} />
 
                   <Stack fontSize="sm">
-                    <Text noOfLines={1} fontWeight="bold">
+                    <Text noOfLines={1} fontWeight={600}>
                       {user.name}{' '}
-                      <Text as="span" fontSize="xs" fontWeight="normal">
+                      <Text as="span" fontSize="xs" fontWeight={400}>
                         @{user.username}
                       </Text>
                     </Text>
@@ -95,7 +95,7 @@ export const TweetWidget = ({
                     )}
                     <ButtonGroup size="sm" variant="ghost">
                       <Button
-                        fontWeight="normal"
+                        fontWeight={400}
                         as={Navigate}
                         href={`https://twitter.com/intent/like?tweet_id=${id}`}
                         leftIcon={<AiOutlineHeart />}
@@ -103,7 +103,7 @@ export const TweetWidget = ({
                         {likes}
                       </Button>
                       <Button
-                        fontWeight="normal"
+                        fontWeight={400}
                         as={Navigate}
                         href={`https://twitter.com/intent/retweet?tweet_id=${id}`}
                         leftIcon={<AiOutlineRetweet />}

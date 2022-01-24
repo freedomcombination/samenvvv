@@ -8,6 +8,7 @@ import {
   Flex,
   IconButton,
   SimpleGrid,
+  Spacer,
   Stack,
   Text,
   useBoolean,
@@ -142,7 +143,7 @@ export const PostContainer = ({
             <chakra.span
               {...(isCharacterCountExceeded && {
                 color: 'red.400',
-                fontWeight: 'bold',
+                fontWeight: 600,
               })}
             >
               {totalCharCount}
@@ -150,7 +151,7 @@ export const PostContainer = ({
             /280
           </Text>
         </Flex>
-        <Box overflow="auto" pos="relative">
+        <Stack overflow="auto" pos="relative" h={{ base: 470, xl: 520 }}>
           <IconButton
             pos="absolute"
             top={1}
@@ -161,7 +162,8 @@ export const PostContainer = ({
             icon={<FaRandom />}
             onClick={generateRandomPostText}
           />
-          <Box
+          <Stack
+            flex={1}
             data-tour="step-post-content"
             data-tour-mob="step-post-content"
             p={4}
@@ -169,6 +171,7 @@ export const PostContainer = ({
             borderWidth={1}
             bg={isCharacterCountExceeded ? 'red.50' : 'gray.50'}
             borderColor={isCharacterCountExceeded ? 'red.500' : 'gray.200'}
+            fontSize="md"
           >
             {editable ? (
               <chakra.textarea
@@ -233,6 +236,7 @@ export const PostContainer = ({
                 />
               </Box>
             </Box>
+            <Spacer />
             {post?.image && (
               <AspectRatio
                 rounded="md"
@@ -246,8 +250,8 @@ export const PostContainer = ({
                 <ChakraNextImage h={'100%'} image={post?.image.url} />
               </AspectRatio>
             )}
-          </Box>
-        </Box>
+          </Stack>
+        </Stack>
         <SimpleGrid
           columns={{ base: 1, xl: 2 }}
           spacing={2}

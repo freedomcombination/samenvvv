@@ -4,10 +4,13 @@ export const styles = {
       fontFamily: 'body',
       color: 'gray.900',
       bg: 'gray.50',
+      fontWeight: 400,
+      fontSize: { base: 'md', lg: 'lg' },
+      lineHeight: 1.5,
     },
     'h1, h2, h3, h4': {
       color: 'primary.400',
-      fontWeight: 'bold',
+      fontWeight: 900,
     },
     '.swiper': {
       '&-pagination': {
@@ -50,7 +53,7 @@ export const styles = {
 
         '&::after': {
           fontSize: '2em',
-          fontWeight: 'bold',
+          fontWeight: 600,
         },
       },
     },
