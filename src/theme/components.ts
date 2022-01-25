@@ -1,4 +1,9 @@
 export const components = {
+  Heading: {
+    baseStyle: {
+      fontWeight: 900,
+    },
+  },
   Link: {
     baseStyle: {
       _hover: {
@@ -20,7 +25,7 @@ export const components = {
     baseStyle: {
       tab: {
         color: 'gray.400',
-        fontWeight: '600',
+        fontWeight: 600,
         borderBottomWidth: 2,
         _selected: {
           color: 'primary.400',

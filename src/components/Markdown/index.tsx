@@ -11,9 +11,7 @@ const MarkdownComponents = {
   h3: (props: ChakraProps) => <chakra.h3 as="h3" apply="mdx.h3" {...props} />,
   h4: (props: ChakraProps) => <chakra.h4 as="h4" apply="mdx.h4" {...props} />,
   hr: (props: ChakraProps) => <chakra.hr apply="mdx.hr" {...props} />,
-  strong: (props: ChakraProps) => (
-    <chakra.span fontWeight="medium" {...props} />
-  ),
+  strong: (props: ChakraProps) => <chakra.span fontWeight={600} {...props} />,
   a: (props: any) => (
     <Navigate {...props}>
       <chakra.a apply="mdx.a">{props.children}</chakra.a>

@@ -111,7 +111,7 @@ export const MentionListItem = ({
             src={user_data?.profile_image_url_https}
             shadow="base"
           />
-          <Box fontWeight="bold">
+          <Box fontWeight={600}>
             <Text fontSize="xl">{user_data?.name}</Text>
             <Text color="twitter.400">@{user_data.screen_name}</Text>
           </Box>

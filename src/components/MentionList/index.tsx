@@ -7,7 +7,6 @@ import {
   TabPanel,
   TabPanels,
   Tabs,
-  Text,
   VStack,
 } from '@chakra-ui/react'
 import { useTranslation } from 'react-i18next'
@@ -72,10 +71,6 @@ export const MentionList = (): JSX.Element => {
 
   return (
     <VStack align="stretch" h="60%" data-tour="step-mention-list">
-      <Text
-        color="gray.500"
-        fontSize="sm"
-      >{t`post-share.mention-list-label`}</Text>
       <VStack
         minH="0"
         h="full"
