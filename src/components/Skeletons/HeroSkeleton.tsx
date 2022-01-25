@@ -2,7 +2,7 @@ import React from 'react'
 
 import { Skeleton, SkeletonText, Stack } from '@chakra-ui/react'
 
-export const HeroSkeleeton = () => {
+export const HeroSkeleton = () => {
   return (
     <Stack w="full" spacing={8}>
       <Stack>

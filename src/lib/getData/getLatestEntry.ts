@@ -90,7 +90,7 @@ export const getLatestEntry = async (locale: string): Promise<LatestEntry> => {
 export const useLatestEntry = (): UseQueryResult<LatestEntry> => {
   const { locale } = useRouter()
   return useQuery({
-    queryKey: ['posts', [locale]],
+    queryKey: ['latest-entry', [locale]],
     queryFn: () => getLatestEntry(locale as string),
   })
 }

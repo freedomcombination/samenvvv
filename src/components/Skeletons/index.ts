@@ -1,4 +1,4 @@
 export * from './CardSkeleton'
-export * from './HeroSkeleeton'
+export * from './HeroSkeleton'
 export * from './MentionListSkeleton'
 export * from './SliderHeroSkeleton'

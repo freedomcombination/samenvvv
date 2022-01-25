@@ -1,12 +1,14 @@
-import { useEffect, useRef } from 'react'
+import { useState } from 'react'
 
 import {
   AspectRatio,
   Box,
   Button,
+  ButtonGroup,
   Center,
   Grid,
   Heading,
+  IconButton,
   Stack,
   Text,
 } from '@chakra-ui/react'
@@ -15,10 +17,12 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { NextSeoProps } from 'next-seo'
 import { useRouter } from 'next/router'
 import { useTranslation } from 'react-i18next'
+import { FaVolumeMute, FaVolumeUp } from 'react-icons/fa'
+import ReactPlayer from 'react-player'
 import { QueryClient } from 'react-query'
 import { dehydrate } from 'react-query/hydration'
 
-import { Container, HeroSkeleeton, Layout, Navigate, Slider } from '@components'
+import { Container, HeroSkeleton, Layout, Navigate, Slider } from '@components'
 import {
   getHashtags,
   getLatestEntry,
@@ -35,7 +39,7 @@ interface HomeProps {
 const Home = ({ seo }: HomeProps): JSX.Element => {
   const router = useRouter()
   const locale = router.locale as ILocale
-  const ref = useRef<HTMLVideoElement>()
+  const [muted, setMuted] = useState(true)
 
   const hashtagQuery = useHashtagsQuery(locale)
   const subpageQuery = useSubpagesQuery({
@@ -45,18 +49,6 @@ const Home = ({ seo }: HomeProps): JSX.Element => {
   const { t } = useTranslation(['common'])
 
   const { data, isLoading } = useLatestEntry()
-
-  useEffect(() => {
-    if (ref.current) {
-      if (
-        ref.current.paused ||
-        ref.current.ended ||
-        ref.current.currentTime === 0
-      ) {
-        ref.current.play()
-      }
-    }
-  }, [])
 
   return (
     <Layout scrollHeight={100} seo={seo}>
@@ -76,7 +68,7 @@ const Home = ({ seo }: HomeProps): JSX.Element => {
             alignItems="center"
           >
             {isLoading || !data ? (
-              <HeroSkeleeton />
+              <HeroSkeleton />
             ) : (
               <Stack spacing={8} alignItems="start">
                 <Heading color="white">{data?.title}</Heading>
@@ -96,27 +88,38 @@ const Home = ({ seo }: HomeProps): JSX.Element => {
               </Stack>
             )}
 
-            <AspectRatio
-              rounded="xl"
-              overflow="hidden"
-              shadow="lg"
-              ratio={16 / 9}
-            >
-              <Box shadow="inner">
-                <video
-                  ref={el =>
-                    ref.current && (ref.current = el as HTMLVideoElement)
-                  }
-                  muted
-                  autoPlay={true}
-                  playsInline={true}
-                  loop={true}
-                  style={{ width: '100%' }}
-                >
-                  <source src="/images/home-video.webm" type="video/webm" />
-                </video>
-              </Box>
-            </AspectRatio>
+            <Box pos="relative">
+              <AspectRatio
+                rounded="xl"
+                overflow="hidden"
+                shadow="lg"
+                ratio={16 / 9}
+              >
+                <ReactPlayer
+                  url={[{ src: '/images/home-video.webm', type: 'video/webm' }]}
+                  playing
+                  muted={muted}
+                  loop
+                  width="100%"
+                  height="100%"
+                />
+              </AspectRatio>
+              <ButtonGroup
+                variant="ghost"
+                colorScheme="whiteAlpha"
+                isAttached
+                pos="absolute"
+                bottom={1}
+                right={1}
+              >
+                <IconButton
+                  aria-label="sound"
+                  zIndex={2}
+                  icon={muted ? <FaVolumeMute /> : <FaVolumeUp />}
+                  onClick={() => setMuted(!muted)}
+                />
+              </ButtonGroup>
+            </Box>
           </Grid>
         </Container>
       </Center>
