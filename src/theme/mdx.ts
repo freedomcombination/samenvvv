@@ -3,6 +3,10 @@ export const mdx = {
     fontWeight: 600,
     transition: 'color 0.15s',
     transitionTimingFunction: 'ease-out',
+    color: 'primary.400',
+    _hover: {
+      color: 'primary.500',
+    },
   },
   p: {
     mt: 4,
