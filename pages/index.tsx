@@ -1,18 +1,35 @@
-import { Box, Heading, Stack } from '@chakra-ui/react'
+import { useState } from 'react'
+
+import {
+  AspectRatio,
+  Box,
+  Button,
+  ButtonGroup,
+  Center,
+  Grid,
+  Heading,
+  IconButton,
+  Stack,
+  Text,
+} from '@chakra-ui/react'
 import { GetStaticProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { NextSeoProps } from 'next-seo'
 import { useRouter } from 'next/router'
 import { useTranslation } from 'react-i18next'
+import { FaVolumeMute, FaVolumeUp } from 'react-icons/fa'
+import ReactPlayer from 'react-player'
 import { QueryClient } from 'react-query'
 import { dehydrate } from 'react-query/hydration'
+import RemoveMarkdown from 'remove-markdown'
 
-import { Container, Hero, Layout, Slider } from '@components'
-import { ROUTES } from '@config'
+import { Container, HeroSkeleton, Layout, Navigate, Slider } from '@components'
 import {
   getHashtags,
+  getLatestEntry,
   getSubpages,
   useHashtagsQuery,
+  useLatestEntry,
   useSubpagesQuery,
 } from '@lib'
 
@@ -23,49 +40,113 @@ interface HomeProps {
 const Home = ({ seo }: HomeProps): JSX.Element => {
   const router = useRouter()
   const locale = router.locale as ILocale
+  const [muted, setMuted] = useState(true)
 
   const hashtagQuery = useHashtagsQuery(locale)
   const subpageQuery = useSubpagesQuery({
     locale,
     type: 'announcement',
   })
-
   const { t } = useTranslation(['common'])
+
+  const { data, isLoading } = useLatestEntry()
 
   return (
     <Layout scrollHeight={100} seo={seo}>
-      <Hero
-        title="Welcome to this website"
-        description="Ipsum esse cupidatat ex magna labore aliquip non aliqua. Minim mollit magna irure deserunt ex irure et ad ad ea culpa ad eu. Labore labore pariatur mollit culpa cupidatat consequat quis amet ut et eiusmod amet ad. Exercitation aute dolore ipsum qui amet aliqua nisi. Id dolore dolore aliquip eiusmod proident nostrud laboris aliqua dolor. Fugiat occaecat incididunt non sunt adipisicing adipisicing amet sit eu mollit aliqua incididunt exercitation exercitation."
-        video="/images/Alley_hero_aug_2020-transcode.webm"
-        buttonText={t`read-more`}
-        link={ROUTES.event[locale].link}
-      />
-      <Container>
-        <Stack spacing={16} py={16}>
-          <Box p={8} bg="white" shadow="lg" rounded="sm">
-            <Slider
-              items={subpageQuery.data}
-              hasThumb
-              isLoading={subpageQuery.isLoading}
-              centeredSlides={false}
-            />
-          </Box>
-          <Box p={8} bg="white" shadow="lg" rounded="sm">
-            <Heading
-              textAlign="center"
-              mb={8}
-              fontWeight="bold"
-            >{t`hashtag-events`}</Heading>
-            <Slider
-              items={hashtagQuery.data}
-              hasThumb
-              isLoading={hashtagQuery.isLoading}
-              centeredSlides={false}
-            />
-          </Box>
-        </Stack>
-      </Container>
+      <Center
+        pos="fixed"
+        top={0}
+        left={0}
+        w="full"
+        h="100vh"
+        bgGradient="linear(to-b, primary.600, primary.300)"
+        zIndex={0}
+      >
+        <Container>
+          <Grid
+            gridTemplateColumns={{ base: '1fr', lg: '2fr 3fr' }}
+            gap={16}
+            alignItems="center"
+          >
+            {isLoading || !data ? (
+              <HeroSkeleton />
+            ) : (
+              <Stack spacing={8} alignItems="start">
+                <Heading color="white">{data?.title}</Heading>
+
+                <Text color="white" noOfLines={5}>
+                  {RemoveMarkdown(data?.content || '')}
+                </Text>
+
+                <Navigate
+                  href={data?.link as string}
+                  as={Button}
+                  size="lg"
+                  colorScheme="whiteAlpha"
+                >
+                  {t`read-more`}
+                </Navigate>
+              </Stack>
+            )}
+
+            <Box pos="relative">
+              <AspectRatio
+                rounded="xl"
+                overflow="hidden"
+                shadow="lg"
+                ratio={16 / 9}
+              >
+                <ReactPlayer
+                  url={[{ src: '/images/home-video.webm', type: 'video/webm' }]}
+                  playing
+                  muted={muted}
+                  loop
+                  width="100%"
+                  height="100%"
+                />
+              </AspectRatio>
+              <ButtonGroup
+                variant="ghost"
+                colorScheme="whiteAlpha"
+                isAttached
+                pos="absolute"
+                bottom={1}
+                right={1}
+              >
+                <IconButton
+                  aria-label="sound"
+                  zIndex={2}
+                  icon={muted ? <FaVolumeMute /> : <FaVolumeUp />}
+                  onClick={() => setMuted(!muted)}
+                />
+              </ButtonGroup>
+            </Box>
+          </Grid>
+        </Container>
+      </Center>
+      <Box pos="relative" bg="white" mt="100vh">
+        <Container>
+          <Stack spacing={16} py={16}>
+            <Box p={8} bg="white" shadow="lg" rounded="sm">
+              <Slider
+                items={subpageQuery.data}
+                hasThumb
+                isLoading={subpageQuery.isLoading}
+                centeredSlides={false}
+              />
+            </Box>
+            <Box p={8} bg="white" shadow="lg" rounded="sm">
+              <Heading textAlign="center" mb={8}>{t`hashtag-events`}</Heading>
+              <Slider
+                items={hashtagQuery.data}
+                hasThumb
+                isLoading={hashtagQuery.isLoading}
+                centeredSlides={false}
+              />
+            </Box>
+          </Stack>
+        </Container>
+      </Box>
     </Layout>
   )
 }
@@ -80,7 +161,9 @@ export const getStaticProps: GetStaticProps = async context => {
   await queryClient.prefetchQuery(['hashtags', [locale]], () =>
     getHashtags(locale),
   )
-
+  await queryClient.prefetchQuery(['latest-entry', [locale]], () =>
+    getLatestEntry(locale),
+  )
   const title: Record<string, string> = {
     en: 'Home',
     nl: 'Home',

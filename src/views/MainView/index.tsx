@@ -23,13 +23,7 @@ const MainView = ({ pageData, seo, source }: MainViewProps): JSX.Element => {
       <Container>
         <Stack spacing={8} my={8}>
           {source && (
-            <Box
-              my={4}
-              fontSize="md"
-              maxW="container.md"
-              mx="auto"
-              textAlign="center"
-            >
+            <Box my={4} maxW="container.md" mx="auto" textAlign="center">
               <Markdown source={source} />
             </Box>
           )}

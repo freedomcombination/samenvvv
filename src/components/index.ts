@@ -29,6 +29,7 @@ export { ShareButtons } from './ShareButtons'
 export { Slider } from './Slider'
 export {
   CardSkeleton,
+  HeroSkeleton,
   MentionListSkeleton,
   SliderHeroSkeleton,
 } from './Skeletons'

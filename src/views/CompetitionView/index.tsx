@@ -26,13 +26,7 @@ const CompetitionView = ({
       />
       <Container>
         {source && (
-          <Box
-            my={4}
-            fontSize="md"
-            maxW="container.md"
-            mx="auto"
-            textAlign="center"
-          >
+          <Box my={4} maxW="container.md" mx="auto" textAlign="center">
             <Markdown source={source} />
           </Box>
         )}

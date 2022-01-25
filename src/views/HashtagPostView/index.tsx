@@ -162,6 +162,7 @@ const HashtagPostView = ({ pageData, seo }: HashtagProps): JSX.Element => {
                 gap={4}
                 gridTemplateColumns={{ base: '1fr', lg: '300px 1fr 300px' }}
                 h={{ base: 'auto', lg: 640 }}
+                alignItems="stretch"
               >
                 <Box display={{ base: 'none', lg: 'block' }} h="inherit">
                   <MentionList />

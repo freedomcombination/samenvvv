@@ -8,6 +8,7 @@ import {
 import { colors } from './colors'
 import { components } from './components'
 import { styles } from './global'
+import { mdx } from './mdx'
 
 const fonts = { body: `'Rubik', sans-serif` }
 
@@ -25,6 +26,7 @@ const theme = extendTheme({
   shadows: {
     outline: 'none',
   },
+  mdx,
 })
 
 export default theme

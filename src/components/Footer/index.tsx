@@ -12,7 +12,7 @@ import { SocialButtons } from '../SocialButtons'
 
 export const ListHeader = ({ children }: { children: ReactNode }) => {
   return (
-    <Text fontWeight={'500'} fontSize={'lg'} mb={2}>
+    <Text fontWeight={600} fontSize={'lg'} mb={2}>
       {children}
     </Text>
   )
@@ -21,7 +21,7 @@ export const ListHeader = ({ children }: { children: ReactNode }) => {
 export const Footer = (): JSX.Element => {
   const { t } = useTranslation()
   return (
-    <Box bg={'gray.700'} color={'primary.600'}>
+    <Box bg={'gray.700'} color={'primary.600'} pos="relative">
       <Container as={Stack}>
         <SimpleGrid columns={{ sm: 2, md: 4 }} spacing={8} py={10}>
           <Stack align="center">
@@ -62,9 +62,8 @@ export const Footer = (): JSX.Element => {
           py={6}
           spacing={2}
         >
-          <Text fontSize={'sm'}>
-            &copy; {new Date().getFullYear()}
-            {t('copyright')}
+          <Text fontSize={'sm'} mr={1}>
+            &copy; {new Date().getFullYear()} {t('copyright')}
           </Text>
           <SocialButtons />
         </Wrap>
