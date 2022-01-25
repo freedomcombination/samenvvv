@@ -151,7 +151,12 @@ export const PostContainer = ({
             /280
           </Text>
         </Flex>
-        <Stack overflow="auto" pos="relative" h={{ base: 470, xl: 520 }}>
+        <Stack
+          spacing={0}
+          overflow="auto"
+          pos="relative"
+          h={{ base: 470, xl: 520 }}
+        >
           <IconButton
             pos="absolute"
             top={1}
