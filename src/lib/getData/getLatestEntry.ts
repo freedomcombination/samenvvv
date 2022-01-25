@@ -1,4 +1,4 @@
-import { compareAsc } from 'date-fns'
+import { compareDesc } from 'date-fns'
 import { gql } from 'graphql-request'
 import { useRouter } from 'next/router'
 import { useQuery, UseQueryResult } from 'react-query'
@@ -82,7 +82,7 @@ export const getLatestEntry = async (locale: string): Promise<LatestEntry> => {
   } as LatestEntry
 
   const latestEntry = [subpage, hashtag, blog].sort((a, b) =>
-    compareAsc(new Date(a.date), new Date(b.date)),
+    compareDesc(new Date(a.date), new Date(b.date)),
   )[0]
 
   return latestEntry

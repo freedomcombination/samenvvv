@@ -21,6 +21,7 @@ import { FaVolumeMute, FaVolumeUp } from 'react-icons/fa'
 import ReactPlayer from 'react-player'
 import { QueryClient } from 'react-query'
 import { dehydrate } from 'react-query/hydration'
+import RemoveMarkdown from 'remove-markdown'
 
 import { Container, HeroSkeleton, Layout, Navigate, Slider } from '@components'
 import {
@@ -74,7 +75,7 @@ const Home = ({ seo }: HomeProps): JSX.Element => {
                 <Heading color="white">{data?.title}</Heading>
 
                 <Text color="white" noOfLines={5}>
-                  {data?.content}
+                  {RemoveMarkdown(data?.content || '')}
                 </Text>
 
                 <Navigate

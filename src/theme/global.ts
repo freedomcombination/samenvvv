@@ -12,6 +12,9 @@ export const styles = {
       color: 'primary.400',
       fontWeight: 900,
     },
+    'mdx.p': {
+      mb: 2,
+    },
     '.swiper': {
       '&-pagination': {
         '&-bullets': {
