@@ -28,6 +28,7 @@ import {
   getHashtags,
   getLatestEntry,
   getSubpages,
+  useBlogPosts,
   useHashtagsQuery,
   useLatestEntry,
   useSubpagesQuery,
@@ -47,6 +48,9 @@ const Home = ({ seo }: HomeProps): JSX.Element => {
     locale,
     type: 'announcement',
   })
+  const blogPosts = useBlogPosts()
+  const subpageBlogDatas = subpageQuery.data?.concat(blogPosts.data)
+
   const { t } = useTranslation(['common'])
 
   const { data, isLoading } = useLatestEntry()
@@ -129,7 +133,7 @@ const Home = ({ seo }: HomeProps): JSX.Element => {
           <Stack spacing={16} py={16}>
             <Box p={8} bg="white" shadow="lg" rounded="sm">
               <Slider
-                items={subpageQuery.data}
+                items={subpageBlogDatas}
                 hasThumb
                 isLoading={subpageQuery.isLoading}
                 centeredSlides={false}
@@ -157,6 +161,9 @@ export const getStaticProps: GetStaticProps = async context => {
 
   await queryClient.prefetchQuery(['subpages', [locale, 'announcement']], () =>
     getSubpages({ locale, type: 'announcement' }),
+  )
+  await queryClient.prefetchQuery([locale, 'blog'], () =>
+    getSubpages({ locale, type: 'blog' }),
   )
   await queryClient.prefetchQuery(['hashtags', [locale]], () =>
     getHashtags(locale),
