@@ -1,4 +1,4 @@
-import { ChangeEvent, useCallback, useEffect, useRef } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 
 import {
   AspectRatio,
@@ -14,6 +14,7 @@ import {
   useBoolean,
   VStack,
 } from '@chakra-ui/react'
+import useDebounce from '@rooks/use-debounce'
 import { TwitterShareButton } from 'next-share'
 import { useRouter } from 'next/router'
 import { useTranslation } from 'react-i18next'
@@ -44,6 +45,7 @@ export const PostContainer = ({
   const { push, locale } = useRouter()
 
   const contentRef = useRef<HTMLTextAreaElement | null>(null)
+  const [editArea, setEditArea] = useState<string>('')
 
   const { postText, postContent, mentionUsernames, trendNames } =
     useAppSelector(state => state.postShare)
@@ -80,9 +82,9 @@ export const PostContainer = ({
     dispatch(removeTrendName(trend))
   }
 
-  const onChangeContent = (e: ChangeEvent<HTMLTextAreaElement>): void => {
-    dispatch(setPostText(e.target.value))
-  }
+  const onChangeContent = useDebounce((): void => {
+    dispatch(setPostText(editArea))
+  }, 800)
 
   const generateRandomPostText = useCallback(() => {
     const randomPostSentence = getRandomPostSentence(locale as string)
@@ -188,7 +190,10 @@ export const PostContainer = ({
                 p={2}
                 w="full"
                 onBlur={setEditable.toggle}
-                onChange={onChangeContent}
+                onChange={event => {
+                  setEditArea(event.target.value)
+                  onChangeContent()
+                }}
               >
                 {postText}
               </chakra.textarea>
