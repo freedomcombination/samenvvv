@@ -49,7 +49,9 @@ const Home = ({ seo }: HomeProps): JSX.Element => {
     type: 'announcement',
   })
   const blogPosts = useBlogPosts()
-  const subpageBlogDatas = subpageQuery.data?.concat(blogPosts.data)
+  const subpageBlogDatas = subpageQuery.data?.concat(
+    blogPosts.data as unknown as ISubpage,
+  )
 
   const { t } = useTranslation(['common'])
 
