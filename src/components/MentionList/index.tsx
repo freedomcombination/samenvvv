@@ -18,7 +18,6 @@ import {
 } from '@components'
 import {
   addMentionUsername,
-  clearMentionSearchKey,
   clearSearchedMentions,
   fetchMentions,
   removeSavedMention,
@@ -51,7 +50,6 @@ export const MentionList = (): JSX.Element => {
   const onAddMention = (value: ITweetUserData) => {
     if (value.screen_name) {
       dispatch(addMentionUsername(value.screen_name))
-      dispatch(clearMentionSearchKey())
       dispatch(resetMentions())
     }
   }

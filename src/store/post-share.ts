@@ -21,7 +21,6 @@ export type PostShareState = {
   mentions: IMention[]
   isMentionListLoading: boolean
   trendNames: string[]
-  mentionSearchKey: string
   defaultTab: number | null
 }
 
@@ -36,7 +35,6 @@ const initialState: PostShareState = {
   mentions: [],
   isMentionListLoading: false,
   trendNames: [],
-  mentionSearchKey: '',
   defaultTab: null,
 }
 
@@ -61,12 +59,7 @@ export const postShareSlice = createSlice({
     addMentionUsername: (state, action: PayloadAction<string>) => {
       state.mentionUsernames.push(`@${action.payload}`)
     },
-    setMentionSearchKey: (state, action: PayloadAction<string>) => {
-      state.mentionSearchKey = action.payload
-    },
-    clearMentionSearchKey: state => {
-      state.mentionSearchKey = ''
-    },
+
     removeMentionUsername: (state, action: PayloadAction<string>) => {
       state.mentionUsernames = state.mentionUsernames.filter(
         m => m !== action.payload,
@@ -150,8 +143,6 @@ export const {
   removeTrendName,
   setPostText,
   setPostContent,
-  setMentionSearchKey,
-  clearMentionSearchKey,
   clearSearchedMentions,
   setMentions,
   resetMentions,
