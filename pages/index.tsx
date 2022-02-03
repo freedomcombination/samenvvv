@@ -15,7 +15,6 @@ import {
 import { GetStaticProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { NextSeoProps } from 'next-seo'
-import { useRouter } from 'next/router'
 import { useTranslation } from 'react-i18next'
 import { FaVolumeMute, FaVolumeUp } from 'react-icons/fa'
 import ReactPlayer from 'react-player'
@@ -23,40 +22,25 @@ import { QueryClient } from 'react-query'
 import { dehydrate } from 'react-query/hydration'
 import RemoveMarkdown from 'remove-markdown'
 
-import { Container, HeroSkeleton, Layout, Navigate, Slider } from '@components'
-import {
-  getBlogPosts,
-  getHashtags,
-  getLatestEntry,
-  getSubpages,
-  useBlogPosts,
-  useHashtagsQuery,
-  useLatestEntry,
-  useSubpagesQuery,
-} from '@lib'
+import { Container, Layout, Navigate, Slider } from '@components'
+import { getHomepageData } from '@lib'
 
 interface HomeProps {
   seo: NextSeoProps
+  latestEntry: any
+  hashtags: any
+  homepageData: any
 }
 
-const Home = ({ seo }: HomeProps): JSX.Element => {
-  const router = useRouter()
-  const locale = router.locale as ILocale
+const Home = ({
+  seo,
+  latestEntry,
+  homepageData,
+  hashtags,
+}: HomeProps): JSX.Element => {
   const [muted, setMuted] = useState(true)
 
-  const hashtagQuery = useHashtagsQuery(locale)
-  const subpageQuery = useSubpagesQuery({
-    locale,
-    type: 'announcement',
-  })
-  const blogPosts = useBlogPosts()
-  const subpageBlogDatas = subpageQuery.data?.concat(
-    blogPosts.data as unknown as ISubpage,
-  )
-
   const { t } = useTranslation(['common'])
-
-  const { data, isLoading } = useLatestEntry()
 
   return (
     <Layout scrollHeight={100} seo={seo}>
@@ -75,26 +59,22 @@ const Home = ({ seo }: HomeProps): JSX.Element => {
             gap={16}
             alignItems="center"
           >
-            {isLoading || !data ? (
-              <HeroSkeleton />
-            ) : (
-              <Stack spacing={8} alignItems="start">
-                <Heading color="white">{data?.title}</Heading>
+            <Stack spacing={8} alignItems="start">
+              <Heading color="white">{latestEntry.title}</Heading>
 
-                <Text color="white" noOfLines={5}>
-                  {RemoveMarkdown(data?.content || '')}
-                </Text>
+              <Text color="white" noOfLines={5}>
+                {RemoveMarkdown(latestEntry.content || '')}
+              </Text>
 
-                <Navigate
-                  href={data?.link as string}
-                  as={Button}
-                  size="lg"
-                  colorScheme="whiteAlpha"
-                >
-                  {t`read-more`}
-                </Navigate>
-              </Stack>
-            )}
+              <Navigate
+                href={latestEntry.link as string}
+                as={Button}
+                size="lg"
+                colorScheme="whiteAlpha"
+              >
+                {t`read-more`}
+              </Navigate>
+            </Stack>
 
             <Box pos="relative">
               <AspectRatio
@@ -135,21 +115,11 @@ const Home = ({ seo }: HomeProps): JSX.Element => {
         <Container>
           <Stack spacing={16} py={16}>
             <Box p={8} bg="white" shadow="lg" rounded="sm">
-              <Slider
-                items={subpageBlogDatas}
-                hasThumb
-                isLoading={subpageQuery.isLoading}
-                centeredSlides={false}
-              />
+              <Slider items={homepageData} hasThumb centeredSlides={false} />
             </Box>
             <Box p={8} bg="white" shadow="lg" rounded="sm">
               <Heading textAlign="center" mb={8}>{t`hashtag-events`}</Heading>
-              <Slider
-                items={hashtagQuery.data}
-                hasThumb
-                isLoading={hashtagQuery.isLoading}
-                centeredSlides={false}
-              />
+              <Slider items={hashtags} hasThumb centeredSlides={false} />
             </Box>
           </Stack>
         </Container>
@@ -162,18 +132,8 @@ export const getStaticProps: GetStaticProps = async context => {
   const queryClient = new QueryClient()
   const locale = context.locale as string
 
-  await queryClient.prefetchQuery(['subpages', [locale, 'announcement']], () =>
-    getSubpages({ locale, type: 'announcement' }),
-  )
-  await queryClient.prefetchQuery(['posts', [locale]], () =>
-    getBlogPosts(locale),
-  )
-  await queryClient.prefetchQuery(['hashtags', [locale]], () =>
-    getHashtags(locale),
-  )
-  await queryClient.prefetchQuery(['latest-entry', [locale]], () =>
-    getLatestEntry(locale),
-  )
+  const homepageData = await getHomepageData(locale)
+
   const title: Record<string, string> = {
     en: 'Home',
     nl: 'Home',
@@ -188,8 +148,10 @@ export const getStaticProps: GetStaticProps = async context => {
     props: {
       ...(await serverSideTranslations(locale, ['common'])),
       dehydratedState: dehydrate(queryClient),
+      ...homepageData,
       seo,
     },
+    revalidate: 120,
   }
 }
 
