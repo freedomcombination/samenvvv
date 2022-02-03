@@ -25,6 +25,7 @@ import RemoveMarkdown from 'remove-markdown'
 
 import { Container, HeroSkeleton, Layout, Navigate, Slider } from '@components'
 import {
+  getBlogPosts,
   getHashtags,
   getLatestEntry,
   getSubpages,
@@ -164,8 +165,8 @@ export const getStaticProps: GetStaticProps = async context => {
   await queryClient.prefetchQuery(['subpages', [locale, 'announcement']], () =>
     getSubpages({ locale, type: 'announcement' }),
   )
-  await queryClient.prefetchQuery([locale, 'blog'], () =>
-    getSubpages({ locale, type: 'blog' }),
+  await queryClient.prefetchQuery(['posts', [locale]], () =>
+    getBlogPosts(locale),
   )
   await queryClient.prefetchQuery(['hashtags', [locale]], () =>
     getHashtags(locale),
