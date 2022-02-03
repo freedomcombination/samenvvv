@@ -63,7 +63,6 @@ export const getLatestEntry = async (locale: string): Promise<LatestEntry> => {
   const subpageData = data.subpages?.[0] || {}
   const hashtagData = data.hashtags?.[0] || {}
   const blogData = data.posts?.[0] || {}
-
   const subpage = {
     ...subpageData,
     link: getItemLink(subpageData, locale),
