@@ -22,6 +22,8 @@ export type PostShareState = {
   isMentionListLoading: boolean
   trendNames: string[]
   defaultTab: number | null
+  isPostModalOpen: boolean
+  currentPost: IHashtagPost | null
 }
 
 const initialState: PostShareState = {
@@ -36,6 +38,8 @@ const initialState: PostShareState = {
   isMentionListLoading: false,
   trendNames: [],
   defaultTab: null,
+  isPostModalOpen: false,
+  currentPost: null,
 }
 
 export const fetchSearchedMentions = createAsyncThunk(
@@ -68,6 +72,9 @@ export const postShareSlice = createSlice({
     addTrendName: (state, action: PayloadAction<string>) => {
       state.trendNames.push(action.payload)
     },
+    setCurrentPost: (state, action: PayloadAction<IHashtagPost>) => {
+      state.currentPost = action.payload
+    },
     removeTrendName: (state, action: PayloadAction<string>) => {
       state.trendNames = state.trendNames.filter(m => m !== action.payload)
     },
@@ -85,6 +92,9 @@ export const postShareSlice = createSlice({
     },
     resetMentions: state => {
       state.mentions = state.initialMentions
+    },
+    togglePostModal: state => {
+      state.isPostModalOpen = !state.isPostModalOpen
     },
     updateSavedSearchedMentions: (
       state,
@@ -140,6 +150,7 @@ export const {
   removeSavedMention,
   removeMentionUsername,
   addTrendName,
+  setCurrentPost,
   removeTrendName,
   setPostText,
   setPostContent,
@@ -148,6 +159,7 @@ export const {
   resetMentions,
   updateSavedSearchedMentions,
   setDefaultTab,
+  togglePostModal,
 } = postShareSlice.actions
 
 export const { reducer: postShareReducer } = postShareSlice

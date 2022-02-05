@@ -1,25 +1,18 @@
-import { useEffect, useState } from 'react'
+import { memo, useEffect, useState } from 'react'
 
 import {
   Box,
   Button,
   Collapse,
-  Drawer,
-  DrawerBody,
-  DrawerCloseButton,
-  DrawerContent,
-  DrawerOverlay,
-  Grid,
   Heading,
   IconButton,
+  Spinner,
   Stack,
   Tab,
   TabPanel,
   TabPanels,
   Tabs,
   Text,
-  useDisclosure,
-  VStack,
 } from '@chakra-ui/react'
 import { useTour } from '@reactour/tour'
 import { addDays, isPast } from 'date-fns'
@@ -34,16 +27,13 @@ import {
   FaTwitter,
 } from 'react-icons/fa'
 
+import { Container, Layout, PostArchive, PostMaker } from '@components'
 import {
-  Container,
-  Layout,
-  MentionList,
-  PostArchive,
-  PostContainer,
-  TrendListTabs,
-  TweetWidget,
-} from '@components'
-import { setDefaultTab, useAppDispatch, useAppSelector } from '@store'
+  setCurrentPost,
+  setDefaultTab,
+  useAppDispatch,
+  useAppSelector,
+} from '@store'
 
 interface HashtagProps {
   slug: Record<string, string[]>
@@ -54,8 +44,7 @@ interface HashtagProps {
 }
 
 const HashtagPostView = ({ pageData, seo }: HashtagProps): JSX.Element => {
-  const { isOpen, onOpen, onClose } = useDisclosure()
-  const { defaultTab } = useAppSelector(state => state.postShare)
+  const { defaultTab, currentPost } = useAppSelector(state => state.postShare)
   const dispatch = useAppDispatch()
 
   const [show, setShow] = useState<boolean>(false)
@@ -63,6 +52,16 @@ const HashtagPostView = ({ pageData, seo }: HashtagProps): JSX.Element => {
   const handleToggle = () => setShow(!show)
 
   useEffect(() => {
+    if (!currentPost) {
+      const posts =
+        pageData.posts?.slice(0, 15).map(post => {
+          const p = { ...post }
+          p.hashtag = pageData.hashtag
+          return p
+        }) || []
+      dispatch(setCurrentPost({ ...pageData, posts }))
+    }
+
     const dateStr = pageData.hashtag?.date
     if (dateStr) {
       const date = new Date(dateStr)
@@ -70,28 +69,15 @@ const HashtagPostView = ({ pageData, seo }: HashtagProps): JSX.Element => {
 
       if (hasEventPassed && defaultTab === null) dispatch(setDefaultTab(1))
     }
-  }, [pageData.hashtag?.date, dispatch, defaultTab])
+  }, [pageData, dispatch])
 
   const { t } = useTranslation()
   const { setIsOpen } = useTour()
 
+  if (!currentPost) return <Spinner />
+
   return (
     <Layout seo={seo}>
-      <Drawer isOpen={isOpen} placement="left" onClose={onClose}>
-        <DrawerOverlay />
-        <DrawerContent py={4}>
-          <DrawerCloseButton />
-          <DrawerBody as={VStack} w={300} align="stretch">
-            <MentionList />
-            <TrendListTabs
-              hashtags={[
-                pageData.hashtag?.hashtag,
-                pageData.hashtag?.hashtag_extra,
-              ]}
-            />
-          </DrawerBody>
-        </DrawerContent>
-      </Drawer>
       <Container py={4}>
         <Box textAlign="center">
           <Heading>{pageData?.hashtag?.title}</Heading>
@@ -158,29 +144,7 @@ const HashtagPostView = ({ pageData, seo }: HashtagProps): JSX.Element => {
           </Stack>
           <TabPanels>
             <TabPanel px={0} py={4}>
-              <Grid
-                gap={4}
-                gridTemplateColumns={{ base: '1fr', lg: '300px 1fr 300px' }}
-                h={{ base: 'auto', lg: 640 }}
-                alignItems="stretch"
-              >
-                <Box display={{ base: 'none', lg: 'block' }} h="inherit">
-                  <MentionList />
-                  <TrendListTabs
-                    hashtags={[
-                      pageData.hashtag?.hashtag,
-                      pageData.hashtag?.hashtag_extra,
-                    ]}
-                  />
-                </Box>
-                <PostContainer onOpen={onOpen} post={pageData} />
-                <Box>
-                  <TweetWidget
-                    title={t`post-share.latest-tweets-label`}
-                    tweets={pageData.hashtag?.tweets}
-                  />
-                </Box>
-              </Grid>
+              <PostMaker />
               <Button
                 display={{ base: 'none', lg: 'flex' }}
                 pos="fixed"
@@ -223,4 +187,4 @@ const HashtagPostView = ({ pageData, seo }: HashtagProps): JSX.Element => {
   )
 }
 
-export default HashtagPostView
+export default memo(HashtagPostView)
