@@ -4,6 +4,7 @@ import {
   Box,
   Button,
   ButtonGroup,
+  chakra,
   HStack,
   Image,
   Stack,
@@ -51,13 +52,17 @@ export const TweetWidget = ({
                   <Avatar size="sm" alt={user.name} src={user.profile} />
 
                   <Stack fontSize="sm">
-                    <Text noOfLines={1} fontWeight={600}>
-                      {user.name}{' '}
-                      <Text as="span" fontSize="xs" fontWeight={400}>
+                    <HStack
+                      w={{ base: 300, lg: 'full' }}
+                      noOfLines={1}
+                      fontWeight={600}
+                    >
+                      <chakra.span>{user.name}</chakra.span>
+                      <chakra.span as="span" fontSize="xs" fontWeight={400}>
                         @{user.username}
-                      </Text>
-                    </Text>
-                    <Text lineHeight="1.5" whiteSpace="pre-line">
+                      </chakra.span>
+                    </HStack>
+                    <Text lineHeight="1.5" whiteSpace="normal">
                       {text}
                     </Text>
                     {videos ? (

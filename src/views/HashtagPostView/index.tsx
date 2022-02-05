@@ -180,7 +180,7 @@ const HashtagPostView = ({ pageData, seo }: HashtagProps): JSX.Element => {
                     tweets={pageData.hashtag?.tweets}
                   />
                 </Box>
-              </Grid>{' '}
+              </Grid>
               <Button
                 display={{ base: 'none', lg: 'flex' }}
                 pos="fixed"
