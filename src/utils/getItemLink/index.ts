@@ -5,7 +5,8 @@ export const getItemLink = (
     | ICompetition
     | IHashtag
     | IApplication
-    | IHashtagPost,
+    | IHashtagPost
+    | IPost,
   locale: string,
   isAbsolute?: boolean,
 ): string | null => {
@@ -13,6 +14,7 @@ export const getItemLink = (
   const application = item as IApplication
   const subpage = item as ISubpage
   const page = item as IPage
+  const blog = item as IPost
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL as string
   let itemUrl: string | null
 
@@ -22,6 +24,8 @@ export const getItemLink = (
     ? 'application'
     : page.subpages || page.competitions || page.hashtags
     ? 'page'
+    : blog.author
+    ? 'blog'
     : 'subpage'
 
   if (type === 'post') {
@@ -48,6 +52,12 @@ export const getItemLink = (
       return null
     }
     itemUrl = `/${locale}/${page.slug}`
+  } else if (type === 'blog') {
+    if (!blog.slug) {
+      console.error('Missing link for page', type, page)
+      return null
+    }
+    itemUrl = `/${locale}/blog/${blog.slug}`
   } else {
     console.error('Missing slug for item:', type, item)
     return null
