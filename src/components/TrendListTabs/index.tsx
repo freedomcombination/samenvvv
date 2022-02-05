@@ -1,5 +1,6 @@
 import {
   Box,
+  Flex,
   HStack,
   Tab,
   TabList,
@@ -7,7 +8,6 @@ import {
   TabPanels,
   Tabs,
   Text,
-  Tooltip,
   VStack,
 } from '@chakra-ui/react'
 import { formatDistanceToNow } from 'date-fns'
@@ -46,20 +46,21 @@ export const TrendListTabs = ({ hashtags }: TrendListProps): JSX.Element => {
       mt={4}
       data-tour="step-trends"
     >
-      <HStack pos="relative">
-        <Text color="gray.500" fontSize="sm">{t`post-share.trends-label`}</Text>
+      <Flex pos="relative" align="start" justify="space-between">
+        <Text fontSize="sm">{t`post-share.trends-label`}</Text>
 
-        <Tooltip
-          placement="top"
-          label={distance}
-          aria-label="Trends updated"
-          hasArrow
-        >
-          <Box>
-            <FaInfoCircle />
+        <HStack role="group">
+          <Box
+            color="gray.500"
+            fontSize="sm"
+            _groupHover={{ opacity: 1 }}
+            opacity={0}
+          >
+            {distance}
           </Box>
-        </Tooltip>
-      </HStack>
+          <Box aria-label="updated ago" as={FaInfoCircle} />
+        </HStack>
+      </Flex>
 
       <Box overflowY="auto" shadow="md" bg="white">
         <Tabs colorScheme="primary" isFitted size="sm">

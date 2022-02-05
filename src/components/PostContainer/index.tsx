@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from 'react'
+import { memo, useCallback, useEffect } from 'react'
 
 import { Flex, IconButton, Stack, Text, VStack } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
@@ -13,13 +13,10 @@ import { PostCharCount } from '../PostCharCount'
 import { PostContainerBody } from '../PostContainerBody'
 import { PostContainerButtons } from '../PostContainerButtons'
 
-export const PostContainer = ({
-  onOpen,
-  post,
-}: {
+export const PostContainer = memo<{
   onOpen: () => void
   post: IHashtagPost
-}): JSX.Element => {
+}>(function PostContainer({ onOpen, post }) {
   const dispatch = useAppDispatch()
   const { t } = useTranslation()
   const { locale } = useRouter()
@@ -92,4 +89,4 @@ export const PostContainer = ({
       <OtherPostList post={post} />
     </Stack>
   )
-}
+})

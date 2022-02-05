@@ -48,13 +48,13 @@ export const MentionListItem = ({
           <HStack flex="1" fontSize="sm">
             <Avatar
               name={user_data.screen_name}
-              src={user_data?.profile_image_url_https}
+              src={user_data.profile_image_url_https}
               size="sm"
               pos="static"
             />
             <Box>
               <Text isTruncated maxW="120px">
-                {user_data?.name ?? user_data.name}
+                {user_data.name}
               </Text>
               <Text>@{user_data.screen_name}</Text>
             </Box>
@@ -94,25 +94,22 @@ export const MentionListItem = ({
       <PopoverContent
         overflow="hidden"
         placement="right"
-        hasArrow
         bg="white"
         color="black"
         minW={200}
         rounded="lg"
         py={2}
         textAlign="center"
-        openDelay={300}
-        closeDelay={300}
       >
-        <VStack w="full">
+        <VStack w="full" fontSize="sm">
           <Avatar
             name={user_data.screen_name}
             size="lg"
-            src={user_data?.profile_image_url_https}
+            src={user_data.profile_image_url_https}
             shadow="base"
           />
           <Box fontWeight={600}>
-            <Text fontSize="xl">{user_data?.name}</Text>
+            <Text fontSize="xl">{user_data.name}</Text>
             <Text color="twitter.400">@{user_data.screen_name}</Text>
           </Box>
 
@@ -123,11 +120,11 @@ export const MentionListItem = ({
           <HStack w="full" justify="space-evenly">
             <Box>
               <Text>Following</Text>
-              <Text>{formatNumber(user_data?.friends_count)}</Text>
+              <Text>{formatNumber(user_data.friends_count)}</Text>
             </Box>
             <Box>
               <Text>Followers</Text>
-              <Text>{formatNumber(user_data?.followers_count)}</Text>
+              <Text>{formatNumber(user_data.followers_count)}</Text>
             </Box>
           </HStack>
         </VStack>
