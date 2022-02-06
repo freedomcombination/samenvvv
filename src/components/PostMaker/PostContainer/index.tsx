@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next'
 import { FaRandom } from 'react-icons/fa'
 
 import { useCheckCharacterCount } from '@hooks'
-import { setPostText, useAppDispatch, useAppSelector } from '@store'
+import { setPostText, useAppDispatch } from '@store'
 import { getRandomPostSentence } from '@utils'
 
 import { Caps } from './Caps'
@@ -14,8 +14,7 @@ import { PostCharCount } from './PostCharCount'
 import { PostContainerBody } from './PostContainerBody'
 import { PostContainerButtons } from './PostContainerButtons'
 
-export const PostContainer = () => {
-  const { currentPost } = useAppSelector(state => state.postShare)
+export const PostContainer = ({ post }: { post: IHashtagPost }) => {
   const dispatch = useAppDispatch()
   const { t } = useTranslation()
   const { locale } = useRouter()
@@ -33,7 +32,7 @@ export const PostContainer = () => {
     const randomCombination =
       combinations[Math.floor(Math.random() * (combinations.length - 1))]
 
-    const randomPostText = currentPost!.text
+    const randomPostText = post.text
       .split('.')
       .slice(randomCombination[0], randomCombination[1])
       .join('.')
@@ -43,7 +42,7 @@ export const PostContainer = () => {
 
     onChange(combinedText)
     dispatch(setPostText(combinedText))
-  }, [dispatch, locale, currentPost, onChange])
+  }, [dispatch, locale, post, onChange])
 
   useEffect(() => {
     generateRandomPostText()
@@ -83,11 +82,11 @@ export const PostContainer = () => {
             icon={<FaRandom />}
             onClick={generateRandomPostText}
           />
-          <PostContainerBody />
+          <PostContainerBody post={post} />
         </Stack>
-        <PostContainerButtons />
+        <PostContainerButtons post={post} />
       </VStack>
-      <Caps />
+      <Caps post={post} />
     </Stack>
   )
 }

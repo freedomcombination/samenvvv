@@ -21,6 +21,7 @@ interface TrendListProps {
   isLoading: boolean
   hashtagInTrends?: ITrend
   hashtagExtraInTrends?: ITrend
+  post: IHashtagPost
 }
 
 export const TrendList = ({
@@ -29,7 +30,9 @@ export const TrendList = ({
   hashtagInTrends,
   hashtagExtraInTrends,
 }: TrendListProps): JSX.Element => {
-  const { trendNames, currentPost } = useAppSelector(state => state.postShare)
+  const { trendNames, defaultHashtags } = useAppSelector(
+    state => state.postShare,
+  )
 
   const dispatch = useAppDispatch()
 
@@ -54,8 +57,7 @@ export const TrendList = ({
 
             const isSelectedHashtag = [
               ...trendNames,
-              currentPost!.hashtag?.hashtag,
-              currentPost!.hashtag?.hashtag_extra,
+              ...defaultHashtags,
             ].includes(tag.name)
 
             const colorScheme = isCurrentHashtag

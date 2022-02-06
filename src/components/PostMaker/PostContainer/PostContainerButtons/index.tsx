@@ -10,27 +10,27 @@ import { useCheckCharacterCount, useItemLink } from '@hooks'
 import { togglePostModal, useAppDispatch, useAppSelector } from '@store'
 import { getItemLink } from '@utils'
 
-export const PostContainerButtons = () => {
+export const PostContainerButtons = ({ post }: { post: IHashtagPost }) => {
   const { t } = useTranslation()
   const { push, locale } = useRouter()
-  const { postContent, currentPost } = useAppSelector(state => state.postShare)
+  const { postContent } = useAppSelector(state => state.postShare)
 
   const dispatch = useAppDispatch()
   const { isExceeded } = useCheckCharacterCount()
 
-  const postUrlAbsolute = useItemLink(currentPost!, true)
+  const postUrlAbsolute = useItemLink(post, true)
 
   const redirectToRandomPost = useCallback(() => {
     const randomPostIndex = Math.floor(
-      Math.random() * (currentPost!.posts?.length || 0),
+      Math.random() * (post.posts?.length || 0),
     )
 
-    const randomPost = currentPost!.posts?.[randomPostIndex] as IHashtagPost
-    randomPost.hashtag = currentPost!.hashtag
+    const randomPost = post.posts?.[randomPostIndex] as IHashtagPost
+    randomPost.hashtag = post.hashtag
     const randomPostLink = getItemLink(randomPost, locale as string)
 
     push(randomPostLink as string)
-  }, [currentPost, locale, push])
+  }, [post, locale, push])
 
   return (
     <SimpleGrid

@@ -5,7 +5,9 @@ import { TagList } from '@components'
 import { removeTrendName, useAppDispatch, useAppSelector } from '@store'
 
 export const PostContainerTrendTags = () => {
-  const { trendNames, currentPost } = useAppSelector(state => state.postShare)
+  const { trendNames, defaultHashtags } = useAppSelector(
+    state => state.postShare,
+  )
 
   const dispatch = useAppDispatch()
   const { t } = useTranslation()
@@ -14,18 +16,9 @@ export const PostContainerTrendTags = () => {
     dispatch(removeTrendName(trend))
   }
 
-  if (
-    trendNames.length === 0 &&
-    !currentPost!.hashtag?.hashtag &&
-    !currentPost!.hashtag?.hashtag_extra
-  )
-    return <></>
+  if (trendNames.length === 0 && !defaultHashtags[0]) return <></>
 
-  const tags = [
-    currentPost!.hashtag?.hashtag,
-    currentPost!.hashtag?.hashtag_extra,
-    ...trendNames,
-  ].filter(t => t) as string[]
+  const tags = [...defaultHashtags, ...trendNames].filter(t => t) as string[]
 
   return (
     <Box mb={2}>

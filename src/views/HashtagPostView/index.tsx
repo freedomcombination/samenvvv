@@ -1,8 +1,9 @@
-import { memo, useEffect, useState } from 'react'
+import { memo, useEffect, useMemo, useState } from 'react'
 
 import {
   Box,
   Button,
+  Center,
   Collapse,
   Heading,
   IconButton,
@@ -29,7 +30,7 @@ import {
 
 import { Container, Layout, PostArchive, PostMaker } from '@components'
 import {
-  setCurrentPost,
+  setDefaultHashtags,
   setDefaultTab,
   useAppDispatch,
   useAppSelector,
@@ -44,37 +45,51 @@ interface HashtagProps {
 }
 
 const HashtagPostView = ({ pageData, seo }: HashtagProps): JSX.Element => {
-  const { defaultTab, currentPost } = useAppSelector(state => state.postShare)
+  const { defaultTab } = useAppSelector(state => state.postShare)
   const dispatch = useAppDispatch()
 
   const [show, setShow] = useState<boolean>(false)
 
   const handleToggle = () => setShow(!show)
 
-  useEffect(() => {
-    if (!currentPost) {
-      const posts =
-        pageData.posts?.slice(0, 15).map(post => {
-          const p = { ...post }
-          p.hashtag = pageData.hashtag
-          return p
-        }) || []
-      dispatch(setCurrentPost({ ...pageData, posts }))
-    }
+  const post = useMemo(() => {
+    const posts =
+      pageData.posts?.slice(0, 15).map(post => {
+        const p = { ...post }
+        p.hashtag = pageData.hashtag
+        return p
+      }) || []
 
-    const dateStr = pageData.hashtag?.date
+    return { ...pageData, posts }
+  }, [pageData])
+
+  useEffect(() => {
+    const dateStr = post.hashtag?.date
     if (dateStr) {
       const date = new Date(dateStr)
       const hasEventPassed = isPast(addDays(date, 1))
 
       if (hasEventPassed && defaultTab === null) dispatch(setDefaultTab(1))
+      dispatch(
+        setDefaultHashtags([
+          post.hashtag?.hashtag || '',
+          post.hashtag?.hashtag_extra || '',
+        ]),
+      )
     }
-  }, [pageData, dispatch])
+  }, [post, dispatch])
 
   const { t } = useTranslation()
   const { setIsOpen } = useTour()
 
-  if (!currentPost) return <Spinner />
+  if (!post)
+    return (
+      <Layout>
+        <Center h="100vh">
+          <Spinner colorScheme="primary" />
+        </Center>
+      </Layout>
+    )
 
   return (
     <Layout seo={seo}>
@@ -142,9 +157,9 @@ const HashtagPostView = ({ pageData, seo }: HashtagProps): JSX.Element => {
               <Box>{t`post-share.tabs.archive`}</Box>
             </Tab>
           </Stack>
-          <TabPanels>
+          <TabPanels overflowX="hidden">
             <TabPanel px={0} py={4}>
-              <PostMaker />
+              <PostMaker post={post} />
               <Button
                 display={{ base: 'none', lg: 'flex' }}
                 pos="fixed"

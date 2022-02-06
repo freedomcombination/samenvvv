@@ -4,14 +4,12 @@ import { Box, Stack, Text } from '@chakra-ui/react'
 import { useTranslation } from 'next-i18next'
 import { useRouter } from 'next/router'
 
-import { useAppSelector } from '@store'
 import { getItemLink } from '@utils'
 
 import { ChakraNextImage } from '../../../Shared/ChakraNextImage'
 import { Navigate } from '../../../Shared/Navigate'
 
-export const Caps = () => {
-  const { currentPost } = useAppSelector(state => state.postShare)
+export const Caps = ({ post }: { post: IHashtagPost }) => {
   const { locale } = useRouter()
   const { t } = useTranslation()
   return (
@@ -38,7 +36,7 @@ export const Caps = () => {
           overflowY={{ base: 'hidden', lg: 'auto' }}
           overflowX={{ base: 'auto', lg: 'hidden' }}
         >
-          {currentPost!.posts?.slice(0, 15).map((p, i) => {
+          {post.posts?.slice(0, 15).map((p, i) => {
             return (
               <Box
                 key={i}

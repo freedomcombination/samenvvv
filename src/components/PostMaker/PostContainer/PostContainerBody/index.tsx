@@ -1,13 +1,11 @@
 import { Box, Spacer, Stack } from '@chakra-ui/react'
 
 import { ChakraNextImage } from '@components'
-import { useAppSelector } from '@store'
 
 import { PostContainerTags } from '../PostContainerTags'
 import { PostTextarea } from '../PostTextarea'
 
-export const PostContainerBody = () => {
-  const { currentPost } = useAppSelector(state => state.postShare)
+export const PostContainerBody = ({ post }: { post: IHashtagPost }) => {
   return (
     <Stack
       flex={1}
@@ -17,22 +15,19 @@ export const PostContainerBody = () => {
       rounded="sm"
       borderWidth={1}
       fontSize="md"
+      bg="white"
     >
       <PostTextarea />
       <PostContainerTags />
       <Spacer />
-      {currentPost!.image && (
+      {post.image && (
         <Box
           rounded="md"
           overflow="hidden"
           borderColor="gray.300"
           borderWidth={1}
         >
-          <ChakraNextImage
-            ratio="twitter"
-            h={'100%'}
-            image={currentPost!.image.url}
-          />
+          <ChakraNextImage ratio="twitter" h={'100%'} image={post.image.url} />
         </Box>
       )}
     </Stack>

@@ -15,8 +15,13 @@ type UseCharacter = {
 }
 
 export const useCheckCharacterCount = (): UseCharacter => {
-  const { postText, postContent, mentionUsernames, currentPost, trendNames } =
-    useAppSelector(state => state.postShare)
+  const {
+    postText,
+    postContent,
+    mentionUsernames,
+    trendNames,
+    defaultHashtags,
+  } = useAppSelector(state => state.postShare)
 
   const dispatch = useAppDispatch()
 
@@ -30,7 +35,7 @@ export const useCheckCharacterCount = (): UseCharacter => {
   const onChange = useDebounce((value?: string): void => {
     const mentionsStr = mentionUsernames.join('\n')
     // prettier-ignore
-    const trendsStr = currentPost!.hashtag?.hashtag || '' + currentPost!.hashtag?.hashtag_extra || '' + (trendNames.length > 0 ? '\n' + trendNames.join('\n') : '')
+    const trendsStr = defaultHashtags[0] || '' + defaultHashtags[1] || '' + (trendNames.length > 0 ? '\n' + trendNames.join('\n') : '')
     const postContent = `${value || postText}\n\n${mentionsStr}\n\n${trendsStr}`
 
     dispatch(setPostText(value || postText))

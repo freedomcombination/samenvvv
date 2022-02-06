@@ -17,18 +17,17 @@ import { FaInfoCircle } from 'react-icons/fa'
 
 import { timeLocale } from '@config'
 import { useFindHashtagInTrends, useTrendsData } from '@lib'
-import { useAppSelector } from '@store'
 
 import { TrendList } from '../TrendList'
 
-export const TrendListTabs = (): JSX.Element => {
+export const TrendListTabs = ({
+  post,
+}: {
+  post: IHashtagPost
+}): JSX.Element => {
   const { t } = useTranslation()
   const { locale } = useRouter()
-  const { currentPost } = useAppSelector(state => state.postShare)
-  const hashtagInTrends = useFindHashtagInTrends(currentPost!.hashtag?.hashtag)
-  const hashtagExtraInTrends = useFindHashtagInTrends(
-    currentPost!.hashtag?.hashtag_extra,
-  )
+  const [hashtagInTrends, hashtagExtraInTrends] = useFindHashtagInTrends()
 
   const { data: trends, isLoading } = useTrendsData()
 
@@ -72,11 +71,13 @@ export const TrendListTabs = (): JSX.Element => {
           </TabList>
           <TabPanels>
             <TabPanel>
+              {/* TODO Simplify TrendList component */}
               <TrendList
                 isLoading={isLoading}
                 trends={trends?.en}
                 hashtagInTrends={hashtagInTrends?.en}
                 hashtagExtraInTrends={hashtagExtraInTrends?.en}
+                post={post}
               />
             </TabPanel>
             <TabPanel>
@@ -85,6 +86,7 @@ export const TrendListTabs = (): JSX.Element => {
                 trends={trends?.tr}
                 hashtagInTrends={hashtagInTrends?.tr}
                 hashtagExtraInTrends={hashtagExtraInTrends?.tr}
+                post={post}
               />
             </TabPanel>
             <TabPanel>
@@ -93,6 +95,7 @@ export const TrendListTabs = (): JSX.Element => {
                 trends={trends?.nl}
                 hashtagInTrends={hashtagInTrends?.nl}
                 hashtagExtraInTrends={hashtagExtraInTrends?.nl}
+                post={post}
               />
             </TabPanel>
           </TabPanels>
