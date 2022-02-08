@@ -8,7 +8,7 @@ declare interface ISubpage extends LocalizedSlugs {
   content: string
   type: Page_Type
   start: string
-  end?: string
+  end: string
   image?: IUploadFile
   page?: IPage
   locale?: string
