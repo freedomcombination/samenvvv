@@ -1,4 +1,4 @@
-import { compareAsc } from 'date-fns'
+import { compareAsc, isFuture } from 'date-fns'
 import { gql } from 'graphql-request'
 
 import { graphQLClient } from '@lib'
@@ -41,6 +41,7 @@ export const GET_HOMEPAGE_DATA = gql`
       title
       content
       start
+      end
       slug
       image {
         url
@@ -80,6 +81,12 @@ export const getHomepageData = async (
   const subpageData = data.subpages || []
   const hashtagData = data.hashtags || []
   const blogData = data.posts || []
+  let latestEntry: HomepageDataItem = {
+    title: '',
+    link: '',
+    date: '',
+    content: '',
+  }
 
   // Extend subpage data with link and date
   const subpages = subpageData.map(subpage => ({
@@ -102,9 +109,21 @@ export const getHomepageData = async (
   })) as HomepageDataItem[]
 
   // Get the latest entry
-  const latestEntry = [...subpages, ...hashtags, ...blogs].sort((a, b) =>
+  const subpagesEnd = subpageData.map(subpage => ({
+    ...subpage,
+    link: getItemLink(subpage, locale),
+    date: subpage.end,
+  })) as HomepageDataItem[]
+
+  const lastAnnounc = subpagesEnd.sort((a, b) =>
     compareAsc(new Date(b.date), new Date(a.date)),
   )[0]
+
+  isFuture(new Date(lastAnnounc.date))
+    ? (latestEntry = lastAnnounc)
+    : (latestEntry = [...hashtags, ...blogs].sort((a, b) =>
+        compareAsc(new Date(b.date), new Date(a.date)),
+      )[0])
 
   const homepageData = [...subpages, ...blogs].sort((a, b) =>
     compareAsc(new Date(b.date), new Date(a.date)),
