@@ -1,24 +1,20 @@
-import React, { ChangeEvent, useEffect, useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
 
 import { chakra, useBoolean } from '@chakra-ui/react'
+import useDebounce from '@rooks/use-debounce'
 
-import { useAppSelector } from '@store'
+import { setPostText, useAppDispatch, useAppSelector } from '@store'
 
 export const PostTextarea = () => {
   const [editable, setEditable] = useBoolean(false)
   const { postText } = useAppSelector(state => state.postShare)
-
-  const text = useRef<string>(postText)
+  const dispatch = useAppDispatch()
 
   const contentRef = useRef<HTMLTextAreaElement | null>(null)
 
-  const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    text.current = e.target.value
-  }
-
-  useEffect(() => {
-    text.current = postText
-  }, [postText])
+  const handleChange = useDebounce((value: string) => {
+    dispatch(setPostText(value))
+  }, 500)
 
   useEffect(() => {
     if (editable) {
@@ -37,8 +33,8 @@ export const PostTextarea = () => {
       p={2}
       w="full"
       onBlur={setEditable.toggle}
-      onChange={handleChange}
-      defaultValue={text.current}
+      onChange={e => handleChange(e.target.value)}
+      defaultValue={postText}
     />
   ) : (
     <chakra.div
