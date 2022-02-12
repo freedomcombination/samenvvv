@@ -17,7 +17,7 @@ export const SliderHero = ({ item }: SliderHeroProps): JSX.Element => {
   const link = getItemLink(item, locale as string)
 
   return (
-    <SimpleGrid gap={8} columns={{ base: 1, lg: 2 }} mb={8} alignItems="center">
+    <SimpleGrid gap={8} columns={{ base: 1, lg: 2 }} mb={4} alignItems="center">
       <Stack align="start" flex={1} spacing={8}>
         <Heading size="lg">{item.title}</Heading>
         <Box>

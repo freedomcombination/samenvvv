@@ -38,14 +38,20 @@ export const MainHashtagsView = memo<MainHashtagsProps>(
             </Box>
           )}
 
-          <Stack spacing={16} mb={8}>
+          <Stack spacing={{ base: 8, lg: 16 }} mb={8}>
             {pageData.hashtags?.map((hashtag, i) => (
               <AnimatedBox
                 directing={i % 2 === 0 ? 'to-left' : 'to-right'}
                 delay={5}
                 key={i}
               >
-                <Box px={8} pt={8} pb={4} bg="white" shadow="primary">
+                <Box
+                  px={{ base: 4, lg: 8 }}
+                  pt={{ base: 4, lg: 8 }}
+                  pb={0}
+                  bg="white"
+                  shadow="primary"
+                >
                   <SliderHero item={hashtag} />
                   <Slider
                     slides={{ base: 1, md: 2, lg: 4 }}
@@ -57,6 +63,7 @@ export const MainHashtagsView = memo<MainHashtagsProps>(
                     loop
                     customStyles={{ opacity: 0.5 }}
                     activeStyles={{ opacity: 1 }}
+                    isSimple
                   />
                 </Box>
               </AnimatedBox>
