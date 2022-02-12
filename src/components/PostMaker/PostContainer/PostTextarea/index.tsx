@@ -2,21 +2,18 @@ import React, { ChangeEvent, useEffect, useRef } from 'react'
 
 import { chakra, useBoolean } from '@chakra-ui/react'
 
-import { useCheckCharacterCount } from '@hooks'
 import { useAppSelector } from '@store'
 
 export const PostTextarea = () => {
   const [editable, setEditable] = useBoolean(false)
   const { postText } = useAppSelector(state => state.postShare)
 
-  const { onChange } = useCheckCharacterCount()
   const text = useRef<string>(postText)
 
   const contentRef = useRef<HTMLTextAreaElement | null>(null)
 
   const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     text.current = e.target.value
-    onChange(e.target.value)
   }
 
   useEffect(() => {

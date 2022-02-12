@@ -24,6 +24,28 @@ export type PostShareState = {
   defaultTab: number | null
   isPostModalOpen: boolean
   defaultHashtags: string[]
+  count: number
+  isExceeded: boolean
+}
+
+export const updatePostContent = (state: PostShareState): void => {
+  const twitterCharLimit = 280
+  const linkCharCount = 23 + 2 // 2 chars is because of the library leaves spaces before/after the link
+
+  const mentionsStr = state.mentionUsernames.join('\n')
+
+  const trendsStr =
+    (state.defaultHashtags[0] ?? '') +
+    (state.defaultHashtags[1] ?? '') +
+    (state.trendNames.length > 0 ? `\n${state.trendNames.join('\n')}` : '')
+  const postContent = `${state.postText}\n\n${mentionsStr}\n\n${trendsStr}`
+
+  const count = linkCharCount + postContent.length
+  const isExceeded = count > twitterCharLimit
+
+  state.count = count
+  state.isExceeded = isExceeded
+  state.postContent = postContent
 }
 
 const initialState: PostShareState = {
@@ -40,6 +62,8 @@ const initialState: PostShareState = {
   defaultTab: null,
   isPostModalOpen: false,
   defaultHashtags: [],
+  count: 0,
+  isExceeded: false,
 }
 
 export const fetchSearchedMentions = createAsyncThunk(
@@ -62,27 +86,34 @@ export const postShareSlice = createSlice({
   reducers: {
     addMentionUsername: (state, action: PayloadAction<string>) => {
       state.mentionUsernames.push(`@${action.payload}`)
+      updatePostContent(state)
     },
 
     removeMentionUsername: (state, action: PayloadAction<string>) => {
       state.mentionUsernames = state.mentionUsernames.filter(
         m => m !== action.payload,
       )
+      updatePostContent(state)
     },
     addTrendName: (state, action: PayloadAction<string>) => {
       state.trendNames.push(action.payload)
+      updatePostContent(state)
     },
     removeTrendName: (state, action: PayloadAction<string>) => {
       state.trendNames = state.trendNames.filter(m => m !== action.payload)
+      updatePostContent(state)
     },
     setDefaultHashtags: (state, action: PayloadAction<string[]>) => {
       state.defaultHashtags = action.payload
+      updatePostContent(state)
     },
     setPostText: (state, action: PayloadAction<string>) => {
       state.postText = action.payload
+      updatePostContent(state)
     },
     setPostContent: (state, action: PayloadAction<string>) => {
       state.postContent = action.payload
+      updatePostContent(state)
     },
     clearSearchedMentions: state => {
       state.searchedMentions = []

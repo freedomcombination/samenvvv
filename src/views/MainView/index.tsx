@@ -1,3 +1,5 @@
+import { memo } from 'react'
+
 import { Box, Stack } from '@chakra-ui/react'
 import { MDXRemoteSerializeResult } from 'next-mdx-remote'
 import { NextSeoProps } from 'next-seo'
@@ -12,7 +14,11 @@ interface MainViewProps {
   link: string
 }
 
-const MainView = ({ pageData, seo, source }: MainViewProps): JSX.Element => {
+export const MainView = memo<MainViewProps>(function MainView({
+  pageData,
+  seo,
+  source,
+}) {
   return (
     <Layout scrollHeight={100} seo={seo}>
       <Hero
@@ -32,6 +38,4 @@ const MainView = ({ pageData, seo, source }: MainViewProps): JSX.Element => {
       </Container>
     </Layout>
   )
-}
-
-export default MainView
+})

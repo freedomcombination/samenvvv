@@ -2,7 +2,6 @@ import { memo, useEffect, useMemo, useState } from 'react'
 
 import {
   Box,
-  Button,
   Center,
   Collapse,
   Heading,
@@ -14,27 +13,30 @@ import {
   TabPanels,
   Tabs,
   Text,
+  useBreakpointValue,
 } from '@chakra-ui/react'
-import { useTour } from '@reactour/tour'
+import { TourProvider } from '@reactour/tour'
+import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock'
 import { addDays, isPast } from 'date-fns'
 import { MDXRemoteSerializeResult } from 'next-mdx-remote'
 import { NextSeoProps } from 'next-seo'
 import { useTranslation } from 'react-i18next'
-import {
-  FaChevronDown,
-  FaChevronUp,
-  FaImages,
-  FaQuestionCircle,
-  FaTwitter,
-} from 'react-icons/fa'
+import { FaChevronDown, FaChevronUp, FaImages, FaTwitter } from 'react-icons/fa'
 
-import { Container, Layout, PostArchive, PostMaker } from '@components'
+import {
+  Container,
+  Layout,
+  PostArchive,
+  PostMaker,
+  StepsContent,
+} from '@components'
 import {
   setDefaultHashtags,
   setDefaultTab,
   useAppDispatch,
   useAppSelector,
 } from '@store'
+import { getSteps, getStepsMob } from '@utils'
 
 interface HashtagProps {
   slug: Record<string, string[]>
@@ -44,7 +46,10 @@ interface HashtagProps {
   link: string
 }
 
-const HashtagPostView = ({ pageData, seo }: HashtagProps): JSX.Element => {
+export const HashtagPostView = memo<HashtagProps>(function HashtagPostView({
+  pageData,
+  seo,
+}) {
   const { defaultTab } = useAppSelector(state => state.postShare)
   const dispatch = useAppDispatch()
 
@@ -52,9 +57,16 @@ const HashtagPostView = ({ pageData, seo }: HashtagProps): JSX.Element => {
 
   const handleToggle = () => setShow(!show)
 
+  const { t } = useTranslation()
+
+  const isMobile = useBreakpointValue({ base: true, lg: false })
+  const steps = isMobile ? getStepsMob(t) : getSteps(t)
+  const disableBody = (target: any) => disableBodyScroll(target)
+  const enableBody = (target: any) => enableBodyScroll(target)
+
   const post = useMemo(() => {
     const posts =
-      pageData.posts?.slice(0, 15).map(post => {
+      pageData.posts?.map(post => {
         const p = { ...post }
         p.hashtag = pageData.hashtag
         return p
@@ -79,9 +91,6 @@ const HashtagPostView = ({ pageData, seo }: HashtagProps): JSX.Element => {
     }
   }, [post, dispatch])
 
-  const { t } = useTranslation()
-  const { setIsOpen } = useTour()
-
   if (!post)
     return (
       <Layout>
@@ -92,114 +101,97 @@ const HashtagPostView = ({ pageData, seo }: HashtagProps): JSX.Element => {
     )
 
   return (
-    <Layout seo={seo}>
-      <Container py={4}>
-        <Box textAlign="center">
-          <Heading>{pageData?.hashtag?.title}</Heading>
-          <Collapse startingHeight={50} in={show}>
-            <Text my={4} maxW="container.md" mx="auto">
-              {pageData?.hashtag?.content}{' '}
-            </Text>
-          </Collapse>
-          <IconButton
-            variant="ghost"
-            size="sm"
-            icon={show ? <FaChevronUp /> : <FaChevronDown />}
-            aria-label={show ? 'up' : 'down'}
-            _hover={{ bg: 'transparent' }}
-            onClick={handleToggle}
-          />
-        </Box>
-        <Tabs
-          flex={1}
-          isFitted
-          colorScheme="primary"
-          index={defaultTab || 0}
-          onChange={index => dispatch(setDefaultTab(index))}
-          isLazy
-        >
-          <Stack
-            direction={{ base: 'row', xl: 'column' }}
-            pos={{ base: 'static', xl: 'fixed' }}
-            top="50%"
-            left={0}
-            transform={{ xl: 'translateY(-50%)' }}
-            spacing={1}
-            zIndex="tooltip"
+    <TourProvider
+      steps={steps}
+      components={{}}
+      afterOpen={disableBody}
+      beforeClose={enableBody}
+      ContentComponent={StepsContent}
+      padding={{ mask: 6 }}
+      styles={{
+        popover: base => ({
+          ...base,
+          padding: 4,
+          backgroundColor: 'transparent',
+        }),
+      }}
+    >
+      <Layout seo={seo}>
+        <Container py={4}>
+          <Box textAlign="center">
+            <Heading>{post?.hashtag?.title}</Heading>
+            <Collapse startingHeight={50} in={show}>
+              <Text my={4} maxW="container.md" mx="auto">
+                {post?.hashtag?.content}{' '}
+              </Text>
+            </Collapse>
+            <IconButton
+              variant="ghost"
+              size="sm"
+              icon={show ? <FaChevronUp /> : <FaChevronDown />}
+              aria-label={show ? 'up' : 'down'}
+              _hover={{ bg: 'transparent' }}
+              onClick={handleToggle}
+            />
+          </Box>
+          <Tabs
+            flex={1}
+            isFitted
+            colorScheme="primary"
+            index={defaultTab || 0}
+            onChange={index => dispatch(setDefaultTab(index))}
+            isLazy
           >
-            <Tab
-              borderWidth={1}
-              borderColor="gray.300"
-              mb={0}
-              bg="white"
-              borderRadius={{ base: 'sm', lg: 'none' }}
-              _selected={{
-                bg: 'primary.400',
-                borderColor: 'primary.400',
-                color: 'white',
-              }}
+            <Stack
+              direction={{ base: 'row', xl: 'column' }}
+              pos={{ base: 'static', xl: 'fixed' }}
+              top="50%"
+              left={0}
+              transform={{ xl: 'translateY(-50%)' }}
+              spacing={1}
+              zIndex="tooltip"
             >
-              <Box as={FaTwitter} mr={2} />
-              <Box>{t`post-share.tabs.share`}</Box>
-            </Tab>
-            <Tab
-              borderWidth={1}
-              borderColor="gray.300"
-              bg="white"
-              borderRadius={{ base: 'sm', lg: 'none' }}
-              _selected={{
-                bg: 'primary.400',
-                borderColor: 'primary.400',
-                color: 'white',
-              }}
-            >
-              <Box as={FaImages} mr={2} />
-              <Box>{t`post-share.tabs.archive`}</Box>
-            </Tab>
-          </Stack>
-          <TabPanels overflowX="hidden">
-            <TabPanel px={0} py={4}>
-              <PostMaker post={post} />
-              <Button
-                display={{ base: 'none', lg: 'flex' }}
-                pos="fixed"
-                right={4}
-                bottom={4}
-                colorScheme="primary"
-                leftIcon={<FaQuestionCircle />}
-                onClick={() => setIsOpen(true)}
+              <Tab
+                borderWidth={1}
+                borderColor="gray.300"
+                mb={0}
+                bg="white"
+                borderRadius={{ base: 'sm', lg: 'none' }}
+                _selected={{
+                  bg: 'primary.400',
+                  borderColor: 'primary.400',
+                  color: 'white',
+                }}
               >
-                {t`post-share.help`}
-              </Button>
-              <IconButton
-                display={{ base: 'flex', lg: 'none' }}
-                pos="fixed"
-                size="lg"
-                right={2}
-                bottom={2}
-                rounded="full"
-                colorScheme="primary"
-                aria-label="help"
-                shadow="dark-lg"
-                icon={<FaQuestionCircle />}
-                onClick={() => setIsOpen(true)}
-              />
-            </TabPanel>
-            <TabPanel p={0} py={4}>
-              <PostArchive
-                posts={
-                  pageData.posts?.map(post => ({
-                    ...post,
-                    hashtag: pageData.hashtag,
-                  })) as IHashtagPost[]
-                }
-              />
-            </TabPanel>
-          </TabPanels>
-        </Tabs>
-      </Container>
-    </Layout>
+                <Box as={FaTwitter} mr={2} />
+                <Box>{t`post-share.tabs.share`}</Box>
+              </Tab>
+              <Tab
+                borderWidth={1}
+                borderColor="gray.300"
+                bg="white"
+                borderRadius={{ base: 'sm', lg: 'none' }}
+                _selected={{
+                  bg: 'primary.400',
+                  borderColor: 'primary.400',
+                  color: 'white',
+                }}
+              >
+                <Box as={FaImages} mr={2} />
+                <Box>{t`post-share.tabs.archive`}</Box>
+              </Tab>
+            </Stack>
+            <TabPanels overflowX="hidden">
+              <TabPanel px={0} py={4}>
+                <PostMaker post={post} />
+              </TabPanel>
+              <TabPanel p={0} py={4}>
+                <PostArchive posts={post.posts} />
+              </TabPanel>
+            </TabPanels>
+          </Tabs>
+        </Container>
+      </Layout>
+    </TourProvider>
   )
-}
-
-export default memo(HashtagPostView)
+})

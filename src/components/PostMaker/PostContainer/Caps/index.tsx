@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo } from 'react'
 
 import { Box, Stack, Text } from '@chakra-ui/react'
 import { useTranslation } from 'next-i18next'
@@ -9,9 +9,10 @@ import { getItemLink } from '@utils'
 import { ChakraNextImage } from '../../../Shared/ChakraNextImage'
 import { Navigate } from '../../../Shared/Navigate'
 
-export const Caps = ({ post }: { post: IHashtagPost }) => {
+export const Caps = memo<{ post: IHashtagPost }>(function Caps({ post }) {
   const { locale } = useRouter()
   const { t } = useTranslation()
+
   return (
     <Box
       pos="relative"
@@ -59,4 +60,4 @@ export const Caps = ({ post }: { post: IHashtagPost }) => {
       </Stack>
     </Box>
   )
-}
+})

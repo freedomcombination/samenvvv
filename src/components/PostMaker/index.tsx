@@ -1,14 +1,20 @@
+import { memo } from 'react'
+
 import {
   Box,
+  Button,
   DrawerCloseButton,
   Grid,
+  IconButton,
   Modal,
   ModalBody,
   ModalContent,
   ModalOverlay,
   Stack,
 } from '@chakra-ui/react'
+import { useTour } from '@reactour/tour'
 import { useTranslation } from 'next-i18next'
+import { FaQuestionCircle } from 'react-icons/fa'
 
 import { togglePostModal, useAppDispatch, useAppSelector } from '@store'
 
@@ -16,13 +22,41 @@ import { MentionAndTrends } from './MentionAndTrends'
 import { PostContainer } from './PostContainer'
 import { TweetWidget } from './TweetWidget'
 
-export const PostMaker = ({ post }: { post: IHashtagPost }) => {
+export const PostMaker = memo<{ post: IHashtagPost }>(function PostMaker({
+  post,
+}) {
   const { isPostModalOpen } = useAppSelector(state => state.postShare)
   const { t } = useTranslation()
   const dispatch = useAppDispatch()
 
+  const { setIsOpen } = useTour()
+
   return (
     <>
+      <Button
+        display={{ base: 'none', lg: 'flex' }}
+        pos="fixed"
+        right={4}
+        bottom={4}
+        colorScheme="primary"
+        leftIcon={<FaQuestionCircle />}
+        onClick={() => setIsOpen(true)}
+      >
+        {t`post-share.help`}
+      </Button>
+      <IconButton
+        display={{ base: 'flex', lg: 'none' }}
+        pos="fixed"
+        size="lg"
+        right={2}
+        bottom={2}
+        rounded="full"
+        colorScheme="primary"
+        aria-label="help"
+        shadow="dark-lg"
+        icon={<FaQuestionCircle />}
+        onClick={() => setIsOpen(true)}
+      />
       <Modal
         isOpen={isPostModalOpen}
         size="sm"
@@ -58,4 +92,4 @@ export const PostMaker = ({ post }: { post: IHashtagPost }) => {
       </Grid>
     </>
   )
-}
+})

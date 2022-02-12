@@ -1,3 +1,5 @@
+import { memo } from 'react'
+
 import {
   Box,
   Flex,
@@ -20,11 +22,9 @@ import { useFindHashtagInTrends, useTrendsData } from '@lib'
 
 import { TrendList } from '../TrendList'
 
-export const TrendListTabs = ({
-  post,
-}: {
+export const TrendListTabs = memo<{
   post: IHashtagPost
-}): JSX.Element => {
+}>(function TrendListTabs({ post }) {
   const { t } = useTranslation()
   const { locale } = useRouter()
   const [hashtagInTrends, hashtagExtraInTrends] = useFindHashtagInTrends()
@@ -103,4 +103,4 @@ export const TrendListTabs = ({
       </Box>
     </VStack>
   )
-}
+})
