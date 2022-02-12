@@ -38,7 +38,7 @@ export const MainHashtagsView = memo<MainHashtagsProps>(
             </Box>
           )}
 
-          <Stack spacing={16}>
+          <Stack spacing={16} overflowX="hidden">
             {pageData.hashtags?.map((hashtag, i) => (
               <AnimatedBox
                 directing={i % 2 === 0 ? 'to-left' : 'to-right'}
