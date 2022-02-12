@@ -35,6 +35,7 @@ export const PostMaker = memo<{ post: IHashtagPost }>(function PostMaker({
     <>
       <Button
         display={{ base: 'none', lg: 'flex' }}
+        zIndex="sticky"
         pos="fixed"
         right={4}
         bottom={4}
@@ -46,6 +47,7 @@ export const PostMaker = memo<{ post: IHashtagPost }>(function PostMaker({
       </Button>
       <IconButton
         display={{ base: 'flex', lg: 'none' }}
+        zIndex="sticky"
         pos="fixed"
         size="lg"
         right={2}
