@@ -106,7 +106,7 @@ export const MentionListItem = ({
             name={user_data.screen_name}
             size="lg"
             src={user_data.profile_image_url_https}
-            shadow="base"
+            shadow="primary"
           />
           <Box fontWeight={600}>
             <Text fontSize="xl">{user_data.name}</Text>

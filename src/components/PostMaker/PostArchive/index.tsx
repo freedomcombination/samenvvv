@@ -134,7 +134,7 @@ export const PostArchive = ({ posts }: PostArchiveProps): JSX.Element => {
       <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={8}>
         {posts.map((item, i) => (
           <AnimatedBox key={i} delay={i} directing="to-down" hasHover>
-            <Box bg="white" shadow="lg" rounded="lg" overflow="hidden">
+            <Box bg="white" shadow="primary" rounded="lg" overflow="hidden">
               <ChakraNextImage
                 ratio="twitter"
                 image={item.image?.url as string}

@@ -42,7 +42,7 @@ export const Caps = memo<{ post: IHashtagPost }>(function Caps({ post }) {
               <Box
                 key={i}
                 rounded="md"
-                shadow="base"
+                shadow="primary"
                 overflow="hidden"
                 flexShrink={0}
               >

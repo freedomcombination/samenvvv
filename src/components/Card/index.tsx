@@ -74,7 +74,7 @@ export const Card = (props: CardProps): JSX.Element => {
         flexDir="column"
         role="group"
         pos="relative"
-        boxShadow={isSimple ? 'none' : 'base'}
+        boxShadow={isSimple ? 'none' : 'primary'}
         borderRadius="lg"
         overflow="hidden"
         backgroundColor="white"

@@ -39,7 +39,12 @@ const AnimationPage = (): JSX.Element => {
         <VStack mt="100vh" mb={4} spacing={8}>
           {/* EXAMPLE 1 */}
           <AnimatedBox directing="to-right" hasHover>
-            <HStack align="stretch" shadow="lg" rounded="lg" overflow="hidden">
+            <HStack
+              align="stretch"
+              shadow="primary"
+              rounded="lg"
+              overflow="hidden"
+            >
               <VStack align="stretch" p={4}>
                 <Heading as="h3" size="lg">
                   Has Hover

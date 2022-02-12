@@ -49,7 +49,7 @@ export const PostContainer = memo<{ post: IHashtagPost }>(
     return (
       <Stack
         p={4}
-        shadow="md"
+        shadow="primary"
         bg="orange.50"
         align="stretch"
         spacing={4}

@@ -33,7 +33,7 @@ export const CompetitionView = memo<CompetitionProps>(function CompetitionView({
           </Box>
         )}
         {pageData?.applications?.map(application => (
-          <Box key={application.id} p={4} boxShadow="lg">
+          <Box key={application.id} p={4} boxShadow="primary">
             {application.title}
           </Box>
         ))}

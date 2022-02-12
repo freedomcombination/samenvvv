@@ -49,14 +49,24 @@ export const SubpageSidebarTabs = ({
         <TabPanel>
           <VStack spacing={4}>
             {latestSubpages?.slice(0, 5)?.map((subpage, i) => (
-              <Card key={i} item={{ ...subpage, page }} shadow="sm" hasLink />
+              <Card
+                key={i}
+                item={{ ...subpage, page }}
+                shadow="primary"
+                hasLink
+              />
             ))}
           </VStack>
         </TabPanel>
         <TabPanel>
           <VStack spacing={4}>
             {mostReadedSubpages?.slice(0, 5)?.map((subpage, i) => (
-              <Card key={i} item={{ ...subpage, page }} hasLink shadow="sm" />
+              <Card
+                key={i}
+                item={{ ...subpage, page }}
+                hasLink
+                shadow="primary"
+              />
             ))}
           </VStack>
         </TabPanel>

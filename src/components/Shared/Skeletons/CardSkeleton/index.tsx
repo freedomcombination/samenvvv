@@ -2,7 +2,7 @@ import { Box, Skeleton, SkeletonText, VStack } from '@chakra-ui/react'
 
 export const CardSkeleton = () => {
   return (
-    <Box borderRadius="lg" boxShadow="sm" overflow="hidden">
+    <Box borderRadius="lg" boxShadow="primary" overflow="hidden">
       <Skeleton h={150} />
       <VStack align="stretch" spacing={6} p={6}>
         <SkeletonText w={150} noOfLines={1} />

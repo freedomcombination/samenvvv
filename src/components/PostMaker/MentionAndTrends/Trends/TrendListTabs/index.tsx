@@ -62,7 +62,7 @@ export const TrendListTabs = memo<{
         </HStack>
       </Flex>
 
-      <Box overflowY="auto" shadow="md" bg="white">
+      <Box overflowY="auto" shadow="primary" bg="white">
         <Tabs colorScheme="primary" isFitted size="sm">
           <TabList pos="sticky" top="0" bg="white">
             <Tab>World</Tab>

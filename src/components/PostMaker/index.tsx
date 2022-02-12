@@ -55,7 +55,7 @@ export const PostMaker = memo<{ post: IHashtagPost }>(function PostMaker({
         rounded="full"
         colorScheme="primary"
         aria-label="help"
-        shadow="dark-lg"
+        shadow="primary"
         icon={<FaQuestionCircle />}
         onClick={() => setIsOpen(true)}
       />

@@ -31,24 +31,25 @@ export const MainHashtagsView = memo<MainHashtagsProps>(
           isFullHeight={false}
           image={pageData.image}
         />
-        <Container>
+        <Container overflowX="hidden">
           {source && (
             <Box my={8} maxW="container.md" mx="auto" textAlign="center">
               <Markdown source={source} />
             </Box>
           )}
 
-          <Stack spacing={16} overflowX="hidden">
+          <Stack spacing={16} mb={8}>
             {pageData.hashtags?.map((hashtag, i) => (
               <AnimatedBox
                 directing={i % 2 === 0 ? 'to-left' : 'to-right'}
                 delay={5}
                 key={i}
               >
-                <Box px={8} pt={8} pb={4} bg="white" shadow="lg">
+                <Box px={8} pt={8} pb={4} bg="white" shadow="primary">
                   <SliderHero item={hashtag} />
                   <Slider
-                    slides={{ base: 1, md: 2, lg: 3 }}
+                    slides={{ base: 1, md: 2, lg: 4 }}
+                    spaces={{ base: 16, md: 24, lg: 32 }}
                     posts={hashtag.posts?.map(post => ({
                       ...post,
                       hashtag: { ...hashtag, page: pageData },

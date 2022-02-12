@@ -74,7 +74,7 @@ export const MentionList = (): JSX.Element => {
         align="stretch"
         bg="white"
         overflowY="auto"
-        shadow="md"
+        shadow="primary"
       >
         <Tabs
           size="sm"

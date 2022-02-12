@@ -41,7 +41,7 @@ export const SliderHero = ({ item }: SliderHeroProps): JSX.Element => {
         <ChakraNextImage
           display={{ base: 'none', lg: 'block' }}
           rounded="lg"
-          shadow="lg"
+          shadow="primary"
           ratio="twitter"
           mr={2}
           overflow="hidden"
