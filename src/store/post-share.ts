@@ -10,24 +10,6 @@ const searchedMentionsStorage: ITweetUserData[] =
     ? JSON.parse(localStorage.getItem(LOCAL_STORAGE_MENTIONS_KEY) as string)
     : []
 
-export type PostShareState = {
-  postText: string
-  postContent: string
-  mentionUsernames: string[]
-  searchedMentions: ITweetUserData[]
-  savedMentions: ITweetUserData[]
-  isSearchedMentionsLoading: boolean
-  initialMentions: IMention[]
-  mentions: IMention[]
-  isMentionListLoading: boolean
-  trendNames: string[]
-  defaultTab: number | null
-  isPostModalOpen: boolean
-  defaultHashtags: string[]
-  count: number
-  isExceeded: boolean
-}
-
 export const updatePostContent = (state: PostShareState): void => {
   const twitterCharLimit = 280
   const linkCharCount = 23 + 2 // 2 chars is because of the library leaves spaces before/after the link
@@ -48,10 +30,30 @@ export const updatePostContent = (state: PostShareState): void => {
   state.postContent = postContent
 }
 
+export type PostShareState = {
+  postText: string
+  postContent: string
+  defaultMention: string | null
+  mentionUsernames: string[]
+  searchedMentions: ITweetUserData[]
+  savedMentions: ITweetUserData[]
+  isSearchedMentionsLoading: boolean
+  initialMentions: IMention[]
+  mentions: IMention[]
+  isMentionListLoading: boolean
+  trendNames: string[]
+  defaultTab: number | null
+  isPostModalOpen: boolean
+  defaultHashtags: string[]
+  count: number
+  isExceeded: boolean
+}
+
 const initialState: PostShareState = {
   postText: '',
   postContent: '',
-  mentionUsernames: ['@samenvvv'],
+  defaultMention: null,
+  mentionUsernames: [],
   searchedMentions: [],
   savedMentions: searchedMentionsStorage,
   isSearchedMentionsLoading: false,
@@ -88,7 +90,12 @@ export const postShareSlice = createSlice({
       state.mentionUsernames.push(`@${action.payload}`)
       updatePostContent(state)
     },
-
+    setDefaultMention: (state, action: PayloadAction<string>) => {
+      state.defaultMention = '@' + action.payload
+    },
+    removeDefaultMention: state => {
+      state.defaultMention = null
+    },
     removeMentionUsername: (state, action: PayloadAction<string>) => {
       state.mentionUsernames = state.mentionUsernames.filter(
         m => m !== action.payload,
@@ -178,6 +185,8 @@ export const postShareSlice = createSlice({
 
 export const {
   addMentionUsername,
+  setDefaultMention,
+  removeDefaultMention,
   removeSavedMention,
   removeMentionUsername,
   addTrendName,
