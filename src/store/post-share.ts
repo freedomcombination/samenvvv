@@ -14,13 +14,17 @@ export const updatePostContent = (state: PostShareState): void => {
   const twitterCharLimit = 280
   const linkCharCount = 23 + 2 // 2 chars is because of the library leaves spaces before/after the link
 
-  const mentionsStr = state.mentionUsernames.join('\n')
+  const mentionsStr = [state.defaultMention, ...state.mentionUsernames]
+    .filter(a => a)
+    .join('\n')
 
-  const trendsStr =
-    (state.defaultHashtags[0] ?? '') +
-    (state.defaultHashtags[1] ?? '') +
-    (state.trendNames.length > 0 ? `\n${state.trendNames.join('\n')}` : '')
-  const postContent = `${state.postText}\n\n${mentionsStr}\n\n${trendsStr}`
+  const trendsStr = [...state.defaultHashtags, state.trendNames]
+    .filter(a => a)
+    .join('\n')
+
+  const postContent = [state.postText, mentionsStr, trendsStr]
+    .filter(a => a)
+    .join('\n\n')
 
   const count = linkCharCount + postContent.length
   const isExceeded = count > twitterCharLimit
@@ -92,9 +96,11 @@ export const postShareSlice = createSlice({
     },
     setDefaultMention: (state, action: PayloadAction<string>) => {
       state.defaultMention = '@' + action.payload
+      updatePostContent(state)
     },
     removeDefaultMention: state => {
       state.defaultMention = null
+      updatePostContent(state)
     },
     removeMentionUsername: (state, action: PayloadAction<string>) => {
       state.mentionUsernames = state.mentionUsernames.filter(
@@ -108,6 +114,12 @@ export const postShareSlice = createSlice({
     },
     removeTrendName: (state, action: PayloadAction<string>) => {
       state.trendNames = state.trendNames.filter(m => m !== action.payload)
+      updatePostContent(state)
+    },
+    removeDefaultHashtag: (state, action: PayloadAction<string>) => {
+      state.defaultHashtags = state.defaultHashtags.filter(
+        m => m !== action.payload,
+      )
       updatePostContent(state)
     },
     setDefaultHashtags: (state, action: PayloadAction<string[]>) => {
@@ -191,6 +203,7 @@ export const {
   removeMentionUsername,
   addTrendName,
   removeTrendName,
+  removeDefaultHashtag,
   setDefaultHashtags,
   setPostText,
   setPostContent,
