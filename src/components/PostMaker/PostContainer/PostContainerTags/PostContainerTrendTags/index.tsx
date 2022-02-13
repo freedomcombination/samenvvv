@@ -32,7 +32,7 @@ export const PostContainerTrendTags = () => {
   //   dispatch(removeDefaultHashtag(trend))
   // }
 
-  if (trendNames.length === 0 && !defaultHashtags[0]) return <></>
+  if ([...defaultHashtags, ...trendNames].length === 0) return <></>
 
   return (
     <Box mb={2}>
@@ -53,7 +53,9 @@ export const PostContainerTrendTags = () => {
           )}
         </Wrap>
       )}
-      <TagList tags={trendNames} onClickButton={onRemoveTrend} />
+      {trendNames.length > 0 && (
+        <TagList tags={trendNames} onClickButton={onRemoveTrend} />
+      )}
     </Box>
   )
 }

@@ -15,15 +15,15 @@ export const updatePostContent = (state: PostShareState): void => {
   const linkCharCount = 23 + 2 // 2 chars is because of the library leaves spaces before/after the link
 
   const mentionsStr = [state.defaultMention, ...state.mentionUsernames]
-    .filter(a => a)
+    .filter(a => !!a)
     .join('\n')
 
-  const trendsStr = [...state.defaultHashtags, state.trendNames]
-    .filter(a => a)
+  const trendsStr = [...state.defaultHashtags, ...state.trendNames]
+    .filter(a => !!a)
     .join('\n')
 
   const postContent = [state.postText, mentionsStr, trendsStr]
-    .filter(a => a)
+    .filter(a => !!a)
     .join('\n\n')
 
   const count = linkCharCount + postContent.length
