@@ -19,19 +19,21 @@ export const PostContainer = memo<{ post: IHashtagPost }>(
     const { t } = useTranslation()
     const { locale } = useRouter()
 
-    const generateRandomPostText = useCallback(() => {
+    // Move to utils/hooks for testing
+    const generateRandomPostText = useCallback<() => void>(() => {
       const randomPostSentence = getRandomPostSentence(locale as string)
-      const combinations = [
-        [0, 1],
-        [1, 2],
-        [2, 3],
-        [0, 2],
-        [1, 3],
-      ]
+      const postLength = post.text.split('.').length
+
+      const combinationArray = [...Array(postLength)].map((_, i) => i)
+      const combinations = combinationArray.flatMap((v, i) =>
+        combinationArray.slice(i + 1).map(w => [v, w]),
+      )
+
       const randomCombination =
-        combinations[Math.floor(Math.random() * (combinations.length - 1))]
+        combinations[Math.floor(Math.random() * combinations.length)]
 
       const randomPostText = post.text
+        .replace(/\.\.+/g, '.') // remove multiple dots
         .split('.')
         .slice(randomCombination[0], randomCombination[1])
         .join('.')
@@ -39,8 +41,12 @@ export const PostContainer = memo<{ post: IHashtagPost }>(
 
       const combinedText = `${randomPostText}\n\n"${randomPostSentence}"`
 
-      dispatch(setPostText(combinedText))
-    }, [dispatch, locale, post])
+      if (randomPostText === '' || combinedText.length > 230) {
+        generateRandomPostText()
+      } else {
+        dispatch(setPostText(combinedText))
+      }
+    }, [dispatch, post, locale])
 
     useEffect(() => {
       generateRandomPostText()
