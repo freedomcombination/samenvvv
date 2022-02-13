@@ -82,10 +82,13 @@ export const HashtagPostView = memo<HashtagProps>(function HashtagPostView({
       const hasEventPassed = isPast(addDays(date, 1))
 
       if (hasEventPassed && defaultTab === null) dispatch(setDefaultTab(1))
-      if (post.hashtag?.hashtag)
-        dispatch(setDefaultHashtags([post.hashtag.hashtag]))
-      if (post.hashtag?.hashtag_extra)
-        dispatch(setDefaultHashtags([post.hashtag.hashtag_extra]))
+      const defaultHashtags = [
+        post.hashtag?.hashtag,
+        post.hashtag?.hashtag_extra,
+      ].filter(h => !!h) as string[]
+
+      if (defaultHashtags.length > 0)
+        dispatch(setDefaultHashtags(defaultHashtags))
     }
   }, [post, dispatch])
 
