@@ -80,7 +80,7 @@ const Home = ({
               <AspectRatio
                 rounded="xl"
                 overflow="hidden"
-                shadow="lg"
+                shadow="primary"
                 ratio={16 / 9}
               >
                 <ReactPlayer
@@ -114,10 +114,10 @@ const Home = ({
       <Box pos="relative" bg="white" mt="100vh">
         <Container>
           <Stack spacing={16} py={16}>
-            <Box p={8} bg="white" shadow="lg" rounded="sm">
+            <Box p={8} bg="white" shadow="primary" rounded="sm">
               <Slider items={homepageData} hasThumb centeredSlides={false} />
             </Box>
-            <Box p={8} bg="white" shadow="lg" rounded="sm">
+            <Box p={8} bg="white" shadow="primary" rounded="sm">
               <Heading textAlign="center" mb={8}>{t`hashtag-events`}</Heading>
               <Slider items={hashtags} hasThumb centeredSlides={false} />
             </Box>

@@ -2,6 +2,7 @@ import { gql } from 'graphql-request'
 import { useQuery, UseQueryResult } from 'react-query'
 
 import { graphQLClient } from '@lib'
+import { useAppSelector } from '@store'
 
 export const GET_TRENDS_LIST = gql`
   query getTrendsDataData {
@@ -26,21 +27,25 @@ export const useTrendsData = (): UseQueryResult<ITrendsData> => {
   return useQuery('trends-data', () => getTrendsData())
 }
 
-export const useFindHashtagInTrends = (hashtag?: string) => {
+export const useFindHashtagInTrends = () => {
+  const { defaultHashtags } = useAppSelector(state => state.postShare)
   const { data: trendsData } = useTrendsData()
-  const { nl, tr, en } = trendsData ?? {}
 
-  if (!hashtag || !nl || !tr || !en) return null
+  return defaultHashtags.map(hashtag => {
+    const { nl, tr, en } = trendsData ?? {}
 
-  const indexEn = en?.findIndex((trend: ITrend) => trend.name === hashtag)
-  const indexNl = nl?.findIndex((trend: ITrend) => trend.name === hashtag)
-  const indexTr = tr?.findIndex((trend: ITrend) => trend.name === hashtag)
+    if (!hashtag || !nl || !tr || !en) return null
 
-  if (!indexEn || !indexNl || !indexTr) return null
+    const indexEn = en?.findIndex((trend: ITrend) => trend.name === hashtag)
+    const indexNl = nl?.findIndex((trend: ITrend) => trend.name === hashtag)
+    const indexTr = tr?.findIndex((trend: ITrend) => trend.name === hashtag)
 
-  return {
-    nl: { ...nl[indexNl], indexNl },
-    tr: { ...tr[indexTr], indexTr },
-    en: { ...en[indexEn], indexEn },
-  }
+    if (!indexEn || !indexNl || !indexTr) return null
+
+    return {
+      nl: { ...nl[indexNl], indexNl },
+      tr: { ...tr[indexTr], indexTr },
+      en: { ...en[indexEn], indexEn },
+    }
+  })
 }
