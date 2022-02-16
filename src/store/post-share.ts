@@ -10,9 +10,34 @@ const searchedMentionsStorage: ITweetUserData[] =
     ? JSON.parse(localStorage.getItem(LOCAL_STORAGE_MENTIONS_KEY) as string)
     : []
 
+export const updatePostContent = (state: PostShareState): void => {
+  const twitterCharLimit = 280
+  const linkCharCount = 23 + 2 // 2 chars is because of the library leaves spaces before/after the link
+
+  const mentionsStr = [state.defaultMention, ...state.mentionUsernames]
+    .filter(a => !!a)
+    .join('\n')
+
+  const trendsStr = [...state.defaultHashtags, ...state.trendNames]
+    .filter(a => !!a)
+    .join('\n')
+
+  const postContent = [state.postText, mentionsStr, trendsStr]
+    .filter(a => !!a)
+    .join('\n\n')
+
+  const count = linkCharCount + postContent.length
+  const isExceeded = count > twitterCharLimit
+
+  state.count = count
+  state.isExceeded = isExceeded
+  state.postContent = postContent
+}
+
 export type PostShareState = {
   postText: string
   postContent: string
+  defaultMention: string | null
   mentionUsernames: string[]
   searchedMentions: ITweetUserData[]
   savedMentions: ITweetUserData[]
@@ -21,14 +46,18 @@ export type PostShareState = {
   mentions: IMention[]
   isMentionListLoading: boolean
   trendNames: string[]
-  mentionSearchKey: string
   defaultTab: number | null
+  isPostModalOpen: boolean
+  defaultHashtags: string[]
+  count: number
+  isExceeded: boolean
 }
 
 const initialState: PostShareState = {
   postText: '',
   postContent: '',
-  mentionUsernames: ['@samenvvv'],
+  defaultMention: null,
+  mentionUsernames: [],
   searchedMentions: [],
   savedMentions: searchedMentionsStorage,
   isSearchedMentionsLoading: false,
@@ -36,8 +65,11 @@ const initialState: PostShareState = {
   mentions: [],
   isMentionListLoading: false,
   trendNames: [],
-  mentionSearchKey: '',
   defaultTab: null,
+  isPostModalOpen: false,
+  defaultHashtags: [],
+  count: 0,
+  isExceeded: false,
 }
 
 export const fetchSearchedMentions = createAsyncThunk(
@@ -60,29 +92,47 @@ export const postShareSlice = createSlice({
   reducers: {
     addMentionUsername: (state, action: PayloadAction<string>) => {
       state.mentionUsernames.push(`@${action.payload}`)
+      updatePostContent(state)
     },
-    setMentionSearchKey: (state, action: PayloadAction<string>) => {
-      state.mentionSearchKey = action.payload
+    setDefaultMention: (state, action: PayloadAction<string>) => {
+      state.defaultMention = '@' + action.payload
+      updatePostContent(state)
     },
-    clearMentionSearchKey: state => {
-      state.mentionSearchKey = ''
+    removeDefaultMention: state => {
+      state.defaultMention = null
+      updatePostContent(state)
     },
     removeMentionUsername: (state, action: PayloadAction<string>) => {
       state.mentionUsernames = state.mentionUsernames.filter(
         m => m !== action.payload,
       )
+      updatePostContent(state)
     },
     addTrendName: (state, action: PayloadAction<string>) => {
       state.trendNames.push(action.payload)
+      updatePostContent(state)
     },
     removeTrendName: (state, action: PayloadAction<string>) => {
       state.trendNames = state.trendNames.filter(m => m !== action.payload)
+      updatePostContent(state)
+    },
+    removeDefaultHashtag: (state, action: PayloadAction<string>) => {
+      state.defaultHashtags = state.defaultHashtags.filter(
+        m => m !== action.payload,
+      )
+      updatePostContent(state)
+    },
+    setDefaultHashtags: (state, action: PayloadAction<string[]>) => {
+      state.defaultHashtags = action.payload
+      updatePostContent(state)
     },
     setPostText: (state, action: PayloadAction<string>) => {
       state.postText = action.payload
+      updatePostContent(state)
     },
     setPostContent: (state, action: PayloadAction<string>) => {
       state.postContent = action.payload
+      updatePostContent(state)
     },
     clearSearchedMentions: state => {
       state.searchedMentions = []
@@ -92,6 +142,9 @@ export const postShareSlice = createSlice({
     },
     resetMentions: state => {
       state.mentions = state.initialMentions
+    },
+    togglePostModal: state => {
+      state.isPostModalOpen = !state.isPostModalOpen
     },
     updateSavedSearchedMentions: (
       state,
@@ -144,19 +197,22 @@ export const postShareSlice = createSlice({
 
 export const {
   addMentionUsername,
+  setDefaultMention,
+  removeDefaultMention,
   removeSavedMention,
   removeMentionUsername,
   addTrendName,
   removeTrendName,
+  removeDefaultHashtag,
+  setDefaultHashtags,
   setPostText,
   setPostContent,
-  setMentionSearchKey,
-  clearMentionSearchKey,
   clearSearchedMentions,
   setMentions,
   resetMentions,
   updateSavedSearchedMentions,
   setDefaultTab,
+  togglePostModal,
 } = postShareSlice.actions
 
 export const { reducer: postShareReducer } = postShareSlice

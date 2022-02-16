@@ -1,3 +1,5 @@
+import { memo } from 'react'
+
 import { Box } from '@chakra-ui/react'
 import { MDXRemoteSerializeResult } from 'next-mdx-remote'
 import { NextSeoProps } from 'next-seo'
@@ -12,11 +14,11 @@ interface CompetitionProps {
   link: string
 }
 
-const CompetitionView = ({
+export const CompetitionView = memo<CompetitionProps>(function CompetitionView({
   source,
   pageData,
   seo,
-}: CompetitionProps): JSX.Element => {
+}) {
   return (
     <Layout scrollHeight={100} seo={seo}>
       <Hero
@@ -31,13 +33,11 @@ const CompetitionView = ({
           </Box>
         )}
         {pageData?.applications?.map(application => (
-          <Box key={application.id} p={4} boxShadow="lg">
+          <Box key={application.id} p={4} boxShadow="primary">
             {application.title}
           </Box>
         ))}
       </Container>
     </Layout>
   )
-}
-
-export default CompetitionView
+})

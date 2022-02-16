@@ -1,3 +1,5 @@
+import { memo } from 'react'
+
 import { MDXRemoteSerializeResult } from 'next-mdx-remote'
 import { NextSeoProps } from 'next-seo'
 
@@ -11,11 +13,11 @@ interface ApplicationProps {
   link: string
 }
 
-const ApplicationView = ({
+export const ApplicationView = memo<ApplicationProps>(function ApplicationView({
   source,
   pageData,
   seo,
-}: ApplicationProps): JSX.Element => {
+}): JSX.Element {
   return (
     <Layout seo={seo}>
       <Container my={8}>
@@ -25,6 +27,4 @@ const ApplicationView = ({
       </Container>
     </Layout>
   )
-}
-
-export default ApplicationView
+})

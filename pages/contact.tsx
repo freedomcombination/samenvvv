@@ -118,7 +118,7 @@ const Contact = ({ seo }: ContactProps): JSX.Element => {
               bg="white"
               borderRadius="lg"
               p={{ base: 8, lg: 16 }}
-              shadow="2xl"
+              shadow="primary"
             >
               <ContactForm />
             </Box>

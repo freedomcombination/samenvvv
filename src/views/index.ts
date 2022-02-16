@@ -1,17 +1,7 @@
-import ApplicationView from './ApplicationView'
-import CompetitionView from './CompetitionView'
-import HashtagPostView from './HashtagPostView'
-import MainCompetitionsView from './MainCompetitionsView'
-import MainHashtagsView from './MainHashtagsView'
-import MainView from './MainView'
-import SubView from './SubView'
-
-export {
-  ApplicationView,
-  MainCompetitionsView,
-  CompetitionView,
-  MainHashtagsView,
-  HashtagPostView,
-  MainView,
-  SubView,
-}
+export { ApplicationView } from './ApplicationView'
+export { CompetitionView } from './CompetitionView'
+export { HashtagPostView } from './HashtagPostView'
+export { MainCompetitionsView } from './MainCompetitionsView'
+export { MainHashtagsView } from './MainHashtagsView'
+export { MainView } from './MainView'
+export { SubView } from './SubView'

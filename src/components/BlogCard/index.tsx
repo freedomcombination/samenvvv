@@ -37,7 +37,13 @@ export const BlogCard = ({ post, isFeatured }: BlogCardProps) => {
       }}
       href={`/blog/${post.slug}`}
     >
-      <Box shadow="lg" pos="relative" bg="white" rounded="sm" overflow="hidden">
+      <Box
+        shadow="primary"
+        pos="relative"
+        bg="white"
+        rounded="sm"
+        overflow="hidden"
+      >
         <ChakraNextImage
           minH={featured ? 450 : 200}
           image={post.image?.url as string}

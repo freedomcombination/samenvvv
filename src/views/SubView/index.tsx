@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { memo, useEffect } from 'react'
 
 import { Box, Flex, Heading, HStack, Text } from '@chakra-ui/react'
 import { MDXRemoteSerializeResult } from 'next-mdx-remote'
@@ -26,12 +26,12 @@ interface SubViewProps {
   link: string
 }
 
-const SubView = ({
+export const SubView = memo<SubViewProps>(function SubView({
   source,
   pageData,
   seo,
   link,
-}: SubViewProps): JSX.Element => {
+}) {
   const dispatch = useAppDispatch()
 
   const { views } = useAppSelector(state => state.subpage)
@@ -90,6 +90,4 @@ const SubView = ({
       </Container>
     </Layout>
   )
-}
-
-export default SubView
+})

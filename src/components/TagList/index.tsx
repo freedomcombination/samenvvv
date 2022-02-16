@@ -16,7 +16,7 @@ export const TagList = ({
     <Wrap>
       {tags.map(
         (tag, i) =>
-          tag != null && (
+          (tag != null || tag !== '') && (
             <Tag rounded="full" key={i} variant="outline" {...rest}>
               <TagLabel>{tag}</TagLabel>
               <TagCloseButton

@@ -24,6 +24,7 @@
     "@hookform/resolvers": "^2.8.5",
     "@reactour/tour": "^2.8.0",
     "@reduxjs/toolkit": "^1.7.1",
+    "@rooks/use-debounce": "^4.11.2",
     "axios": "^0.24.0",
     "body-scroll-lock": "^4.0.0-beta.0",
     "date-fns": "^2.28.0",
