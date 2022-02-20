@@ -219,6 +219,7 @@ export const getStaticProps: GetStaticProps = async context => {
       seo,
       dehydratedState: dehydrate(queryClient),
       ...(await serverSideTranslations(locale as string, ['common'])),
+      revalidate: 120,
     },
   }
 }
