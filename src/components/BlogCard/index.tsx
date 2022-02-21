@@ -27,7 +27,7 @@ export const BlogCard = ({ post, isFeatured }: BlogCardProps) => {
 
   const featured = isFeatured && !isMobile
   const date = useLocaleTimeFormat(post.published_at)
-  const readingTime = getReadingTime(post.content, locale as string)
+  const readingTime = getReadingTime(post.content, locale as CommonLocale)
 
   return (
     <Navigate

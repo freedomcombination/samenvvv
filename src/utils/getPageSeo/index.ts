@@ -108,7 +108,7 @@ export const getPageSeo = (
     | ICompetition
     | IApplication
     | IHashtagPost,
-  locale: string,
+  locale: CommonLocale,
 ): NextSeoProps => {
   const url =
     getItemLink(

@@ -15,7 +15,7 @@ export const GET_TERMS_PAGE = gql`
 `
 
 export const getTermsPage = async (
-  locale: string,
+  locale: CommonLocale,
 ): Promise<IStaticPage | null> => {
   const data = await graphQLClient.request<GetTermsQuery, BaseVariables>(
     GET_TERMS_PAGE,

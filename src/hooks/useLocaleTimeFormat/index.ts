@@ -14,6 +14,6 @@ export const useLocaleTimeFormat = (
   const date = typeof time === 'string' ? new Date(time) : time
 
   return format(date, formatStr || 'dd MMMM yyyy', {
-    locale: timeLocale[locale as string],
+    locale: timeLocale[locale as CommonLocale],
   })
 }

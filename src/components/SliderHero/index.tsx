@@ -14,7 +14,7 @@ interface SliderHeroProps {
 export const SliderHero = ({ item }: SliderHeroProps): JSX.Element => {
   const { locale } = useRouter()
   const { t } = useTranslation(['common'])
-  const link = getItemLink(item, locale as string)
+  const link = getItemLink(item, locale as CommonLocale)
 
   return (
     <SimpleGrid gap={8} columns={{ base: 1, lg: 2 }} mb={4} alignItems="center">

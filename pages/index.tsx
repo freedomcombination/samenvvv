@@ -130,7 +130,7 @@ const Home = ({
 
 export const getStaticProps: GetStaticProps = async context => {
   const queryClient = new QueryClient()
-  const locale = context.locale as string
+  const locale = context.locale as CommonLocale
 
   const homepageData = await getHomepageData(locale)
 

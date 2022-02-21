@@ -43,7 +43,7 @@ export const PostArchive = ({ posts }: PostArchiveProps): JSX.Element => {
     const _title = posts[activeIndex].hashtag?.title || ''
     const _content = posts[activeIndex].text
     const _absoluteUrl =
-      getItemLink(posts[activeIndex], locale as string, true) || ''
+      getItemLink(posts[activeIndex], locale as CommonLocale, true) || ''
 
     setTitle(_title)
     setContent(_content)
@@ -154,7 +154,7 @@ export const PostArchive = ({ posts }: PostArchiveProps): JSX.Element => {
                     url={
                       getItemLink(
                         item as IHashtagPost,
-                        locale as string,
+                        locale as CommonLocale,
                         true,
                       ) as string
                     }

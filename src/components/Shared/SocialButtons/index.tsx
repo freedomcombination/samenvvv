@@ -74,7 +74,7 @@ export const SocialButtons = (): JSX.Element => {
           target="_blank"
           key={i}
           icon={<item.icon />}
-          href={item.link[locale as string]}
+          href={item.link[locale as CommonLocale]}
           variant="outline"
           colorScheme="primary"
         />

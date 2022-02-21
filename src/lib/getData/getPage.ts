@@ -93,7 +93,7 @@ export const GET_PAGE = gql`
 `
 
 export const getPage = async (
-  locale: string,
+  locale: CommonLocale,
   slug: string,
 ): Promise<IPage | null> => {
   const data = await graphQLClient.request<GetPageQuery, BaseVariables>(
@@ -113,7 +113,7 @@ export const getPage = async (
 }
 
 export const usePageQuery = (
-  locale: string,
+  locale: CommonLocale,
   slug: string,
 ): UseQueryResult<GetPageQuery> =>
   useQuery({

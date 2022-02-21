@@ -47,7 +47,7 @@ export const GET_HASHTAG_POST = gql`
 `
 
 export const getHashtagPost = async (
-  locale: string,
+  locale: CommonLocale,
   slug: string,
 ): Promise<IHashtagPost | null> => {
   const data = await graphQLClient.request<GetHashtagPostQuery, BaseVariables>(
@@ -68,7 +68,7 @@ export const getHashtagPost = async (
 }
 
 export const useHashtagPostQuery = (
-  locale: string,
+  locale: CommonLocale,
   slug: string,
 ): UseQueryResult<GetHashtagPostQuery> =>
   useQuery({

@@ -39,7 +39,7 @@ import {
 import { getSteps, getStepsMob } from '@utils'
 
 interface HashtagProps {
-  slug: Record<string, string[]>
+  slug: CommonLocalizedSlug
   source: MDXRemoteSerializeResult<Record<string, unknown>>
   pageData: IHashtagPost
   seo: NextSeoProps

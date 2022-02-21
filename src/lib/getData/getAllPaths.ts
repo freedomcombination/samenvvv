@@ -4,25 +4,25 @@ import { graphQLClient } from '@lib'
 
 type PathsType = {
   params: { slug: string[] }
-  locale: string
+  locale: CommonLocale
 }
 
 type PagePathQuery = {
   slug: string
-  locale: string
+  locale: CommonLocale
   localizations: PagePathQuery[]
 }
 
 type SubpagePathQuery = {
   slug: string
-  locale: string
+  locale: CommonLocale
   page: { slug: string }
   localizations: SubpagePathQuery[]
 }
 
 type ChildpagePathQuery = {
   slug: string
-  locale: string
+  locale: CommonLocale
   subpage: { slug: string; page: { slug: string } }
   localizations: ChildpagePathQuery[]
 }
@@ -133,50 +133,58 @@ const GET_ALL_DATA = gql`
 
 const pagesToParams = (pages: PagePathQuery[]) =>
   pages.flatMap(page => [
-    { params: { slug: [page.slug, '', ''] }, locale: page.locale },
-    ...page.localizations.flatMap(page => [
-      { params: { slug: [page.slug, '', ''] }, locale: page.locale },
-    ]),
+    { params: { slug: [page.slug || '', '', ''] }, locale: page.locale },
+    ...page.localizations
+      .filter(page => page?.slug)
+      .flatMap(page => [
+        { params: { slug: [page.slug || '', '', ''] }, locale: page.locale },
+      ]),
   ])
 
 const subpagesToParams = (subpages: SubpagePathQuery[]) =>
   subpages.flatMap(subpage => [
     {
-      params: { slug: [subpage.page.slug, subpage.slug, ''] },
+      params: { slug: [subpage.page.slug || '', subpage.slug || '', ''] },
       locale: subpage.locale,
     },
-    ...subpage.localizations.flatMap(subpage => [
-      {
-        params: { slug: [subpage.page.slug, subpage.slug, ''] },
-        locale: subpage.locale,
-      },
-    ]),
+    ...subpage.localizations
+      .filter(subpage => subpage?.page?.slug)
+      .flatMap(subpage => [
+        {
+          params: {
+            slug: [subpage.page.slug || '', subpage.slug || '', ''],
+          },
+          locale: subpage.locale,
+        },
+      ]),
   ])
 
-const childpagesToParams = (applications: ChildpagePathQuery[]) =>
-  applications.flatMap(application => [
+const childpagesToParams = (childpages: ChildpagePathQuery[]) =>
+  childpages.flatMap(childpage => [
     {
       params: {
         slug: [
-          application.subpage.page.slug,
-          application.subpage.slug,
-          application.slug,
+          childpage.subpage.page.slug || '',
+          childpage.subpage.slug || '',
+          childpage.slug || '',
         ],
       },
-      locale: application.locale,
+      locale: childpage.locale,
     },
-    ...application.localizations.flatMap(application => [
-      {
-        params: {
-          slug: [
-            application.subpage.page.slug,
-            application.subpage.slug,
-            application.slug,
-          ],
+    ...childpage.localizations
+      .filter(childpage => childpage?.subpage?.page?.slug)
+      .flatMap(childpage => [
+        {
+          params: {
+            slug: [
+              childpage.subpage.page.slug || '',
+              childpage.subpage.slug || '',
+              childpage.slug || '',
+            ],
+          },
+          locale: childpage.locale,
         },
-        locale: application.locale,
-      },
-    ]),
+      ]),
   ])
 
 export const getAllPagePaths = async (): Promise<PathsType[]> => {

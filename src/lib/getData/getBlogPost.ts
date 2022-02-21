@@ -5,7 +5,7 @@ import { graphQLClient } from '@lib'
 export type GetPostQuery = { posts?: IPost[] }
 
 export const GET_POST = gql`
-  query getPosts($slug: String, $locale: String) {
+  query getPosts($slug: String!, $locale: String!) {
     posts(where: { slug: $slug, locale: $locale }) {
       id
       slug
@@ -33,7 +33,7 @@ export const GET_POST = gql`
 
 export const getBlogPost = async (
   slug: string,
-  locale: string,
+  locale: CommonLocale,
 ): Promise<IPost | null> => {
   const data = await graphQLClient.request<GetPostQuery, BaseVariables>(
     GET_POST,

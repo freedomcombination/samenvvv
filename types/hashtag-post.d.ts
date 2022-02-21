@@ -8,10 +8,10 @@ declare interface IHashtagPost extends LocalizedSlugs {
   image?: IUploadFile
   hashtag?: IHashtag
   posts?: IHashtagPost[]
-  locale?: string
+  locale?: CommonLocale
   likes: number
   published_at?: string
-  localizations?: Array<IHashtagPost>
+  localizations: Array<IHashtagPost>
 }
 
 declare interface IHashtagPostInput {
@@ -20,7 +20,7 @@ declare interface IHashtagPostInput {
   image?: string
   hashtag?: string
   localizations?: Array<string>
-  locale?: string
+  locale?: CommonLocale
   likes: number
   published_at?: string
   created_by?: string

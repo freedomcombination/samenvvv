@@ -54,7 +54,7 @@ export const GET_COMPETITION = gql`
 `
 
 export const getCompetition = async (
-  locale: string,
+  locale: CommonLocale,
   slug: string,
 ): Promise<ICompetition | null> => {
   const data = await graphQLClient.request<GetCompetitionQuery, BaseVariables>(
@@ -75,7 +75,7 @@ export const getCompetition = async (
 }
 
 export const useCompetitionQuery = (
-  locale: string,
+  locale: CommonLocale,
   slug: string,
 ): UseQueryResult<GetCompetitionQuery> =>
   useQuery({

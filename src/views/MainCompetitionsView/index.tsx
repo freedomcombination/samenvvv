@@ -7,7 +7,7 @@ import { NextSeoProps } from 'next-seo'
 import { CardGroup, Container, Hero, Layout, Markdown } from '@components'
 
 interface CompetitionsProps {
-  slug: Record<string, string[]>
+  slug: CommonLocalizedSlug
   source: MDXRemoteSerializeResult<Record<string, unknown>>
   pageData: IPage
   seo: NextSeoProps

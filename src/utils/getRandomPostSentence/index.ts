@@ -52,7 +52,7 @@ const postContentData = {
   `,
 }
 
-export const getRandomPostSentence = (locale: string): string => {
+export const getRandomPostSentence = (locale: CommonLocale): string => {
   const sentencesStr = postContentData[locale as 'en' | 'tr' | 'nl']
   const sentences = sentencesStr.slice(1).split('\n')
   const randomIndex = Math.floor(Math.random() * (sentences.length - 1))

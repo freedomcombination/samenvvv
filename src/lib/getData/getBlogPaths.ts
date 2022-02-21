@@ -6,7 +6,7 @@ type GetBlogPathsQuery = { posts?: IPost[] }
 
 type PathsType = {
   params: { slug: string }
-  locale: string
+  locale: CommonLocale
 }
 
 const GET_BLOG_PATHS = gql`

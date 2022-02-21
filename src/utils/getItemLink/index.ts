@@ -7,7 +7,7 @@ export const getItemLink = (
     | IApplication
     | IHashtagPost
     | IPost,
-  locale: string,
+  locale: CommonLocale,
   isAbsolute?: boolean,
 ): string | null => {
   const post = item as IHashtagPost
