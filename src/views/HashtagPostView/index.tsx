@@ -2,8 +2,15 @@ import { memo, useEffect, useMemo, useState } from 'react'
 
 import {
   Box,
+  Button,
   Center,
   Collapse,
+  Drawer,
+  DrawerBody,
+  DrawerCloseButton,
+  DrawerContent,
+  DrawerHeader,
+  DrawerOverlay,
   Heading,
   IconButton,
   Spinner,
@@ -14,29 +21,40 @@ import {
   Tabs,
   Text,
   useBreakpointValue,
+  useDisclosure,
 } from '@chakra-ui/react'
 import { TourProvider } from '@reactour/tour'
 import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock'
 import { addDays, isPast } from 'date-fns'
 import { MDXRemoteSerializeResult } from 'next-mdx-remote'
 import { NextSeoProps } from 'next-seo'
+import { useRouter } from 'next/router'
 import { useTranslation } from 'react-i18next'
-import { FaChevronDown, FaChevronUp, FaImages, FaTwitter } from 'react-icons/fa'
+import {
+  FaChevronDown,
+  FaChevronUp,
+  FaHashtag,
+  FaImages,
+  FaTwitter,
+} from 'react-icons/fa'
 
 import {
+  Card,
   Container,
   Layout,
+  Navigate,
   PostArchive,
   PostMaker,
   StepsContent,
 } from '@components'
+import { useHashtagsQuery } from '@lib'
 import {
   setDefaultHashtags,
   setDefaultTab,
   useAppDispatch,
   useAppSelector,
 } from '@store'
-import { getSteps, getStepsMob } from '@utils'
+import { getItemLink, getSteps, getStepsMob } from '@utils'
 
 interface HashtagProps {
   slug: CommonLocalizedSlug
@@ -52,8 +70,12 @@ export const HashtagPostView = memo<HashtagProps>(function HashtagPostView({
 }) {
   const { defaultTab } = useAppSelector(state => state.postShare)
   const dispatch = useAppDispatch()
+  const { locale } = useRouter()
 
   const [show, setShow] = useState<boolean>(false)
+  const { isOpen, onOpen, onClose } = useDisclosure()
+
+  const { data } = useHashtagsQuery(locale as CommonLocale)
 
   const handleToggle = () => setShow(!show)
 
@@ -118,6 +140,28 @@ export const HashtagPostView = memo<HashtagProps>(function HashtagPostView({
       }}
     >
       <Layout seo={seo}>
+        <Drawer isOpen={isOpen} placement="right" onClose={onClose}>
+          <DrawerOverlay />
+          <DrawerContent>
+            <DrawerCloseButton />
+            <DrawerHeader>{t`post-share.all-hashtags`}</DrawerHeader>
+
+            <DrawerBody>
+              <Stack spacing={4}>
+                {data?.map(hashtag => (
+                  <Navigate
+                    key={hashtag.id}
+                    href={
+                      getItemLink(hashtag, locale as CommonLocale) as string
+                    }
+                  >
+                    <Card item={hashtag} />
+                  </Navigate>
+                ))}
+              </Stack>
+            </DrawerBody>
+          </DrawerContent>
+        </Drawer>
         <Container py={4}>
           <Box textAlign="center">
             <Heading>{post?.hashtag?.title}</Heading>
@@ -181,6 +225,18 @@ export const HashtagPostView = memo<HashtagProps>(function HashtagPostView({
                 <Box as={FaImages} mr={2} />
                 <Box>{t`post-share.tabs.archive`}</Box>
               </Tab>
+              <Button
+                onClick={onOpen}
+                borderWidth={1}
+                borderColor="gray.300"
+                bg="white"
+                borderRadius={{ base: 'sm', lg: 'none' }}
+                leftIcon={<FaHashtag />}
+                py={5}
+                color="gray.500"
+              >
+                {t`post-share.all-hashtags`}
+              </Button>
             </Stack>
             <TabPanels overflowX="hidden">
               <TabPanel px={0} py={4}>
