@@ -45,23 +45,26 @@ export const LocaleSwitcher = ({
   return (
     <HStack py={1} justify="flex-end">
       <ButtonGroup isAttached d="flex" size="xs" align="center">
-        {(locales as string[]).map(code => (
-          <Button
-            key={code}
-            size={size}
-            onClick={() => handleChangeLanguage(code)}
-            colorScheme={
-              !hasScroll
-                ? 'blackAlpha'
-                : isScrolled
-                ? 'blackAlpha'
-                : 'whiteAlpha'
-            }
-            variant={locale === code ? 'normal' : 'ghost'}
-          >
-            {code.toUpperCase()}
-          </Button>
-        ))}
+        {(locales as string[]).map(
+          code =>
+            slug?.[code] && (
+              <Button
+                key={code}
+                size={size}
+                onClick={() => handleChangeLanguage(code)}
+                colorScheme={
+                  !hasScroll
+                    ? 'blackAlpha'
+                    : isScrolled
+                    ? 'blackAlpha'
+                    : 'whiteAlpha'
+                }
+                variant={locale === code ? 'normal' : 'ghost'}
+              >
+                {code.toUpperCase()}
+              </Button>
+            ),
+        )}
       </ButtonGroup>
     </HStack>
   )
