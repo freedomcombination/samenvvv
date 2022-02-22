@@ -45,7 +45,7 @@ interface PostProps {
   link: string
   description: string
   slug: string
-  locale: string
+  locale: CommonLocale
 }
 
 const Post = ({
@@ -64,8 +64,11 @@ const Post = ({
   const dispatch = useAppDispatch()
 
   const hasLiked = likes.some(id => id === data?.id)
-  const readingTime = getReadingTime(data?.content as string, locale as string)
-  const date = useLocaleTimeFormat(data?.published_at as string)
+  const readingTime = getReadingTime(
+    data?.content as string,
+    locale as CommonLocale,
+  )
+  const { date } = useLocaleTimeFormat(data?.published_at as string)
 
   const handleLikePost = () => {
     if (hasLiked) dispatch(unlikePost(data as IPost))
@@ -164,7 +167,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 }
 
 export const getStaticProps: GetStaticProps = async context => {
-  const locale = context.locale as string
+  const locale = context.locale as CommonLocale
   const slug = context.params?.slug as string
   const queryClient = new QueryClient()
 
@@ -218,7 +221,8 @@ export const getStaticProps: GetStaticProps = async context => {
       locale,
       seo,
       dehydratedState: dehydrate(queryClient),
-      ...(await serverSideTranslations(locale as string, ['common'])),
+      ...(await serverSideTranslations(locale as CommonLocale, ['common'])),
     },
+    revalidate: 120,
   }
 }

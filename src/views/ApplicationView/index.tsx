@@ -6,7 +6,7 @@ import { NextSeoProps } from 'next-seo'
 import { ChakraNextImage, Container, Layout, Markdown } from '@components'
 
 interface ApplicationProps {
-  slug: Record<string, string[]>
+  slug: CommonLocalizedSlug
   source: MDXRemoteSerializeResult<Record<string, unknown>>
   pageData: IApplication
   seo: NextSeoProps

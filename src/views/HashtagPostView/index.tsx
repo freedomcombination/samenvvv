@@ -4,6 +4,12 @@ import {
   Box,
   Center,
   Collapse,
+  Drawer,
+  DrawerBody,
+  DrawerCloseButton,
+  DrawerContent,
+  DrawerHeader,
+  DrawerOverlay,
   Heading,
   IconButton,
   Spinner,
@@ -13,33 +19,47 @@ import {
   TabPanels,
   Tabs,
   Text,
+  Tooltip,
   useBreakpointValue,
+  useDisclosure,
 } from '@chakra-ui/react'
 import { TourProvider } from '@reactour/tour'
 import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock'
 import { addDays, isPast } from 'date-fns'
 import { MDXRemoteSerializeResult } from 'next-mdx-remote'
 import { NextSeoProps } from 'next-seo'
+import { useRouter } from 'next/router'
 import { useTranslation } from 'react-i18next'
-import { FaChevronDown, FaChevronUp, FaImages, FaTwitter } from 'react-icons/fa'
+import {
+  FaChevronDown,
+  FaChevronUp,
+  FaHashtag,
+  FaImages,
+  FaTwitter,
+} from 'react-icons/fa'
 
 import {
+  Card,
   Container,
   Layout,
+  Navigate,
   PostArchive,
   PostMaker,
+  PostMakerIcon,
   StepsContent,
 } from '@components'
+import { useLocaleTimeFormat } from '@hooks'
+import { useHashtagsQuery } from '@lib'
 import {
   setDefaultHashtags,
   setDefaultTab,
   useAppDispatch,
   useAppSelector,
 } from '@store'
-import { getSteps, getStepsMob } from '@utils'
+import { getItemLink, getSteps, getStepsMob } from '@utils'
 
 interface HashtagProps {
-  slug: Record<string, string[]>
+  slug: CommonLocalizedSlug
   source: MDXRemoteSerializeResult<Record<string, unknown>>
   pageData: IHashtagPost
   seo: NextSeoProps
@@ -52,8 +72,15 @@ export const HashtagPostView = memo<HashtagProps>(function HashtagPostView({
 }) {
   const { defaultTab } = useAppSelector(state => state.postShare)
   const dispatch = useAppDispatch()
+  const { locale } = useRouter()
+  const [hasEventStarted, setHasEventStarted] = useState(false)
+  const { date, formattedDate, formattedDateDistance, timeZone } =
+    useLocaleTimeFormat(pageData.hashtag?.date as string, 'dd MMMM HH:mm')
 
   const [show, setShow] = useState<boolean>(false)
+  const { isOpen, onOpen, onClose } = useDisclosure()
+
+  const { data } = useHashtagsQuery(locale as CommonLocale)
 
   const handleToggle = () => setShow(!show)
 
@@ -76,10 +103,11 @@ export const HashtagPostView = memo<HashtagProps>(function HashtagPostView({
   }, [pageData])
 
   useEffect(() => {
-    const dateStr = post.hashtag?.date
-    if (dateStr) {
-      const date = new Date(dateStr)
-      const hasEventPassed = isPast(addDays(date, 1))
+    if (date) {
+      const hasEventPassed = isPast(addDays(date as Date, 1))
+      const hasStarted = isPast(date as Date)
+
+      setHasEventStarted(hasStarted)
 
       if (hasEventPassed && defaultTab === null) dispatch(setDefaultTab(1))
       const defaultHashtags = [
@@ -90,7 +118,7 @@ export const HashtagPostView = memo<HashtagProps>(function HashtagPostView({
       if (defaultHashtags.length > 0)
         dispatch(setDefaultHashtags(defaultHashtags))
     }
-  }, [post, dispatch])
+  }, [post, dispatch, defaultTab])
 
   if (!post)
     return (
@@ -118,9 +146,46 @@ export const HashtagPostView = memo<HashtagProps>(function HashtagPostView({
       }}
     >
       <Layout seo={seo}>
-        <Container py={4}>
-          <Box textAlign="center">
+        <Drawer isOpen={isOpen} placement="right" onClose={onClose}>
+          <DrawerOverlay />
+          <DrawerContent>
+            <DrawerCloseButton />
+            <DrawerHeader>{t`post-share.all-hashtags`}</DrawerHeader>
+
+            <DrawerBody>
+              <Stack spacing={4}>
+                {data?.map(hashtag => (
+                  <Navigate
+                    key={hashtag.id}
+                    href={
+                      getItemLink(hashtag, locale as CommonLocale) as string
+                    }
+                  >
+                    <Card item={hashtag} />
+                  </Navigate>
+                ))}
+              </Stack>
+            </DrawerBody>
+          </DrawerContent>
+        </Drawer>
+
+        <Container py={4} pos="relative">
+          <Tooltip label={t`post-share.all-hashtags`} hasArrow bg="primary.400">
+            <IconButton
+              aria-label="open hashtags"
+              onClick={onOpen}
+              icon={<FaHashtag />}
+              variant="outline"
+              bg="white"
+              colorScheme="primary"
+              pos="absolute"
+              top={2}
+              right={2}
+            />
+          </Tooltip>
+          <Box flex={1} textAlign="center">
             <Heading>{post?.hashtag?.title}</Heading>
+
             <Collapse startingHeight={50} in={show}>
               <Text my={4} maxW="container.md" mx="auto">
                 {post?.hashtag?.content}{' '}
@@ -135,62 +200,90 @@ export const HashtagPostView = memo<HashtagProps>(function HashtagPostView({
               onClick={handleToggle}
             />
           </Box>
-          <Tabs
-            flex={1}
-            isFitted
-            colorScheme="primary"
-            index={defaultTab || 0}
-            onChange={index => dispatch(setDefaultTab(index))}
-            isLazy
-          >
-            <Stack
-              direction={{ base: 'row', xl: 'column' }}
-              pos={{ base: 'static', xl: 'fixed' }}
-              top="50%"
-              left={0}
-              transform={{ xl: 'translateY(-50%)' }}
-              spacing={1}
-              zIndex="tooltip"
+          {hasEventStarted && pageData.hashtag?.hashtag ? (
+            <Tabs
+              flex={1}
+              isFitted
+              colorScheme="primary"
+              index={defaultTab || 0}
+              onChange={index => dispatch(setDefaultTab(index))}
+              isLazy
             >
-              <Tab
-                borderWidth={1}
-                borderColor="gray.300"
-                mb={0}
-                bg="white"
-                borderRadius={{ base: 'sm', lg: 'none' }}
-                _selected={{
-                  bg: 'primary.400',
-                  borderColor: 'primary.400',
-                  color: 'white',
-                }}
+              <Stack
+                direction={{ base: 'row', xl: 'column' }}
+                pos={{ base: 'static', xl: 'fixed' }}
+                top="50%"
+                left={0}
+                transform={{ xl: 'translateY(-50%)' }}
+                spacing={1}
+                zIndex="tooltip"
               >
-                <Box as={FaTwitter} mr={2} />
-                <Box>{t`post-share.tabs.share`}</Box>
-              </Tab>
-              <Tab
-                borderWidth={1}
-                borderColor="gray.300"
-                bg="white"
-                borderRadius={{ base: 'sm', lg: 'none' }}
-                _selected={{
-                  bg: 'primary.400',
-                  borderColor: 'primary.400',
-                  color: 'white',
-                }}
+                <Tab
+                  borderWidth={1}
+                  borderColor="gray.300"
+                  mb={0}
+                  bg="white"
+                  borderRadius={{ base: 'sm', lg: 'none' }}
+                  _selected={{
+                    bg: 'primary.400',
+                    borderColor: 'primary.400',
+                    color: 'white',
+                  }}
+                >
+                  <Box as={FaTwitter} mr={2} />
+                  <Box>{t`post-share.tabs.share`}</Box>
+                </Tab>
+                <Tab
+                  borderWidth={1}
+                  borderColor="gray.300"
+                  bg="white"
+                  borderRadius={{ base: 'sm', lg: 'none' }}
+                  _selected={{
+                    bg: 'primary.400',
+                    borderColor: 'primary.400',
+                    color: 'white',
+                  }}
+                >
+                  <Box as={FaImages} mr={2} />
+                  <Box>{t`post-share.tabs.archive`}</Box>
+                </Tab>
+              </Stack>
+              <TabPanels overflowX="hidden">
+                <TabPanel px={0} py={4}>
+                  <PostMaker post={post} />
+                </TabPanel>
+                <TabPanel p={0} py={4}>
+                  <PostArchive posts={post.posts} />
+                </TabPanel>
+              </TabPanels>
+            </Tabs>
+          ) : (
+            <Center minH={500}>
+              <Stack
+                status="warning"
+                variant="subtle"
+                alignItems="center"
+                justifyContent="center"
+                textAlign="center"
+                py={16}
+                px={{ base: 4, lg: 16 }}
+                maxW={700}
+                rounded="lg"
+                spacing={2}
+                bg="#9EDEF8"
+                w="full"
               >
-                <Box as={FaImages} mr={2} />
-                <Box>{t`post-share.tabs.archive`}</Box>
-              </Tab>
-            </Stack>
-            <TabPanels overflowX="hidden">
-              <TabPanel px={0} py={4}>
-                <PostMaker post={post} />
-              </TabPanel>
-              <TabPanel p={0} py={4}>
-                <PostArchive posts={post.posts} />
-              </TabPanel>
-            </TabPanels>
-          </Tabs>
+                <PostMakerIcon boxSize={300} />
+
+                <Heading color="twitter.800" fontSize="2xl">
+                  {t('post-share.will-start', { time: formattedDateDistance })}
+                </Heading>
+                <Text>
+                  {formattedDate} ({timeZone})
+                </Text>
+              </Stack>
+            </Center>
+          )}
         </Container>
       </Layout>
     </TourProvider>

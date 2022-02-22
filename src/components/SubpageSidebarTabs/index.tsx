@@ -22,7 +22,7 @@ export const SubpageSidebarTabs = ({
 }: SubpageSidebarTabsProps): JSX.Element => {
   const { t } = useTranslation()
   const router = useRouter()
-  const locale = router.locale as string
+  const locale = router.locale as CommonLocale
   const type = page.type
 
   const { data: latestSubpages } = useSubpagesQuery({ locale, type })

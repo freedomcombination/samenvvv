@@ -14,7 +14,7 @@ export const GET_PAGE_TYPE = gql`
 `
 
 export const getPageType = async (
-  locale: string,
+  locale: CommonLocale,
   slug: string,
 ): Promise<Page_Type | null> => {
   const data = await graphQLClient.request<GetPageTypeQuery, BaseVariables>(
@@ -33,7 +33,7 @@ export const getPageType = async (
 }
 
 export const usePageTypeQuery = (
-  locale: string,
+  locale: CommonLocale,
   slug: string,
 ): UseQueryResult<GetPageTypeQuery> =>
   useQuery({

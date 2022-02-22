@@ -10,10 +10,10 @@ declare interface ICompetition extends LocalizedSlugs {
   start: string
   end?: string
   page?: IPage
-  locale?: string
+  locale?: CommonLocale
   published_at?: string
   applications?: Array<IApplication>
-  localizations?: Array<ICompetition>
+  localizations: Array<ICompetition>
 }
 
 declare interface ICompetitionInput {
@@ -26,7 +26,7 @@ declare interface ICompetitionInput {
   applications?: Array<string>
   page?: string
   localizations?: Array<string>
-  locale?: string
+  locale?: CommonLocale
   published_at?: string
   created_by?: string
   updated_by?: string

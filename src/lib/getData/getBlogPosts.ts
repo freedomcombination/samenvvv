@@ -29,7 +29,9 @@ export const GET_POSTS = gql`
   }
 `
 
-export const getBlogPosts = async (locale: string): Promise<IPost[] | null> => {
+export const getBlogPosts = async (
+  locale: CommonLocale,
+): Promise<IPost[] | null> => {
   const data = await graphQLClient.request<GetPostsQuery, BaseVariables>(
     GET_POSTS,
     { locale },
@@ -41,6 +43,6 @@ export const useBlogPosts = (): UseQueryResult<IPost[] | null> => {
   const { locale } = useRouter()
   return useQuery({
     queryKey: ['posts', [locale]],
-    queryFn: () => getBlogPosts(locale as string),
+    queryFn: () => getBlogPosts(locale as CommonLocale),
   })
 }

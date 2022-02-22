@@ -15,7 +15,7 @@ import {
 } from '@components'
 
 interface MainHashtagsProps {
-  slug: Record<string, string[]>
+  slug: CommonLocalizedSlug
   source: MDXRemoteSerializeResult<Record<string, unknown>>
   pageData: IPage
   seo: NextSeoProps

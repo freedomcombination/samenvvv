@@ -1,4 +1,4 @@
-export const getReadingTime = (text: string, locale: string): string => {
+export const getReadingTime = (text: string, locale: CommonLocale): string => {
   if (!text) return ''
 
   const suffix = {

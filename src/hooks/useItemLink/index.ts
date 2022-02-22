@@ -8,5 +8,5 @@ export const useItemLink = (
 ): string | null => {
   const { locale } = useRouter()
 
-  return getItemLink(item, locale as string, isAbsolute)
+  return getItemLink(item, locale as CommonLocale, isAbsolute)
 }

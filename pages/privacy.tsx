@@ -30,7 +30,7 @@ export default Privacy
 export const getStaticProps: GetStaticProps = async context => {
   const { locale } = context
 
-  const data = await getPrivacyPage(locale as string)
+  const data = await getPrivacyPage(locale as CommonLocale)
 
   const source = await serialize(data?.content ?? '')
 
@@ -44,7 +44,7 @@ export const getStaticProps: GetStaticProps = async context => {
       data,
       source,
       seo,
-      ...(await serverSideTranslations(locale as string, ['common'])),
+      ...(await serverSideTranslations(locale as CommonLocale, ['common'])),
     },
   }
 }

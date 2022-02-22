@@ -7,7 +7,7 @@ import { NextSeoProps } from 'next-seo'
 import { Container, Hero, Layout, Markdown } from '@components'
 
 interface CompetitionProps {
-  slug: Record<string, string[]>
+  slug: CommonLocalizedSlug
   source: MDXRemoteSerializeResult<Record<string, unknown>>
   pageData: ICompetition
   seo: NextSeoProps

@@ -67,7 +67,7 @@ export const GET_SUBPAGE = gql`
 `
 
 export const getSubpage = async (
-  locale: string,
+  locale: CommonLocale,
   slug: string,
 ): Promise<ISubpage | null> => {
   const data = await graphQLClient.request<GetSubpageQuery, BaseVariables>(
@@ -107,7 +107,7 @@ export const getSubpages = async ({
 }
 
 export const useSubpageQuery = (
-  locale: string,
+  locale: CommonLocale,
   slug: string,
 ): UseQueryResult<ISubpage> =>
   useQuery({

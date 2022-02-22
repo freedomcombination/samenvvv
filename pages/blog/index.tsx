@@ -49,7 +49,7 @@ export const getStaticProps: GetStaticProps = async context => {
   const queryClient = new QueryClient()
 
   const queryKey = ['posts', locale]
-  const queryFn = () => getBlogPosts(locale as string)
+  const queryFn = () => getBlogPosts(locale as CommonLocale)
 
   await queryClient.prefetchQuery(queryKey, queryFn)
 
@@ -68,13 +68,14 @@ export const getStaticProps: GetStaticProps = async context => {
     },
   }
 
-  const seo: NextSeoProps = blogSeo[locale as string]
+  const seo: NextSeoProps = blogSeo[locale as CommonLocale]
 
   return {
     props: {
       seo,
       dehydratedState: dehydrate(queryClient),
-      ...(await serverSideTranslations(locale as string, ['common'])),
+      ...(await serverSideTranslations(locale as CommonLocale, ['common'])),
     },
+    revalidate: 120,
   }
 }

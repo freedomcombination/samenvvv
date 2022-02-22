@@ -15,7 +15,7 @@ export const GET_PRIVACY_PAGE = gql`
 `
 
 export const getPrivacyPage = async (
-  locale: string,
+  locale: CommonLocale,
 ): Promise<IStaticPage | null> => {
   const data = await graphQLClient.request<GetPrivacyQuery, BaseVariables>(
     GET_PRIVACY_PAGE,

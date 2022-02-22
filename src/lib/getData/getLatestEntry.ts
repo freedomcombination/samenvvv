@@ -52,7 +52,9 @@ export const GET_LATEST_ENTRY = gql`
     }
   }
 `
-export const getLatestEntry = async (locale: string): Promise<LatestEntry> => {
+export const getLatestEntry = async (
+  locale: CommonLocale,
+): Promise<LatestEntry> => {
   const data = await graphQLClient.request<LatestEntryData, BaseVariables>(
     GET_LATEST_ENTRY,
     {
@@ -90,6 +92,6 @@ export const useLatestEntry = (): UseQueryResult<LatestEntry> => {
   const { locale } = useRouter()
   return useQuery({
     queryKey: ['latest-entry', [locale]],
-    queryFn: () => getLatestEntry(locale as string),
+    queryFn: () => getLatestEntry(locale as CommonLocale),
   })
 }
