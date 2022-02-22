@@ -24,11 +24,13 @@ export const useLocaleTimeFormat = (
     }),
   )
 
+  const differenceInHours = dateFns.differenceInHours(new Date(), date)
+
   const formattedDateDistance = dateFns.formatDistanceToNowStrict(
     new Date(date),
     {
       locale: timeLocale[locale as CommonLocale],
-      unit: 'hour',
+      unit: differenceInHours > 1 ? 'hour' : 'minute',
     },
   )
 
