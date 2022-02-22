@@ -68,7 +68,7 @@ const Post = ({
     data?.content as string,
     locale as CommonLocale,
   )
-  const { date } = useLocaleTimeFormat(data?.published_at as string)
+  const { formattedDate } = useLocaleTimeFormat(data?.published_at as string)
 
   const handleLikePost = () => {
     if (hasLiked) dispatch(unlikePost(data as IPost))
@@ -114,7 +114,7 @@ const Post = ({
               <HStack>
                 <HStack>
                   <Icon as={FaCalendarDay} />
-                  <Text>{date}</Text>
+                  <Text>{formattedDate}</Text>
                 </HStack>
                 <HStack>
                   <Icon as={FaClock} />

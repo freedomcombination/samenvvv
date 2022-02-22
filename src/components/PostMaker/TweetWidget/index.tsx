@@ -49,7 +49,7 @@ export const TweetWidget = ({
               const { id, user, text, videos, image, likes } = data
               return (
                 <HStack key={index} alignItems="flex-start">
-                  <Avatar size="sm" alt={user.name} src={user.profile} />
+                  <Avatar size="sm" name={user.name} src={user.profile} />
 
                   <Stack fontSize="sm">
                     <HStack

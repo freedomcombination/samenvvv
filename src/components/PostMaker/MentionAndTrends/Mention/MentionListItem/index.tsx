@@ -93,7 +93,6 @@ export const MentionListItem = ({
       </PopoverTrigger>
       <PopoverContent
         overflow="hidden"
-        placement="right"
         bg="white"
         color="black"
         minW={200}
