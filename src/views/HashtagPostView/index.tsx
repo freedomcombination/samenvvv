@@ -260,8 +260,6 @@ export const HashtagPostView = memo<HashtagProps>(function HashtagPostView({
           ) : (
             <Center minH={500}>
               <Stack
-                status="warning"
-                variant="subtle"
                 alignItems="center"
                 justifyContent="center"
                 textAlign="center"
