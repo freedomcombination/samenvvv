@@ -68,7 +68,7 @@ const Post = ({
     data?.content as string,
     locale as CommonLocale,
   )
-  const date = useLocaleTimeFormat(data?.published_at as string)
+  const [date] = useLocaleTimeFormat(data?.published_at as string)
 
   const handleLikePost = () => {
     if (hasLiked) dispatch(unlikePost(data as IPost))

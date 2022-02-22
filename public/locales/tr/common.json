@@ -72,6 +72,7 @@
     "add-mention": "Mention/Trend Ekle",
     "latest-tweets-label": "Son Tweetler",
     "no-tweet": "Tweet bulunamadı",
+    "will-start": "Etkinlik, {{time}} içinde başlayacaktır.",
     "tabs": {
       "share": "Paylaş",
       "archive": "Arşiv"

@@ -1,6 +1,8 @@
 import { memo, useEffect, useMemo, useState } from 'react'
 
 import {
+  Alert,
+  AlertTitle,
   Box,
   Center,
   Collapse,
@@ -33,6 +35,7 @@ import { useTranslation } from 'react-i18next'
 import {
   FaChevronDown,
   FaChevronUp,
+  FaClock,
   FaHashtag,
   FaImages,
   FaTwitter,
@@ -47,6 +50,7 @@ import {
   PostMaker,
   StepsContent,
 } from '@components'
+import { useLocaleTimeFormat } from '@hooks'
 import { useHashtagsQuery } from '@lib'
 import {
   setDefaultHashtags,
@@ -71,6 +75,11 @@ export const HashtagPostView = memo<HashtagProps>(function HashtagPostView({
   const { defaultTab } = useAppSelector(state => state.postShare)
   const dispatch = useAppDispatch()
   const { locale } = useRouter()
+  const [hasEventStarted, setHasEventStarted] = useState(false)
+  const [dateStr, distanceStr] = useLocaleTimeFormat(
+    pageData.hashtag?.date as string,
+    'yyyy-MM-dd HH:mm',
+  )
 
   const [show, setShow] = useState<boolean>(false)
   const { isOpen, onOpen, onClose } = useDisclosure()
@@ -98,10 +107,11 @@ export const HashtagPostView = memo<HashtagProps>(function HashtagPostView({
   }, [pageData])
 
   useEffect(() => {
-    const dateStr = post.hashtag?.date
     if (dateStr) {
-      const date = new Date(dateStr)
-      const hasEventPassed = isPast(addDays(date, 1))
+      const hasEventPassed = isPast(addDays(new Date(dateStr), 1))
+      const hasStarted = isPast(new Date(dateStr))
+
+      if (hasStarted) setHasEventStarted(hasStarted)
 
       if (hasEventPassed && defaultTab === null) dispatch(setDefaultTab(1))
       const defaultHashtags = [
@@ -112,7 +122,7 @@ export const HashtagPostView = memo<HashtagProps>(function HashtagPostView({
       if (defaultHashtags.length > 0)
         dispatch(setDefaultHashtags(defaultHashtags))
     }
-  }, [post, dispatch])
+  }, [post, dispatch, dateStr])
 
   if (!post)
     return (
@@ -194,62 +204,83 @@ export const HashtagPostView = memo<HashtagProps>(function HashtagPostView({
               onClick={handleToggle}
             />
           </Box>
-          <Tabs
-            flex={1}
-            isFitted
-            colorScheme="primary"
-            index={defaultTab || 0}
-            onChange={index => dispatch(setDefaultTab(index))}
-            isLazy
-          >
-            <Stack
-              direction={{ base: 'row', xl: 'column' }}
-              pos={{ base: 'static', xl: 'fixed' }}
-              top="50%"
-              left={0}
-              transform={{ xl: 'translateY(-50%)' }}
-              spacing={1}
-              zIndex="tooltip"
+          {hasEventStarted ? (
+            <Tabs
+              flex={1}
+              isFitted
+              colorScheme="primary"
+              index={defaultTab || 0}
+              onChange={index => dispatch(setDefaultTab(index))}
+              isLazy
             >
-              <Tab
-                borderWidth={1}
-                borderColor="gray.300"
-                mb={0}
-                bg="white"
-                borderRadius={{ base: 'sm', lg: 'none' }}
-                _selected={{
-                  bg: 'primary.400',
-                  borderColor: 'primary.400',
-                  color: 'white',
-                }}
+              <Stack
+                direction={{ base: 'row', xl: 'column' }}
+                pos={{ base: 'static', xl: 'fixed' }}
+                top="50%"
+                left={0}
+                transform={{ xl: 'translateY(-50%)' }}
+                spacing={1}
+                zIndex="tooltip"
               >
-                <Box as={FaTwitter} mr={2} />
-                <Box>{t`post-share.tabs.share`}</Box>
-              </Tab>
-              <Tab
-                borderWidth={1}
-                borderColor="gray.300"
-                bg="white"
-                borderRadius={{ base: 'sm', lg: 'none' }}
-                _selected={{
-                  bg: 'primary.400',
-                  borderColor: 'primary.400',
-                  color: 'white',
-                }}
+                <Tab
+                  borderWidth={1}
+                  borderColor="gray.300"
+                  mb={0}
+                  bg="white"
+                  borderRadius={{ base: 'sm', lg: 'none' }}
+                  _selected={{
+                    bg: 'primary.400',
+                    borderColor: 'primary.400',
+                    color: 'white',
+                  }}
+                >
+                  <Box as={FaTwitter} mr={2} />
+                  <Box>{t`post-share.tabs.share`}</Box>
+                </Tab>
+                <Tab
+                  borderWidth={1}
+                  borderColor="gray.300"
+                  bg="white"
+                  borderRadius={{ base: 'sm', lg: 'none' }}
+                  _selected={{
+                    bg: 'primary.400',
+                    borderColor: 'primary.400',
+                    color: 'white',
+                  }}
+                >
+                  <Box as={FaImages} mr={2} />
+                  <Box>{t`post-share.tabs.archive`}</Box>
+                </Tab>
+              </Stack>
+              <TabPanels overflowX="hidden">
+                <TabPanel px={0} py={4}>
+                  <PostMaker post={post} />
+                </TabPanel>
+                <TabPanel p={0} py={4}>
+                  <PostArchive posts={post.posts} />
+                </TabPanel>
+              </TabPanels>
+            </Tabs>
+          ) : (
+            <Center minH={500}>
+              <Alert
+                status="warning"
+                variant="subtle"
+                flexDirection="column"
+                alignItems="center"
+                justifyContent="center"
+                textAlign="center"
+                py={16}
+                maxW={700}
+                rounded="lg"
               >
-                <Box as={FaImages} mr={2} />
-                <Box>{t`post-share.tabs.archive`}</Box>
-              </Tab>
-            </Stack>
-            <TabPanels overflowX="hidden">
-              <TabPanel px={0} py={4}>
-                <PostMaker post={post} />
-              </TabPanel>
-              <TabPanel p={0} py={4}>
-                <PostArchive posts={post.posts} />
-              </TabPanel>
-            </TabPanels>
-          </Tabs>
+                <Box color="orange.600" as={FaClock} boxSize="60px" mr={0} />
+                <AlertTitle fontSize="2xl" mt={8} mb={1} fontWeight="normal">
+                  {t('post-share.will-start', { time: distanceStr })}
+                </AlertTitle>
+              </Alert>
+            </Center>
+          )}
         </Container>
       </Layout>
     </TourProvider>

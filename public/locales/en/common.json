@@ -73,6 +73,7 @@
     "add-mention": "Add Mention/Trend",
     "latest-tweets-label": "Latest Tweets",
     "no-tweet": "No tweets found",
+    "will-start": "The event will begin in {{time}}.",
     "tabs": {
       "share": "Share",
       "archive": "Archive"

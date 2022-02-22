@@ -73,6 +73,7 @@
     "add-mention": "Mention/Trend Toevoegen",
     "latest-tweets-label": "Laatste Tweets",
     "no-tweet": "Geen tweets gevonden",
+    "will-start": "Het evenement begint over {{time}}.",
     "tabs": {
       "share": "Delen",
       "archive": "Archief"
