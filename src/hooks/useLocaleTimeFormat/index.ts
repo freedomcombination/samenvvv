@@ -24,7 +24,7 @@ export const useLocaleTimeFormat = (
     }),
   )
 
-  const differenceInHours = dateFns.differenceInHours(new Date(), date)
+  const differenceInHours = dateFns.differenceInHours(date, new Date())
 
   const formattedDateDistance = dateFns.formatDistanceToNowStrict(
     new Date(date),
