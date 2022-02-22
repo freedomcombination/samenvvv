@@ -204,7 +204,7 @@ export const HashtagPostView = memo<HashtagProps>(function HashtagPostView({
               onClick={handleToggle}
             />
           </Box>
-          {hasEventStarted ? (
+          {hasEventStarted && pageData.hashtag?.hashtag ? (
             <Tabs
               flex={1}
               isFitted
