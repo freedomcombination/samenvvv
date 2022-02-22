@@ -10,6 +10,13 @@
     "title": "What wij doen?",
     "description": "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga."
   },
+  "home": {
+    "post-maker": {
+      "title": "Post Maker",
+      "content": "Alle content, mention adviezen, caps en trends van onze Social Media Campagnes op één plek",
+      "button": "Bekijk Social Media Campagnes"
+    }
+  },
   "steps": {
     "step-post-content": "Klaar om te Delen! | We hebben een kant-en-klare post gemaakt met inhoud, vermelding, hashtag en caps voor je. In de volgende stappen kunt u dit onderdeel naar eigen wens bewerken.",
     "step-post-text": "Tweet Inhoud | Als je wilt, kun je dit deel met je eigen woorden wijzigen door erop te klikken. Het is erg belangrijk om uw eigen ideeën toe te voegen, zodat uw post anders kan zijn dan andere gebruikers en origineel blijft.",
@@ -62,7 +69,7 @@
     "edit-save": "Opslaan",
     "content-label": "Inhoud",
     "other-posts": "Andere Posts",
-    "all-hashtags": "Hashtags",
+    "all-hashtags": "Andere Hashtag Evenementen",
     "add-mention": "Mention/Trend Toevoegen",
     "latest-tweets-label": "Laatste Tweets",
     "no-tweet": "Geen tweets gevonden",

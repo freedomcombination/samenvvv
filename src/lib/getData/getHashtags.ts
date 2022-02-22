@@ -2,10 +2,24 @@ import { gql } from 'graphql-request'
 import { useQuery, UseQueryResult } from 'react-query'
 
 import { graphQLClient } from '@lib'
+import { getItemLink } from '@utils'
 
 import { getLocalizedSubpageSlugs } from '../getLocalizedSlugs'
 
 export type GetHashtagsQuery = { hashtags?: IHashtag[] }
+
+export const GET_LOCALIZED_HASHTAGS = gql`
+  query ($locale: String!) {
+    hashtags(locale: $locale, sort: "date:desc", limit: 1) {
+      slug
+      date
+      locale
+      page {
+        slug
+      }
+    }
+  }
+`
 
 export const GET_HASHTAG = gql`
   query ($locale: String!, $slug: String) {
@@ -70,6 +84,21 @@ export const getHashtags = async (
   )
 
   return data.hashtags ?? null
+}
+
+export const getLatestHashtag = async (
+  locale: CommonLocale,
+): Promise<(IHashtag & { link: string | null }) | null> => {
+  const data = await graphQLClient.request<GetHashtagsQuery, BaseVariables>(
+    GET_LOCALIZED_HASHTAGS,
+    { locale },
+  )
+
+  const hashtag = data.hashtags?.[0]
+
+  if (!hashtag) return null
+
+  return { ...hashtag, link: getItemLink(hashtag, locale) }
 }
 
 export const useHashtagQuery = (

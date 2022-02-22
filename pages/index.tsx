@@ -22,13 +22,14 @@ import { QueryClient } from 'react-query'
 import { dehydrate } from 'react-query/hydration'
 import RemoveMarkdown from 'remove-markdown'
 
-import { Container, Layout, Navigate, Slider } from '@components'
-import { getHomepageData } from '@lib'
+import { Container, Layout, Navigate, PostMakerIcon, Slider } from '@components'
+import { getHomepageData, getLatestHashtag } from '@lib'
 
 interface HomeProps {
   seo: NextSeoProps
   latestEntry: any
   hashtags: any
+  latestHashtag: IHashtag & { link: string }
   homepageData: any
 }
 
@@ -37,6 +38,7 @@ const Home = ({
   latestEntry,
   homepageData,
   hashtags,
+  latestHashtag,
 }: HomeProps): JSX.Element => {
   const [muted, setMuted] = useState(true)
 
@@ -112,6 +114,39 @@ const Home = ({
         </Container>
       </Center>
       <Box pos="relative" bg="white" mt="100vh">
+        <Center p={8} bg="#9EDEF8" shadow="primary" rounded="sm" minH="100vh">
+          <Container>
+            <Stack
+              direction={{ base: 'column', lg: 'row' }}
+              alignItems="center"
+              spacing={4}
+            >
+              <Stack
+                order={{ base: 2, lg: 1 }}
+                color="twitter.900"
+                spacing={8}
+                alignItems={{ base: 'center', lg: 'start' }}
+                flex={1}
+                textAlign={{ base: 'center', lg: 'left' }}
+              >
+                <Heading
+                  as="h3"
+                  size="2xl"
+                  color="twitter.900"
+                >{t`home.post-maker.title`}</Heading>
+                <Text fontSize="xl">{t`home.post-maker.content`}</Text>
+                <Navigate size="lg" as={Button} href={latestHashtag.link}>
+                  {t`home.post-maker.button`}
+                </Navigate>
+              </Stack>
+
+              <PostMakerIcon
+                order={{ base: 1, lg: 2 }}
+                boxSize={{ base: 300, lg: 500 }}
+              />
+            </Stack>
+          </Container>
+        </Center>
         <Container>
           <Stack spacing={16} py={16}>
             <Box p={8} bg="white" shadow="primary" rounded="sm">
@@ -140,6 +175,8 @@ export const getStaticProps: GetStaticProps = async context => {
     tr: 'Anasayfa',
   }
 
+  const latestHashtag = await getLatestHashtag(locale)
+
   const seo: NextSeoProps = {
     title: title[locale],
   }
@@ -149,6 +186,7 @@ export const getStaticProps: GetStaticProps = async context => {
       ...(await serverSideTranslations(locale, ['common'])),
       dehydratedState: dehydrate(queryClient),
       ...homepageData,
+      latestHashtag,
       seo,
     },
     revalidate: 120,

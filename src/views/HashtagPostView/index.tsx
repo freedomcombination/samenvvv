@@ -2,7 +2,6 @@ import { memo, useEffect, useMemo, useState } from 'react'
 
 import {
   Box,
-  Button,
   Center,
   Collapse,
   Drawer,
@@ -20,6 +19,7 @@ import {
   TabPanels,
   Tabs,
   Text,
+  Tooltip,
   useBreakpointValue,
   useDisclosure,
 } from '@chakra-ui/react'
@@ -162,9 +162,24 @@ export const HashtagPostView = memo<HashtagProps>(function HashtagPostView({
             </DrawerBody>
           </DrawerContent>
         </Drawer>
-        <Container py={4}>
-          <Box textAlign="center">
+
+        <Container py={4} pos="relative">
+          <Tooltip label={t`post-share.all-hashtags`} hasArrow bg="primary.400">
+            <IconButton
+              aria-label="open hashtags"
+              onClick={onOpen}
+              icon={<FaHashtag />}
+              variant="outline"
+              bg="white"
+              colorScheme="primary"
+              pos="absolute"
+              top={2}
+              right={2}
+            />
+          </Tooltip>
+          <Box flex={1} textAlign="center">
             <Heading>{post?.hashtag?.title}</Heading>
+
             <Collapse startingHeight={50} in={show}>
               <Text my={4} maxW="container.md" mx="auto">
                 {post?.hashtag?.content}{' '}
@@ -225,18 +240,6 @@ export const HashtagPostView = memo<HashtagProps>(function HashtagPostView({
                 <Box as={FaImages} mr={2} />
                 <Box>{t`post-share.tabs.archive`}</Box>
               </Tab>
-              <Button
-                onClick={onOpen}
-                borderWidth={1}
-                borderColor="gray.300"
-                bg="white"
-                borderRadius={{ base: 'sm', lg: 'none' }}
-                leftIcon={<FaHashtag />}
-                py={5}
-                color="gray.500"
-              >
-                {t`post-share.all-hashtags`}
-              </Button>
             </Stack>
             <TabPanels overflowX="hidden">
               <TabPanel px={0} py={4}>

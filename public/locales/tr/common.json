@@ -10,6 +10,13 @@
     "title": "Ne yapıyoruz?",
     "description": "something"
   },
+  "home": {
+    "post-maker": {
+      "title": "Tweet Yardımcısı",
+      "content": "Sosyal Medya Kampanyalarımıza ait bütün içerikler, mention tavsiyeleri, capsler ve trendler tek bir yerde",
+      "button": "Sosyal Medya Kampanyalarına Gözat"
+    }
+  },
   "steps": {
     "step-post-content": "Paylaşıma Hazır! | Sizin için içerik, mention, hashtag ve caps içeren paylaşıma hazır bir tweet oluşturduk. Sonraki adımlarda bu kısmı isteklerinize göre düzenleyebilirsiniz.",
     "step-post-text": "Tweet İçerik | Dilerseniz bu kısmı üzerine tıklayarak kendi cümlelerinizle değiştirebilirsiniz. Paylaşımınızın diğer kullanıcılardan farklı olabilmesi ve özgün kalabilmesi için kendi fikirlerinizi eklemeniz çok önemli.",
@@ -61,7 +68,7 @@
     "edit-save": "Kaydet",
     "content-label": "İçerik",
     "other-posts": "Diğer Postlar",
-    "all-hashtags": "Hashtagler",
+    "all-hashtags": "Diğer Hashtag Etkinlikleri",
     "add-mention": "Mention/Trend Ekle",
     "latest-tweets-label": "Son Tweetler",
     "no-tweet": "Tweet bulunamadı",
