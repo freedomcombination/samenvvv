@@ -26,7 +26,7 @@ export const BlogCard = ({ post, isFeatured }: BlogCardProps) => {
   const isMobile = useBreakpointValue({ base: true, lg: false })
 
   const featured = isFeatured && !isMobile
-  const [date] = useLocaleTimeFormat(post.published_at)
+  const { date } = useLocaleTimeFormat(post.published_at)
   const readingTime = getReadingTime(post.content, locale as CommonLocale)
 
   return (

@@ -1,15 +1,20 @@
-import { format, formatDistanceToNowStrict } from 'date-fns'
+import * as dateFns from 'date-fns'
 import { useRouter } from 'next/router'
 
 import { timeLocale } from '@config'
 
 export const useLocaleTimeFormat = (
   time: Date | string,
-  formatStr?: string,
-): [string?, string?, Date?] => {
+  format?: string,
+): {
+  formattedDate?: string
+  timeZone?: string
+  formattedDateDistance?: string
+  date?: Date
+} => {
   const { locale } = useRouter()
 
-  if (!time || typeof window === 'undefined') return []
+  if (!time || typeof window === 'undefined') return {}
 
   const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone
 
@@ -19,17 +24,17 @@ export const useLocaleTimeFormat = (
     }),
   )
 
-  const distanceFormat = formatDistanceToNowStrict(new Date(date), {
+  const formattedDateDistance = dateFns.formatDistanceToNowStrict(
+    new Date(date),
+    {
+      locale: timeLocale[locale as CommonLocale],
+      unit: 'hour',
+    },
+  )
+
+  const formattedDate = dateFns.format(date, format || 'dd MMMM yyyy', {
     locale: timeLocale[locale as CommonLocale],
-    unit: 'hour',
   })
 
-  const formatString =
-    format(date, formatStr || 'dd MMMM yyyy', {
-      locale: timeLocale[locale as CommonLocale],
-    }) +
-    ' ' +
-    timeZone
-
-  return [formatString, distanceFormat, date]
+  return { formattedDate, formattedDateDistance, date, timeZone }
 }

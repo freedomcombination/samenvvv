@@ -1,9 +1,6 @@
 import { memo, useEffect, useMemo, useState } from 'react'
 
 import {
-  Alert,
-  AlertDescription,
-  AlertTitle,
   Box,
   Center,
   Collapse,
@@ -36,7 +33,6 @@ import { useTranslation } from 'react-i18next'
 import {
   FaChevronDown,
   FaChevronUp,
-  FaClock,
   FaHashtag,
   FaImages,
   FaTwitter,
@@ -49,6 +45,7 @@ import {
   Navigate,
   PostArchive,
   PostMaker,
+  PostMakerIcon,
   StepsContent,
 } from '@components'
 import { useLocaleTimeFormat } from '@hooks'
@@ -77,10 +74,8 @@ export const HashtagPostView = memo<HashtagProps>(function HashtagPostView({
   const dispatch = useAppDispatch()
   const { locale } = useRouter()
   const [hasEventStarted, setHasEventStarted] = useState(false)
-  const [dateStr, distanceStr, date] = useLocaleTimeFormat(
-    pageData.hashtag?.date as string,
-    'dd MMMM HH:mm',
-  )
+  const { date, formattedDate, formattedDateDistance, timeZone } =
+    useLocaleTimeFormat(pageData.hashtag?.date as string, 'dd MMMM HH:mm')
 
   const [show, setShow] = useState<boolean>(false)
   const { isOpen, onOpen, onClose } = useDisclosure()
@@ -264,23 +259,29 @@ export const HashtagPostView = memo<HashtagProps>(function HashtagPostView({
             </Tabs>
           ) : (
             <Center minH={500}>
-              <Alert
+              <Stack
                 status="warning"
                 variant="subtle"
-                flexDirection="column"
                 alignItems="center"
                 justifyContent="center"
                 textAlign="center"
                 py={16}
+                px={{ base: 4, lg: 16 }}
                 maxW={700}
                 rounded="lg"
+                spacing={2}
+                bg="#9EDEF8"
+                w="full"
               >
-                <Box color="orange.600" as={FaClock} boxSize="60px" mr={0} />
-                <AlertTitle fontSize="2xl" mt={8} mb={1} fontWeight="normal">
-                  {t('post-share.will-start', { time: distanceStr })}
-                </AlertTitle>
-                <AlertDescription>{dateStr}</AlertDescription>
-              </Alert>
+                <PostMakerIcon boxSize={300} />
+
+                <Heading color="twitter.800" fontSize="2xl">
+                  {t('post-share.will-start', { time: formattedDateDistance })}
+                </Heading>
+                <Text>
+                  {formattedDate} ({timeZone})
+                </Text>
+              </Stack>
             </Center>
           )}
         </Container>
