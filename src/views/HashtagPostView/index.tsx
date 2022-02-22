@@ -2,6 +2,7 @@ import { memo, useEffect, useMemo, useState } from 'react'
 
 import {
   Alert,
+  AlertDescription,
   AlertTitle,
   Box,
   Center,
@@ -76,9 +77,9 @@ export const HashtagPostView = memo<HashtagProps>(function HashtagPostView({
   const dispatch = useAppDispatch()
   const { locale } = useRouter()
   const [hasEventStarted, setHasEventStarted] = useState(false)
-  const [dateStr, distanceStr] = useLocaleTimeFormat(
+  const [dateStr, distanceStr, date] = useLocaleTimeFormat(
     pageData.hashtag?.date as string,
-    'yyyy-MM-dd HH:mm',
+    'dd MMMM HH:mm',
   )
 
   const [show, setShow] = useState<boolean>(false)
@@ -107,9 +108,9 @@ export const HashtagPostView = memo<HashtagProps>(function HashtagPostView({
   }, [pageData])
 
   useEffect(() => {
-    if (dateStr) {
-      const hasEventPassed = isPast(addDays(new Date(dateStr), 1))
-      const hasStarted = isPast(new Date(dateStr))
+    if (date) {
+      const hasEventPassed = isPast(addDays(date as Date, 1))
+      const hasStarted = isPast(date as Date)
 
       setHasEventStarted(hasStarted)
 
@@ -122,7 +123,7 @@ export const HashtagPostView = memo<HashtagProps>(function HashtagPostView({
       if (defaultHashtags.length > 0)
         dispatch(setDefaultHashtags(defaultHashtags))
     }
-  }, [post, dispatch, dateStr, defaultTab])
+  }, [post, dispatch, defaultTab])
 
   if (!post)
     return (
@@ -278,6 +279,7 @@ export const HashtagPostView = memo<HashtagProps>(function HashtagPostView({
                 <AlertTitle fontSize="2xl" mt={8} mb={1} fontWeight="normal">
                   {t('post-share.will-start', { time: distanceStr })}
                 </AlertTitle>
+                <AlertDescription>{dateStr}</AlertDescription>
               </Alert>
             </Center>
           )}
