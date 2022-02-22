@@ -11,11 +11,11 @@ declare interface ISubpage extends LocalizedSlugs {
   end: string
   image?: IUploadFile
   page?: IPage
-  locale?: string
+  locale?: CommonLocale
   likes: number
   views: number
   published_at?: string
-  localizations?: Array<ISubpage>
+  localizations: Array<ISubpage>
 }
 
 declare interface ISubpageInput {
@@ -28,7 +28,7 @@ declare interface ISubpageInput {
   image?: string
   page?: string
   localizations?: Array<string>
-  locale?: string
+  locale?: CommonLocale
   likes: number
   views: number
   published_at?: string

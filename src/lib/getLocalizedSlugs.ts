@@ -1,16 +1,14 @@
 export type LocalizationsType = {
   slug: string
-  locale: string
+  locale: CommonLocale
 }
 
-export const getLocalizedPageSlugs = (
-  item: IPage,
-): { [k: string]: string[] } => {
+export const getLocalizedPageSlugs = (item: IPage): CommonLocalizedSlug => {
   return {
-    [item.locale as string]: [item.slug],
-    ...item.localizations?.reduce<Record<string, string[]>>(
+    [item.locale as CommonLocale]: [item.slug || null],
+    ...item.localizations.reduce<CommonLocalizedSlug>(
       (obj, { locale, slug }) => {
-        obj[locale as string] = [slug]
+        obj[locale as CommonLocale] = [slug || null]
         return obj
       },
       {},
@@ -20,13 +18,16 @@ export const getLocalizedPageSlugs = (
 
 export const getLocalizedSubpageSlugs = (
   item: ISubpage | IHashtag | ICompetition,
-): { [k: string]: string[] } => {
+): CommonLocalizedSlug => {
   const subpage = item as ISubpage
   return {
-    [subpage.locale as string]: [subpage.page?.slug as string, subpage.slug],
-    ...subpage.localizations?.reduce<Record<string, string[]>>(
+    [subpage.locale as CommonLocale]: [
+      subpage.page?.slug || null,
+      subpage.slug || null,
+    ],
+    ...subpage.localizations?.reduce<CommonLocalizedSlug>(
       (obj, { locale, slug, page }) => {
-        obj[locale as string] = [page?.slug as string, slug]
+        obj[locale as CommonLocale] = [page?.slug || null, slug || null]
         return obj
       },
       {},
@@ -36,19 +37,19 @@ export const getLocalizedSubpageSlugs = (
 
 export const getLocalizedApplicationSlugs = (
   item: IApplication,
-): { [k: string]: string[] } => {
+): CommonLocalizedSlug => {
   return {
-    [item.locale as string]: [
-      item.competition?.page?.slug as string,
-      item.competition?.slug as string,
-      item.slug,
+    [item.locale as CommonLocale]: [
+      item.competition?.page?.slug || null,
+      item.competition?.slug || null,
+      item.slug || null,
     ],
-    ...item.localizations?.reduce<Record<string, string[]>>(
+    ...item.localizations?.reduce<CommonLocalizedSlug>(
       (obj, { locale, slug, competition }) => {
-        obj[locale as string] = [
-          competition?.slug as string,
-          competition?.slug as string,
-          slug,
+        obj[locale as CommonLocale] = [
+          competition?.slug || null,
+          competition?.slug || null,
+          slug || null,
         ]
         return obj
       },
@@ -59,19 +60,19 @@ export const getLocalizedApplicationSlugs = (
 
 export const getLocalizedHashtagPostSlugs = (
   item: IHashtagPost,
-): { [k: string]: string[] } => {
+): CommonLocalizedSlug => {
   return {
-    [item.locale as string]: [
-      item.hashtag?.page?.slug as string,
-      item.hashtag?.slug as string,
-      item.slug,
+    [item.locale as CommonLocale]: [
+      item.hashtag?.page?.slug || null,
+      item.hashtag?.slug || null,
+      item.slug || null,
     ],
-    ...item.localizations?.reduce<Record<string, string[]>>(
+    ...item.localizations?.reduce<CommonLocalizedSlug>(
       (obj, { locale, slug, hashtag }) => {
-        obj[locale as string] = [
-          hashtag?.page?.slug as string,
-          hashtag?.slug as string,
-          slug,
+        obj[locale as CommonLocale] = [
+          hashtag?.page?.slug || null,
+          hashtag?.slug || null,
+          slug || null,
         ]
         return obj
       },

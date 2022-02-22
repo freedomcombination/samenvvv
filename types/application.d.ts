@@ -9,10 +9,10 @@ declare interface IApplication extends LocalizedSlugs {
   image?: IUploadFile
   user?: IUsersPermissionsUser
   competition?: ICompetition
-  locale?: string
+  locale?: CommonLocale
   published_at?: string
   votes?: Array<IVote>
-  localizations?: Array<IApplication>
+  localizations: Array<IApplication>
 }
 
 declare interface IApplicationInput {
@@ -24,7 +24,7 @@ declare interface IApplicationInput {
   competition?: string
   votes?: Array<string>
   localizations?: Array<string>
-  locale?: string
+  locale?: CommonLocale
   published_at?: string
   created_by?: string
   updated_by?: string

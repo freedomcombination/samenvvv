@@ -31,8 +31,8 @@ import {
 } from '@views'
 
 interface DynamicPageProps {
-  locale: string
-  slug: Record<string, string[]>
+  locale: CommonLocale
+  slug: CommonLocalizedSlug
   isPage: {
     main: boolean
     sub: boolean
@@ -93,10 +93,8 @@ export const getStaticPaths: GetStaticPaths = async () => {
 }
 
 export interface DynamicProps {
-  locale: string
-  slug: {
-    [x: string]: string[]
-  }
+  locale: CommonLocale
+  slug: CommonLocalizedSlug
   isPage: {
     main: boolean
     sub: boolean
@@ -119,14 +117,14 @@ export interface DynamicProps {
 }
 
 export const getStaticProps: GetStaticProps = async context => {
-  const locale = context.locale as string
+  const locale = context.locale as CommonLocale
   let source: MDXRemoteSerializeResult<Record<string, unknown>>
   const queryClient = new QueryClient()
 
   const [mainSlug = '', subSlug = '', childSlug = ''] = context.params
-    ?.slug as string[]
+    ?.slug as (null | string)[]
 
-  const pageType = await getPageType(locale, mainSlug)
+  const pageType = await getPageType(locale, mainSlug as string)
   const props: DynamicProps = {
     ...(await serverSideTranslations(locale, ['common'])),
     locale,
@@ -268,6 +266,7 @@ export const getStaticProps: GetStaticProps = async context => {
     props.isPage.child = true
     props.pageData = childPageData as IApplication | IHashtagPost
     props.seo = seo
+    props.slug = childPageData.slugs as any
     props.link = seo.openGraph?.url as string
     props.dehydratedState = dehydrate(queryClient)
 

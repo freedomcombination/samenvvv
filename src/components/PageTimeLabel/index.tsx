@@ -9,7 +9,7 @@ interface PageTimeLabelProps {
   pageData: ISubpage | IHashtag
 }
 
-const formatLocale = (date: string, locale: string) =>
+const formatLocale = (date: string, locale: CommonLocale) =>
   format(new Date(date), 'd LLL', {
     locale: timeLocale[locale],
   })
@@ -26,9 +26,10 @@ export const PageTimeLabel = ({
     <HStack {...rest}>
       <MdEvent />
       <Box>
-        {hashtag.date && formatLocale(hashtag.date, locale as string)}
-        {subpage.start && formatLocale(subpage.start, locale as string)}
-        {subpage.end && ` - ${formatLocale(subpage.end, locale as string)}`}
+        {hashtag.date && formatLocale(hashtag.date, locale as CommonLocale)}
+        {subpage.start && formatLocale(subpage.start, locale as CommonLocale)}
+        {subpage.end &&
+          ` - ${formatLocale(subpage.end, locale as CommonLocale)}`}
       </Box>
     </HStack>
   )

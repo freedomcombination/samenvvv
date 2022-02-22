@@ -32,7 +32,7 @@ declare interface QueryArgs {
   start?: number
   where?: Record<string, unknown>
   publicationState?: PublicationState
-  locale?: string
+  locale?: CommonLocale
 }
 
 declare interface IQuery {
@@ -69,8 +69,16 @@ declare interface IMutation {
   updateFileInfo: IUploadFile
 }
 
+declare type CommonLocale = 'en' | 'nl' | 'tr'
+
+declare type CommonLocalizedSlug = {
+  en?: (string | null)[]
+  nl?: (string | null)[]
+  tr?: (string | null)[]
+}
+
 declare type LocalizedSlugs = {
-  slugs: { [k: string]: string[] }
+  slugs: CommonLocalizedSlug
 }
 
 declare interface BaseVariables {

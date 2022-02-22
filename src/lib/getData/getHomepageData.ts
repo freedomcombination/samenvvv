@@ -65,7 +65,7 @@ export const GET_HOMEPAGE_DATA = gql`
   }
 `
 export const getHomepageData = async (
-  locale: string,
+  locale: CommonLocale,
 ): Promise<{
   latestEntry: HomepageDataItem
   hashtags: HomepageDataItem[]

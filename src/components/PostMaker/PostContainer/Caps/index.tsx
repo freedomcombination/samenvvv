@@ -46,7 +46,9 @@ export const Caps = memo<{ post: IHashtagPost }>(function Caps({ post }) {
                 overflow="hidden"
                 flexShrink={0}
               >
-                <Navigate href={getItemLink(p, locale as string) as string}>
+                <Navigate
+                  href={getItemLink(p, locale as CommonLocale) as string}
+                >
                   <ChakraNextImage
                     w={150}
                     h={85}

@@ -26,7 +26,7 @@ const EVENTS_DATA: Record<string, unknown> = {
 
 const SliderPage = (): JSX.Element => {
   const router = useRouter()
-  const locale = router.locale as string
+  const locale = router.locale as CommonLocale
   const { data, isLoading } = useSubpagesQuery({ locale })
   const [loading, setLoading] = useState<boolean>(true)
 

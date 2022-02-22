@@ -19,7 +19,7 @@ import { useAppDispatch, useAppSelector } from '@store'
 import { viewSubpage } from 'src/store/subpage'
 
 interface SubViewProps {
-  slug: Record<string, string[]>
+  slug: CommonLocalizedSlug
   source: MDXRemoteSerializeResult<Record<string, unknown>>
   pageData: ISubpage
   seo: NextSeoProps

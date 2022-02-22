@@ -36,7 +36,7 @@ export const LocaleSwitcher = ({
     (components?.[pathname]?.props?.pageProps?.slug as any)
 
   // TODO: Redirect to localized path for static pages
-  const handleChangeLanguage = async (locale: string) => {
+  const handleChangeLanguage = async (locale: CommonLocale) => {
     await push(pathname, slug?.[locale]?.join('/') || asPath, { locale })
   }
 
@@ -45,23 +45,27 @@ export const LocaleSwitcher = ({
   return (
     <HStack py={1} justify="flex-end">
       <ButtonGroup isAttached d="flex" size="xs" align="center">
-        {(locales as string[]).map(code => (
-          <Button
-            key={code}
-            size={size}
-            onClick={() => handleChangeLanguage(code)}
-            colorScheme={
-              !hasScroll
-                ? 'blackAlpha'
-                : isScrolled
-                ? 'blackAlpha'
-                : 'whiteAlpha'
-            }
-            variant={locale === code ? 'normal' : 'ghost'}
-          >
-            {code.toUpperCase()}
-          </Button>
-        ))}
+        {(locales as CommonLocale[]).map(code => {
+          if (slug && (!slug?.[code] || !slug?.[code]?.[0])) return null
+
+          return (
+            <Button
+              key={code}
+              size={size}
+              onClick={() => handleChangeLanguage(code)}
+              colorScheme={
+                !hasScroll
+                  ? 'blackAlpha'
+                  : isScrolled
+                  ? 'blackAlpha'
+                  : 'whiteAlpha'
+              }
+              variant={locale === code ? 'normal' : 'ghost'}
+            >
+              {code.toUpperCase()}
+            </Button>
+          )
+        })}
       </ButtonGroup>
     </HStack>
   )

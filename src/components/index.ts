@@ -20,6 +20,8 @@ export { ShareButtons } from './Shared/ShareButtons'
 export { SliderHeroSkeleton } from './Shared/Skeletons/SliderHeroSkeleton'
 export { SocialButtons } from './Shared/SocialButtons'
 
+export { PostMakerIcon } from './Icons/PostMaker'
+
 export { BlogCard } from './BlogCard'
 export { Card } from './Card'
 export { CardGroup } from './CardGroup'

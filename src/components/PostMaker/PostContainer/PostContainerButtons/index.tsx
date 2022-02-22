@@ -28,7 +28,7 @@ export const PostContainerButtons = memo<{ post: IHashtagPost }>(
 
       const randomPost = post.posts?.[randomPostIndex] as IHashtagPost
       randomPost.hashtag = post.hashtag
-      const randomPostLink = getItemLink(randomPost, locale as string)
+      const randomPostLink = getItemLink(randomPost, locale as CommonLocale)
 
       push(randomPostLink as string)
     }, [post, locale, push])

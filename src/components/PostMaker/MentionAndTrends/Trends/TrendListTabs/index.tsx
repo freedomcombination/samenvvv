@@ -34,7 +34,7 @@ export const TrendListTabs = memo<{
   const distance =
     trends?.updated_at &&
     formatDistanceToNow(new Date(trends?.updated_at), {
-      locale: timeLocale[locale as string],
+      locale: timeLocale[locale as CommonLocale],
       addSuffix: true,
     })
 

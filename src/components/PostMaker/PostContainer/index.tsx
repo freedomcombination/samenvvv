@@ -21,7 +21,7 @@ export const PostContainer = memo<{ post: IHashtagPost }>(
 
     // Move to utils/hooks for testing
     const generateRandomPostText = useCallback<() => void>(() => {
-      const randomPostSentence = getRandomPostSentence(locale as string)
+      const randomPostSentence = getRandomPostSentence(locale as CommonLocale)
       const postLength = post.text.split('.').length
 
       const combinationArray = [...Array(postLength)].map((_, i) => i)
