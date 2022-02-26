@@ -1,0 +1,44 @@
+query getAnnouncements(
+  $locale: I18NLocaleCode!
+  $slug: String
+  $sort: [String]
+  $limit: Int
+) {
+  announcements(
+    locale: $locale
+    sort: $sort
+    pagination: { start: 0, limit: $limit }
+  ) {
+    data {
+      id
+      attributes {
+        slug
+        title
+        content
+        date
+        date_end
+        views
+        image {
+          data {
+            attributes {
+              url
+              size
+              mime
+              width
+              height
+            }
+          }
+        }
+        locale
+        localizations {
+          data {
+            attributes {
+              slug
+              locale
+            }
+          }
+        }
+      }
+    }
+  }
+}

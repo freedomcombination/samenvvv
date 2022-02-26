@@ -1,97 +1,153 @@
 import { compareDesc } from 'date-fns'
 import { gql } from 'graphql-request'
 import { useRouter } from 'next/router'
-import { useQuery, UseQueryResult } from 'react-query'
+import { useQuery } from 'react-query'
 
-import { graphQLClient } from '@lib'
-import { getItemLink } from '@utils'
+import { getRoute } from '@utils'
 
-type LatestEntryData = {
-  posts: IPost[]
-  subpages: ISubpage[]
-  hashtags: IHashtag[]
+import { fetcher } from '../graphql-client'
+
+export type GetLatestEntryQueryVariables = {
+  locale: CommonLocale
 }
 
-type LatestEntry = {
-  title: string
-  link: string
-  date: string
-  content: string
+export type GetLatestEntryQuery = {
+  __typename?: 'Query'
+  blogs?: {
+    __typename?: 'BlogEntityResponseCollection'
+    data: Array<{
+      __typename?: 'BlogEntity'
+      attributes?: {
+        __typename?: 'Blog'
+        title: string
+        content: string
+        slug: string
+        date?: any | null
+      } | null
+    }>
+  } | null
+  announcements?: {
+    __typename?: 'AnnouncementEntityResponseCollection'
+    data: Array<{
+      __typename?: 'AnnouncementEntity'
+      attributes?: {
+        __typename?: 'Announcement'
+        title: string
+        content: string
+        date: any
+        slug: string
+      } | null
+    }>
+  } | null
+  hashtags?: {
+    __typename?: 'HashtagEntityResponseCollection'
+    data: Array<{
+      __typename?: 'HashtagEntity'
+      attributes?: {
+        __typename?: 'Hashtag'
+        title: string
+        content: string
+        date: any
+        slug: string
+      } | null
+    }>
+  } | null
 }
 
-export const GET_LATEST_ENTRY = gql`
-  query ($locale: String) {
-    posts(where: { locale: $locale }, sort: "published_at:desc", limit: 1) {
-      title
-      content
-      slug
-      published_at
-    }
-    subpages(
+export const GetLatestEntryDocument = gql`
+  query getLatestEntry($locale: I18NLocaleCode) {
+    blogs(
       locale: $locale
-      sort: "start:desc"
-      limit: 1
-      where: { type: "announcement" }
+      sort: "publishedAt:desc"
+      pagination: { start: 0, limit: 1 }
     ) {
-      title
-      content
-      start
-      slug
-      page {
-        slug
+      data {
+        attributes {
+          title
+          content
+          slug
+          date: publishedAt
+        }
       }
     }
-    hashtags(locale: $locale, sort: "date:desc", limit: 1) {
-      title
-      content
-      date
-      slug
-      page {
-        slug
+    announcements(
+      locale: $locale
+      sort: "date:desc"
+      pagination: { start: 0, limit: 1 }
+    ) {
+      data {
+        attributes {
+          title
+          content
+          date
+          slug
+        }
+      }
+    }
+    hashtags(
+      locale: $locale
+      sort: "date:desc"
+      pagination: { start: 0, limit: 1 }
+    ) {
+      data {
+        attributes {
+          title
+          content
+          date
+          slug
+        }
       }
     }
   }
 `
+
 export const getLatestEntry = async (
-  locale: CommonLocale,
-): Promise<LatestEntry> => {
-  const data = await graphQLClient.request<LatestEntryData, BaseVariables>(
-    GET_LATEST_ENTRY,
-    {
-      locale,
-    },
+  variables?: GetLatestEntryQueryVariables,
+) => {
+  const data = await fetcher<GetLatestEntryQuery, GetLatestEntryQueryVariables>(
+    GetLatestEntryDocument,
+    variables,
   )
 
-  const subpageData = data.subpages?.[0] || {}
-  const hashtagData = data.hashtags?.[0] || {}
-  const blogData = data.posts?.[0] || {}
-  const subpage = {
-    ...subpageData,
-    link: getItemLink(subpageData, locale),
-    date: subpageData.start,
-  } as LatestEntry
+  const blogData = data.blogs?.data?.[0]?.attributes ?? null
+  const hashtagData = data.hashtags?.data?.[0]?.attributes ?? null
+  const announcementData = data.announcements?.data?.[0]?.attributes ?? null
 
-  const hashtag = {
-    ...hashtagData,
-    link: getItemLink(hashtagData, locale),
-  } as LatestEntry
+  const announcement = {
+    ...announcementData,
+    link: `${getRoute('announcement', variables?.locale as CommonLocale)}/${
+      announcementData?.slug
+    }`,
+  }
 
   const blog = {
     ...blogData,
-    link: `/blog/${blogData.slug}`,
-    date: blogData.published_at,
-  } as LatestEntry
+    link: `blog/${blogData?.slug}`,
+  }
 
-  const latestEntry = [subpage, hashtag, blog].sort((a, b) =>
-    compareDesc(new Date(a.date), new Date(b.date)),
+  const hashtag = {
+    ...hashtagData,
+    link: `${getRoute('hashtag', variables?.locale as CommonLocale)}/${
+      hashtagData?.slug
+    }`,
+  }
+
+  const latest = [blog, hashtag, announcement].sort((a, b) =>
+    compareDesc(new Date(a?.date), new Date(b?.date)),
   )[0]
 
-  return latestEntry
+  return latest
 }
-export const useLatestEntry = (): UseQueryResult<LatestEntry> => {
+
+export const useGetLatestEntryQuery = <
+  TData =
+    | GetLatestEntryQuery['announcements']
+    | GetLatestEntryQuery['blogs']
+    | GetLatestEntryQuery['hashtags'],
+  TError = unknown,
+>() => {
   const { locale } = useRouter()
-  return useQuery({
-    queryKey: ['latest-entry', [locale]],
-    queryFn: () => getLatestEntry(locale as CommonLocale),
-  })
+  return useQuery<any, TError, TData>(['getLatestEntry', locale], () =>
+    getLatestEntry({ locale: locale as CommonLocale }),
+  )
 }

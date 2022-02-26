@@ -1,0 +1,17 @@
+query getBlogPaths {
+  blogs {
+    data {
+      attributes {
+        slug
+        locale
+        localizations {
+          data {
+            attributes {
+              slug
+            }
+          }
+        }
+      }
+    }
+  }
+}

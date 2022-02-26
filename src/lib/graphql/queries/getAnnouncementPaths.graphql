@@ -1,0 +1,18 @@
+query getAnnouncementPaths {
+  announcements {
+    data {
+      attributes {
+        slug
+        locale
+        localizations {
+          data {
+            attributes {
+              slug
+              locale
+            }
+          }
+        }
+      }
+    }
+  }
+}

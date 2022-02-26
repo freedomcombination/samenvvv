@@ -1,0 +1,11 @@
+query getPrivacy($locale: I18NLocaleCode!) {
+  privacy(locale: $locale) {
+    data {
+      attributes {
+        slug
+        title
+        content
+      }
+    }
+  }
+}

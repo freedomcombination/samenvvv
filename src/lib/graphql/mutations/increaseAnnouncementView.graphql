@@ -1,0 +1,10 @@
+mutation increaseAnnouncementView($id: ID!, $views: Int!) {
+  updateAnnouncement(id: $id, data: { views: $views }) {
+    data {
+      id
+      attributes {
+        views
+      }
+    }
+  }
+}

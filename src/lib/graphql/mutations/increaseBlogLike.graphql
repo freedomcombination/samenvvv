@@ -1,0 +1,10 @@
+mutation increaseBlogLike($id: ID!, $likes: Int!) {
+  updateBlog(id: $id, data: { likes: $likes }) {
+    data {
+      id
+      attributes {
+        likes
+      }
+    }
+  }
+}

@@ -1,119 +1,140 @@
 import { gql } from 'graphql-request'
-import { useQuery, UseQueryResult } from 'react-query'
+import { useQuery } from 'react-query'
 
-import { graphQLClient } from '@lib'
-import { getItemLink } from '@utils'
+import { fetcher } from '../graphql-client'
 
-import { getLocalizedSubpageSlugs } from '../getLocalizedSlugs'
+export type GetHashtagsQueryVariables = {
+  locale: CommonLocale
+}
 
-export type GetHashtagsQuery = { hashtags?: IHashtag[] }
+export type GetHashtagsQuery = {
+  __typename?: 'Query'
+  hashtags?: {
+    __typename?: 'HashtagEntityResponseCollection'
+    data: Array<{
+      __typename?: 'HashtagEntity'
+      id?: string | null
+      attributes?: {
+        __typename?: 'Hashtag'
+        slug: string
+        title: string
+        content: string
+        date: any
+        tweets?: any | null
+        locale?: string | null
+        hashtag: string | null
+        hashtag_extra: string | null
+        image: {
+          __typename?: 'UploadFileEntityResponse'
+          data?: {
+            __typename?: 'UploadFileEntity'
+            attributes?: {
+              __typename?: 'UploadFile'
+              url: string
+              size: number
+              mime: string
+              width?: number | null
+              height?: number | null
+            } | null
+          } | null
+        }
+        posts?: {
+          __typename?: 'HashtagPostRelationResponseCollection'
+          data: Array<{
+            __typename?: 'HashtagPostEntity'
+            attributes?: {
+              __typename?: 'HashtagPost'
+              slug: string
+              text: string
+              image: {
+                __typename?: 'UploadFileEntityResponse'
+                data?: {
+                  __typename?: 'UploadFileEntity'
+                  attributes?: { __typename?: 'UploadFile'; url: string } | null
+                } | null
+              }
+            } | null
+          }>
+        } | null
+        localizations?: {
+          __typename?: 'HashtagRelationResponseCollection'
+          data: Array<{
+            __typename?: 'HashtagEntity'
+            attributes?: {
+              __typename?: 'Hashtag'
+              slug: string
+              locale?: string | null
+            } | null
+          }>
+        } | null
+      } | null
+    }>
+  } | null
+}
 
-export const GET_LOCALIZED_HASHTAGS = gql`
-  query ($locale: String!) {
-    hashtags(locale: $locale, sort: "date:desc", limit: 1) {
-      slug
-      date
-      locale
-      page {
-        slug
-      }
-    }
-  }
-`
-
-export const GET_HASHTAG = gql`
-  query ($locale: String!, $slug: String) {
-    hashtags(locale: $locale, sort: "date:desc", where: { slug: $slug }) {
-      id
-      slug
-      title
-      content
-      date
-      tweets
-      image {
-        url
-        size
-        mime
-        width
-        height
-      }
-      locale
-      page {
-        slug
-      }
-      localizations {
-        slug
-        locale
-        page {
+export const GetHashtagsDocument = gql`
+  query getHashtags($locale: I18NLocaleCode!) {
+    hashtags(locale: $locale, sort: "date:desc") {
+      data {
+        id
+        attributes {
           slug
+          title
+          content
+          date
+          tweets
+          hashtag
+          hashtag_extra
+          image {
+            data {
+              attributes {
+                url
+                size
+                mime
+                width
+                height
+              }
+            }
+          }
+          posts {
+            data {
+              attributes {
+                slug
+                text
+                image {
+                  data {
+                    attributes {
+                      url
+                    }
+                  }
+                }
+              }
+            }
+          }
+          locale
+          localizations {
+            data {
+              attributes {
+                slug
+                locale
+              }
+            }
+          }
         }
       }
     }
   }
 `
 
-export const getHashtag = async (
-  locale: CommonLocale,
-  slug: string,
-): Promise<IHashtag | null> => {
-  const data = await graphQLClient.request<GetHashtagsQuery, BaseVariables>(
-    GET_HASHTAG,
-    {
-      locale,
-      slug,
-    },
+export const getHashtags = async (variables: GetHashtagsQueryVariables) =>
+  fetcher<GetHashtagsQuery, GetHashtagsQueryVariables>(
+    GetHashtagsDocument,
+    variables,
   )
 
-  const hashtags = data?.hashtags?.[0]
-
-  if (!hashtags) return null
-
-  const slugs = getLocalizedSubpageSlugs(hashtags)
-
-  return { ...hashtags, slugs }
-}
-
-export const getHashtags = async (
-  locale: CommonLocale,
-): Promise<IHashtag[] | null> => {
-  const data = await graphQLClient.request<GetHashtagsQuery, BaseVariables>(
-    GET_HASHTAG,
-    {
-      locale,
-    },
+export const useGetHashtagsQuery = <TData = GetHashtagsQuery, TError = unknown>(
+  variables: GetHashtagsQueryVariables,
+) =>
+  useQuery<GetHashtagsQuery, TError, TData>(['getHashtags', variables], () =>
+    getHashtags(variables),
   )
-
-  return data.hashtags ?? null
-}
-
-export const getLatestHashtag = async (
-  locale: CommonLocale,
-): Promise<(IHashtag & { link: string | null }) | null> => {
-  const data = await graphQLClient.request<GetHashtagsQuery, BaseVariables>(
-    GET_LOCALIZED_HASHTAGS,
-    { locale },
-  )
-
-  const hashtag = data.hashtags?.[0]
-
-  if (!hashtag) return null
-
-  return { ...hashtag, link: getItemLink(hashtag, locale) }
-}
-
-export const useHashtagQuery = (
-  locale: CommonLocale,
-  slug: string,
-): UseQueryResult<IHashtag> =>
-  useQuery({
-    queryKey: ['hashtags', [locale, slug]],
-    queryFn: () => getHashtag(locale, slug),
-  })
-
-export const useHashtagsQuery = (
-  locale: CommonLocale,
-): UseQueryResult<IHashtag[]> =>
-  useQuery({
-    queryKey: ['hashtags', [locale]],
-    queryFn: () => getHashtags(locale),
-  })

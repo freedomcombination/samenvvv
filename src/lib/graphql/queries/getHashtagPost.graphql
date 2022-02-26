@@ -1,0 +1,50 @@
+query getHashtagPost($locale: I18NLocaleCode!, $slug: String) {
+  hashtagPosts(locale: $locale, filters: { slug: { eq: $slug } }) {
+    data {
+      attributes {
+        slug
+        text
+        locale
+        image {
+          data {
+            attributes {
+              url
+              size
+              mime
+              width
+              height
+            }
+          }
+        }
+        hashtag {
+          data {
+            attributes {
+              slug
+              hashtag
+              hashtag_extra
+              title
+              content
+              date
+              tweets
+            }
+          }
+        }
+        localizations {
+          data {
+            attributes {
+              slug
+              locale
+              hashtag {
+                data {
+                  attributes {
+                    slug
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

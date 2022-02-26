@@ -1,0 +1,11 @@
+query getMentionsData($locale: I18NLocaleCode) {
+  mentions(locale: $locale) {
+    data {
+      attributes {
+        username
+        data
+        category
+      }
+    }
+  }
+}

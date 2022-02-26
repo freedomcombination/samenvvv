@@ -1,0 +1,15 @@
+query getLatestHashtag($locale: I18NLocaleCode!) {
+  hashtags(
+    locale: $locale
+    sort: "date:desc"
+    pagination: { start: 0, limit: 1 }
+  ) {
+    data {
+      attributes {
+        slug
+        date
+        locale
+      }
+    }
+  }
+}

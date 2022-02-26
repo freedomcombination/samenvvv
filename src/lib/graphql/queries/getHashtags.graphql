@@ -1,0 +1,51 @@
+query getHashtags($locale: I18NLocaleCode!) {
+  hashtags(locale: $locale, sort: "date:desc") {
+    data {
+      id
+      attributes {
+        slug
+        title
+        content
+        date
+        tweets
+        hashtag
+        hashtag_extra
+        image {
+          data {
+            attributes {
+              url
+              size
+              mime
+              width
+              height
+            }
+          }
+        }
+        posts {
+          data {
+            attributes {
+              slug
+              text
+              image {
+                data {
+                  attributes {
+                    url
+                  }
+                }
+              }
+            }
+          }
+        }
+        locale
+        localizations {
+          data {
+            attributes {
+              slug
+              locale
+            }
+          }
+        }
+      }
+    }
+  }
+}

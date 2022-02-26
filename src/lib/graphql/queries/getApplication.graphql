@@ -1,0 +1,67 @@
+query getApplication($locale: I18NLocaleCode!, $slug: String) {
+  applications(locale: $locale, filters: { slug: { eq: $slug } }) {
+    data {
+      attributes {
+        title
+        slug
+        content
+        image {
+          data {
+            attributes {
+              url
+              size
+              mime
+              width
+              height
+            }
+          }
+        }
+        locale
+        applicant {
+          data {
+            attributes {
+              fullname
+              username
+              avatar {
+                data {
+                  attributes {
+                    url
+                  }
+                }
+              }
+            }
+          }
+        }
+        votes {
+          data {
+            attributes {
+              value
+            }
+          }
+        }
+        competition {
+          data {
+            attributes {
+              slug
+            }
+          }
+        }
+        localizations {
+          data {
+            attributes {
+              slug
+              locale
+              competition {
+                data {
+                  attributes {
+                    slug
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -17,17 +17,20 @@ import { useLocaleTimeFormat } from '@hooks'
 import { getReadingTime } from '@utils'
 
 interface BlogCardProps {
-  post: IPost
+  blog: BlogEntity
   isFeatured: boolean
 }
 
-export const BlogCard = ({ post, isFeatured }: BlogCardProps) => {
+export const BlogCard = ({ blog, isFeatured }: BlogCardProps) => {
   const { locale } = useRouter()
   const isMobile = useBreakpointValue({ base: true, lg: false })
 
   const featured = isFeatured && !isMobile
-  const { formattedDate } = useLocaleTimeFormat(post.published_at)
-  const readingTime = getReadingTime(post.content, locale as CommonLocale)
+  const { formattedDate } = useLocaleTimeFormat(blog?.attributes?.publishedAt)
+  const readingTime = getReadingTime(
+    blog?.attributes?.content as string,
+    locale as CommonLocale,
+  )
 
   return (
     <Navigate
@@ -35,7 +38,7 @@ export const BlogCard = ({ post, isFeatured }: BlogCardProps) => {
         base: undefined,
         lg: featured ? 'span 2' : undefined,
       }}
-      href={`/blog/${post.slug}`}
+      href={`/blog/${blog?.attributes?.slug}`}
     >
       <Box
         shadow="primary"
@@ -44,10 +47,12 @@ export const BlogCard = ({ post, isFeatured }: BlogCardProps) => {
         rounded="sm"
         overflow="hidden"
       >
-        <ChakraNextImage
-          minH={featured ? 450 : 200}
-          image={post.image?.url as string}
-        />
+        {blog?.attributes?.image?.data?.attributes && (
+          <ChakraNextImage
+            minH={featured ? 450 : 200}
+            image={blog?.attributes?.image}
+          />
+        )}
         <Stack
           rounded="sm"
           mx={{ base: 4, lg: 8 }}
@@ -82,24 +87,26 @@ export const BlogCard = ({ post, isFeatured }: BlogCardProps) => {
               </HStack>
             </HStack>
             <HStack>
-              {post.likes && (
+              {blog?.attributes?.likes && (
                 <HStack>
                   <Box as={FaHeart} />
-                  <Text>{post.likes}</Text>
+                  <Text>{blog?.attributes?.likes}</Text>
                 </HStack>
               )}
-              {post.views && (
+              {blog?.attributes?.views && (
                 <HStack>
                   <Box as={FaEye} />
-                  <Text>{post.views}</Text>
+                  <Text>{blog?.attributes?.views}</Text>
                 </HStack>
               )}
             </HStack>
           </Wrap>
           <Heading as="h3" size="md">
-            {post.title}
+            {blog?.attributes?.title}
           </Heading>
-          <Text noOfLines={2}>{RemoveMarkdown(post.content)}</Text>
+          <Text noOfLines={2}>
+            {RemoveMarkdown(blog?.attributes?.content || '')}
+          </Text>
         </Stack>
       </Box>
     </Navigate>

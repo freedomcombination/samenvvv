@@ -1,133 +1,180 @@
-import { compareAsc, isFuture } from 'date-fns'
 import { gql } from 'graphql-request'
+import { useRouter } from 'next/router'
+import { useQuery } from 'react-query'
 
-import { graphQLClient } from '@lib'
-import { getItemLink } from '@utils'
+import { fetcher } from '../graphql-client'
 
-type HomepageData = {
-  posts: IPost[]
-  subpages: ISubpage[]
-  hashtags: IHashtag[]
+export type GetHomepageDataQueryVariables = {
+  locale?: CommonLocale
 }
 
-type HomepageDataItem = {
-  title: string
-  link: string
-  date: string
-  content: string
+export type GetHomepageDataQuery = {
+  __typename?: 'Query'
+  blogs?: {
+    __typename?: 'BlogEntityResponseCollection'
+    data: Array<{
+      __typename?: 'BlogEntity'
+      attributes?: {
+        __typename?: 'Blog'
+        title: string
+        content: string
+        slug: string
+        publishedAt?: any | null
+        author?: {
+          __typename?: 'UsersPermissionsUserEntityResponse'
+          data?: {
+            __typename?: 'UsersPermissionsUserEntity'
+            attributes?: {
+              __typename?: 'UsersPermissionsUser'
+              username: string
+            } | null
+          } | null
+        } | null
+        image: {
+          __typename?: 'UploadFileEntityResponse'
+          data?: {
+            __typename?: 'UploadFileEntity'
+            attributes?: { __typename?: 'UploadFile'; url: string } | null
+          } | null
+        }
+      } | null
+    }>
+  } | null
+  announcements?: {
+    __typename?: 'AnnouncementEntityResponseCollection'
+    data: Array<{
+      __typename?: 'AnnouncementEntity'
+      attributes?: {
+        __typename?: 'Announcement'
+        title: string
+        content: string
+        date: any
+        date_end?: any | null
+        slug: string
+        image: {
+          __typename?: 'UploadFileEntityResponse'
+          data?: {
+            __typename?: 'UploadFileEntity'
+            attributes?: { __typename?: 'UploadFile'; url: string } | null
+          } | null
+        }
+      } | null
+    }>
+  } | null
+  hashtags?: {
+    __typename?: 'HashtagEntityResponseCollection'
+    data: Array<{
+      __typename?: 'HashtagEntity'
+      attributes?: {
+        __typename?: 'Hashtag'
+        title: string
+        content: string
+        date: any
+        slug: string
+        image: {
+          __typename?: 'UploadFileEntityResponse'
+          data?: {
+            __typename?: 'UploadFileEntity'
+            attributes?: { __typename?: 'UploadFile'; url: string } | null
+          } | null
+        }
+      } | null
+    }>
+  } | null
 }
 
-export const GET_HOMEPAGE_DATA = gql`
-  query ($locale: String) {
-    posts(where: { locale: $locale }, sort: "published_at:desc", limit: 5) {
-      title
-      content
-      slug
-      author {
-        fullname
-        username
-      }
-      image {
-        url
-      }
-      published_at
-    }
-    subpages(
+export const GetHomepageDataDocument = gql`
+  query getHomepageData($locale: I18NLocaleCode) {
+    blogs(
       locale: $locale
-      sort: "start:desc"
-      limit: 5
-      where: { type: "announcement" }
+      sort: "publishedAt:desc"
+      pagination: { start: 0, limit: 5 }
     ) {
-      title
-      content
-      start
-      end
-      slug
-      image {
-        url
-      }
-      page {
-        slug
+      data {
+        attributes {
+          title
+          content
+          slug
+          publishedAt
+          author {
+            data {
+              attributes {
+                username
+              }
+            }
+          }
+          image {
+            data {
+              attributes {
+                url
+              }
+            }
+          }
+        }
       }
     }
-    hashtags(locale: $locale, sort: "date:desc", limit: 5) {
-      title
-      content
-      date
-      slug
-      image {
-        url
+    announcements(
+      locale: $locale
+      sort: "date:desc"
+      pagination: { start: 0, limit: 5 }
+    ) {
+      data {
+        attributes {
+          title
+          content
+          date
+          date_end
+          slug
+          image {
+            data {
+              attributes {
+                url
+              }
+            }
+          }
+        }
       }
-      page {
-        slug
+    }
+    hashtags(
+      locale: $locale
+      sort: "date:desc"
+      pagination: { start: 0, limit: 5 }
+    ) {
+      data {
+        attributes {
+          title
+          content
+          date
+          slug
+          image {
+            data {
+              attributes {
+                url
+              }
+            }
+          }
+        }
       }
     }
   }
 `
+
 export const getHomepageData = async (
-  locale: CommonLocale,
-): Promise<{
-  latestEntry: HomepageDataItem
-  hashtags: HomepageDataItem[]
-  homepageData: HomepageDataItem[]
-}> => {
-  const data = await graphQLClient.request<HomepageData, BaseVariables>(
-    GET_HOMEPAGE_DATA,
-    {
-      locale,
-    },
+  variables?: GetHomepageDataQueryVariables,
+) =>
+  fetcher<GetHomepageDataQuery, GetHomepageDataQueryVariables>(
+    GetHomepageDataDocument,
+    variables,
   )
 
-  const subpageData = data.subpages || []
-  const hashtagData = data.hashtags || []
-  const blogData = data.posts || []
-  let latestEntry: HomepageDataItem = {
-    title: '',
-    link: '',
-    date: '',
-    content: '',
-  }
+export const useGetHomepageDataQuery = <
+  TData = GetHomepageDataQuery,
+  TError = unknown,
+>() => {
+  const router = useRouter()
 
-  // Extend subpage data with link and date
-  const subpages = subpageData.map(subpage => ({
-    ...subpage,
-    link: getItemLink(subpage, locale),
-    date: subpage.start,
-  })) as HomepageDataItem[]
-
-  // Extend hashtag data data with link and date
-  const hashtags = hashtagData.map(hashtag => ({
-    ...hashtag,
-    link: getItemLink(hashtag, locale),
-  })) as HomepageDataItem[]
-
-  // Extend blog data with link and date
-  const blogs = blogData.map(blog => ({
-    ...blog,
-    link: `/blog/${blog.slug}`,
-    date: blog.published_at,
-  })) as HomepageDataItem[]
-
-  // Get the latest entry
-  const subpagesEnd = subpageData.map(subpage => ({
-    ...subpage,
-    link: getItemLink(subpage, locale),
-    date: subpage.end,
-  })) as HomepageDataItem[]
-
-  const lastAnnounc = subpagesEnd.sort((a, b) =>
-    compareAsc(new Date(b.date), new Date(a.date)),
-  )[0]
-
-  isFuture(new Date(lastAnnounc.date))
-    ? (latestEntry = lastAnnounc)
-    : (latestEntry = [...hashtags, ...blogs].sort((a, b) =>
-        compareAsc(new Date(b.date), new Date(a.date)),
-      )[0])
-
-  const homepageData = [...subpages, ...blogs].sort((a, b) =>
-    compareAsc(new Date(b.date), new Date(a.date)),
+  return useQuery<GetHomepageDataQuery, TError, TData>(
+    ['getHomepageData', router.locale],
+    () => getHomepageData({ locale: router.locale as CommonLocale }),
   )
-
-  return { latestEntry, hashtags, homepageData }
 }

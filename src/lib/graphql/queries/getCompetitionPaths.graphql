@@ -1,0 +1,18 @@
+query getCompetitionPaths {
+  competitions {
+    data {
+      attributes {
+        slug
+        locale
+        localizations {
+          data {
+            attributes {
+              slug
+              locale
+            }
+          }
+        }
+      }
+    }
+  }
+}

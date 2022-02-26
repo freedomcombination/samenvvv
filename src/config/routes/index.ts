@@ -20,6 +20,8 @@ export type ParentMenuType = {
   children: ChildMenuType[]
 }
 
+type ILocalize<T> = Record<CommonLocale, T>
+
 export type MenuType = ChildMenuType | ParentMenuType
 export type LocalizedMenuType = ILocalize<MenuType>
 

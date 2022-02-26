@@ -1,0 +1,10 @@
+mutation increaseBlogView($id: ID!, $views: Int!) {
+  updateBlog(id: $id, data: { views: $views }) {
+    data {
+      id
+      attributes {
+        views
+      }
+    }
+  }
+}

@@ -10,6 +10,7 @@ module.exports = {
       'picsum.photos',
       'images.unsplash.com',
       'admin.samenvvv.nl',
+      'api.samenvvv.nl',
       'samenvvv.nl',
       'media.istockphoto.com',
       'pbs.twimg.com',
@@ -18,13 +19,53 @@ module.exports = {
   async rewrites() {
     return [
       {
-        source: '/tr/hakkimizda',
-        destination: '/tr/over-ons',
+        source: '/tr/duyurular',
+        destination: '/tr/announcements',
         locale: false,
       },
       {
-        source: '/en/about-us',
-        destination: '/en/over-ons',
+        source: '/nl/aankondigingen',
+        destination: '/nl/announcements',
+        locale: false,
+      },
+      {
+        source: '/tr/duyurular/:path*',
+        destination: '/tr/announcements/:path*',
+        locale: false,
+      },
+      {
+        source: '/nl/aankondigingen/:path*',
+        destination: '/nl/announcements/:path*',
+        locale: false,
+      },
+      {
+        source: '/tr/hashtag-etkinlikleri',
+        destination: '/tr/hashtag-events',
+        locale: false,
+      },
+      {
+        source: '/nl/hashtag-evenementen',
+        destination: '/nl/hashtag-events',
+        locale: false,
+      },
+      {
+        source: '/tr/hashtag-etkinlikleri/:path*',
+        destination: '/tr/hashtag-events/:path*',
+        locale: false,
+      },
+      {
+        source: '/nl/hashtag-evenementen/:path*',
+        destination: '/nl/hashtag-events/:path*',
+        locale: false,
+      },
+      {
+        source: '/tr/hakkimizda',
+        destination: '/tr/about-us',
+        locale: false,
+      },
+      {
+        source: '/nl/over-ons',
+        destination: '/nl/about-us',
         locale: false,
       },
       {
@@ -39,22 +80,17 @@ module.exports = {
       },
       {
         source: '/tr/kullanim-sartlari',
-        destination: '/tr/voorwaarden',
+        destination: '/tr/terms',
         locale: false,
       },
       {
-        source: '/en/terms',
-        destination: '/en/voorwaarden',
+        source: '/nl/voorwaarden',
+        destination: '/nl/terms',
         locale: false,
       },
       {
         source: '/tr/iletisim',
         destination: '/tr/contact',
-        locale: false,
-      },
-      {
-        source: '/en/contact',
-        destination: '/en/contact',
         locale: false,
       },
     ]

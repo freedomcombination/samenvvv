@@ -29,9 +29,15 @@ interface CardWrapperProps {
 interface CardProps extends ChakraProps {
   isSimple?: boolean
   isSocial?: boolean
-  item: ISubpage | ICompetition | IHashtag | IApplication | IHashtagPost
+  item:
+    | AnnouncementEntity
+    | CompetitionEntity
+    | HashtagEntity
+    | ApplicationEntity
+    | HashtagPostEntity
   hasLink?: boolean
   hasDescription?: boolean
+  type?: 'announcement' | 'application' | 'hashtag'
 }
 
 const CardWrapper = ({ children, link }: CardWrapperProps) =>
@@ -50,26 +56,29 @@ export const Card = (props: CardProps): JSX.Element => {
     isSocial,
     hasLink,
     hasDescription = true,
+    type,
     ...rest
   } = props
-
   const buttonSize = useBreakpointValue({ base: 'lg', lg: 'md' })
 
   const link = useItemLink(item)
   const absoluteLink = useItemLink(item, true)
 
-  const post = item as IHashtagPost
-  const subpage = item as ISubpage
-  const subpageOrApplication = item as ISubpage | IApplication
+  const post = item as HashtagPostEntity
+  const announcement = item as AnnouncementEntity
+  const announcementOrApplication = item as
+    | AnnouncementEntity
+    | ApplicationEntity
 
-  const title = subpageOrApplication.title || ''
-  const content = post.text || removeMarkdown(subpageOrApplication.content)
-  const type = subpage.type
+  const title = announcementOrApplication?.attributes?.title || ''
+  const content =
+    post?.attributes?.text ||
+    removeMarkdown(announcementOrApplication?.attributes?.content || '')
 
-  const isPostWithSocial = post.text && isSocial
+  const isPostWithSocial = post?.attributes?.text && isSocial
 
   return (
-    <CardWrapper link={hasLink && !post.text ? link : null}>
+    <CardWrapper link={hasLink && !post?.attributes?.text ? link : null}>
       <Flex
         flexDir="column"
         role="group"
@@ -83,8 +92,13 @@ export const Card = (props: CardProps): JSX.Element => {
         h="full"
         {...rest}
       >
-        <ChakraNextImage ratio="twitter" image={item.image?.url as string} />
-        {type && !post.text && (
+        {post?.attributes?.image?.data?.attributes && (
+          <ChakraNextImage
+            ratio="twitter"
+            image={item.attributes?.image as UploadFileEntityResponse}
+          />
+        )}
+        {type && !post?.attributes?.text && (
           <Badge
             pos="absolute"
             top={4}
@@ -93,19 +107,19 @@ export const Card = (props: CardProps): JSX.Element => {
             colorScheme="primary"
             size="lg"
           >
-            {type}
+            type
           </Badge>
         )}
 
         {(isPostWithSocial || title) && (
           <Stack p={4} spacing={2} flex={1}>
-            {!post.text && (
+            {!post.attributes?.text && (
               <>
-                {!isSimple && subpage.page && (
+                {!isSimple && (
                   <PageTimeLabel
                     color="gray.500"
                     fontSize="sm"
-                    pageData={subpage}
+                    pageData={announcement}
                   />
                 )}
                 {title && (
@@ -124,7 +138,7 @@ export const Card = (props: CardProps): JSX.Element => {
 
             {isSocial && (
               <>
-                {!post.text && <Divider />}
+                {!post?.attributes?.text && <Divider />}
                 <HStack justify="space-between">
                   <ShareButtons
                     title={title as string}

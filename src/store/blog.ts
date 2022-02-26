@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 
-import { decreasePostLike, increasePostLike, increasePostView } from '@lib'
+import { decreaseBlogLike, increaseBlogLike, increaseBlogView } from '@lib'
 
 export type BlogState = {
   views: string[]
@@ -21,22 +21,31 @@ const initialState: BlogState = {
 
 export const viewPost = createAsyncThunk(
   'blog/viewPost',
-  async (post: IPost) => {
-    return await increasePostView(post)
+  async (blog: BlogEntity) => {
+    return await increaseBlogView({
+      id: blog.id as string,
+      views: (blog.attributes?.views as number) + 1,
+    })
   },
 )
 
 export const likePost = createAsyncThunk(
   'blog/likePost',
-  async (post: IPost) => {
-    return await increasePostLike(post)
+  async (blog: BlogEntity) => {
+    return await increaseBlogLike({
+      id: blog.id as string,
+      likes: (blog.attributes?.likes as number) + 1,
+    })
   },
 )
 
 export const unlikePost = createAsyncThunk(
   'blog/unlikePost',
-  async (post: IPost) => {
-    return await decreasePostLike(post)
+  async (blog: BlogEntity) => {
+    return await decreaseBlogLike({
+      id: blog.id as string,
+      likes: (blog.attributes?.likes as number) - 1,
+    })
   },
 )
 

@@ -1,17 +1,20 @@
 export type GetImageUrlType = (
-  image: IUploadFile | string,
-  type?: FileFormatsType,
+  image: UploadFileEntityResponse | string,
+  type?: any,
 ) => string
 
 export const getImageUrl: GetImageUrlType = (image, type?) => {
   const basePath = process.env.NEXT_PUBLIC_ADMIN_URL
-  if (image == null) return ''
+  if (typeof image !== 'string' && image?.data == null) return ''
 
   if (typeof image === 'string')
     return image.startsWith('http') ? image : `${basePath}${image}`
 
   const imagePath =
-    (type && image.formats && image.formats[type].url) || image.url
+    (type &&
+      image?.data?.attributes?.formats &&
+      image?.data?.attributes?.formats[type].url) ||
+    image?.data?.attributes?.url
 
   return `${basePath}${imagePath}`
 }

@@ -33,7 +33,7 @@ export const PostContainerMentionTags = () => {
   const { locale } = useRouter()
 
   useEffect(() => {
-    const defaultM = defaultMentions[locale as ILocale]
+    const defaultM = defaultMentions[locale as CommonLocale]
     if (!defaultMention || defaultMention !== defaultM)
       dispatch(setDefaultMention(defaultM))
   }, [locale, dispatch])

@@ -7,7 +7,7 @@ import { FaSearch } from 'react-icons/fa'
 
 import {
   clearSearchedMentions,
-  fetchSearchedMentions,
+  // fetchSearchedMentions,
   resetMentions,
   setMentions,
   useAppDispatch,
@@ -24,14 +24,14 @@ export const MentionSearch = (): JSX.Element => {
     if (searchArea.length > 1) {
       const filteredData =
         mentions?.filter(m =>
-          m.user_data?.screen_name
+          m.attributes?.data?.screen_name
             .toLowerCase()
             .includes(searchArea.toLowerCase()),
         ) ?? []
       dispatch(setMentions(filteredData))
-      if (filteredData.length === 0) {
-        dispatch(fetchSearchedMentions(searchArea))
-      }
+      // if (filteredData.length === 0) {
+      //   dispatch(fetchSearchedMentions(searchArea))
+      // }
     } else {
       dispatch(clearSearchedMentions())
       dispatch(resetMentions())

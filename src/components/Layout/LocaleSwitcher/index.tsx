@@ -1,8 +1,6 @@
 import { Button, ButtonGroup, HStack } from '@chakra-ui/react'
 import { NextRouter, useRouter } from 'next/dist/client/router'
 
-import { DynamicProps } from 'pages/[...slug]'
-
 interface LocaleSwitcherProps {
   hasScroll?: boolean
   isScrolled?: boolean
@@ -13,7 +11,7 @@ interface RouterComponent {
     string,
     {
       props: {
-        pageProps: DynamicProps
+        pageProps: any
       }
     }
   >

@@ -1,45 +1,160 @@
 import { gql } from 'graphql-request'
-import { useQuery, UseQueryResult } from 'react-query'
+import { useQuery } from 'react-query'
 
-import { graphQLClient } from '@lib'
+import { fetcher } from '../graphql-client'
 
-import { getLocalizedApplicationSlugs } from '../getLocalizedSlugs'
+export type GetApplicationQueryVariables = Exact<{
+  locale: Scalars['I18NLocaleCode']
+  slug?: InputMaybe<Scalars['String']>
+}>
 
-export type GetApplicationQuery = { applications?: IApplication[] }
-
-export const GET_APPLICATION = gql`
-  query getApplications($locale: String!, $slug: String) {
-    applications(locale: $locale, where: { slug: $slug }) {
-      title
-      slug
-      content
-      image {
-        url
-        size
-        mime
-        width
-        height
-      }
-      locale
-      user {
-        username
-      }
-      votes {
-        value
-      }
-      competition {
-        slug
-        page {
-          slug
+export type GetApplicationQuery = {
+  __typename?: 'Query'
+  applications?: {
+    __typename?: 'ApplicationEntityResponseCollection'
+    data: Array<{
+      __typename?: 'ApplicationEntity'
+      attributes?: {
+        __typename?: 'Application'
+        title: string
+        slug: string
+        content: string
+        locale?: string | null
+        image: {
+          __typename?: 'UploadFileEntityResponse'
+          data?: {
+            __typename?: 'UploadFileEntity'
+            attributes?: {
+              __typename?: 'UploadFile'
+              url: string
+              size: number
+              mime: string
+              width?: number | null
+              height?: number | null
+            } | null
+          } | null
         }
-      }
-      localizations {
-        slug
-        locale
-        competition {
+        applicant?: {
+          __typename?: 'UsersPermissionsUserEntityResponse'
+          data?: {
+            __typename?: 'UsersPermissionsUserEntity'
+            attributes?: {
+              __typename?: 'UsersPermissionsUser'
+              fullname?: string | null
+              username: string
+              avatar?: {
+                __typename?: 'UploadFileEntityResponse'
+                data?: {
+                  __typename?: 'UploadFileEntity'
+                  attributes?: { __typename?: 'UploadFile'; url: string } | null
+                } | null
+              } | null
+            } | null
+          } | null
+        } | null
+        votes?: {
+          __typename?: 'VoteRelationResponseCollection'
+          data: Array<{
+            __typename?: 'VoteEntity'
+            attributes?: { __typename?: 'Vote'; value: number } | null
+          }>
+        } | null
+        competition?: {
+          __typename?: 'CompetitionEntityResponse'
+          data?: {
+            __typename?: 'CompetitionEntity'
+            attributes?: { __typename?: 'Competition'; slug: string } | null
+          } | null
+        } | null
+        localizations?: {
+          __typename?: 'ApplicationRelationResponseCollection'
+          data: Array<{
+            __typename?: 'ApplicationEntity'
+            attributes?: {
+              __typename?: 'Application'
+              slug: string
+              locale?: string | null
+              competition?: {
+                __typename?: 'CompetitionEntityResponse'
+                data?: {
+                  __typename?: 'CompetitionEntity'
+                  attributes?: {
+                    __typename?: 'Competition'
+                    slug: string
+                  } | null
+                } | null
+              } | null
+            } | null
+          }>
+        } | null
+      } | null
+    }>
+  } | null
+}
+
+export const GetApplicationDocument = gql`
+  query getApplication($locale: I18NLocaleCode!, $slug: String) {
+    applications(locale: $locale, filters: { slug: { eq: $slug } }) {
+      data {
+        attributes {
+          title
           slug
-          page {
-            slug
+          content
+          image {
+            data {
+              attributes {
+                url
+                size
+                mime
+                width
+                height
+              }
+            }
+          }
+          locale
+          applicant {
+            data {
+              attributes {
+                fullname
+                username
+                avatar {
+                  data {
+                    attributes {
+                      url
+                    }
+                  }
+                }
+              }
+            }
+          }
+          votes {
+            data {
+              attributes {
+                value
+              }
+            }
+          }
+          competition {
+            data {
+              attributes {
+                slug
+              }
+            }
+          }
+          localizations {
+            data {
+              attributes {
+                slug
+                locale
+                competition {
+                  data {
+                    attributes {
+                      slug
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -47,32 +162,19 @@ export const GET_APPLICATION = gql`
   }
 `
 
-export const getApplication = async (
-  locale: string,
-  slug: string,
-): Promise<IApplication | null> => {
-  const data = await graphQLClient.request<GetApplicationQuery, BaseVariables>(
-    GET_APPLICATION,
-    {
-      locale,
-      slug,
-    },
+export const getApplication = async (variables: GetApplicationQueryVariables) =>
+  fetcher<GetApplicationQuery, GetApplicationQueryVariables>(
+    GetApplicationDocument,
+    variables,
   )
 
-  const application = data.applications?.[0]
-
-  if (!application) return null
-
-  const slugs = getLocalizedApplicationSlugs(application)
-
-  return { ...application, slugs }
-}
-
-export const useApplicationQuery = (
-  locale: string,
-  slug: string,
-): UseQueryResult<GetApplicationQuery> =>
-  useQuery({
-    queryKey: ['applications', [locale, slug]],
-    queryFn: () => getApplication(locale, slug),
-  })
+export const useGetApplicationQuery = <
+  TData = GetApplicationQuery,
+  TError = unknown,
+>(
+  variables: GetApplicationQueryVariables,
+) =>
+  useQuery<GetApplicationQuery, TError, TData>(
+    ['getApplication', variables],
+    () => getApplication(variables),
+  )

@@ -27,8 +27,8 @@ export const ChakraNextImage = ({
   ratio,
   ...rest
 }: {
-  image: IUploadFile | string
-  format?: FileFormatsType
+  image: UploadFileEntityResponse | string
+  format?: any
   nextImageProps?: ImageProps
   ratio?: 'twitter' | 'square'
   alt?: string
@@ -37,7 +37,7 @@ export const ChakraNextImage = ({
   const alternativeText =
     typeof image === 'string'
       ? alt || 'alternative text'
-      : image?.alternativeText
+      : image?.data?.attributes?.alternativeText || ''
 
   const ImageWrapper = (props: BoxProps) =>
     ratio ? (

@@ -23,20 +23,22 @@ import { dehydrate } from 'react-query/hydration'
 import RemoveMarkdown from 'remove-markdown'
 
 import { Container, Layout, Navigate, PostMakerIcon, Slider } from '@components'
-import { getHomepageData, getLatestHashtag } from '@lib'
+import { getHashtagLatest, getHomepageData, getLatestEntry } from '@lib'
 
 interface HomeProps {
   seo: NextSeoProps
   latestEntry: any
-  hashtags: any
-  latestHashtag: IHashtag & { link: string }
-  homepageData: any
+  hashtags: HashtagEntity[]
+  latestHashtag: Partial<Hashtag> & { link: string }
+  announcements: AnnouncementEntity[]
+  blogs: BlogEntity[]
 }
 
 const Home = ({
   seo,
   latestEntry,
-  homepageData,
+  announcements,
+  blogs,
   hashtags,
   latestHashtag,
 }: HomeProps): JSX.Element => {
@@ -150,7 +152,11 @@ const Home = ({
         <Container>
           <Stack spacing={16} py={16}>
             <Box p={8} bg="white" shadow="primary" rounded="sm">
-              <Slider items={homepageData} hasThumb centeredSlides={false} />
+              <Slider
+                items={[...hashtags, ...announcements, ...blogs] as any}
+                hasThumb
+                centeredSlides={false}
+              />
             </Box>
             <Box p={8} bg="white" shadow="primary" rounded="sm">
               <Heading textAlign="center" mb={8}>{t`hashtag-events`}</Heading>
@@ -167,7 +173,7 @@ export const getStaticProps: GetStaticProps = async context => {
   const queryClient = new QueryClient()
   const locale = context.locale as CommonLocale
 
-  const homepageData = await getHomepageData(locale)
+  const homepageData = await getHomepageData({ locale })
 
   const title: Record<string, string> = {
     en: 'Home',
@@ -175,7 +181,8 @@ export const getStaticProps: GetStaticProps = async context => {
     tr: 'Anasayfa',
   }
 
-  const latestHashtag = await getLatestHashtag(locale)
+  const latestEntry = await getLatestEntry({ locale })
+  const latestHashtag = await getHashtagLatest({ locale })
 
   const seo: NextSeoProps = {
     title: title[locale],
@@ -185,7 +192,10 @@ export const getStaticProps: GetStaticProps = async context => {
     props: {
       ...(await serverSideTranslations(locale, ['common'])),
       dehydratedState: dehydrate(queryClient),
-      ...homepageData,
+      announcements: homepageData.announcements?.data,
+      hashtags: homepageData.hashtags?.data,
+      blogs: homepageData.blogs?.data,
+      latestEntry,
       latestHashtag,
       seo,
     },

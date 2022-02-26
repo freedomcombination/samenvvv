@@ -7,7 +7,7 @@ import { ChakraNextImage } from '@components'
 import { PostContainerTags } from '../PostContainerTags'
 import { PostTextarea } from '../PostTextarea'
 
-export const PostContainerBody = memo<{ post: IHashtagPost }>(
+export const PostContainerBody = memo<{ post: HashtagPostEntity }>(
   function PostContainerBody({ post }) {
     return (
       <Stack
@@ -23,7 +23,7 @@ export const PostContainerBody = memo<{ post: IHashtagPost }>(
         <PostTextarea />
         <PostContainerTags />
         <Spacer />
-        {post.image && (
+        {post?.attributes?.image?.data?.attributes && (
           <Box
             rounded="md"
             overflow="hidden"
@@ -33,7 +33,7 @@ export const PostContainerBody = memo<{ post: IHashtagPost }>(
             <ChakraNextImage
               ratio="twitter"
               h={'100%'}
-              image={post.image.url}
+              image={post?.attributes?.image}
             />
           </Box>
         )}

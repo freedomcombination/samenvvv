@@ -17,7 +17,7 @@ export const HeaderNav = ({
   return (
     <Stack direction={direction}>
       {HEADER_MENU.map((item, i) => {
-        return <HeaderNavItem key={i} navItem={item[locale as ILocale]} />
+        return <HeaderNavItem key={i} navItem={item[locale as CommonLocale]} />
       })}
     </Stack>
   )

@@ -3,7 +3,7 @@ import { SimpleGrid } from '@chakra-ui/react'
 import { AnimatedBox, Card } from '@components'
 
 interface CardGroupProps {
-  items: ISubpage[] | IApplication[] | IHashtagPost[]
+  items: AnnouncementEntity[] | ApplicationEntity[] | HashtagPostEntity[]
   isSimple?: boolean
   isSocial?: boolean
   hasLink?: boolean

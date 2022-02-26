@@ -1,0 +1,11 @@
+query getTerm($locale: I18NLocaleCode!) {
+  term(locale: $locale) {
+    data {
+      attributes {
+        slug
+        title
+        content
+      }
+    }
+  }
+}

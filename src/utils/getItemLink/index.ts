@@ -1,63 +1,64 @@
+import { getRoute } from '../getRoute'
+
 export const getItemLink = (
   item:
-    | IPage
-    | ISubpage
-    | ICompetition
-    | IHashtag
-    | IApplication
-    | IHashtagPost
-    | IPost,
+    | AnnouncementEntity
+    | CompetitionEntity
+    | HashtagEntity
+    | ApplicationEntity
+    | HashtagPostEntity
+    | BlogEntity,
   locale: CommonLocale,
   isAbsolute?: boolean,
 ): string | null => {
-  const post = item as IHashtagPost
-  const application = item as IApplication
-  const subpage = item as ISubpage
-  const page = item as IPage
-  const blog = item as IPost
+  const post = item as HashtagPostEntity
+  const application = item as ApplicationEntity
+  const hashtag = item as HashtagEntity
+  const announcement = item as AnnouncementEntity
+  const blog = item as BlogEntity
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL as string
   let itemUrl: string | null
 
-  const type = post.hashtag
+  const type = post?.attributes?.text
     ? 'post'
-    : application.competition
+    : hashtag?.attributes?.posts
+    ? 'hashtag'
+    : application?.attributes?.competition
     ? 'application'
-    : page.subpages || page.competitions || page.hashtags
-    ? 'page'
-    : blog.author
+    : blog?.attributes?.author
     ? 'blog'
-    : 'subpage'
+    : 'announcement'
 
   if (type === 'post') {
-    if (!post.hashtag?.page?.slug || !post.hashtag.slug) {
+    if (!post?.attributes?.hashtag?.data?.attributes?.slug) {
       console.error('Missing slug for post:', type, post)
       return null
     }
-    itemUrl = `/${locale}/${post.hashtag?.page?.slug}/${post.hashtag?.slug}/${post.slug}`
+    itemUrl = `/${locale}/${getRoute('hashtag', locale)}/${
+      post?.attributes.hashtag?.data?.attributes?.slug
+    }/${post?.attributes?.slug}`
   } else if (type === 'application') {
-    if (!application.competition?.page?.slug || !application.competition.slug) {
+    if (!application?.attributes?.competition?.data?.attributes?.slug) {
       console.error('Missing slug for application:', type, application)
       return null
     }
-    itemUrl = `/${locale}/${application.competition?.page?.slug}/${application.competition?.slug}/${application.slug}`
-  } else if (type === 'subpage') {
-    if (!subpage.page?.slug) {
-      console.error('Missing slug for subpage:', type, subpage)
-      return null
-    }
-    itemUrl = `/${locale}/${subpage.page?.slug}/${subpage.slug}`
-  } else if (type === 'page') {
-    if (!page.slug) {
-      console.error('Missing link for page', type, page)
-      return null
-    }
-    itemUrl = `/${locale}/${page.slug}`
+    itemUrl = `/${locale}/${getRoute('competition', locale)}/${
+      application?.attributes?.slug
+    }`
+  } else if (type === 'announcement') {
+    itemUrl = `/${locale}/${getRoute('announcement', locale)}/${
+      announcement?.attributes?.slug
+    }`
+  } else if (type === 'hashtag') {
+    itemUrl = `/${locale}/${getRoute('hashtag', locale)}/${
+      hashtag?.attributes?.slug
+    }`
   } else if (type === 'blog') {
-    if (!blog.slug) {
-      console.error('Missing link for page', type, page)
+    if (!blog?.attributes?.slug) {
+      console.error('Missing link for page', type, blog)
       return null
     }
-    itemUrl = `/${locale}/blog/${blog.slug}`
+    itemUrl = `/${locale}/blog/${blog?.attributes?.slug}`
   } else {
     console.error('Missing slug for item:', type, item)
     return null

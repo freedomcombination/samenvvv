@@ -22,9 +22,9 @@ import { MentionAndTrends } from './MentionAndTrends'
 import { PostContainer } from './PostContainer'
 import { TweetWidget } from './TweetWidget'
 
-export const PostMaker = memo<{ post: IHashtagPost }>(function PostMaker({
-  post,
-}) {
+export const PostMaker = memo<{
+  post: HashtagPostEntity
+}>(function PostMaker({ post }) {
   const { isPostModalOpen } = useAppSelector(state => state.postShare)
   const { t } = useTranslation()
   const dispatch = useAppDispatch()
@@ -71,7 +71,7 @@ export const PostMaker = memo<{ post: IHashtagPost }>(function PostMaker({
         <ModalContent py={4} h="100vh" pos="relative">
           <DrawerCloseButton />
           <ModalBody as={Stack} w={{ base: 'full', lg: 300 }}>
-            <MentionAndTrends post={post} />
+            <MentionAndTrends />
           </ModalBody>
         </ModalContent>
       </Modal>
@@ -82,13 +82,15 @@ export const PostMaker = memo<{ post: IHashtagPost }>(function PostMaker({
         alignItems="stretch"
       >
         <Box display={{ base: 'none', lg: 'block' }} h="inherit">
-          <MentionAndTrends post={post} />
+          <MentionAndTrends />
         </Box>
         <PostContainer post={post} />
         <Box>
           <TweetWidget
             title={t`post-share.latest-tweets-label`}
-            tweets={post.hashtag?.tweets}
+            tweets={
+              post?.attributes?.hashtag?.data?.attributes?.tweets as ITweet[]
+            }
           />
         </Box>
       </Grid>

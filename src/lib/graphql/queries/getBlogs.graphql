@@ -1,0 +1,40 @@
+query getBlogs($locale: I18NLocaleCode!) {
+  blogs(locale: $locale) {
+    data {
+      id
+      attributes {
+        slug
+        title
+        content
+        author {
+          data {
+            attributes {
+              fullname
+              avatar {
+                data {
+                  attributes {
+                    url
+                  }
+                }
+              }
+            }
+          }
+        }
+        image {
+          data {
+            attributes {
+              url
+              size
+              mime
+              width
+              height
+            }
+          }
+        }
+        views
+        likes
+        publishedAt
+      }
+    }
+  }
+}

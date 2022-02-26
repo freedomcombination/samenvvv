@@ -1,14 +1,7 @@
-declare interface ITrend {
-  name: string
+declare interface TrendData {
   url: string
-  promoted_content: string | null
+  name: string
   query: string
-  tweet_volume: number | null
-}
-
-declare interface ITrendsData {
-  tr: ITrend[] | null
-  en: ITrend[] | null
-  nl: ITrend[] | null
-  updated_at: string
+  tweet_volume: number
+  promoted_content: string | null
 }

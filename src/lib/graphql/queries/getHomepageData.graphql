@@ -1,0 +1,73 @@
+query getHomepageData($locale: I18NLocaleCode) {
+  blogs(
+    locale: $locale
+    sort: "publishedAt:desc"
+    pagination: { start: 0, limit: 5 }
+  ) {
+    data {
+      attributes {
+        title
+        content
+        slug
+        publishedAt
+        author {
+          data {
+            attributes {
+              username
+            }
+          }
+        }
+        image {
+          data {
+            attributes {
+              url
+            }
+          }
+        }
+      }
+    }
+  }
+  announcements(
+    locale: $locale
+    sort: "date:desc"
+    pagination: { start: 0, limit: 5 }
+  ) {
+    data {
+      attributes {
+        title
+        content
+        date
+        date_end
+        slug
+        image {
+          data {
+            attributes {
+              url
+            }
+          }
+        }
+      }
+    }
+  }
+  hashtags(
+    locale: $locale
+    sort: "date:desc"
+    pagination: { start: 0, limit: 5 }
+  ) {
+    data {
+      attributes {
+        title
+        content
+        date
+        slug
+        image {
+          data {
+            attributes {
+              url
+            }
+          }
+        }
+      }
+    }
+  }
+}

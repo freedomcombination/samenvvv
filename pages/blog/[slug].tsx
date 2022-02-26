@@ -6,7 +6,6 @@ import {
   HStack,
   Icon,
   IconButton,
-  Spinner,
   Stack,
   Text,
   Wrap,
@@ -18,7 +17,6 @@ import { serialize } from 'next-mdx-remote/serialize'
 import { NextSeoProps } from 'next-seo'
 import { AiFillHeart } from 'react-icons/ai'
 import { FaCalendarDay, FaClock, FaEye } from 'react-icons/fa'
-import { dehydrate, QueryClient, useQuery } from 'react-query'
 import RemoveMarkdown from 'remove-markdown'
 
 import {
@@ -29,7 +27,7 @@ import {
   ShareButtons,
 } from '@components'
 import { useLocaleTimeFormat } from '@hooks'
-import { getBlogPaths, getBlogPost } from '@lib'
+import { getBlog, getBlogPaths } from '@lib'
 import {
   likePost,
   unlikePost,
@@ -44,7 +42,7 @@ interface PostProps {
   seo: NextSeoProps
   link: string
   description: string
-  slug: string
+  blog: BlogEntity
   locale: CommonLocale
 }
 
@@ -53,41 +51,35 @@ const Post = ({
   seo,
   link,
   description,
-  slug,
+  blog,
   locale,
 }: PostProps): JSX.Element => {
-  const { data, isLoading, refetch } = useQuery(['post', [locale, slug]], () =>
-    getBlogPost(slug, locale),
-  )
   const { views, likes } = useAppSelector(state => state.blog)
-
   const dispatch = useAppDispatch()
 
-  const hasLiked = likes.some(id => id === data?.id)
+  const hasLiked = likes.some(id => id === blog?.id)
   const readingTime = getReadingTime(
-    data?.content as string,
+    blog?.attributes?.content as string,
     locale as CommonLocale,
   )
-  const { formattedDate } = useLocaleTimeFormat(data?.published_at as string)
+  const { formattedDate } = useLocaleTimeFormat(
+    blog?.attributes?.publishedAt as string,
+  )
 
   const handleLikePost = () => {
-    if (hasLiked) dispatch(unlikePost(data as IPost))
-    else dispatch(likePost(data as IPost))
+    if (hasLiked) dispatch(unlikePost(blog))
+    else dispatch(likePost(blog))
   }
-
-  useEffect(() => {
-    refetch()
-  }, [likes, views, refetch])
 
   useEffect(() => {
     let timer: NodeJS.Timeout
 
-    if (data?.content) {
-      const isViewed = views.some(id => id === data.id)
+    if (blog?.attributes?.content) {
+      const isViewed = views.some(id => id === blog?.id)
 
       if (!isViewed) {
         timer = setTimeout(() => {
-          dispatch(viewPost(data))
+          dispatch(viewPost(blog))
         }, 10000)
       }
     }
@@ -95,15 +87,13 @@ const Post = ({
     return () => {
       clearTimeout(timer)
     }
-  }, [data, dispatch, views])
-
-  if (!data) return <Spinner />
+  }, [dispatch, views, blog])
 
   return (
-    <Layout seo={seo} isLoading={isLoading}>
+    <Layout seo={seo}>
       <Container maxW="container.md">
         <Stack py={8} spacing={8}>
-          <Heading textAlign="center">{data.title}</Heading>
+          <Heading textAlign="center">{blog?.attributes?.title}</Heading>
           <Wrap
             justify={{ base: 'center', md: 'space-between' }}
             color="gray.500"
@@ -124,11 +114,11 @@ const Post = ({
               <HStack>
                 <HStack>
                   <Box as={FaEye} />
-                  <Text>{data.views}</Text>
+                  <Text>{blog?.attributes?.views}</Text>
                 </HStack>
                 <HStack>
                   <Box as={AiFillHeart} />
-                  <Text>{data.likes}</Text>
+                  <Text>{blog?.attributes?.likes}</Text>
                 </HStack>
               </HStack>
             </Wrap>
@@ -144,11 +134,17 @@ const Post = ({
                 variant="outline"
                 onClick={handleLikePost}
               />
-              <ShareButtons title={data.title} url={link} quote={description} />
+              <ShareButtons
+                title={blog?.attributes?.title as string}
+                url={link}
+                quote={description}
+              />
             </HStack>
           </Wrap>
-          <ChakraNextImage ratio="twitter" image={data.image} />
-          <Markdown source={source} />
+          {blog?.attributes?.image?.data && (
+            <ChakraNextImage ratio="twitter" image={blog?.attributes?.image} />
+          )}
+          {source && <Markdown source={source} />}
         </Stack>
       </Container>
     </Layout>
@@ -169,26 +165,23 @@ export const getStaticPaths: GetStaticPaths = async () => {
 export const getStaticProps: GetStaticProps = async context => {
   const locale = context.locale as CommonLocale
   const slug = context.params?.slug as string
-  const queryClient = new QueryClient()
 
-  const queryKey = ['post', [locale, slug]]
-  const queryFn = () => getBlogPost(slug, locale)
+  const data = await getBlog({ slug, locale })
 
-  await queryClient.prefetchQuery(queryKey, queryFn)
+  const blog = data?.blogs?.data?.[0]
 
-  const post = queryClient.getQueryData<IPost>(queryKey)
-
-  if (!post) {
+  if (!blog?.attributes) {
     return { notFound: true }
   }
 
-  const title = post.title
+  const title = blog?.attributes?.title
   const description =
-    post.content && RemoveMarkdown(truncateText(post.content as string, 200))
+    blog?.attributes?.content &&
+    RemoveMarkdown(truncateText(blog?.attributes?.content || '', 200))
   const adminUrl = process.env.NEXT_PUBLIC_ADMIN_URL as string
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL as string
-  const image = post.image
-  const url = `${siteUrl}/${locale}/blog/${post.slug}`
+  const image = blog?.attributes?.image.data?.attributes
+  const url = `${siteUrl}/${locale}/blog/${blog?.attributes?.slug}`
 
   const seo: NextSeoProps = {
     title,
@@ -197,6 +190,11 @@ export const getStaticProps: GetStaticProps = async context => {
       title,
       description,
       url,
+      article: {
+        authors: [
+          blog?.attributes?.author?.data?.attributes?.fullname as string,
+        ],
+      },
       images: [
         {
           url: adminUrl + image?.url,
@@ -210,17 +208,16 @@ export const getStaticProps: GetStaticProps = async context => {
     },
   }
 
-  const source = await serialize(post.content || '')
+  const source = await serialize(blog?.attributes?.content || '')
 
   return {
     props: {
       source,
       link: url,
       description,
-      slug,
       locale,
+      blog,
       seo,
-      dehydratedState: dehydrate(queryClient),
       ...(await serverSideTranslations(locale as CommonLocale, ['common'])),
     },
     revalidate: 120,

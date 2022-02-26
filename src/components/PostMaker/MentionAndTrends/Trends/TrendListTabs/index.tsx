@@ -1,5 +1,3 @@
-import { memo } from 'react'
-
 import {
   Box,
   Flex,
@@ -18,22 +16,22 @@ import { useTranslation } from 'react-i18next'
 import { FaInfoCircle } from 'react-icons/fa'
 
 import { timeLocale } from '@config'
-import { useFindHashtagInTrends, useTrendsData } from '@lib'
+import { useFindHashtagInTrends, useGetTrendsDataDataQuery } from '@lib'
 
 import { TrendList } from '../TrendList'
 
-export const TrendListTabs = memo<{
-  post: IHashtagPost
-}>(function TrendListTabs({ post }) {
+export const TrendListTabs = () => {
   const { t } = useTranslation()
   const { locale } = useRouter()
   const [hashtagInTrends, hashtagExtraInTrends] = useFindHashtagInTrends()
 
-  const { data: trends, isLoading } = useTrendsData()
+  const { data, isLoading } = useGetTrendsDataDataQuery()
+
+  const trends = data?.trend?.data?.attributes
 
   const distance =
-    trends?.updated_at &&
-    formatDistanceToNow(new Date(trends?.updated_at), {
+    trends?.updatedAt &&
+    formatDistanceToNow(new Date(trends?.updatedAt), {
       locale: timeLocale[locale as CommonLocale],
       addSuffix: true,
     })
@@ -77,7 +75,6 @@ export const TrendListTabs = memo<{
                 trends={trends?.en}
                 hashtagInTrends={hashtagInTrends?.en}
                 hashtagExtraInTrends={hashtagExtraInTrends?.en}
-                post={post}
               />
             </TabPanel>
             <TabPanel>
@@ -86,7 +83,6 @@ export const TrendListTabs = memo<{
                 trends={trends?.tr}
                 hashtagInTrends={hashtagInTrends?.tr}
                 hashtagExtraInTrends={hashtagExtraInTrends?.tr}
-                post={post}
               />
             </TabPanel>
             <TabPanel>
@@ -95,7 +91,6 @@ export const TrendListTabs = memo<{
                 trends={trends?.nl}
                 hashtagInTrends={hashtagInTrends?.nl}
                 hashtagExtraInTrends={hashtagExtraInTrends?.nl}
-                post={post}
               />
             </TabPanel>
           </TabPanels>
@@ -103,4 +98,4 @@ export const TrendListTabs = memo<{
       </Box>
     </VStack>
   )
-})
+}

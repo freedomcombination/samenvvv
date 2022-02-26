@@ -1,0 +1,12 @@
+query getTrendsDataData {
+  trend {
+    data {
+      attributes {
+        en
+        tr
+        nl
+        updatedAt
+      }
+    }
+  }
+}

@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-import { getMentionList, lookupTwitterUsers } from '@lib'
+import { getMentions } from '@lib'
 
 const LOCAL_STORAGE_MENTIONS_KEY = 'mentions'
 
@@ -42,8 +42,8 @@ export type PostShareState = {
   searchedMentions: ITweetUserData[]
   savedMentions: ITweetUserData[]
   isSearchedMentionsLoading: boolean
-  initialMentions: IMention[]
-  mentions: IMention[]
+  initialMentions: MentionEntity[]
+  mentions: MentionEntity[]
   isMentionListLoading: boolean
   trendNames: string[]
   defaultTab: number | null
@@ -72,17 +72,17 @@ const initialState: PostShareState = {
   isExceeded: false,
 }
 
-export const fetchSearchedMentions = createAsyncThunk(
-  'post-share/searchedMentions',
-  async (value: string) => {
-    return await lookupTwitterUsers(value)
-  },
-)
+// export const fetchSearchedMentions = createAsyncThunk(
+//   'post-share/searchedMentions',
+//   async (value: string) => {
+//     return await lookupTwitterUsers(value)
+//   },
+// )
 
 export const fetchMentions = createAsyncThunk(
   'post-share/mentions',
   async () => {
-    return await getMentionList()
+    return await getMentions()
   },
 )
 
@@ -137,7 +137,7 @@ export const postShareSlice = createSlice({
     clearSearchedMentions: state => {
       state.searchedMentions = []
     },
-    setMentions: (state, action: PayloadAction<IMention[]>) => {
+    setMentions: (state, action: PayloadAction<MentionEntity[]>) => {
       state.mentions = action.payload
     },
     resetMentions: state => {
@@ -171,21 +171,21 @@ export const postShareSlice = createSlice({
     },
   },
   extraReducers: builder => {
-    builder.addCase(fetchSearchedMentions.fulfilled, (state, action) => {
-      state.searchedMentions = action.payload
-      state.isSearchedMentionsLoading = false
+    // builder.addCase(fetchSearchedMentions.fulfilled, (state, action) => {
+    //   state.searchedMentions = action.payload
+    //   state.isSearchedMentionsLoading = false
+    // }),
+    //   builder.addCase(fetchSearchedMentions.pending, state => {
+    //     state.isSearchedMentionsLoading = true
+    //   }),
+    //   builder.addCase(fetchSearchedMentions.rejected, state => {
+    //     state.isSearchedMentionsLoading = false
+    //   }),
+    builder.addCase(fetchMentions.fulfilled, (state, action) => {
+      state.initialMentions = action.payload.mentions?.data as MentionEntity[]
+      state.mentions = action.payload.mentions?.data as MentionEntity[]
+      state.isMentionListLoading = false
     }),
-      builder.addCase(fetchSearchedMentions.pending, state => {
-        state.isSearchedMentionsLoading = true
-      }),
-      builder.addCase(fetchSearchedMentions.rejected, state => {
-        state.isSearchedMentionsLoading = false
-      }),
-      builder.addCase(fetchMentions.fulfilled, (state, action) => {
-        state.initialMentions = action.payload
-        state.mentions = action.payload
-        state.isMentionListLoading = false
-      }),
       builder.addCase(fetchMentions.pending, state => {
         state.isMentionListLoading = true
       }),

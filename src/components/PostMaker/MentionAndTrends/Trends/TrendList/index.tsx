@@ -17,11 +17,10 @@ import {
 import { formatNumber } from '@utils'
 
 interface TrendListProps {
-  trends?: ITrend[] | null
+  trends?: TrendData[] | null
   isLoading: boolean
-  hashtagInTrends?: ITrend
-  hashtagExtraInTrends?: ITrend
-  post: IHashtagPost
+  hashtagInTrends?: TrendData
+  hashtagExtraInTrends?: TrendData
 }
 
 export const TrendList = ({

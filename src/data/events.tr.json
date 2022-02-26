@@ -14,13 +14,13 @@
       "content": "#etkinlikler",
       "type": "event",
       "locale": "tr",
-      "published_at": "2021-09-07T13:55:51.808Z",
+      "publishedAt": "2021-09-07T13:55:51.808Z",
       "created_at": "2021-09-07T13:55:49.706Z",
       "updated_at": "2021-09-07T13:55:51.925Z",
       "image": null
     },
     "locale": "tr",
-    "published_at": "2021-09-26T16:31:32.726Z",
+    "publishedAt": "2021-09-26T16:31:32.726Z",
     "created_at": "2021-09-26T16:31:30.216Z",
     "updated_at": "2021-09-26T16:31:32.826Z",
     "image": {
@@ -66,8 +66,8 @@
       "updated_at": "2021-09-26T16:30:54.325Z"
     },
     "localizations": [
-      { "id": 2, "locale": "nl", "published_at": "2021-09-07T13:49:02.828Z" },
-      { "id": 7, "locale": "en", "published_at": "2021-09-26T16:31:56.041Z" }
+      { "id": 2, "locale": "nl", "publishedAt": "2021-09-07T13:49:02.828Z" },
+      { "id": 7, "locale": "en", "publishedAt": "2021-09-26T16:31:56.041Z" }
     ]
   },
   {
@@ -85,13 +85,13 @@
       "content": "#etkinlikler",
       "type": "event",
       "locale": "tr",
-      "published_at": "2021-09-07T13:55:51.808Z",
+      "publishedAt": "2021-09-07T13:55:51.808Z",
       "created_at": "2021-09-07T13:55:49.706Z",
       "updated_at": "2021-09-07T13:55:51.925Z",
       "image": null
     },
     "locale": "tr",
-    "published_at": "2021-09-26T16:33:45.525Z",
+    "publishedAt": "2021-09-26T16:33:45.525Z",
     "created_at": "2021-09-26T16:33:41.636Z",
     "updated_at": "2021-09-26T16:33:46.016Z",
     "image": {
@@ -137,8 +137,8 @@
       "updated_at": "2021-09-26T16:32:45.227Z"
     },
     "localizations": [
-      { "id": 8, "locale": "nl", "published_at": "2021-09-26T16:32:52.920Z" },
-      { "id": 9, "locale": "en", "published_at": "2021-09-26T16:34:41.954Z" }
+      { "id": 8, "locale": "nl", "publishedAt": "2021-09-26T16:32:52.920Z" },
+      { "id": 9, "locale": "en", "publishedAt": "2021-09-26T16:34:41.954Z" }
     ]
   },
   {
@@ -156,13 +156,13 @@
       "content": "#etkinlikler",
       "type": "event",
       "locale": "tr",
-      "published_at": "2021-09-07T13:55:51.808Z",
+      "publishedAt": "2021-09-07T13:55:51.808Z",
       "created_at": "2021-09-07T13:55:49.706Z",
       "updated_at": "2021-09-07T13:55:51.925Z",
       "image": null
     },
     "locale": "tr",
-    "published_at": "2021-09-26T16:37:31.942Z",
+    "publishedAt": "2021-09-26T16:37:31.942Z",
     "created_at": "2021-09-26T16:37:27.022Z",
     "updated_at": "2021-09-26T16:37:32.126Z",
     "image": {
@@ -208,8 +208,8 @@
       "updated_at": "2021-09-26T16:35:31.291Z"
     },
     "localizations": [
-      { "id": 11, "locale": "nl", "published_at": "2021-09-26T16:35:10.385Z" },
-      { "id": 12, "locale": "en", "published_at": "2021-09-26T16:37:08.827Z" }
+      { "id": 11, "locale": "nl", "publishedAt": "2021-09-26T16:35:10.385Z" },
+      { "id": 12, "locale": "en", "publishedAt": "2021-09-26T16:37:08.827Z" }
     ]
   },
   {
@@ -227,13 +227,13 @@
       "content": "#etkinlikler",
       "type": "event",
       "locale": "tr",
-      "published_at": "2021-09-07T13:55:51.808Z",
+      "publishedAt": "2021-09-07T13:55:51.808Z",
       "created_at": "2021-09-07T13:55:49.706Z",
       "updated_at": "2021-09-07T13:55:51.925Z",
       "image": null
     },
     "locale": "tr",
-    "published_at": "2021-09-26T16:39:00.738Z",
+    "publishedAt": "2021-09-26T16:39:00.738Z",
     "created_at": "2021-09-26T16:38:55.722Z",
     "updated_at": "2021-09-26T16:39:00.927Z",
     "image": {
@@ -279,8 +279,8 @@
       "updated_at": "2021-09-26T16:38:06.917Z"
     },
     "localizations": [
-      { "id": 14, "locale": "nl", "published_at": "2021-09-26T16:38:11.535Z" },
-      { "id": 15, "locale": "en", "published_at": "2021-09-26T16:38:40.401Z" }
+      { "id": 14, "locale": "nl", "publishedAt": "2021-09-26T16:38:11.535Z" },
+      { "id": 15, "locale": "en", "publishedAt": "2021-09-26T16:38:40.401Z" }
     ]
   }
 ]

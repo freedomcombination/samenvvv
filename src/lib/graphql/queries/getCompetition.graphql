@@ -1,0 +1,69 @@
+query getCompetition($locale: I18NLocaleCode!, $slug: String) {
+  competitions(locale: $locale, filters: { slug: { eq: $slug } }) {
+    data {
+      id
+      attributes {
+        slug
+        title
+        content
+        image {
+          data {
+            attributes {
+              url
+              size
+              mime
+              width
+              height
+            }
+          }
+        }
+        date
+        date_end
+        locale
+        applications(pagination: { start: 0, limit: 10 }) {
+          data {
+            attributes {
+              title
+              slug
+              content
+              image {
+                data {
+                  attributes {
+                    url
+                    size
+                    mime
+                    width
+                    height
+                  }
+                }
+              }
+              applicant {
+                data {
+                  attributes {
+                    username
+                    fullname
+                    avatar {
+                      data {
+                        attributes {
+                          url
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+        localizations {
+          data {
+            attributes {
+              slug
+              locale
+            }
+          }
+        }
+      }
+    }
+  }
+}

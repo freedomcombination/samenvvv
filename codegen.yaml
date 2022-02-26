@@ -1,0 +1,24 @@
+schema:
+  - ${NEXT_PUBLIC_API_URL}/graphql:
+      headers:
+        Authorization: Bearer ${NEXT_PUBLIC_READONLY_TOKEN}
+documents: './src/**/*.graphql'
+generates:
+  types/generated.d.ts:
+    plugins:
+      - typescript
+  src/lib:
+    preset: near-operation-file
+    presetConfig:
+      extension: .ts
+      baseTypesPath: types.ts
+      folder: ../../functions
+    plugins:
+      - typescript-operations
+      - typescript-react-query
+    config:
+      fetcher:
+        func: '../graphql-client#fetcher'
+hooks:
+  afterAllFileWrite:
+    - eslint --fix 'src/lib/functions'

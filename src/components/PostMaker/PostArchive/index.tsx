@@ -25,7 +25,7 @@ import { getItemLink } from '@utils'
 const SwiperBox = chakra(Swiper)
 
 interface PostArchiveProps {
-  posts: IHashtagPost[]
+  posts: HashtagPostEntity[]
 }
 
 export const PostArchive = ({ posts }: PostArchiveProps): JSX.Element => {
@@ -40,13 +40,14 @@ export const PostArchive = ({ posts }: PostArchiveProps): JSX.Element => {
   const { locale } = useRouter()
 
   useEffect(() => {
-    const _title = posts[activeIndex].hashtag?.title || ''
-    const _content = posts[activeIndex].text
+    const _title =
+      posts[activeIndex]?.attributes?.hashtag?.data?.attributes?.title || ''
+    const _content = posts[activeIndex]?.attributes?.text
     const _absoluteUrl =
       getItemLink(posts[activeIndex], locale as CommonLocale, true) || ''
 
-    setTitle(_title)
-    setContent(_content)
+    setTitle(_title || '')
+    setContent(_content || '')
     setAbsoluteUrl(_absoluteUrl)
   }, [activeIndex, locale, posts])
 
@@ -75,10 +76,12 @@ export const PostArchive = ({ posts }: PostArchiveProps): JSX.Element => {
               {posts.map((post, i) => {
                 return (
                   <SwiperSlide key={i}>
-                    <ChakraNextImage
-                      image={post.image?.url as string}
-                      ratio="twitter"
-                    />
+                    {post?.attributes?.image?.data?.attributes && (
+                      <ChakraNextImage
+                        image={post?.attributes?.image}
+                        ratio="twitter"
+                      />
+                    )}
                   </SwiperSlide>
                 )
               })}
@@ -100,10 +103,12 @@ export const PostArchive = ({ posts }: PostArchiveProps): JSX.Element => {
             >
               {posts.map((post, i) => (
                 <SwiperSlide key={i}>
-                  <ChakraNextImage
-                    image={post.image?.url as string}
-                    ratio="twitter"
-                  />
+                  {post?.attributes?.image?.data?.attributes && (
+                    <ChakraNextImage
+                      image={post?.attributes?.image}
+                      ratio="twitter"
+                    />
+                  )}
                 </SwiperSlide>
               ))}
             </SwiperBox>
@@ -132,50 +137,55 @@ export const PostArchive = ({ posts }: PostArchiveProps): JSX.Element => {
         </ModalContent>
       </Modal>
       <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={8}>
-        {posts.map((item, i) => (
-          <AnimatedBox key={i} delay={i} directing="to-down" hasHover>
-            <Box bg="white" shadow="primary" rounded="lg" overflow="hidden">
-              <ChakraNextImage
-                ratio="twitter"
-                image={item.image?.url as string}
-                minH={0}
-              />
-              {item.text && (
-                <HStack
-                  spacing={2}
-                  px={6}
-                  py={2}
-                  justifyContent="space-evenly"
-                  w="full"
-                >
-                  <ShareButtons
-                    title={item.hashtag?.title as string}
-                    quote={item.text}
-                    url={
-                      getItemLink(
-                        item as IHashtagPost,
-                        locale as CommonLocale,
-                        true,
-                      ) as string
-                    }
-                    size="lg"
-                    justifyContent="space-between"
-                    w="full"
-                  >
-                    <IconButton
-                      aria-label="full screen"
-                      icon={<BiFullscreen />}
-                      onClick={onOpen}
-                      variant="outline"
-                      rounded="full"
-                      size="lg"
+        {posts.map(
+          ({ attributes: item }, i) =>
+            item && (
+              <AnimatedBox key={i} delay={i} directing="to-down" hasHover>
+                <Box bg="white" shadow="primary" rounded="lg" overflow="hidden">
+                  {item.image?.data?.attributes && (
+                    <ChakraNextImage
+                      ratio="twitter"
+                      image={item.image}
+                      minH={0}
                     />
-                  </ShareButtons>
-                </HStack>
-              )}
-            </Box>
-          </AnimatedBox>
-        ))}
+                  )}
+                  {item.text && (
+                    <HStack
+                      spacing={2}
+                      px={6}
+                      py={2}
+                      justifyContent="space-evenly"
+                      w="full"
+                    >
+                      <ShareButtons
+                        title={item.hashtag?.data?.attributes?.title as string}
+                        quote={item.text}
+                        url={
+                          getItemLink(
+                            item as HashtagPostEntity,
+                            locale as CommonLocale,
+                            true,
+                          ) as string
+                        }
+                        size="lg"
+                        justifyContent="space-between"
+                        w="full"
+                      >
+                        <IconButton
+                          aria-label="full screen"
+                          icon={<BiFullscreen />}
+                          onClick={onOpen}
+                          variant="outline"
+                          rounded="full"
+                          size="lg"
+                        />
+                      </ShareButtons>
+                    </HStack>
+                  )}
+                </Box>
+              </AnimatedBox>
+            ),
+        )}
       </SimpleGrid>
     </>
   )

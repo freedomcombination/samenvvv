@@ -22,8 +22,8 @@ interface SliderProps {
   children: JSX.Element[]
   slides: ResponsiveValue<number>
   spaces: ResponsiveValue<number>
-  items: ISubpage[] | ICompetition[] | IHashtag[]
-  posts: IHashtagPost[]
+  items: AnnouncementEntity[] | CompetitionEntity[] | HashtagEntity[]
+  posts: HashtagPostEntity[]
   activeStyles: ChakraProps
   customStyles: ChakraProps
   swiperStyles: CSSObject

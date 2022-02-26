@@ -107,13 +107,13 @@ export const MentionList = (): JSX.Element => {
                   .filter(
                     user_data =>
                       !mentionUsernames.includes(
-                        '@' + user_data.user_data?.screen_name,
+                        '@' + user_data?.attributes?.data?.screen_name,
                       ),
                   )
-                  ?.map(({ user_data }, i) => (
+                  ?.map(({ attributes: user_data }, i) => (
                     <MentionListItem
                       key={i}
-                      user_data={user_data as ITweetUserData}
+                      user_data={user_data?.data as ITweetUserData}
                       onAddItem={onAddMention}
                     />
                   ))

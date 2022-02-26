@@ -1,84 +1,190 @@
 import { gql } from 'graphql-request'
-import { useQuery, UseQueryResult } from 'react-query'
+import { useQuery } from 'react-query'
 
-import { graphQLClient } from '@lib'
+import { fetcher } from '../graphql-client'
 
-import { getLocalizedSubpageSlugs } from '../getLocalizedSlugs'
+export type GetCompetitionQueryVariables = {
+  locale: CommonLocale
+  slug: string
+}
 
-export type GetCompetitionQuery = { competitions?: ICompetition[] }
-
-export const GET_COMPETITION = gql`
-  query getCompetitions($locale: String!, $slug: String) {
-    competitions(locale: $locale, where: { slug: $slug }) {
-      id
-      slug
-      title
-      content
-      image {
-        url
-        size
-        mime
-        width
-        height
-      }
-      start
-      end
-      locale
-      page {
-        slug
-      }
-      applications(limit: 10) {
-        title
-        slug
-        content
-        image {
-          url
-          size
-          mime
-          width
-          height
+export type GetCompetitionQuery = {
+  __typename?: 'Query'
+  competitions?: {
+    __typename?: 'CompetitionEntityResponseCollection'
+    data: Array<{
+      __typename?: 'CompetitionEntity'
+      id?: string | null
+      attributes?: {
+        __typename?: 'Competition'
+        slug: string
+        title: string
+        content: string
+        date: any
+        date_end?: any | null
+        locale?: string | null
+        image: {
+          __typename?: 'UploadFileEntityResponse'
+          data?: {
+            __typename?: 'UploadFileEntity'
+            attributes?: {
+              __typename?: 'UploadFile'
+              url: string
+              size: number
+              mime: string
+              width?: number | null
+              height?: number | null
+            } | null
+          } | null
         }
-        user {
-          username
-        }
-      }
-      localizations {
-        slug
-        locale
-        page {
+        applications?: {
+          __typename?: 'ApplicationRelationResponseCollection'
+          data: Array<{
+            __typename?: 'ApplicationEntity'
+            attributes?: {
+              __typename?: 'Application'
+              title: string
+              slug: string
+              content: string
+              image: {
+                __typename?: 'UploadFileEntityResponse'
+                data?: {
+                  __typename?: 'UploadFileEntity'
+                  attributes?: {
+                    __typename?: 'UploadFile'
+                    url: string
+                    size: number
+                    mime: string
+                    width?: number | null
+                    height?: number | null
+                  } | null
+                } | null
+              }
+              applicant?: {
+                __typename?: 'UsersPermissionsUserEntityResponse'
+                data?: {
+                  __typename?: 'UsersPermissionsUserEntity'
+                  attributes?: {
+                    __typename?: 'UsersPermissionsUser'
+                    username: string
+                    fullname?: string | null
+                    avatar?: {
+                      __typename?: 'UploadFileEntityResponse'
+                      data?: {
+                        __typename?: 'UploadFileEntity'
+                        attributes?: {
+                          __typename?: 'UploadFile'
+                          url: string
+                        } | null
+                      } | null
+                    } | null
+                  } | null
+                } | null
+              } | null
+            } | null
+          }>
+        } | null
+        localizations?: {
+          __typename?: 'CompetitionRelationResponseCollection'
+          data: Array<{
+            __typename?: 'CompetitionEntity'
+            attributes?: {
+              __typename?: 'Competition'
+              slug: string
+              locale?: string | null
+            } | null
+          }>
+        } | null
+      } | null
+    }>
+  } | null
+}
+
+export const GetCompetitionDocument = gql`
+  query getCompetition($locale: I18NLocaleCode!, $slug: String) {
+    competitions(locale: $locale, filters: { slug: { eq: $slug } }) {
+      data {
+        id
+        attributes {
           slug
+          title
+          content
+          image {
+            data {
+              attributes {
+                url
+                size
+                mime
+                width
+                height
+              }
+            }
+          }
+          date
+          date_end
+          locale
+          applications(pagination: { start: 0, limit: 10 }) {
+            data {
+              attributes {
+                title
+                slug
+                content
+                image {
+                  data {
+                    attributes {
+                      url
+                      size
+                      mime
+                      width
+                      height
+                    }
+                  }
+                }
+                applicant {
+                  data {
+                    attributes {
+                      username
+                      fullname
+                      avatar {
+                        data {
+                          attributes {
+                            url
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+          localizations {
+            data {
+              attributes {
+                slug
+                locale
+              }
+            }
+          }
         }
       }
     }
   }
 `
 
-export const getCompetition = async (
-  locale: CommonLocale,
-  slug: string,
-): Promise<ICompetition | null> => {
-  const data = await graphQLClient.request<GetCompetitionQuery, BaseVariables>(
-    GET_COMPETITION,
-    {
-      locale,
-      slug,
-    },
+export const getCompetition = (variables: GetCompetitionQueryVariables) =>
+  fetcher<GetCompetitionQuery, GetCompetitionQueryVariables>(
+    GetCompetitionDocument,
+    variables,
   )
 
-  const competition = data.competitions?.[0]
-
-  if (!competition) return null
-
-  const slugs = getLocalizedSubpageSlugs(competition as ISubpage)
-
-  return { ...competition, slugs }
-}
-
-export const useCompetitionQuery = (
-  locale: CommonLocale,
-  slug: string,
-): UseQueryResult<GetCompetitionQuery> =>
-  useQuery({
-    queryKey: ['competitions', [locale, slug]],
-    queryFn: () => getCompetition(locale, slug),
-  })
+export const useGetCompetitionQuery = async <
+  TData = GetCompetitionQuery,
+  TError = unknown,
+>(
+  variables: GetCompetitionQueryVariables,
+) =>
+  useQuery<GetCompetitionQuery, TError, TData>(
+    ['getCompetition', variables],
+    () => getCompetition(variables),
+  )

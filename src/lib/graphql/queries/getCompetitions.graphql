@@ -1,0 +1,34 @@
+query getCompetitions($locale: I18NLocaleCode!) {
+  competitions(locale: $locale) {
+    data {
+      id
+      attributes {
+        slug
+        title
+        content
+        image {
+          data {
+            attributes {
+              url
+              size
+              mime
+              width
+              height
+            }
+          }
+        }
+        date
+        date_end
+        locale
+        localizations {
+          data {
+            attributes {
+              slug
+              locale
+            }
+          }
+        }
+      }
+    }
+  }
+}
