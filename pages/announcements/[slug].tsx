@@ -52,20 +52,20 @@ const Announcement = ({
   useEffect(() => {
     let timer: NodeJS.Timeout
 
-    if (announcement.attributes?.content) {
+    if (announcement?.attributes?.content) {
       const isViewed = views.some(_id => _id === id)
 
       if (!isViewed) {
         timer = setTimeout(() => {
           if (
-            announcement.attributes?.views === 0 ||
-            (announcement.attributes?.views &&
-              isNaN(announcement.attributes?.views))
+            announcement?.attributes?.views === 0 ||
+            (announcement?.attributes?.views &&
+              isNaN(announcement?.attributes?.views))
           ) {
             dispatch(
               viewAnnouncement({
-                id: announcement.id as string,
-                views: announcement.attributes.views + 1,
+                id: announcement?.id as string,
+                views: announcement?.attributes.views + 1,
               }),
             )
           }
@@ -78,17 +78,17 @@ const Announcement = ({
     }
   }, [announcement, dispatch, views, id])
 
-  if (!announcement.attributes) return <Spinner />
+  if (!announcement?.attributes) return <Spinner />
 
   return (
     <Layout seo={seo}>
       <Container>
         <Flex py={4}>
           <Flex flexDir="column" flex={1}>
-            {announcement.attributes.image?.data?.attributes && (
+            {announcement?.attributes?.image?.data?.attributes && (
               <ChakraNextImage
                 h="300px"
-                image={announcement.attributes.image}
+                image={announcement?.attributes.image}
               />
             )}
             <HStack justify="space-between" align="center" mt={4} spacing={8}>
@@ -96,16 +96,16 @@ const Announcement = ({
               <HStack>
                 <HStack display={{ base: 'none', sm: 'flex' }}>
                   <Box as={FaEye} />
-                  <Text>{announcement.attributes.views}</Text>
+                  <Text>{announcement?.attributes?.views}</Text>
                 </HStack>
                 <ShareButtons
-                  title={announcement.attributes.title}
-                  quote={announcement.attributes.content}
+                  title={announcement?.attributes?.title}
+                  quote={announcement?.attributes?.content}
                   url={link}
                 />
               </HStack>
             </HStack>
-            <Heading my={4}>{announcement.attributes.title}</Heading>
+            <Heading my={4}>{announcement?.attributes?.title}</Heading>
             <Box flex={1}>{source && <Markdown source={source} />}</Box>
           </Flex>
 
@@ -155,14 +155,14 @@ export const getStaticProps: GetStaticProps = async context => {
     return { notFound: true }
   }
 
-  const title = announcement.attributes.title
+  const title = announcement?.attributes?.title
   const description =
-    announcement.attributes?.content &&
-    RemoveMarkdown(truncateText(announcement.attributes.content, 200))
+    announcement?.attributes?.content &&
+    RemoveMarkdown(truncateText(announcement?.attributes?.content, 200))
   const adminUrl = process.env.NEXT_PUBLIC_ADMIN_URL as string
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL as string
-  const image = announcement.attributes?.image.data?.attributes
-  const url = `${siteUrl}/${locale}/blog/${announcement.attributes?.slug}`
+  const image = announcement?.attributes?.image.data?.attributes
+  const url = `${siteUrl}/${locale}/blog/${announcement?.attributes?.slug}`
 
   const seo: NextSeoProps = {
     title,
@@ -184,7 +184,7 @@ export const getStaticProps: GetStaticProps = async context => {
     },
   }
 
-  const source = await serialize(announcement.attributes?.content || '')
+  const source = await serialize(announcement?.attributes?.content || '')
 
   return {
     props: {
