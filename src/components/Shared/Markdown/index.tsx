@@ -30,5 +30,6 @@ interface MarkdownProps {
 }
 
 export const Markdown = ({ source }: MarkdownProps): JSX.Element => (
+  // TODO Might be extended with custom components
   <MDXRemote {...source} components={{ ...MarkdownComponents }} />
 )
