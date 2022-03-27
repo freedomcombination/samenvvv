@@ -1,9 +1,4 @@
-import {
-  Button,
-  ButtonGroup,
-  HStack,
-  useBreakpointValue,
-} from '@chakra-ui/react'
+import { Button, ButtonGroup, HStack } from '@chakra-ui/react'
 import { NextRouter, useRouter } from 'next/dist/client/router'
 
 import { DynamicProps } from 'pages/[...slug]'
@@ -40,8 +35,6 @@ export const LocaleSwitcher = ({
     await push(pathname, slug?.[locale]?.join('/') || asPath, { locale })
   }
 
-  const size = useBreakpointValue({ base: 'sm', lg: 'xs' })
-
   return (
     <HStack py={1} justify="flex-end">
       <ButtonGroup isAttached d="flex" size="xs" alignItems="center">
@@ -51,7 +44,7 @@ export const LocaleSwitcher = ({
           return (
             <Button
               key={code}
-              size={size}
+              size="sm"
               onClick={() => handleChangeLanguage(code)}
               colorScheme={
                 !hasScroll
