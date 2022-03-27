@@ -44,7 +44,7 @@ export const LocaleSwitcher = ({
 
   return (
     <HStack py={1} justify="flex-end">
-      <ButtonGroup isAttached d="flex" size="xs" align="center">
+      <ButtonGroup isAttached d="flex" size="xs" alignItems="center">
         {(locales as CommonLocale[]).map(code => {
           if (slug && (!slug?.[code] || !slug?.[code]?.[0])) return null
 

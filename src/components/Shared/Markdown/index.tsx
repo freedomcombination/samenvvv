@@ -1,6 +1,5 @@
 /* eslint-disable react/display-name */
 import { chakra, ChakraProps } from '@chakra-ui/react'
-import * as ChakraComponents from '@chakra-ui/react'
 import { MDXRemote, MDXRemoteSerializeResult } from 'next-mdx-remote'
 
 import { Navigate } from '@components'
@@ -31,8 +30,6 @@ interface MarkdownProps {
 }
 
 export const Markdown = ({ source }: MarkdownProps): JSX.Element => (
-  <MDXRemote
-    {...source}
-    components={{ ...MarkdownComponents, ...ChakraComponents }}
-  />
+  // TODO Might be extended with custom components
+  <MDXRemote {...source} components={{ ...MarkdownComponents }} />
 )
