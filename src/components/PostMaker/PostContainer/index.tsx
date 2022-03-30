@@ -1,12 +1,10 @@
-import { memo, useCallback, useEffect } from 'react'
+import { memo } from 'react'
 
 import { Flex, IconButton, Stack, Text, VStack } from '@chakra-ui/react'
-import { useRouter } from 'next/router'
 import { useTranslation } from 'react-i18next'
 import { FaRandom } from 'react-icons/fa'
 
-import { setPostText, useAppDispatch } from '@store'
-import { getRandomPostSentence } from '@utils'
+import { useGenerateRandomPostText } from '@hooks'
 
 import { Caps } from './Caps'
 import { PostCharCount } from './PostCharCount'
@@ -15,42 +13,9 @@ import { PostContainerButtons } from './PostContainerButtons'
 
 export const PostContainer = memo<{ post: IHashtagPost }>(
   function PostContainer({ post }) {
-    const dispatch = useAppDispatch()
     const { t } = useTranslation()
-    const { locale } = useRouter()
 
-    // Move to utils/hooks for testing
-    const generateRandomPostText = useCallback<() => void>(() => {
-      const randomPostSentence = getRandomPostSentence(locale as CommonLocale)
-      const postLength = post.text.split('.').length
-
-      const combinationArray = [...Array(postLength)].map((_, i) => i)
-      const combinations = combinationArray.flatMap((v, i) =>
-        combinationArray.slice(i + 1).map(w => [v, w]),
-      )
-
-      const randomCombination =
-        combinations[Math.floor(Math.random() * combinations.length)]
-
-      const randomPostText = post.text
-        .replace(/\.\.+/g, '.') // remove multiple dots
-        .split('.')
-        .slice(randomCombination[0], randomCombination[1])
-        .join('.')
-        .trim()
-
-      const combinedText = `${randomPostText}\n\n"${randomPostSentence}"`
-
-      if (randomPostText === '' || combinedText.length > 230) {
-        generateRandomPostText()
-      } else {
-        dispatch(setPostText(combinedText))
-      }
-    }, [dispatch, post, locale])
-
-    useEffect(() => {
-      generateRandomPostText()
-    }, [])
+    const generateRandomPostText = useGenerateRandomPostText()
 
     return (
       <Stack
@@ -84,7 +49,7 @@ export const PostContainer = memo<{ post: IHashtagPost }>(
               colorScheme="twitter"
               aria-label="random post"
               icon={<FaRandom />}
-              onClick={generateRandomPostText}
+              onClick={() => generateRandomPostText(post)}
             />
             <PostContainerBody post={post} />
           </Stack>
