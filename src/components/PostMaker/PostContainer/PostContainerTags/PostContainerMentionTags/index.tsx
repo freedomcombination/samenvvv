@@ -20,7 +20,7 @@ const defaultMentions = {
 
 export const PostContainerMentionTags = () => {
   const { mentionUsernames, defaultMention } = useAppSelector(
-    state => state.postShare,
+    state => state.post,
   )
 
   const dispatch = useAppDispatch()
@@ -33,10 +33,10 @@ export const PostContainerMentionTags = () => {
   const { locale } = useRouter()
 
   useEffect(() => {
-    const defaultM = defaultMentions[locale as ILocale]
+    const defaultM = defaultMentions[locale as StrapiLocale]
     if (!defaultMention || defaultMention !== defaultM)
       dispatch(setDefaultMention(defaultM))
-  }, [locale, dispatch])
+  }, [])
 
   if (!defaultMention && mentionUsernames.length === 0) return <></>
 

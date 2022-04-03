@@ -1,33 +1,34 @@
-declare interface ICompetition extends LocalizedSlugs {
-  __typename?: 'Competition'
-  id: string
-  created_at: string
-  updated_at: string
+declare type RawCompetition = {
   title: string
   slug: string
   content: string
-  image?: IUploadFile
-  start: string
-  end?: string
-  page?: IPage
-  locale?: CommonLocale
-  published_at?: string
-  applications?: Array<IApplication>
-  localizations: Array<ICompetition>
+  date: string
+  dateEnd: string
+  description: string
+  locale: string
+  createdAt: string
+  updatedAt: string
+  publishedAt: string
+  image: StrapiRawEntity<RawUploadFile>
+  localizations: StrapiRawCollection<RawCompetition>
+  applications: StrapiRawCollection<RawApplication>
+  categories: StrapiRawCollection<RawCategory>
 }
 
-declare interface ICompetitionInput {
+declare type Competition = {
+  id: number
   title: string
   slug: string
   content: string
-  image?: string
-  start: string
-  end?: string
-  applications?: Array<string>
-  page?: string
-  localizations?: Array<string>
-  locale?: CommonLocale
-  published_at?: string
-  created_by?: string
-  updated_by?: string
+  date: string
+  dateEnd: string
+  description: string
+  locale: string
+  createdAt: string
+  updatedAt: string
+  publishedAt: string
+  image: StrapiEntity<UploadFile>
+  localizations: StrapiCollection<Competition>
+  applications: StrapiCollection<Application>
+  categories: StrapiCollection<Category>
 }

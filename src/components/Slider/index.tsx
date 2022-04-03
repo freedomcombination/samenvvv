@@ -14,6 +14,7 @@ import SwiperCore, { Navigation, Pagination, Thumbs } from 'swiper'
 import { Swiper, SwiperProps, SwiperSlide } from 'swiper/react'
 
 import { Card, CardSkeleton, SliderHero, SliderHeroSkeleton } from '@components'
+import { RouteKeys } from '@config'
 
 export const SwiperBox = chakra(Swiper)
 
@@ -22,8 +23,8 @@ interface SliderProps {
   children: JSX.Element[]
   slides: ResponsiveValue<number>
   spaces: ResponsiveValue<number>
-  items: ISubpage[] | ICompetition[] | IHashtag[]
-  posts: IHashtagPost[]
+  items: Announcement[] | Competition[] | Hashtag[]
+  posts: Post[]
   activeStyles: ChakraProps
   customStyles: ChakraProps
   swiperStyles: CSSObject
@@ -36,6 +37,7 @@ interface SliderProps {
   hasThumb: boolean
   centeredSlides: boolean
   loop: boolean
+  type: RouteKeys
 }
 
 export const Slider = (
@@ -60,6 +62,7 @@ export const Slider = (
     hasThumb = false,
     centeredSlides = true,
     loop,
+    type,
   } = props
 
   const [thumbsSwiper, setThumbsSwiper] = useState<SwiperCore | null>(null)
@@ -103,7 +106,7 @@ export const Slider = (
           ) : (
             items?.map((item, i) => (
               <SwiperSlide key={i}>
-                <SliderHero item={item} />
+                <SliderHero item={item} type={type as RouteKeys} />
               </SwiperSlide>
             ))
           )}
@@ -168,6 +171,7 @@ export const Slider = (
                     isSocial={!hasThumb && hasSocialCard}
                     hasLink={!hasThumb && hasLink}
                     hasDescription={!hasThumb}
+                    type={type as RouteKeys}
                   />
                 )}
               </SwiperSlide>

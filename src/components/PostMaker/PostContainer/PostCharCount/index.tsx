@@ -5,7 +5,7 @@ import { chakra, Text } from '@chakra-ui/react'
 import { useAppSelector } from '@store'
 
 export const PostCharCount = () => {
-  const { count, isExceeded } = useAppSelector(state => state.postShare)
+  const { count, isExceeded } = useAppSelector(state => state.post)
 
   return (
     <Text

@@ -2,30 +2,26 @@ import { Image, SimpleGrid, Stack, Text } from '@chakra-ui/react'
 import { GetStaticProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { NextSeoProps } from 'next-seo'
-import { dehydrate, QueryClient } from 'react-query'
 
 import { BlogCard, Container, Hero, Layout } from '@components'
-import { getBlogPosts, useBlogPosts } from '@lib'
+import { getBlogs } from '@lib'
 
 interface BlogProps {
   seo: NextSeoProps
+  blogs: Blog[]
 }
 
 // TODO: Implement author filter
-const Blog = ({ seo }: BlogProps): JSX.Element => {
-  const { data, isLoading, isFetched } = useBlogPosts()
-
-  const hasData = isFetched && data && data.length > 0
-
+const Blog = ({ seo, blogs }: BlogProps): JSX.Element => {
   return (
-    <Layout seo={seo} scrollHeight={hasData ? 100 : null} isLoading={isLoading}>
-      {hasData ? (
+    <Layout seo={seo} scrollHeight={100}>
+      {blogs ? (
         <>
           <Hero title="Blog" isFullHeight={false} />
           <Container maxW="container.lg">
             <SimpleGrid gap={8} py={8} columns={{ base: 1, lg: 2 }}>
-              {data?.map((post, index) => (
-                <BlogCard key={index} isFeatured={index === 0} post={post} />
+              {blogs?.map((blog, index) => (
+                <BlogCard key={index} isFeatured={index === 0} post={blog} />
               ))}
             </SimpleGrid>
           </Container>
@@ -45,13 +41,8 @@ const Blog = ({ seo }: BlogProps): JSX.Element => {
 export default Blog
 
 export const getStaticProps: GetStaticProps = async context => {
-  const { locale } = context
-  const queryClient = new QueryClient()
-
-  const queryKey = ['posts', locale]
-  const queryFn = () => getBlogPosts(locale as CommonLocale)
-
-  await queryClient.prefetchQuery(queryKey, queryFn)
+  const locale = context.locale as StrapiLocale
+  const response = await getBlogs(locale)
 
   const blogSeo: Record<string, NextSeoProps> = {
     en: {
@@ -68,13 +59,13 @@ export const getStaticProps: GetStaticProps = async context => {
     },
   }
 
-  const seo: NextSeoProps = blogSeo[locale as CommonLocale]
+  const seo: NextSeoProps = blogSeo[locale as StrapiLocale]
 
   return {
     props: {
       seo,
-      dehydratedState: dehydrate(queryClient),
-      ...(await serverSideTranslations(locale as CommonLocale, ['common'])),
+      blogs: response?.result || null,
+      ...(await serverSideTranslations(locale as StrapiLocale, ['common'])),
     },
     revalidate: 120,
   }

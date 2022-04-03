@@ -1,4 +1,4 @@
-declare interface ITweetUserData {
+declare interface TweetUserData {
   id: number
   url: string
   lang?: string

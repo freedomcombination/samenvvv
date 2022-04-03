@@ -1,7 +1,6 @@
 import { useEffect } from 'react'
 
 import {
-  Box,
   Tab,
   TabList,
   TabPanel,
@@ -9,6 +8,7 @@ import {
   Tabs,
   VStack,
 } from '@chakra-ui/react'
+import { useRouter } from 'next/router'
 import { useTranslation } from 'react-i18next'
 
 import { MentionListSkeleton } from '@components'
@@ -24,7 +24,7 @@ import {
 } from '@store'
 
 import { MentionListItem } from '../MentionListItem'
-import { MentionSearch } from '../MentionSearch'
+// import { MentionSearch } from '../MentionSearch'
 
 export const MentionList = (): JSX.Element => {
   const {
@@ -35,32 +35,33 @@ export const MentionList = (): JSX.Element => {
     isSearchedMentionsLoading,
     searchedMentions,
     savedMentions,
-  } = useAppSelector(state => state.postShare)
+  } = useAppSelector(state => state.post)
 
   const dispatch = useAppDispatch()
   const { t } = useTranslation()
+  const router = useRouter()
 
   useEffect(() => {
     if (!initialMentions || initialMentions.length === 0) {
-      dispatch(fetchMentions())
+      dispatch(fetchMentions(router.locale as StrapiLocale))
     }
-  }, [initialMentions, dispatch])
+  }, [initialMentions, router.locale, dispatch])
 
-  const onAddMention = (value: ITweetUserData) => {
+  const onAddMention = (value: TweetUserData) => {
     if (value.screen_name) {
       dispatch(addMentionUsername(value.screen_name))
       dispatch(resetMentions())
     }
   }
 
-  const onRemoveMention = (value: ITweetUserData) => {
+  const onRemoveMention = (value: TweetUserData) => {
     if (value.screen_name) {
       dispatch(removeSavedMention(value.screen_name))
       dispatch(resetMentions())
     }
   }
 
-  const onAddUserMention = (value: ITweetUserData) => {
+  const onAddUserMention = (value: TweetUserData) => {
     onAddMention(value)
     dispatch(updateSavedSearchedMentions(value))
     dispatch(clearSearchedMentions())
@@ -84,36 +85,36 @@ export const MentionList = (): JSX.Element => {
           bg="white"
         >
           <TabList pos="sticky" top="0" bg="white">
-            <Tab>{t`post-share.mention-tab-popular`}</Tab>
-            <Tab>{t`post-share.mention-tab-saved`}</Tab>
+            <Tab>{t`post.mention-tab-popular`}</Tab>
+            <Tab>{t`post.mention-tab-saved`}</Tab>
           </TabList>
           <TabPanels>
             <TabPanel p={0}>
-              <Box pos="sticky" top="31px">
+              {/* <Box pos="sticky" top="31px">
                 <MentionSearch />
-              </Box>
+              </Box> */}
               {isSearchedMentionsLoading || isMentionListLoading ? (
                 <MentionListSkeleton />
               ) : searchedMentions.length > 0 ? (
-                searchedMentions.map((user_data, i) => (
+                searchedMentions.map((data, i) => (
                   <MentionListItem
                     key={i}
-                    user_data={user_data}
+                    data={data}
                     onAddItem={onAddUserMention}
                   />
                 ))
               ) : (
                 mentions
-                  .filter(
-                    user_data =>
+                  ?.filter(
+                    mention =>
                       !mentionUsernames.includes(
-                        '@' + user_data.user_data?.screen_name,
+                        '@' + mention.data?.screen_name,
                       ),
                   )
-                  ?.map(({ user_data }, i) => (
+                  ?.map(({ data }, i) => (
                     <MentionListItem
                       key={i}
-                      user_data={user_data as ITweetUserData}
+                      data={data as TweetUserData}
                       onAddItem={onAddMention}
                     />
                   ))
@@ -122,13 +123,12 @@ export const MentionList = (): JSX.Element => {
             <TabPanel p={0}>
               {savedMentions
                 .filter(
-                  user_data =>
-                    !mentionUsernames.includes('@' + user_data.screen_name),
+                  data => !mentionUsernames.includes('@' + data.screen_name),
                 )
-                ?.map((user_data, i) => (
+                ?.map((data, i) => (
                   <MentionListItem
                     key={i}
-                    user_data={user_data}
+                    data={data}
                     onRemoveItem={onRemoveMention}
                     onAddItem={onAddMention}
                   />

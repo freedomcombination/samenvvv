@@ -29,13 +29,13 @@ export const useLocaleTimeFormat = (
   const formattedDateDistance = dateFns.formatDistanceToNowStrict(
     new Date(date),
     {
-      locale: timeLocale[locale as CommonLocale],
+      locale: timeLocale[locale as StrapiLocale],
       unit: differenceInHours > 1 ? 'hour' : 'minute',
     },
   )
 
   const formattedDate = dateFns.format(date, format || 'dd MMMM yyyy', {
-    locale: timeLocale[locale as CommonLocale],
+    locale: timeLocale[locale as StrapiLocale],
   })
 
   return { formattedDate, formattedDateDistance, date, timeZone }

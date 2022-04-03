@@ -45,7 +45,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
       <Hydrate state={pageProps.dehydratedState}>
         <ReduxProvider store={store}>
           <ChakraProvider theme={theme}>
-            <DefaultSeo {...getDefaultSeo(locale as CommonLocale)} />
+            <DefaultSeo {...getDefaultSeo(locale as StrapiLocale)} />
             <Component {...pageProps} />
           </ChakraProvider>
         </ReduxProvider>

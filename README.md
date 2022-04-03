@@ -13,7 +13,7 @@ yarn dev
 ```
 
 > Make sure your backend server is running under [http://localhost:1337](http://localhost:1337)
-> Set environment variable in `.env.local` as `NEXT_PUBLIC_ADMIN_URL=http://localhost:1337`
+> Set environment variable in `.env.local` as `NEXT_PUBLIC_API_URL=http://localhost:1337`
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 

@@ -1,4 +1,4 @@
-declare interface ITweet {
+declare interface Tweet {
   id: number
   user: {
     name: string

@@ -10,15 +10,15 @@ const mockImage = {
 }
 
 test('basic', () => {
-  const url = getImageUrl(mockImage as IUploadFile)
-  const expectingUrl = `${process.env.NEXT_PUBLIC_ADMIN_URL}/test.jpg`
+  const url = getImageUrl(mockImage as UploadFile)
+  const expectingUrl = `${process.env.NEXT_PUBLIC_API_URL}/test.jpg`
 
   expect(url).toEqual(expectingUrl)
 })
 
 test('with-format', () => {
-  const smaillImageUrl = getImageUrl(mockImage as IUploadFile, 'small')
-  const expectingUrl = `${process.env.NEXT_PUBLIC_ADMIN_URL}/small-test.jpg`
+  const smaillImageUrl = getImageUrl(mockImage as UploadFile, 'small')
+  const expectingUrl = `${process.env.NEXT_PUBLIC_API_URL}/small-test.jpg`
 
   expect(smaillImageUrl).toEqual(expectingUrl)
 })

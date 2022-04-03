@@ -1,10 +1,10 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 
-import { decreasePostLike, increasePostLike, increasePostView } from '@lib'
+import { likeBlogMutation, unlikeBlogMutation, viewBlogMutation } from '@lib'
 
 export type BlogState = {
-  views: string[]
-  likes: string[]
+  views: number[]
+  likes: number[]
 }
 
 const LOCAL_STORAGE_BLOG_KEY = 'blog'
@@ -19,24 +19,24 @@ const initialState: BlogState = {
   likes: savedBlogStorage.likes,
 }
 
-export const viewPost = createAsyncThunk(
-  'blog/viewPost',
-  async (post: IPost) => {
-    return await increasePostView(post)
+export const viewBlog = createAsyncThunk(
+  'blog/viewBlog',
+  async (blog: Blog) => {
+    return await viewBlogMutation(blog)
   },
 )
 
-export const likePost = createAsyncThunk(
-  'blog/likePost',
-  async (post: IPost) => {
-    return await increasePostLike(post)
+export const likeBlog = createAsyncThunk(
+  'blog/likeBlog',
+  async (blog: Blog) => {
+    return await likeBlogMutation(blog)
   },
 )
 
-export const unlikePost = createAsyncThunk(
-  'blog/unlikePost',
-  async (post: IPost) => {
-    return await decreasePostLike(post)
+export const unlikeBlog = createAsyncThunk(
+  'blog/unlikeBlog',
+  async (blog: Blog) => {
+    return await unlikeBlogMutation(blog)
   },
 )
 
@@ -45,19 +45,19 @@ export const blogSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: builder => {
-    builder.addCase(viewPost.fulfilled, (state, action) => {
+    builder.addCase(viewBlog.fulfilled, (state, action) => {
       if (action.meta.arg?.id) {
         state.views.push(action.meta.arg.id)
         localStorage.setItem(LOCAL_STORAGE_BLOG_KEY, JSON.stringify(state))
       }
     }),
-      builder.addCase(likePost.fulfilled, (state, action) => {
+      builder.addCase(likeBlog.fulfilled, (state, action) => {
         if (action.meta.arg?.id) {
           state.likes.push(action.meta.arg.id)
           localStorage.setItem(LOCAL_STORAGE_BLOG_KEY, JSON.stringify(state))
         }
       }),
-      builder.addCase(unlikePost.fulfilled, (state, action) => {
+      builder.addCase(unlikeBlog.fulfilled, (state, action) => {
         if (action.meta.arg?.id) {
           const filteredLikes = state.likes.filter(
             id => id !== action.meta.arg?.id,

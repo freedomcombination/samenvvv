@@ -1,37 +1,40 @@
-declare interface IHashtag extends LocalizedSlugs {
-  __typename?: 'Hashtag'
-  id: string
-  created_at: string
-  updated_at: string
-  title: string
-  slug: string
+declare type RawHashtag = {
   content: string
-  image?: IUploadFile
+  createdAt: string
   date: string
+  description: string
   hashtag: string
-  hashtag_extra?: string
-  page?: IPage
-  locale?: CommonLocale
-  published_at?: string
-  posts?: Array<IHashtagPost>
-  tweets: Array<ITweet>
-  localizations: Array<IHashtag>
+  hashtag_extra: string
+  locale: string
+  publishedAt: string
+  slug: string
+  title: string
+  tweets: Tweet[]
+  updatedAt: string
+  image: StrapiRawEntity<RawUploadFile>
+  mentions: StrapiRawCollection<RawMention>
+  posts: StrapiRawCollection<RawPost>
+  categories: StrapiRawCollection<RawCategory>
+  localizations: StrapiRawCollection<RawHashtag>
 }
 
-declare interface IHashtagInput {
-  title: string
-  slug: string
+declare type Hashtag = {
+  id: number
   content: string
-  image?: string
+  createdAt: string
   date: string
+  description: string
   hashtag: string
-  hashtag_extra?: string
-  page?: string
-  posts?: Array<string>
-  tweets?: Array<ITweet>
-  localizations?: Array<string>
-  locale?: CommonLocale
-  published_at?: string
-  created_by?: string
-  updated_by?: string
+  hashtag_extra: string
+  locale: string
+  publishedAt: string
+  slug: string
+  title: string
+  tweets: Tweet[]
+  updatedAt: string
+  image: StrapiEntity<UploadFile>
+  mentions: StrapiCollection<Mention>
+  posts: StrapiCollection<Post>
+  categories: StrapiCollection<Category>
+  localizations: StrapiCollection<Hashtag>
 }

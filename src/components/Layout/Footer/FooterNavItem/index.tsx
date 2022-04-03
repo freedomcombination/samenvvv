@@ -1,5 +1,4 @@
 import { Navigate } from '@components'
-import { ChildMenuType } from '@config'
 
 interface FooterNavItemProps {
   navItem: ChildMenuType

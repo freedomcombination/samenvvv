@@ -54,7 +54,7 @@
       "contactOnWhatsApp": " Contact us on WhatsApp"
     }
   },
-  "post-share": {
+  "post": {
     "search-label": "Search Users",
     "mention-list-label": "Popular Users",
     "mention-tab-popular": "Popular",

@@ -24,7 +24,7 @@ import { Navigate } from '../../Shared/Navigate'
 
 interface TweetWidgetProps {
   title: string
-  tweets?: ITweet[]
+  tweets?: Tweet[]
 }
 
 export const TweetWidget = ({
@@ -45,8 +45,8 @@ export const TweetWidget = ({
           align="stretch"
         >
           {tweets && tweets.length > 0 ? (
-            tweets.map((data, index) => {
-              const { id, user, text, videos, image, likes } = data
+            tweets.map((tweet, index) => {
+              const { id, user, text, videos, image, likes } = tweet
               return (
                 <HStack key={index} alignItems="flex-start">
                   <Avatar size="sm" name={user.name} src={user.profile} />
@@ -123,7 +123,7 @@ export const TweetWidget = ({
           ) : (
             <Stack textAlign="center">
               <Image src="/images/tweet-widget.svg" alt="no tweets" />
-              <Text>{t`post-share.no-tweet`}</Text>
+              <Text>{t`post.no-tweet`}</Text>
             </Stack>
           )}
         </VStack>

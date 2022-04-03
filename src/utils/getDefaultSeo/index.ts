@@ -1,6 +1,6 @@
 import { NextSeoProps } from 'next-seo'
 
-export const getDefaultSeo = (locale: CommonLocale): NextSeoProps => {
+export const getDefaultSeo = (locale: StrapiLocale): NextSeoProps => {
   const titleTemplate: Record<string, string> = {
     nl: '%s | Samen voor Vrijheid en Verbinding',
     tr: '%s | Birlikte Yaşama ve Özgürlük',

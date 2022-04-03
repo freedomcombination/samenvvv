@@ -1,5 +1,7 @@
 import ROUTES from './routes.json'
 
+export type RouteKeys = keyof typeof ROUTES
+
 const {
   announcement,
   // news,
@@ -14,14 +16,8 @@ const {
   privacy,
 } = ROUTES
 
-export type ChildMenuType = { label: string; link: string }
-export type ParentMenuType = {
-  label: string
-  children: ChildMenuType[]
-}
-
 export type MenuType = ChildMenuType | ParentMenuType
-export type LocalizedMenuType = ILocalize<MenuType>
+export type LocalizedMenuType = Localize<MenuType>
 
 export const HEADER_MENU: Array<LocalizedMenuType> = [
   // {
@@ -57,7 +53,7 @@ export const HEADER_MENU: Array<LocalizedMenuType> = [
   },
 ]
 
-export const FOOTER_MENU: Array<ILocalize<ParentMenuType>> = [
+export const FOOTER_MENU: Array<Localize<ParentMenuType>> = [
   {
     en: {
       label: 'Foundation',
@@ -91,7 +87,7 @@ export const FOOTER_MENU: Array<ILocalize<ParentMenuType>> = [
         // news.nl,
         // event.nl,
         // competition.nl,
-        hashtag.nl,
+        hashtag.en,
         blog.nl,
       ],
     },
@@ -102,7 +98,7 @@ export const FOOTER_MENU: Array<ILocalize<ParentMenuType>> = [
         // news.tr,
         // event.tr,
         // competition.tr,
-        hashtag.tr,
+        hashtag.en,
         blog.tr,
       ],
     },

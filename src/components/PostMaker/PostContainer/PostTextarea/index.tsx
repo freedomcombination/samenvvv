@@ -7,7 +7,7 @@ import { setPostText, useAppDispatch, useAppSelector } from '@store'
 
 export const PostTextarea = () => {
   const [editable, setEditable] = useBoolean(false)
-  const { postText } = useAppSelector(state => state.postShare)
+  const { postText } = useAppSelector(state => state.post)
   const dispatch = useAppDispatch()
 
   const contentRef = useRef<HTMLTextAreaElement | null>(null)

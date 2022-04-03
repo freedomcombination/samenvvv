@@ -1,7 +1,34 @@
 import { Button, ButtonGroup, HStack } from '@chakra-ui/react'
+import { MDXRemoteSerializeResult } from 'next-mdx-remote'
+import { NextSeoProps } from 'next-seo'
 import { NextRouter, useRouter } from 'next/dist/client/router'
+import { DehydratedState } from 'react-query'
 
-import { DynamicProps } from 'pages/[...slug]'
+export interface DynamicProps {
+  locale: StrapiLocale
+  slug: {
+    en: (string | null)[]
+    nl: (string | null)[]
+    tr: (string | null)[]
+  }
+  isPage: {
+    main: boolean
+    sub: boolean
+    child: boolean
+  }
+  source: MDXRemoteSerializeResult<Record<string, unknown>>
+  dehydratedState: DehydratedState
+  pageData:
+    | Announcement
+    | Hashtag
+    | Competition
+    | Application
+    | Post
+    | Record<string, unknown>
+  _nextI18Next: any
+  seo: NextSeoProps
+  link: string
+}
 
 interface LocaleSwitcherProps {
   hasScroll?: boolean
@@ -26,20 +53,18 @@ export const LocaleSwitcher = ({
   const { locales, push, pathname, locale, asPath, components } =
     useRouter() as NextRouter & RouterComponent
 
-  const slug =
-    (components?.[pathname]?.props?.pageProps?.pageData?.slugs as any) ||
-    (components?.[pathname]?.props?.pageProps?.slug as any)
+  const slug = components?.[pathname]?.props?.pageProps?.slug as any
 
   // TODO: Redirect to localized path for static pages
-  const handleChangeLanguage = async (locale: CommonLocale) => {
+  const handleChangeLanguage = async (locale: StrapiLocale) => {
     await push(pathname, slug?.[locale]?.join('/') || asPath, { locale })
   }
 
   return (
     <HStack py={1} justify="flex-end">
       <ButtonGroup isAttached d="flex" size="xs" alignItems="center">
-        {(locales as CommonLocale[]).map(code => {
-          if (slug && (!slug?.[code] || !slug?.[code]?.[0])) return null
+        {(locales as StrapiLocale[]).map(code => {
+          if (slug && (!slug?.[code] || !slug?.[code])) return null
 
           return (
             <Button

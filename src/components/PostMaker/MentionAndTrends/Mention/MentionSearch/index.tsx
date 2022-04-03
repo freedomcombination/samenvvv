@@ -15,7 +15,7 @@ import {
 } from '@store'
 
 export const MentionSearch = (): JSX.Element => {
-  const { mentions } = useAppSelector(state => state.postShare)
+  const { mentions } = useAppSelector(state => state.post)
   const dispatch = useAppDispatch()
   const { t } = useTranslation()
   const [searchArea, setSearchArea] = useState<string>('')
@@ -24,9 +24,7 @@ export const MentionSearch = (): JSX.Element => {
     if (searchArea.length > 1) {
       const filteredData =
         mentions?.filter(m =>
-          m.user_data?.screen_name
-            .toLowerCase()
-            .includes(searchArea.toLowerCase()),
+          m.data?.screen_name.toLowerCase().includes(searchArea.toLowerCase()),
         ) ?? []
       dispatch(setMentions(filteredData))
       if (filteredData.length === 0) {
@@ -49,7 +47,7 @@ export const MentionSearch = (): JSX.Element => {
         borderBottomWidth={2}
         rounded={0}
         id="mention-search"
-        placeholder={t`post-share.search-label`}
+        placeholder={t`post.search-label`}
         onChange={event => {
           setSearchArea(event.target.value)
           onSearchMention()

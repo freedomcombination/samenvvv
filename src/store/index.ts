@@ -1,4 +1,3 @@
 export * from './blog'
-export * from './post-share'
+export * from './post'
 export * from './store'
-export * from './subpage'

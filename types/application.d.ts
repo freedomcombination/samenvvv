@@ -1,31 +1,34 @@
-declare interface IApplication extends LocalizedSlugs {
-  __typename?: 'Application'
-  id: string
-  created_at: string
-  updated_at: string
+declare type RawApplication = {
   title: string
   slug: string
   content: string
-  image?: IUploadFile
-  user?: IUsersPermissionsUser
-  competition?: ICompetition
-  locale?: CommonLocale
-  published_at?: string
-  votes?: Array<IVote>
-  localizations: Array<IApplication>
+  locale: string
+  createdAt: string
+  publishedAt: string
+  updatedAt: string
+  applicant: StrapiRawEntity<RawApplicant>
+  competition: StrapiRawEntity<RawCompetition>
+  image: StrapiRawEntity<UploadFile>
+  juriVotes: StrapiRawCollection<RawJuriVotes>
+  localizations: StrapiRawCollection<RawApplication>
+  tags: StrapiRawCollection<Tag>
+  votes: StrapiRawCollection<RawVote>
 }
 
-declare interface IApplicationInput {
+declare type Application = {
+  id: number
   title: string
   slug: string
   content: string
-  image?: string
-  user?: string
-  competition?: string
-  votes?: Array<string>
-  localizations?: Array<string>
-  locale?: CommonLocale
-  published_at?: string
-  created_by?: string
-  updated_by?: string
+  locale: string
+  createdAt: string
+  publishedAt: string
+  updatedAt: string
+  applicant: StrapiEntity<Applicant>
+  competition: StrapiEntity<Competition>
+  image: StrapiEntity<UploadFile>
+  juriVotes: StrapiCollection<JuriVotes>
+  localizations: StrapiCollection<Application>
+  tags: StrapiCollection<Tag>
+  votes: StrapiCollection<Vote>
 }

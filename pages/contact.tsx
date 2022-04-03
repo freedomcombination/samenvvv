@@ -145,14 +145,14 @@ export const getStaticProps: GetStaticProps = async context => {
   }
 
   const seo: NextSeoProps = {
-    title: title[locale as CommonLocale],
-    description: description[locale as CommonLocale],
+    title: title[locale as StrapiLocale],
+    description: description[locale as StrapiLocale],
   }
 
   return {
     props: {
       seo,
-      ...(await serverSideTranslations(locale as CommonLocale, ['common'])),
+      ...(await serverSideTranslations(locale as StrapiLocale, ['common'])),
     },
   }
 }

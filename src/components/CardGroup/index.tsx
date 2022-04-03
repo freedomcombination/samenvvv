@@ -1,12 +1,14 @@
 import { SimpleGrid } from '@chakra-ui/react'
 
 import { AnimatedBox, Card } from '@components'
+import { RouteKeys } from '@config'
 
 interface CardGroupProps {
-  items: ISubpage[] | IApplication[] | IHashtagPost[]
+  items: Announcement[] | Application[] | Post[]
   isSimple?: boolean
   isSocial?: boolean
   hasLink?: boolean
+  type: RouteKeys
 }
 
 export const CardGroup = ({
@@ -14,6 +16,7 @@ export const CardGroup = ({
   isSocial,
   isSimple,
   hasLink,
+  type,
 }: CardGroupProps): JSX.Element => {
   return (
     <SimpleGrid columns={{ base: 1, md: 2, lg: 4 }} spacing={10}>
@@ -24,6 +27,7 @@ export const CardGroup = ({
             isSimple={isSimple}
             isSocial={isSocial}
             hasLink={hasLink}
+            type={type}
           />
         </AnimatedBox>
       ))}

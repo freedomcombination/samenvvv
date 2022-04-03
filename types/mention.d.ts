@@ -1,23 +1,24 @@
-declare type Mention_Country = 'turkey' | 'netherlands' | 'germany'
-
-declare interface IMention {
-  __typename?: 'Mention'
-  id: string
-  created_at: string
-  updated_at: string
+declare type RawMention = {
   username: string
-  user_data?: ITweetUserData
-  country?: Mention_Country
-  category?: string
-  published_at?: string
+  data: any
+  locale: string
+  createdAt: string
+  updatedAt: string
+  publishedAt: string
+  categories: StrapiRawCollection<RawCategory>
+  hashtags: StrapiRawCollection<RawHashtag>
+  localizations: StrapiRawCollection<RawMention>
 }
 
-declare interface IMentionInput {
+declare type Mention = {
+  id: number
   username: string
-  user_data?: ITweetUserData
-  country?: Mention_Country
-  category?: string
-  published_at?: string
-  created_by?: string
-  updated_by?: string
+  data: any
+  locale: string
+  createdAt: string
+  updatedAt: string
+  publishedAt: string
+  categories: StrapiCollection<Category>
+  hashtags: StrapiCollection<Hashtag>
+  localizations: StrapiCollection<Mention>
 }

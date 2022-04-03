@@ -1,12 +1,16 @@
 import { useRouter } from 'next/router'
 
+import { RouteKeys } from '@config'
 import { getItemLink } from '@utils'
 
 export const useItemLink = (
-  item: ISubpage | ICompetition | IHashtag | IApplication | IHashtagPost,
+  item: Announcement | Competition | Hashtag | Application | Post | Blog,
+  type: RouteKeys,
   isAbsolute?: boolean,
 ): string | null => {
   const { locale } = useRouter()
 
-  return getItemLink(item, locale as CommonLocale, isAbsolute)
+  if (!item) return null
+
+  return getItemLink(item, locale as StrapiLocale, type, isAbsolute)
 }

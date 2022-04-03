@@ -1,19 +1,18 @@
-declare interface IVote {
-  __typename?: 'Vote'
-  id: string
-  created_at: string
-  updated_at: string
+declare type RawVote = {
   value: number
-  voter?: IUsersPermissionsUser
-  application?: IApplication
-  published_at?: string
+  createdAt: string
+  updatedAt: string
+  publishedAt: string
+  application: StrapiRawEntity<RawApplication>
+  voter: StrapiRawEntity<RawUser>
 }
 
-declare interface IVoteInput {
+declare type Vote = {
+  id: number
   value: number
-  voter?: string
-  application?: string
-  published_at?: string
-  created_by?: string
-  updated_by?: string
+  createdAt: string
+  updatedAt: string
+  publishedAt: string
+  application: StrapiEntity<Application>
+  voter: StrapiEntity<User>
 }

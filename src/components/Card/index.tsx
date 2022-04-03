@@ -19,6 +19,7 @@ import {
   PageTimeLabel,
   ShareButtons,
 } from '@components'
+import { RouteKeys } from '@config'
 import { useItemLink } from '@hooks'
 
 interface CardWrapperProps {
@@ -29,7 +30,8 @@ interface CardWrapperProps {
 interface CardProps extends ChakraProps {
   isSimple?: boolean
   isSocial?: boolean
-  item: ISubpage | ICompetition | IHashtag | IApplication | IHashtagPost
+  item: Announcement | Competition | Hashtag | Application | Post
+  type: RouteKeys
   hasLink?: boolean
   hasDescription?: boolean
 }
@@ -50,21 +52,21 @@ export const Card = (props: CardProps): JSX.Element => {
     isSocial,
     hasLink,
     hasDescription = true,
+    type,
     ...rest
   } = props
 
   const buttonSize = useBreakpointValue({ base: 'lg', lg: 'md' })
 
-  const link = useItemLink(item)
-  const absoluteLink = useItemLink(item, true)
+  const link = useItemLink(item, type)
+  const absoluteLink = useItemLink(item, type, true)
 
-  const post = item as IHashtagPost
-  const subpage = item as ISubpage
-  const subpageOrApplication = item as ISubpage | IApplication
+  const post = item as Post
+  const subpage = item as Announcement
+  const subpageOrApplication = item as Announcement | Application
 
   const title = subpageOrApplication.title || ''
   const content = post.text || removeMarkdown(subpageOrApplication.content)
-  const type = subpage.type
 
   const isPostWithSocial = post.text && isSocial
 
@@ -101,7 +103,7 @@ export const Card = (props: CardProps): JSX.Element => {
           <Stack p={4} spacing={2} flex={1}>
             {!post.text && (
               <>
-                {!isSimple && subpage.page && (
+                {!isSimple && (
                   <PageTimeLabel
                     color="gray.500"
                     fontSize="sm"

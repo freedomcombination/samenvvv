@@ -27,7 +27,7 @@ export const ChakraNextImage = ({
   ratio,
   ...rest
 }: {
-  image: IUploadFile | string
+  image: UploadFile | string
   format?: FileFormatsType
   nextImageProps?: ImageProps
   ratio?: 'twitter' | 'square'

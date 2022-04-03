@@ -6,7 +6,7 @@ interface HeroProps {
   title: string
   description?: string
   video?: string
-  image?: string | IUploadFile
+  image?: string | UploadFile
   buttonText?: string
   link?: string
   isFullHeight?: boolean

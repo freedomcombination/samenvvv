@@ -1,4 +1,4 @@
-declare interface ITrend {
+declare interface TwitterTrend {
   name: string
   url: string
   promoted_content: string | null
@@ -6,9 +6,19 @@ declare interface ITrend {
   tweet_volume: number | null
 }
 
-declare interface ITrendsData {
-  tr: ITrend[] | null
-  en: ITrend[] | null
-  nl: ITrend[] | null
-  updated_at: string
+declare type RawTrend = {
+  updatedAt: string
+  createdAt: string
+  en: TwitterTrend[] | null
+  nl: TwitterTrend[] | null
+  tr: TwitterTrend[] | null
+}
+
+declare type Trend = {
+  id: number
+  updatedAt: string
+  createdAt: string
+  en: TwitterTrend[] | null
+  nl: TwitterTrend[] | null
+  tr: TwitterTrend[] | null
 }

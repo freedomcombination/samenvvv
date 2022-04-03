@@ -1,5 +1,3 @@
-import { memo } from 'react'
-
 import {
   Box,
   Button,
@@ -22,10 +20,8 @@ import { MentionAndTrends } from './MentionAndTrends'
 import { PostContainer } from './PostContainer'
 import { TweetWidget } from './TweetWidget'
 
-export const PostMaker = memo<{ post: IHashtagPost }>(function PostMaker({
-  post,
-}) {
-  const { isPostModalOpen } = useAppSelector(state => state.postShare)
+export const PostMaker = () => {
+  const { isPostModalOpen, hashtag } = useAppSelector(state => state.post)
   const { t } = useTranslation()
   const dispatch = useAppDispatch()
 
@@ -43,7 +39,7 @@ export const PostMaker = memo<{ post: IHashtagPost }>(function PostMaker({
         leftIcon={<FaQuestionCircle />}
         onClick={() => setIsOpen(true)}
       >
-        {t`post-share.help`}
+        {t`post.help`}
       </Button>
       <IconButton
         display={{ base: 'flex', lg: 'none' }}
@@ -71,7 +67,7 @@ export const PostMaker = memo<{ post: IHashtagPost }>(function PostMaker({
         <ModalContent py={4} h="100vh" pos="relative">
           <DrawerCloseButton />
           <ModalBody as={Stack} w={{ base: 'full', lg: 300 }}>
-            <MentionAndTrends post={post} />
+            <MentionAndTrends />
           </ModalBody>
         </ModalContent>
       </Modal>
@@ -82,16 +78,16 @@ export const PostMaker = memo<{ post: IHashtagPost }>(function PostMaker({
         alignItems="stretch"
       >
         <Box display={{ base: 'none', lg: 'block' }} h="inherit">
-          <MentionAndTrends post={post} />
+          <MentionAndTrends />
         </Box>
-        <PostContainer post={post} />
+        <PostContainer />
         <Box>
           <TweetWidget
-            title={t`post-share.latest-tweets-label`}
-            tweets={post.hashtag?.tweets}
+            title={t`post.latest-tweets-label`}
+            tweets={hashtag?.tweets}
           />
         </Box>
       </Grid>
     </>
   )
-})
+}

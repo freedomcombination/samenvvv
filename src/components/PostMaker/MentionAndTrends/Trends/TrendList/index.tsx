@@ -17,11 +17,10 @@ import {
 import { formatNumber } from '@utils'
 
 interface TrendListProps {
-  trends?: ITrend[] | null
+  trends?: TwitterTrend[] | null
   isLoading: boolean
-  hashtagInTrends?: ITrend
-  hashtagExtraInTrends?: ITrend
-  post: IHashtagPost
+  hashtagInTrends?: TwitterTrend
+  hashtagExtraInTrends?: TwitterTrend
 }
 
 export const TrendList = ({
@@ -30,9 +29,7 @@ export const TrendList = ({
   hashtagInTrends,
   hashtagExtraInTrends,
 }: TrendListProps): JSX.Element => {
-  const { trendNames, defaultHashtags } = useAppSelector(
-    state => state.postShare,
-  )
+  const { trendNames, defaultHashtags } = useAppSelector(state => state.post)
 
   const dispatch = useAppDispatch()
 

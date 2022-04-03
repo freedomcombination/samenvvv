@@ -12,7 +12,7 @@ import {
 import { useRouter } from 'next/router'
 
 import { Navigate } from '@components'
-import { ChildMenuType, MenuType, ParentMenuType } from '@config'
+import { MenuType } from '@config'
 
 interface HeaderNavItemProps {
   navItem: MenuType

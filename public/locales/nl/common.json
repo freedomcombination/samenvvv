@@ -54,7 +54,7 @@
       "contactOnWhatsApp": "Contact op WhatsApp"
     }
   },
-  "post-share": {
+  "post": {
     "search-label": "Gebruikers Zoeken",
     "mention-list-label": "Populaire Gebruikers",
     "mention-tab-popular": "Populair",

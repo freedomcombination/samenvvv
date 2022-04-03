@@ -17,7 +17,7 @@ import { useLocaleTimeFormat } from '@hooks'
 import { getReadingTime } from '@utils'
 
 interface BlogCardProps {
-  post: IPost
+  post: Blog
   isFeatured: boolean
 }
 
@@ -26,8 +26,8 @@ export const BlogCard = ({ post, isFeatured }: BlogCardProps) => {
   const isMobile = useBreakpointValue({ base: true, lg: false })
 
   const featured = isFeatured && !isMobile
-  const { formattedDate } = useLocaleTimeFormat(post.published_at)
-  const readingTime = getReadingTime(post.content, locale as CommonLocale)
+  const { formattedDate } = useLocaleTimeFormat(post.publishedAt)
+  const readingTime = getReadingTime(post.content, locale as StrapiLocale)
 
   return (
     <Navigate

@@ -152,5 +152,19 @@
       "label": "Blog",
       "link": "/blog"
     }
+  },
+  "post": {
+    "en": {
+      "label": "",
+      "link": ""
+    },
+    "nl": {
+      "label": "",
+      "link": ""
+    },
+    "tr": {
+      "label": "",
+      "link": ""
+    }
   }
 }

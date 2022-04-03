@@ -5,19 +5,19 @@ import { serialize } from 'next-mdx-remote/serialize'
 import { NextSeoProps } from 'next-seo'
 
 import { Container, Hero, Layout, Markdown } from '@components'
-import { getPrivacyPage } from '@lib'
+import { request } from '@lib'
 import { truncateText } from '@utils'
 
 interface PrivacyProps {
-  data: IStaticPage
+  privacy: Privacy
   seo: NextSeoProps
   source: MDXRemoteSerializeResult<Record<string, unknown>>
 }
 
-const Privacy = ({ data, seo, source }: PrivacyProps): JSX.Element => {
+const Privacy = ({ privacy, seo, source }: PrivacyProps): JSX.Element => {
   return (
     <Layout seo={seo} scrollHeight={100}>
-      <Hero title={data.title} isFullHeight={false} />
+      <Hero title={privacy.title} isFullHeight={false} />
       <Container>
         <Markdown source={source} />
       </Container>
@@ -28,23 +28,30 @@ const Privacy = ({ data, seo, source }: PrivacyProps): JSX.Element => {
 export default Privacy
 
 export const getStaticProps: GetStaticProps = async context => {
-  const { locale } = context
+  const locale = context.locale as StrapiLocale
 
-  const data = await getPrivacyPage(locale as CommonLocale)
+  const data = (await request<Privacy>({ url: 'api/privacy', locale })) as {
+    result: Privacy
+  }
 
-  const source = await serialize(data?.content ?? '')
+  if (!data.result)
+    return {
+      notFound: true,
+    }
+
+  const source = await serialize(data.result?.content ?? '')
 
   const seo: NextSeoProps = {
-    title: data?.title,
-    description: truncateText(data?.content || '', 200),
+    title: data.result?.title,
+    description: truncateText(data.result?.content || '', 200),
   }
 
   return {
     props: {
-      data,
+      privacy: data.result,
       source,
       seo,
-      ...(await serverSideTranslations(locale as CommonLocale, ['common'])),
+      ...(await serverSideTranslations(locale as StrapiLocale, ['common'])),
     },
   }
 }
