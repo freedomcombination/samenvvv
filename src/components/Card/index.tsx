@@ -11,7 +11,6 @@ import {
   Text,
   useBreakpointValue,
 } from '@chakra-ui/react'
-import removeMarkdown from 'remove-markdown'
 
 import {
   ChakraNextImage,
@@ -30,7 +29,7 @@ interface CardWrapperProps {
 interface CardProps extends ChakraProps {
   isSimple?: boolean
   isSocial?: boolean
-  item: Announcement | Competition | Hashtag | Application | Post
+  item: Hashtag | Post
   type: RouteKeys
   hasLink?: boolean
   hasDescription?: boolean
@@ -62,11 +61,10 @@ export const Card = (props: CardProps): JSX.Element => {
   const absoluteLink = useItemLink(item, type, true)
 
   const post = item as Post
-  const subpage = item as Announcement
-  const subpageOrApplication = item as Announcement | Application
+  const subpage = item as Hashtag
 
-  const title = subpageOrApplication.title || ''
-  const content = post.text || removeMarkdown(subpageOrApplication.content)
+  const title = subpage.title || ''
+  const content = post.text || subpage.description
 
   const isPostWithSocial = post.text && isSocial
 

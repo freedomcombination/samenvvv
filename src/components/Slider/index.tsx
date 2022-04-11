@@ -23,7 +23,7 @@ interface SliderProps {
   children: JSX.Element[]
   slides: ResponsiveValue<number>
   spaces: ResponsiveValue<number>
-  items: Announcement[] | Competition[] | Hashtag[]
+  items: Hashtag[]
   posts: Post[]
   activeStyles: ChakraProps
   customStyles: ChakraProps

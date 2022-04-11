@@ -18,7 +18,7 @@ export const FooterNav = (): JSX.Element => {
             align={{ base: 'center', sm: 'start' }}
             marginX={4}
             fontSize="lg"
-            color={'teal.500'}
+            color={'primary.500'}
             key={i}
             py={4}
           >

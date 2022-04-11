@@ -6,7 +6,7 @@ import { MdEvent } from 'react-icons/md'
 import { timeLocale } from '@config'
 
 interface PageTimeLabelProps {
-  pageData: Announcement | Hashtag
+  pageData: Hashtag
 }
 
 const formatLocale = (date: string, locale: StrapiLocale) =>
@@ -20,15 +20,12 @@ export const PageTimeLabel = ({
 }: PageTimeLabelProps & StackProps): JSX.Element => {
   const { locale } = useRouter()
   const hashtag = pageData as Hashtag
-  const announcement = pageData as Announcement
 
   return (
     <HStack {...rest}>
       <MdEvent />
       <Box>
         {hashtag.date && formatLocale(hashtag.date, locale as StrapiLocale)}
-        {announcement.dateEnd &&
-          ` - ${formatLocale(announcement.dateEnd, locale as StrapiLocale)}`}
       </Box>
     </HStack>
   )

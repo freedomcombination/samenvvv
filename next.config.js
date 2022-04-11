@@ -30,11 +30,6 @@ module.exports = {
           locale: false,
         },
         {
-          source: '/tr/kulup',
-          destination: '/tr/club',
-          locale: false,
-        },
-        {
           source: '/tr/gizlilik',
           destination: '/tr/privacy',
           locale: false,
@@ -52,27 +47,6 @@ module.exports = {
         {
           source: '/tr/iletisim',
           destination: '/tr/contact',
-          locale: false,
-        },
-        // Announcements
-        {
-          source: '/tr/duyurular',
-          destination: '/en/announcements',
-          locale: false,
-        },
-        {
-          source: '/nl/aankondigingen',
-          destination: '/en/announcements',
-          locale: false,
-        },
-        {
-          source: '/tr/duyurular/:slug',
-          destination: '/tr/announcements/:slug',
-          locale: false,
-        },
-        {
-          source: '/nl/aankondigingen/:slug',
-          destination: '/nl/announcements/:slug',
           locale: false,
         },
         // Hashtag Events

@@ -2,14 +2,13 @@ import { Box, Button, Grid, Heading, Stack, Text } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
 import { useTranslation } from 'react-i18next'
 import { FaArrowRight } from 'react-icons/fa'
-import RemoveMarkdown from 'remove-markdown'
 
 import { ChakraNextImage, Navigate } from '@components'
 import { RouteKeys } from '@config'
 import { getItemLink } from '@utils'
 
 interface SliderHeroProps {
-  item: Announcement | Competition | Hashtag
+  item: Hashtag
   type: RouteKeys
 }
 
@@ -47,7 +46,7 @@ export const SliderHero = ({ item, type }: SliderHeroProps): JSX.Element => {
         <Text>{item.date}</Text>
         <Box>
           <Text flex={1} noOfLines={4}>
-            {RemoveMarkdown(item.content)}
+            {item.description}
           </Text>
         </Box>
 

@@ -4,7 +4,7 @@ import { AnimatedBox, Card } from '@components'
 import { RouteKeys } from '@config'
 
 interface CardGroupProps {
-  items: Announcement[] | Application[] | Post[]
+  items: Hashtag[] | Post[]
   isSimple?: boolean
   isSocial?: boolean
   hasLink?: boolean

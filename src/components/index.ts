@@ -22,7 +22,6 @@ export { SocialButtons } from './Shared/SocialButtons'
 
 export { PostMakerIcon } from './Icons/PostMaker'
 
-export { BlogCard } from './BlogCard'
 export { Card } from './Card'
 export { CardGroup } from './CardGroup'
 export { ContactForm } from './ContactForm'

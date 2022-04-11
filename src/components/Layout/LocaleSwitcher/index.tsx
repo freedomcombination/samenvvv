@@ -18,13 +18,7 @@ export interface DynamicProps {
   }
   source: MDXRemoteSerializeResult<Record<string, unknown>>
   dehydratedState: DehydratedState
-  pageData:
-    | Announcement
-    | Hashtag
-    | Competition
-    | Application
-    | Post
-    | Record<string, unknown>
+  pageData: Hashtag | Post | Record<string, unknown>
   _nextI18Next: any
   seo: NextSeoProps
   link: string

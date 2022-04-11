@@ -4,7 +4,7 @@ import { RouteKeys } from '@config'
 import { getItemLink } from '@utils'
 
 export const useItemLink = (
-  item: Announcement | Competition | Hashtag | Application | Post | Blog,
+  item: Hashtag | Post,
   type: RouteKeys,
   isAbsolute?: boolean,
 ): string | null => {

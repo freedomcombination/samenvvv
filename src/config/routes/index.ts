@@ -3,12 +3,7 @@ import ROUTES from './routes.json'
 export type RouteKeys = keyof typeof ROUTES
 
 const {
-  announcement,
-  // news,
-  // event,
-  // competition,
   hashtag,
-  blog,
   // club,
   about,
   contact,
@@ -20,23 +15,7 @@ export type MenuType = ChildMenuType | ParentMenuType
 export type LocalizedMenuType = Localize<MenuType>
 
 export const HEADER_MENU: Array<LocalizedMenuType> = [
-  // {
-  //   en: {
-  //     label: 'Menu',
-  //     children: [announcement.en, news.en, event.en, competition.en],
-  //   },
-  //   nl: {
-  //     label: 'Menu',
-  //     children: [announcement.nl, news.nl, event.nl, competition.nl],
-  //   },
-  //   tr: {
-  //     label: 'Menü',
-  //     children: [announcement.tr, news.tr, event.tr, competition.tr],
-  //   },
-  // },
-  announcement,
   hashtag,
-  blog,
   {
     en: {
       label: 'Samenvvv',
@@ -71,36 +50,15 @@ export const FOOTER_MENU: Array<Localize<ParentMenuType>> = [
   {
     en: {
       label: 'Menu',
-      children: [
-        announcement.en,
-        // news.en,
-        // event.en,
-        // competition.en,
-        hashtag.en,
-        blog.en,
-      ],
+      children: [hashtag.en],
     },
     nl: {
       label: 'Menu',
-      children: [
-        announcement.nl,
-        // news.nl,
-        // event.nl,
-        // competition.nl,
-        hashtag.en,
-        blog.nl,
-      ],
+      children: [hashtag.nl],
     },
     tr: {
       label: 'Menu',
-      children: [
-        announcement.tr,
-        // news.tr,
-        // event.tr,
-        // competition.tr,
-        hashtag.en,
-        blog.tr,
-      ],
+      children: [hashtag.tr],
     },
   },
   {
