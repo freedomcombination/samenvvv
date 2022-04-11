@@ -1,4 +1,18 @@
 {
+  "foundation": {
+    "en": {
+      "label": "Foundation",
+      "link": "https://wsvvrijheid.nl"
+    },
+    "nl": {
+      "label": "Stichting",
+      "link": "https://wsvvrijheid.nl"
+    },
+    "tr": {
+      "label": "Vakıf",
+      "link": "https://wsvvrijheid.nl"
+    }
+  },
   "about": {
     "en": {
       "label": "About Us",

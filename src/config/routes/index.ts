@@ -2,49 +2,31 @@ import ROUTES from './routes.json'
 
 export type RouteKeys = keyof typeof ROUTES
 
-const {
-  hashtag,
-  // club,
-  about,
-  contact,
-  terms,
-  privacy,
-} = ROUTES
+const { hashtag, foundation, about, contact, terms, privacy } = ROUTES
 
 export type MenuType = ChildMenuType | ParentMenuType
 export type LocalizedMenuType = Localize<MenuType>
 
 export const HEADER_MENU: Array<LocalizedMenuType> = [
   hashtag,
-  {
-    en: {
-      label: 'Samenvvv',
-      children: [about.en, contact.en],
-    },
-    nl: {
-      label: 'Samenvvv',
-      children: [about.nl, contact.nl],
-    },
-    tr: {
-      label: 'Samenvvv',
-      children: [about.tr, contact.tr],
-    },
-  },
+  about,
+  contact,
+  foundation,
 ]
 
 export const FOOTER_MENU: Array<Localize<ParentMenuType>> = [
   {
     en: {
       label: 'Foundation',
-      children: [about.en, contact.en],
+      children: [foundation.en, about.en, contact.en],
     },
     nl: {
       label: 'Stichting',
-      children: [about.nl, contact.nl],
+      children: [foundation.nl, about.nl, contact.nl],
     },
     tr: {
       label: 'Vakıf',
-      children: [about.tr, contact.tr],
+      children: [foundation.tr, about.tr, contact.tr],
     },
   },
   {
