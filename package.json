@@ -51,7 +51,6 @@
     "yup": "^0.32.11"
   },
   "devDependencies": {
-    "@commitlint/config-conventional": "^16.2.1",
     "@testing-library/cypress": "^8.0.2",
     "@testing-library/jest-dom": "^5.16.3",
     "@testing-library/react": "^12.1.4",
