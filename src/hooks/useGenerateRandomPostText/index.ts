@@ -14,7 +14,7 @@ export const useGenerateRandomPostText = () => {
     post => {
       if (!post) return
 
-      if (tryCount.current === 3) tryCount.current = 0
+      if (tryCount.current === 10) tryCount.current = 0
 
       const randomPostSentence = getRandomPostSentence(locale as CommonLocale)
       const postLength = post.text.split('.').length
@@ -36,9 +36,12 @@ export const useGenerateRandomPostText = () => {
 
       const combinedText = `${randomPostText}\n\n"${randomPostSentence}"`
 
-      if (randomPostText === '' || combinedText.length > 230) {
-        generateRandomPostText(post)
+      if (
+        (randomPostText === '' || combinedText.length > 230) &&
+        tryCount.current < 10
+      ) {
         tryCount.current += 1
+        generateRandomPostText(post)
       } else {
         dispatch(setPostText(combinedText))
       }

@@ -28,10 +28,13 @@ export const updatePostContent = (state: PostShareState): void => {
 
   const count = linkCharCount + postContent.length
   const isExceeded = count > twitterCharLimit
+  const exceededCharacters =
+    count - twitterCharLimit > 0 ? count - twitterCharLimit : 0
 
   state.count = count
   state.isExceeded = isExceeded
   state.postContent = postContent
+  state.threshold = state.postText.length - exceededCharacters
 }
 
 export type PostShareState = {
@@ -51,6 +54,8 @@ export type PostShareState = {
   defaultHashtags: string[]
   count: number
   isExceeded: boolean
+  isShared: boolean
+  threshold: number
 }
 
 const initialState: PostShareState = {
@@ -70,6 +75,8 @@ const initialState: PostShareState = {
   defaultHashtags: [],
   count: 0,
   isExceeded: false,
+  isShared: false,
+  threshold: 0,
 }
 
 export const fetchSearchedMentions = createAsyncThunk(
@@ -169,6 +176,9 @@ export const postShareSlice = createSlice({
     setDefaultTab: (state, action: PayloadAction<number>) => {
       state.defaultTab = action.payload
     },
+    setIsShared: (state, action: PayloadAction<boolean>) => {
+      state.isShared = action.payload
+    },
   },
   extraReducers: builder => {
     builder.addCase(fetchSearchedMentions.fulfilled, (state, action) => {
@@ -213,6 +223,7 @@ export const {
   updateSavedSearchedMentions,
   setDefaultTab,
   togglePostModal,
+  setIsShared,
 } = postShareSlice.actions
 
 export const { reducer: postShareReducer } = postShareSlice

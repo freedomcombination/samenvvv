@@ -1,23 +1,37 @@
-import React, { memo, useCallback } from 'react'
+import React, { memo, useCallback, useEffect } from 'react'
 
 import { Button, SimpleGrid } from '@chakra-ui/react'
 import { useTranslation } from 'next-i18next'
 import { TwitterShareButton } from 'next-share'
 import { useRouter } from 'next/router'
-import { FaAt, FaRandom, FaTwitter } from 'react-icons/fa'
+import { FaAt, FaCheck, FaRandom, FaTwitter } from 'react-icons/fa'
 
 import { useItemLink } from '@hooks'
-import { togglePostModal, useAppDispatch, useAppSelector } from '@store'
+import {
+  setIsShared,
+  togglePostModal,
+  useAppDispatch,
+  useAppSelector,
+} from '@store'
 import { getItemLink } from '@utils'
 
 export const PostContainerButtons = memo<{ post: IHashtagPost }>(
   function PostContainerButtons({ post }) {
     const { t } = useTranslation()
     const { push, locale } = useRouter()
-    const { postContent } = useAppSelector(state => state.postShare)
+    const { postContent, isExceeded, isShared } = useAppSelector(
+      state => state.postShare,
+    )
 
     const dispatch = useAppDispatch()
-    const { isExceeded } = useAppSelector(state => state.postShare)
+
+    useEffect(() => {
+      const sharedPostsStorage = localStorage.getItem(
+        post.hashtag?.slug as string,
+      )
+      const sharedPosts = JSON.parse(sharedPostsStorage || '[]')
+      dispatch(setIsShared(sharedPosts.includes(post.slug)))
+    }, [dispatch, post.hashtag?.slug, post.slug])
 
     const postUrlAbsolute = useItemLink(post, true)
 
@@ -32,6 +46,21 @@ export const PostContainerButtons = memo<{ post: IHashtagPost }>(
 
       push(randomPostLink as string)
     }, [post, locale, push])
+
+    const onPostSharing = () => {
+      const sharedPosts = localStorage.getItem(post.hashtag?.slug as string)
+      if (!sharedPosts) {
+        window.localStorage.setItem(
+          post.hashtag?.slug as string,
+          JSON.stringify([post.slug]),
+        )
+      } else {
+        window.localStorage.setItem(
+          post.hashtag?.slug as string,
+          JSON.stringify([...JSON.parse(sharedPosts), post.slug]),
+        )
+      }
+    }
 
     return (
       <SimpleGrid
@@ -70,10 +99,12 @@ export const PostContainerButtons = memo<{ post: IHashtagPost }>(
             as="span"
             isFullWidth
             rounded="full"
-            colorScheme="twitter"
+            colorScheme={isShared ? 'green' : 'twitter'}
             rightIcon={<FaTwitter />}
+            leftIcon={isShared ? <FaCheck /> : undefined}
             isDisabled={isExceeded}
             disabled={isExceeded}
+            onClick={() => onPostSharing()}
           >
             {t`post-share.share-tweet`}
           </Button>
