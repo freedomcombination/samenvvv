@@ -1,60 +1,37 @@
 import ROUTES from './routes.json'
 
-export type RouteKeys = keyof typeof ROUTES
+export type RouteKeys = keyof typeof ROUTES | 'post'
 
 const { hashtag, foundation, about, contact, terms, privacy } = ROUTES
 
-export type MenuType = ChildMenuType | ParentMenuType
-export type LocalizedMenuType = Localize<MenuType>
-
-export const HEADER_MENU: Array<LocalizedMenuType> = [
+export const HEADER_MENU: Array<ChildMenuType> = [
   hashtag,
   about,
   contact,
   foundation,
 ]
 
-export const FOOTER_MENU: Array<Localize<ParentMenuType>> = [
-  {
-    en: {
-      label: 'Foundation',
-      children: [foundation.en, about.en, contact.en],
+export const FOOTER_MENU: Array<ChildMenuType & { children: ChildMenuType[] }> =
+  [
+    {
+      children: [foundation, about, contact],
+      link: '#',
+      en: foundation.en,
+      tr: foundation.tr,
+      nl: foundation.nl,
     },
-    nl: {
-      label: 'Stichting',
-      children: [foundation.nl, about.nl, contact.nl],
+    {
+      children: [hashtag],
+      link: '#',
+      en: 'Menu',
+      nl: 'Menu',
+      tr: 'Menu',
     },
-    tr: {
-      label: 'Vakıf',
-      children: [foundation.tr, about.tr, contact.tr],
+    {
+      children: [terms, privacy],
+      link: '#',
+      en: 'Support',
+      nl: 'Steun',
+      tr: 'Destek',
     },
-  },
-  {
-    en: {
-      label: 'Menu',
-      children: [hashtag.en],
-    },
-    nl: {
-      label: 'Menu',
-      children: [hashtag.nl],
-    },
-    tr: {
-      label: 'Menu',
-      children: [hashtag.tr],
-    },
-  },
-  {
-    en: {
-      label: 'Support',
-      children: [terms.en, privacy.en],
-    },
-    nl: {
-      label: 'Steun',
-      children: [terms.nl, privacy.nl],
-    },
-    tr: {
-      label: 'Destek',
-      children: [terms.tr, privacy.tr],
-    },
-  },
-]
+  ]

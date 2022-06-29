@@ -28,15 +28,16 @@ export const updatePostContent = (state: postState): void => {
 
   const count = linkCharCount + postContent.length
   const isExceeded = count > twitterCharLimit
+  const exceededCharacters =
+    count - twitterCharLimit > 0 ? count - twitterCharLimit : 0
 
   state.count = count
   state.isExceeded = isExceeded
   state.postContent = postContent
+  state.threshold = state.postText.length - exceededCharacters
 }
 
 export type postState = {
-  post: Post | null
-  hashtag: Hashtag | null
   postText: string
   postContent: string
   defaultMention: string | null
@@ -53,11 +54,11 @@ export type postState = {
   defaultHashtags: string[]
   count: number
   isExceeded: boolean
+  isShared: boolean
+  threshold: number
 }
 
 const initialState: postState = {
-  post: null,
-  hashtag: null,
   postText: '',
   postContent: '',
   defaultMention: null,
@@ -74,6 +75,8 @@ const initialState: postState = {
   defaultHashtags: [],
   count: 0,
   isExceeded: false,
+  isShared: false,
+  threshold: 0,
 }
 
 export const fetchSearchedMentions = createAsyncThunk(
@@ -100,12 +103,6 @@ export const postSlice = createSlice({
   name: 'post',
   initialState,
   reducers: {
-    setPost: (state, action: PayloadAction<Post>) => {
-      state.post = action.payload
-    },
-    setHashtag: (state, action: PayloadAction<Hashtag>) => {
-      state.hashtag = action.payload
-    },
     addMentionUsername: (state, action: PayloadAction<string>) => {
       state.mentionUsernames.push(`@${action.payload}`)
       updatePostContent(state)
@@ -185,6 +182,9 @@ export const postSlice = createSlice({
     setDefaultTab: (state, action: PayloadAction<number>) => {
       state.defaultTab = action.payload
     },
+    setIsShared: (state, action: PayloadAction<boolean>) => {
+      state.isShared = action.payload
+    },
   },
   extraReducers: builder => {
     // builder.addCase(fetchSearchedMentions.fulfilled, (state, action) => {
@@ -212,8 +212,6 @@ export const postSlice = createSlice({
 })
 
 export const {
-  setPost,
-  setHashtag,
   addMentionUsername,
   setDefaultMention,
   removeDefaultMention,
@@ -231,6 +229,7 @@ export const {
   updateSavedSearchedMentions,
   setDefaultTab,
   togglePostModal,
+  setIsShared,
 } = postSlice.actions
 
 export const { reducer: postReducer } = postSlice

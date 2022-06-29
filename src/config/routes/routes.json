@@ -1,100 +1,38 @@
 {
   "foundation": {
-    "en": {
-      "label": "Foundation",
-      "link": "https://wsvvrijheid.nl"
-    },
-    "nl": {
-      "label": "Stichting",
-      "link": "https://wsvvrijheid.nl"
-    },
-    "tr": {
-      "label": "Vakıf",
-      "link": "https://wsvvrijheid.nl"
-    }
+    "link": "https://wsvvrijheid.nl",
+    "en": "Foundation",
+    "nl": "Stichting",
+    "tr": "Vakıf"
   },
   "about": {
-    "en": {
-      "label": "About Us",
-      "link": "/about-us"
-    },
-    "nl": {
-      "label": "Over Ons",
-      "link": "/over-ons"
-    },
-    "tr": {
-      "label": "Hakkımızda",
-      "link": "/hakkimizda"
-    }
+    "link": "/about-us",
+    "en": "About Us",
+    "nl": "Over Ons",
+    "tr": "Hakkımızda"
   },
   "hashtag": {
-    "en": {
-      "label": "Hashtag Events",
-      "link": "/hashtag-events"
-    },
-    "nl": {
-      "label": "Hashtag Evenementen",
-      "link": "/hashtag-evenementen"
-    },
-    "tr": {
-      "label": "Hashtag Etkinlikleri",
-      "link": "/hashtag-etkinlikleri"
-    }
+    "link": "/hashtag-events",
+    "en": "Hashtag Events",
+    "nl": "Hashtag Evenementen",
+    "tr": "Hashtag Etkinlikleri"
   },
   "terms": {
-    "en": {
-      "label": "Terms of service",
-      "link": "/terms"
-    },
-    "nl": {
-      "label": "Algemene Voorwaarden ",
-      "link": "/voorwaarden"
-    },
-    "tr": {
-      "label": "Kullanım Şartları",
-      "link": "/kullanim-sartlari"
-    }
+    "link": "/terms",
+    "en": "Terms of Service",
+    "nl": "Algemene Voorwaarden",
+    "tr": "Kullanım Şartları"
   },
   "privacy": {
-    "en": {
-      "label": "Privacy Policy",
-      "link": "/privacy"
-    },
-    "nl": {
-      "label": "Privacybeleid",
-      "link": "/privacy"
-    },
-    "tr": {
-      "label": "Gizlilik Politikası",
-      "link": "/gizlilik"
-    }
+    "link": "/privacy",
+    "en": "Privacy Policy",
+    "nl": "Privacybeleid",
+    "tr": "Gizlilik Politikası"
   },
   "contact": {
-    "en": {
-      "label": "Contact",
-      "link": "/contact"
-    },
-    "nl": {
-      "label": "Contact",
-      "link": "/contact"
-    },
-    "tr": {
-      "label": "İletişim",
-      "link": "/iletisim"
-    }
-  },
-  "post": {
-    "en": {
-      "label": "",
-      "link": ""
-    },
-    "nl": {
-      "label": "",
-      "link": ""
-    },
-    "tr": {
-      "label": "",
-      "link": ""
-    }
+    "link": "/contact",
+    "en": "Contact",
+    "nl": "Contact",
+    "tr": "İletişim"
   }
 }

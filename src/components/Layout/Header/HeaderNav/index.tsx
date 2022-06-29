@@ -1,5 +1,4 @@
 import { Stack } from '@chakra-ui/react'
-import { useRouter } from 'next/router'
 
 import { HEADER_MENU } from '@config'
 
@@ -12,12 +11,10 @@ interface HeaderNavProps {
 export const HeaderNav = ({
   direction = 'row',
 }: HeaderNavProps): JSX.Element => {
-  const { locale } = useRouter()
-
   return (
     <Stack direction={direction}>
       {HEADER_MENU.map((item, i) => {
-        return <HeaderNavItem key={i} navItem={item[locale as StrapiLocale]} />
+        return <HeaderNavItem key={i} navItem={item} />
       })}
     </Stack>
   )

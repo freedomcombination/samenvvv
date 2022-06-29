@@ -24,7 +24,6 @@ import {
 } from '@chakra-ui/react'
 import { TourProvider } from '@reactour/tour'
 import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock'
-import { addDays, isPast } from 'date-fns'
 import { GetServerSideProps } from 'next'
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
@@ -39,6 +38,7 @@ import {
   FaImages,
   FaTwitter,
 } from 'react-icons/fa'
+import { dehydrate, QueryClient, useQuery } from 'react-query'
 
 import {
   Card,
@@ -51,40 +51,51 @@ import {
   StepsContent,
 } from '@components'
 import { useLocaleTimeFormat } from '@hooks'
-import { getHashtags } from '@lib'
+import {
+  getHashtag,
+  getHashtags,
+  HashtagReturnType,
+  setRandomPost,
+  useHashtags,
+} from '@lib'
 import {
   setDefaultHashtags,
   setDefaultTab,
-  setHashtag,
-  setPost,
   useAppDispatch,
   useAppSelector,
 } from '@store'
-import { getItemLink, getSteps, getStepsMob } from '@utils'
+import { getItemLink, getPageSeo, getSteps, getStepsMob } from '@utils'
 
 interface HashtagProps {
   source: MDXRemoteSerializeResult<Record<string, unknown>>
   seo: NextSeoProps
-  hashtag: Hashtag
-  hashtags: Hashtag[]
-  hasStarted: boolean
   hasPassed: boolean
+  hasStarted: boolean
   defaultHashtags: string[]
 }
 
 const Hashtag = ({
   seo,
-  hashtag,
-  hashtags,
-  hasStarted,
   hasPassed,
+  hasStarted,
   defaultHashtags,
 }: HashtagProps) => {
   const { defaultTab } = useAppSelector(state => state.post)
   const dispatch = useAppDispatch()
-  const { locale } = useRouter()
+  const {
+    locale,
+    query: { slug },
+  } = useRouter()
+
+  const hashtagsQuery = useHashtags()
+
+  const hashtagQuery = useQuery({
+    queryKey: ['hashtag', locale, slug],
+    queryFn: () => getHashtag(locale as StrapiLocale, slug as string),
+  })
+
   const { formattedDate, formattedDateDistance, timeZone } =
-    useLocaleTimeFormat(hashtag?.date as string, 'dd MMMM HH:mm')
+    useLocaleTimeFormat(hashtagQuery.data?.date as string, 'dd MMMM HH:mm')
 
   const [show, setShow] = useState<boolean>(false)
   const { isOpen, onOpen, onClose } = useDisclosure()
@@ -103,17 +114,7 @@ const Hashtag = ({
       dispatch(setDefaultHashtags(defaultHashtags))
 
     if (hasPassed && defaultTab === null) dispatch(setDefaultTab(1))
-
-    dispatch(setHashtag(hashtag))
-
-    const randomPostIndex = Math.floor(
-      Math.random() * (hashtag?.posts?.length || 0),
-    )
-
-    const randomPost = hashtag?.posts?.[randomPostIndex] || null
-
-    dispatch(setPost(randomPost))
-  }, [hashtag])
+  }, [defaultHashtags, dispatch, hasPassed])
 
   return (
     <TourProvider
@@ -140,7 +141,7 @@ const Hashtag = ({
 
             <DrawerBody>
               <Stack spacing={4}>
-                {hashtags?.map(hashtag => (
+                {hashtagsQuery.data?.map(hashtag => (
                   <Navigate
                     key={hashtag.id}
                     href={
@@ -174,11 +175,11 @@ const Hashtag = ({
             />
           </Tooltip>
           <Box flex={1} textAlign="center">
-            <Heading>{hashtag?.title}</Heading>
+            <Heading>{hashtagQuery.data?.title}</Heading>
 
             <Collapse startingHeight={50} in={show}>
               <Text my={4} maxW="container.md" mx="auto">
-                {hashtag?.content}{' '}
+                {hashtagQuery.data?.content}
               </Text>
             </Collapse>
             <IconButton
@@ -190,7 +191,7 @@ const Hashtag = ({
               onClick={handleToggle}
             />
           </Box>
-          {hasStarted && hashtag?.hashtag ? (
+          {hasStarted && hashtagQuery.data?.hashtag ? (
             <Tabs
               flex={1}
               isFitted
@@ -280,84 +281,46 @@ const Hashtag = ({
 
 export default Hashtag
 
-// export const getStaticPaths: GetStaticPaths = async context => {
-//   const locales = context.locales as StrapiLocale[]
-//   const paths = await getHashtagPaths(locales)
-
-//   return {
-//     paths,
-//     fallback: true,
-//   }
-// }
-
 export const getServerSideProps: GetServerSideProps = async context => {
   const locale = context.locale as StrapiLocale
   const slug = context.params?.slug as string
 
-  // const hashtag = await getHashtag(locale, slug)
-  const hashtags = await getHashtags(locale, [
-    'image',
-    'mentions',
-    'posts.image',
+  const queryClient = new QueryClient()
+
+  await queryClient.prefetchQuery({
+    queryKey: ['hashtags', locale],
+    queryFn: () => getHashtags(locale),
+  })
+
+  await queryClient.prefetchQuery({
+    queryKey: ['hashtag', locale, slug],
+    queryFn: () => getHashtag(locale, slug),
+  })
+
+  const hashtag = queryClient.getQueryData<HashtagReturnType>([
+    'hashtag',
+    locale,
+    slug,
   ])
-
-  const targetHashtag = hashtags.find(hashtag => hashtag.slug === slug)
-  const posts = targetHashtag?.posts?.map(post => ({
-    ...post,
-    hashtag: targetHashtag,
-  }))
-
-  const hashtag = { ...targetHashtag, posts }
 
   if (!hashtag) {
     return { notFound: true }
   }
 
-  const hasPassed = isPast(addDays(new Date(hashtag.date as string), 1))
-  const hasStarted = isPast(new Date(hashtag.date as string))
-  const defaultHashtags = [hashtag?.hashtag, hashtag?.hashtag_extra].filter(
-    h => !!h,
-  )
+  setRandomPost(queryClient, locale, slug)
 
-  const title = hashtag?.title
-  const description = hashtag.description
-  const adminUrl = process.env.NEXT_PUBLIC_API_URL as string
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL as string
-  const image = hashtag?.image
-  const url = `${siteUrl}/${locale}/blog/${hashtag?.slug}`
-
-  const seo: NextSeoProps = {
-    title,
-    description,
-    openGraph: {
-      title,
-      description,
-      url,
-      images: [
-        {
-          url: adminUrl + image?.url,
-          secureUrl: adminUrl + image?.url,
-          type: image?.mime as string,
-          width: image?.width as number,
-          height: image?.height as number,
-          alt: title,
-        },
-      ],
-    },
-  }
+  const seo: NextSeoProps = getPageSeo(hashtag, locale, 'hashtag')
 
   const source = await serialize(hashtag?.content || '')
 
   return {
     props: {
       source,
-      link: url,
       seo,
-      hashtag,
-      hashtags,
-      hasPassed,
-      hasStarted,
-      defaultHashtags,
+      hasPassed: hashtag.hasPassed,
+      hasStarted: hashtag.hasStarted,
+      defaultHashtags: hashtag.defaultHashtags,
+      dehydratedState: dehydrate(queryClient),
       ...(await serverSideTranslations(locale as StrapiLocale, ['common'])),
     },
   }

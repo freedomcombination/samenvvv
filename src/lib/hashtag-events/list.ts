@@ -1,3 +1,6 @@
+import { useRouter } from 'next/router'
+import { useQuery } from 'react-query'
+
 import { request } from '../request'
 
 export const getHashtags = async (
@@ -8,10 +11,19 @@ export const getHashtags = async (
   const response = await request<Hashtag[]>({
     url: 'api/hashtags',
     locale,
-    populate: populate || ['image'],
+    populate: undefined,
     sort: ['date:desc'],
     pageSize,
   })
 
   return response.result || []
+}
+
+export const useHashtags = () => {
+  const { locale } = useRouter()
+
+  return useQuery({
+    queryKey: ['hashtags', locale],
+    queryFn: () => getHashtags(locale as StrapiLocale),
+  })
 }

@@ -1,6 +1,7 @@
 declare type RawPost = {
   text: string
   twitterMedia: string
+  slug: string
   locale: string
   createdAt: string
   updatedAt: string
@@ -17,6 +18,7 @@ declare type Post = {
   id: number
   text: string
   twitterMedia: string
+  slug: string
   locale: string
   createdAt: string
   updatedAt: string

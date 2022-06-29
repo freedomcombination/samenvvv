@@ -1,3 +1,5 @@
+import { FC } from 'react'
+
 import {
   Link,
   Popover,
@@ -12,10 +14,9 @@ import {
 import { useRouter } from 'next/router'
 
 import { Navigate } from '@components'
-import { MenuType } from '@config'
 
 interface HeaderNavItemProps {
-  navItem: MenuType
+  navItem: ChildMenuType | ParentMenuType
 }
 
 interface ChildMenuItemProps {
@@ -26,24 +27,27 @@ interface ParentMenuItemProps {
   item: ParentMenuType
 }
 
-const ChildMenuItem = ({ item }: ChildMenuItemProps) => {
-  const { asPath } = useRouter()
-  const { link, label } = item
+const ChildMenuItem: FC<ChildMenuItemProps> = ({ item }) => {
+  const { asPath, locale } = useRouter()
 
   return (
     <Navigate
-      href={link}
+      href={item.link}
       fontWeight={600}
       p={2}
-      color={link !== '/' && asPath.includes(link) ? 'primary.400' : 'gray.700'}
+      color={
+        item.link !== '/' && asPath.includes(item.link)
+          ? 'primary.400'
+          : 'gray.700'
+      }
       _hover={{ color: 'primary.400' }}
     >
-      {label}
+      {item[locale as StrapiLocale]}
     </Navigate>
   )
 }
 
-const ParentMenuItem = ({ item }: ParentMenuItemProps) => {
+const ParentMenuItem: FC<ParentMenuItemProps> = ({ item }) => {
   return (
     <Popover trigger="hover" arrowSize={16}>
       <PopoverTrigger>
@@ -67,9 +71,7 @@ const ParentMenuItem = ({ item }: ParentMenuItemProps) => {
   )
 }
 
-export const HeaderNavItem = (props: HeaderNavItemProps): JSX.Element => {
-  const { navItem } = props
-
+export const HeaderNavItem: FC<HeaderNavItemProps> = ({ navItem }) => {
   const isMobile = useBreakpointValue({ base: true, lg: false })
 
   const parentLink = navItem as ParentMenuType

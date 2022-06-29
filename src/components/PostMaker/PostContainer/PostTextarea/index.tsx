@@ -7,7 +7,7 @@ import { setPostText, useAppDispatch, useAppSelector } from '@store'
 
 export const PostTextarea = () => {
   const [editable, setEditable] = useBoolean(false)
-  const { postText } = useAppSelector(state => state.post)
+  const { postText, threshold } = useAppSelector(state => state.post)
   const dispatch = useAppDispatch()
 
   const contentRef = useRef<HTMLTextAreaElement | null>(null)
@@ -28,7 +28,7 @@ export const PostTextarea = () => {
       borderColor="gray.500"
       borderWidth={1}
       rounded="lg"
-      rows={4}
+      rows={7}
       ref={contentRef}
       p={2}
       w="full"
@@ -51,7 +51,8 @@ export const PostTextarea = () => {
       onClick={setEditable.toggle}
       overflow="auto"
     >
-      {postText}
+      {postText.slice(0, threshold)}
+      <chakra.span bg="red.100">{postText.slice(threshold)}</chakra.span>
     </chakra.div>
   )
 }

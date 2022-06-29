@@ -14,6 +14,7 @@ import { useTour } from '@reactour/tour'
 import { useTranslation } from 'next-i18next'
 import { FaQuestionCircle } from 'react-icons/fa'
 
+import { useHashtag } from '@lib'
 import { togglePostModal, useAppDispatch, useAppSelector } from '@store'
 
 import { MentionAndTrends } from './MentionAndTrends'
@@ -21,9 +22,11 @@ import { PostContainer } from './PostContainer'
 import { TweetWidget } from './TweetWidget'
 
 export const PostMaker = () => {
-  const { isPostModalOpen, hashtag } = useAppSelector(state => state.post)
+  const { isPostModalOpen } = useAppSelector(state => state.post)
   const { t } = useTranslation()
   const dispatch = useAppDispatch()
+
+  const { data: hashtag } = useHashtag()
 
   const { setIsOpen } = useTour()
 

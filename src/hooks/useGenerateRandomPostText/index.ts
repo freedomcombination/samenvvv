@@ -2,30 +2,35 @@ import { useCallback, useRef } from 'react'
 
 import { useRouter } from 'next/router'
 
-import { setPostText, useAppDispatch, useAppSelector } from '@store'
+import { useRandomPost } from '@lib'
+import { setPostText, useAppDispatch } from '@store'
 import { getRandomPostSentence } from '@utils'
 
 export const useGenerateRandomPostText = () => {
   const dispatch = useAppDispatch()
   const { locale } = useRouter()
   const tryCount = useRef<number>(0)
-  const { post } = useAppSelector(state => state.post)
+
+  const post = useRandomPost()
 
   const generateRandomPostText = useCallback(() => {
     if (!post) return
 
-    if (tryCount.current === 3) tryCount.current = 0
+    if (tryCount.current === 10) tryCount.current = 0
 
     const randomPostSentence = getRandomPostSentence(locale as StrapiLocale)
-    const postLength = post.text.split('.').length
+    const sentences = post.text.split('(?<=[^A-Z].[.?]) +(?=[A-Z])')
+    const numberOfSentences = sentences.length
 
-    const combinationArray = [...Array(postLength)].map((_, i) => i)
+    const combinationArray = [...Array(numberOfSentences)].map((_, i) => i)
     const combinations = combinationArray.flatMap((v, i) =>
       combinationArray.slice(i + 1).map(w => [v, w]),
     )
 
     const randomCombination =
-      combinations[Math.floor(Math.random() * combinations.length)]
+      combinations?.length > 0
+        ? combinations[Math.floor(Math.random() * combinations.length)]
+        : [0, 1]
 
     const randomPostText = post.text
       .replace(/\.\.+/g, '.') // remove multiple dots
@@ -36,9 +41,12 @@ export const useGenerateRandomPostText = () => {
 
     const combinedText = `${randomPostText}\n\n"${randomPostSentence}"`
 
-    if (randomPostText === '' || combinedText.length > 230) {
-      generateRandomPostText()
+    if (
+      (randomPostText === '' || combinedText.length > 230) &&
+      tryCount.current < 10
+    ) {
       tryCount.current += 1
+      generateRandomPostText()
     } else {
       dispatch(setPostText(combinedText))
     }

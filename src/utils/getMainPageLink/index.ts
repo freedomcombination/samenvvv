@@ -1,6 +1,4 @@
 import { RouteKeys, ROUTES } from '@config'
 
-export const getMainPageLink = (
-  type: RouteKeys,
-  locale: StrapiLocale,
-): string => ROUTES[type][locale].link.replace('/', '')
+export const getMainPageLink = (type: RouteKeys): string =>
+  (ROUTES as Record<RouteKeys, ChildMenuType>)[type].link.replace('/', '')

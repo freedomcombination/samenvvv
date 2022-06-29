@@ -112,7 +112,7 @@ export const ContactForm = (): JSX.Element => {
         type="submit"
         isDisabled={!isValid}
         isLoading={isLoading}
-        isFullWidth
+        w="full"
       >
         {t`contact.form.button`}
       </Button>

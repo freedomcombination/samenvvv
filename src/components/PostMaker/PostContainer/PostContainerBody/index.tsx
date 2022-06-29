@@ -4,14 +4,14 @@ import { Box, Spacer, Stack } from '@chakra-ui/react'
 
 import { ChakraNextImage } from '@components'
 import { useGenerateRandomPostText } from '@hooks'
-import { useAppSelector } from '@store'
+import { useRandomPost } from '@lib'
 
 import { PostContainerTags } from '../PostContainerTags'
 import { PostTextarea } from '../PostTextarea'
 
 export const PostContainerBody = () => {
   const generateRandomPostText = useGenerateRandomPostText()
-  const { post } = useAppSelector(state => state.post)
+  const post = useRandomPost()
 
   useEffect(() => {
     generateRandomPostText()

@@ -53,7 +53,7 @@ export const MentionListItem = ({
               pos="static"
             />
             <Box>
-              <Text isTruncated maxW="120px">
+              <Text noOfLines={1} maxW="120px">
                 {data.name}
               </Text>
               <Text>@{data.screen_name}</Text>

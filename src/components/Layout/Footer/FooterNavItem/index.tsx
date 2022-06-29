@@ -1,11 +1,15 @@
+import { FC } from 'react'
+
+import { useRouter } from 'next/router'
+
 import { Navigate } from '@components'
 
 interface FooterNavItemProps {
   navItem: ChildMenuType
 }
 
-export const FooterNavItem = (props: FooterNavItemProps): JSX.Element => {
-  const { navItem } = props
+export const FooterNavItem: FC<FooterNavItemProps> = ({ navItem }) => {
+  const { locale } = useRouter()
 
   return (
     <Navigate
@@ -16,7 +20,7 @@ export const FooterNavItem = (props: FooterNavItemProps): JSX.Element => {
       key={navItem.link}
       href={navItem.link}
     >
-      {navItem.label}
+      {navItem[locale as StrapiLocale]}
     </Navigate>
   )
 }

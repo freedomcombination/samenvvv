@@ -22,8 +22,8 @@ export const FooterNav = (): JSX.Element => {
             key={i}
             py={4}
           >
-            <ListHeader>{t(item[locale as StrapiLocale].label)}</ListHeader>
-            {item[locale as StrapiLocale].children.map((item, i) => {
+            <ListHeader>{t(item[locale as StrapiLocale])}</ListHeader>
+            {item.children.map((item, i) => {
               return <FooterNavItem key={i} navItem={item} />
             })}
           </Stack>

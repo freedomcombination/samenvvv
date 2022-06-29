@@ -20,7 +20,7 @@ import SwiperClass, { Thumbs } from 'swiper'
 import { Swiper, SwiperSlide } from 'swiper/react'
 
 import { AnimatedBox, ChakraNextImage, ShareButtons } from '@components'
-import { useAppSelector } from '@store'
+import { useHashtag } from '@lib'
 import { getItemLink } from '@utils'
 
 const SwiperBox = chakra(Swiper)
@@ -33,25 +33,26 @@ export const PostArchive = (): JSX.Element => {
   const [title, setTitle] = useState('')
   const [content, setContent] = useState('')
   const [absoluteUrl, setAbsoluteUrl] = useState('')
-  const { hashtag } = useAppSelector(state => state.post)
+
+  const hashtagQuery = useHashtag()
 
   const { locale } = useRouter()
 
   useEffect(() => {
-    const _title = hashtag?.posts[activeIndex].hashtag?.title || ''
-    const _content = hashtag?.posts[activeIndex].text || ''
+    const _title = hashtagQuery.data?.posts[activeIndex].hashtag?.title || ''
+    const _content = hashtagQuery.data?.posts[activeIndex].text || ''
     const _absoluteUrl =
       getItemLink(
-        hashtag?.posts[activeIndex] as Post,
+        hashtagQuery.data?.posts[activeIndex] as Post,
         locale as StrapiLocale,
-        'hashtag',
+        'post',
         true,
       ) || ''
 
     setTitle(_title)
     setContent(_content)
     setAbsoluteUrl(_absoluteUrl)
-  }, [activeIndex, locale, hashtag?.posts])
+  }, [activeIndex, locale, hashtagQuery.data?.posts])
 
   const onSlideChange = useCallback((swiper: SwiperClass) => {
     setActiveIndex(swiper.activeIndex)
@@ -75,7 +76,7 @@ export const PostArchive = (): JSX.Element => {
               initialSlide={activeIndex}
               onSlideChange={onSlideChange}
             >
-              {hashtag?.posts.map((post, i) => {
+              {hashtagQuery.data?.posts.map((post, i) => {
                 return (
                   <SwiperSlide key={i}>
                     {post.image && (
@@ -103,7 +104,7 @@ export const PostArchive = (): JSX.Element => {
                 },
               }}
             >
-              {hashtag?.posts.map((post, i) => {
+              {hashtagQuery.data?.posts.map((post, i) => {
                 return (
                   <SwiperSlide key={i}>
                     {post.image && (
@@ -141,7 +142,7 @@ export const PostArchive = (): JSX.Element => {
         </ModalContent>
       </Modal>
       <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={8}>
-        {hashtag?.posts.map((post, i) => {
+        {hashtagQuery.data?.posts.map((post, i) => {
           return (
             <AnimatedBox key={i} delay={i} directing="to-down" hasHover>
               <Box bg="white" shadow="primary" rounded="lg" overflow="hidden">
@@ -167,7 +168,7 @@ export const PostArchive = (): JSX.Element => {
                         getItemLink(
                           post as Post,
                           locale as StrapiLocale,
-                          'hashtag',
+                          'post',
                           true,
                         ) as string
                       }

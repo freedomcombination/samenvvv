@@ -56,7 +56,7 @@ export const LocaleSwitcher = ({
 
   return (
     <HStack py={1} justify="flex-end">
-      <ButtonGroup isAttached d="flex" size="xs" alignItems="center">
+      <ButtonGroup isAttached display="flex" size="xs" alignItems="center">
         {(locales as StrapiLocale[]).map(code => {
           if (slug && (!slug?.[code] || !slug?.[code])) return null
 

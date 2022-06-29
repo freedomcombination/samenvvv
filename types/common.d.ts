@@ -1,4 +1,9 @@
-declare type ChildMenuType = { label: string; link: string }
+declare type ChildMenuType = {
+  link: string
+  en: string
+  nl: string
+  tr: string
+}
 declare type ParentMenuType = {
   label: string
   children: ChildMenuType[]
