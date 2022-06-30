@@ -60,7 +60,7 @@ export const getServerSideProps: GetServerSideProps = async context => {
   const locale = context.locale as StrapiLocale
   const id = context.params?.id as string
 
-  const post = await getPost(locale, id)
+  const post = await getPost(locale, Number(id))
 
   if (!post) {
     return { notFound: true }

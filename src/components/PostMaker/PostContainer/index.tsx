@@ -1,15 +1,27 @@
+import { FC } from 'react'
+
 import { Flex, IconButton, Stack, Text, VStack } from '@chakra-ui/react'
 import { useTranslation } from 'react-i18next'
 import { FaRandom } from 'react-icons/fa'
 
 import { useGenerateRandomPostText } from '@hooks'
 
-import { Caps } from './Caps'
+import { CapsList } from './Caps'
 import { PostCharCount } from './PostCharCount'
 import { PostContainerBody } from './PostContainerBody'
 import { PostContainerButtons } from './PostContainerButtons'
 
-export const PostContainer = () => {
+interface PostContainerProps {
+  sharedPosts: number[]
+  post?: Post
+  posts?: Post[]
+}
+
+export const PostContainer: FC<PostContainerProps> = ({
+  sharedPosts,
+  posts,
+  post,
+}) => {
   const { t } = useTranslation()
 
   const generateRandomPostText = useGenerateRandomPostText()
@@ -45,11 +57,11 @@ export const PostContainer = () => {
             icon={<FaRandom />}
             onClick={generateRandomPostText}
           />
-          <PostContainerBody />
+          <PostContainerBody postImage={post?.image.url} />
         </Stack>
         <PostContainerButtons />
       </VStack>
-      <Caps />
+      <CapsList sharedPosts={sharedPosts} posts={posts} />
     </Stack>
   )
 }

@@ -1,4 +1,5 @@
-import { QueryClient } from 'react-query'
+import { useRouter } from 'next/router'
+import { QueryClient, useQueryClient } from 'react-query'
 
 import { HashtagReturnType } from '../hashtag-events'
 
@@ -27,4 +28,15 @@ export const setRandomPost = (
   }
 
   queryClient.setQueryData(['post', locale, slug], randomPost)
+}
+
+export const useSetRandomPost = () => {
+  const queryClient = useQueryClient()
+  const {
+    locale,
+    query: { slug },
+  } = useRouter()
+
+  return () =>
+    setRandomPost(queryClient, locale as StrapiLocale, slug as string)
 }

@@ -59,6 +59,7 @@ import {
   useHashtags,
 } from '@lib'
 import {
+  checkSharedPosts,
   setDefaultHashtags,
   setDefaultTab,
   useAppDispatch,
@@ -115,6 +116,10 @@ const Hashtag = ({
 
     if (hasPassed && defaultTab === null) dispatch(setDefaultTab(1))
   }, [defaultHashtags, dispatch, hasPassed])
+
+  useEffect(() => {
+    dispatch(checkSharedPosts())
+  }, [dispatch])
 
   return (
     <TourProvider

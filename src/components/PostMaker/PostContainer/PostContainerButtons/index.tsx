@@ -8,8 +8,13 @@ import { FaAt, FaRandom, FaTwitter } from 'react-icons/fa'
 import { useQueryClient } from 'react-query'
 
 import { useItemLink } from '@hooks'
-import { setRandomPost } from '@lib'
-import { togglePostModal, useAppDispatch, useAppSelector } from '@store'
+import { setRandomPost, useCurrentPost } from '@lib'
+import {
+  addSharedPost,
+  togglePostModal,
+  useAppDispatch,
+  useAppSelector,
+} from '@store'
 
 export const PostContainerButtons = () => {
   const queryClient = useQueryClient()
@@ -21,7 +26,7 @@ export const PostContainerButtons = () => {
     query: { slug },
   } = useRouter()
 
-  const post = queryClient.getQueryData(['post', locale, slug])
+  const post = useCurrentPost()
 
   const dispatch = useAppDispatch()
   const { isExceeded } = useAppSelector(state => state.post)
@@ -32,6 +37,10 @@ export const PostContainerButtons = () => {
     () => setRandomPost(queryClient, locale as StrapiLocale, slug as string),
     [queryClient, locale, slug],
   )
+
+  const onAddShare = () => {
+    post?.id && dispatch(addSharedPost(post.id))
+  }
 
   return (
     <SimpleGrid
@@ -74,6 +83,7 @@ export const PostContainerButtons = () => {
           rightIcon={<FaTwitter />}
           isDisabled={isExceeded}
           disabled={isExceeded}
+          onClick={onAddShare}
         >
           {t`post.share-tweet`}
         </Button>

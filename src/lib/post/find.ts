@@ -1,9 +1,11 @@
+import { useMemo } from 'react'
+
 import { useRouter } from 'next/router'
 import { useQuery, useQueryClient } from 'react-query'
 
 import { request } from '../request'
 
-export const getPost = async (locale: StrapiLocale, id: string) => {
+export const getPost = async (locale: StrapiLocale, id: number) => {
   const response = await request<Post>({
     url: `api/posts/${id}`,
     locale,
@@ -12,7 +14,7 @@ export const getPost = async (locale: StrapiLocale, id: string) => {
   return response.result || null
 }
 
-export const usePost = (id: string) => {
+export const usePost = (id: number) => {
   const { locale } = useRouter()
 
   const postQuery = useQuery({
@@ -23,11 +25,19 @@ export const usePost = (id: string) => {
   if (id) return postQuery
 }
 
-export const useRandomPost = () => {
+export const useCurrentPost = () => {
   const queryClient = useQueryClient()
   const {
     locale,
     query: { slug },
   } = useRouter()
-  return queryClient.getQueryData<Post>(['post', locale, slug])
+
+  const queryKey = ['post', locale, slug]
+
+  const { data } = useQuery({
+    queryKey,
+    queryFn: () => queryClient.getQueryData<Post>(queryKey),
+  })
+
+  return useMemo(() => data, [data])
 }

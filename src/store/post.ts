@@ -3,6 +3,7 @@ import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { request } from '@lib'
 
 const LOCAL_STORAGE_MENTIONS_KEY = 'mentions'
+const LOCAL_STORAGE_SHARED_POSTS_KEY = 'sharedPosts'
 
 const searchedMentionsStorage: TweetUserData[] =
   typeof window !== 'undefined' &&
@@ -56,6 +57,7 @@ export type postState = {
   isExceeded: boolean
   isShared: boolean
   threshold: number
+  sharedPosts: number[]
 }
 
 const initialState: postState = {
@@ -77,6 +79,7 @@ const initialState: postState = {
   isExceeded: false,
   isShared: false,
   threshold: 0,
+  sharedPosts: [],
 }
 
 export const fetchSearchedMentions = createAsyncThunk(
@@ -182,8 +185,21 @@ export const postSlice = createSlice({
     setDefaultTab: (state, action: PayloadAction<number>) => {
       state.defaultTab = action.payload
     },
-    setIsShared: (state, action: PayloadAction<boolean>) => {
-      state.isShared = action.payload
+    addSharedPost: (state, action: PayloadAction<number>) => {
+      if (state.sharedPosts.includes(action.payload)) return
+
+      state.sharedPosts.push(action.payload)
+
+      localStorage.setItem(
+        LOCAL_STORAGE_SHARED_POSTS_KEY,
+        JSON.stringify(state.sharedPosts),
+      )
+    },
+    checkSharedPosts: state => {
+      const shareStorage = JSON.parse(
+        localStorage.getItem(LOCAL_STORAGE_SHARED_POSTS_KEY) || '[]',
+      )
+      state.sharedPosts = shareStorage
     },
   },
   extraReducers: builder => {
@@ -229,7 +245,8 @@ export const {
   updateSavedSearchedMentions,
   setDefaultTab,
   togglePostModal,
-  setIsShared,
+  addSharedPost,
+  checkSharedPosts,
 } = postSlice.actions
 
 export const { reducer: postReducer } = postSlice

@@ -1,5 +1,5 @@
 import {
-  Box,
+  Stack,
   Tag,
   // TagCloseButton,
   TagLabel,
@@ -33,7 +33,7 @@ export const PostContainerTrendTags = () => {
   if ([...defaultHashtags, ...trendNames].length === 0) return <></>
 
   return (
-    <Box mb={2}>
+    <Stack mb={2} spacing={1}>
       <Text color="gray.500" fontSize="sm">
         {t`post.trends-label`}
       </Text>
@@ -54,6 +54,6 @@ export const PostContainerTrendTags = () => {
       {trendNames.length > 0 && (
         <TagList tags={trendNames} onClickButton={onRemoveTrend} />
       )}
-    </Box>
+    </Stack>
   )
 }

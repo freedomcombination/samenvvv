@@ -1,3 +1,5 @@
+import { useEffect } from 'react'
+
 import {
   Box,
   Button,
@@ -14,21 +16,40 @@ import { useTour } from '@reactour/tour'
 import { useTranslation } from 'next-i18next'
 import { FaQuestionCircle } from 'react-icons/fa'
 
-import { useHashtag } from '@lib'
-import { togglePostModal, useAppDispatch, useAppSelector } from '@store'
+import { useGenerateRandomPostText } from '@hooks'
+import { useCurrentPost, useHashtag } from '@lib'
+import {
+  checkSharedPosts,
+  togglePostModal,
+  useAppDispatch,
+  useAppSelector,
+} from '@store'
 
 import { MentionAndTrends } from './MentionAndTrends'
 import { PostContainer } from './PostContainer'
 import { TweetWidget } from './TweetWidget'
 
 export const PostMaker = () => {
-  const { isPostModalOpen } = useAppSelector(state => state.post)
+  const { isPostModalOpen, sharedPosts } = useAppSelector(state => state.post)
   const { t } = useTranslation()
   const dispatch = useAppDispatch()
+  const generateRandomPostText = useGenerateRandomPostText()
 
   const { data: hashtag } = useHashtag()
+  const currentPost = useCurrentPost()
 
   const { setIsOpen } = useTour()
+
+  useEffect(() => {
+    const sharedStorage = localStorage.getItem(hashtag?.slug as string)
+    if (sharedStorage) {
+      dispatch(checkSharedPosts())
+    }
+  }, [hashtag?.slug, dispatch])
+
+  useEffect(() => {
+    generateRandomPostText()
+  }, [currentPost])
 
   return (
     <>
@@ -83,7 +104,11 @@ export const PostMaker = () => {
         <Box display={{ base: 'none', lg: 'block' }} h="inherit">
           <MentionAndTrends />
         </Box>
-        <PostContainer />
+        <PostContainer
+          post={currentPost}
+          sharedPosts={sharedPosts}
+          posts={hashtag?.posts}
+        />
         <Box>
           <TweetWidget
             title={t`post.latest-tweets-label`}

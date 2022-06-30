@@ -31,7 +31,9 @@ export const getHashtag = async (
     h => !!h,
   )
 
-  const posts = hashtag?.posts.map(p => ({ ...p, hashtag }))
+  const posts = hashtag?.posts
+    .filter(p => p.image)
+    .map(p => ({ ...p, hashtag }))
 
   return { ...hashtag, posts, hasPassed, hasStarted, defaultHashtags }
 }

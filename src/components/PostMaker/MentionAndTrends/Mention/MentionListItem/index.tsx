@@ -1,3 +1,5 @@
+import { FC } from 'react'
+
 import {
   Avatar,
   Box,
@@ -23,14 +25,14 @@ interface MentionListItemProps {
   onRemoveItem?: (value: TweetUserData) => void
 }
 
-export const MentionListItem = ({
+export const MentionListItem: FC<MentionListItemProps> = ({
   data,
   onAddItem,
   onRemoveItem,
-}: MentionListItemProps): JSX.Element => {
+}) => {
   const { t } = useTranslation()
 
-  if (!data) return <></>
+  if (!data) return null
 
   return (
     <Popover trigger="hover" placement="right">

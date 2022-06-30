@@ -36,7 +36,7 @@ export const PostContainerMentionTags = () => {
     const defaultM = defaultMentions[locale as StrapiLocale]
     if (!defaultMention || defaultMention !== defaultM)
       dispatch(setDefaultMention(defaultM))
-  }, [])
+  }, [locale, defaultMention, dispatch])
 
   if (!defaultMention && mentionUsernames.length === 0) return <></>
 
