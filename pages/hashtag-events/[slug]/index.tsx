@@ -107,15 +107,17 @@ const Hashtag = ({
 
   const isMobile = useBreakpointValue({ base: true, lg: false })
   const steps = isMobile ? getStepsMob(t) : getSteps(t)
-  const disableBody = (target: any) => disableBodyScroll(target)
-  const enableBody = (target: any) => enableBodyScroll(target)
+  const disableBody = (target: Element | null) =>
+    target && disableBodyScroll(target)
+  const enableBody = (target: Element | null) =>
+    target && enableBodyScroll(target)
 
   useEffect(() => {
     if (defaultHashtags.length > 0)
       dispatch(setDefaultHashtags(defaultHashtags))
 
     if (hasPassed && defaultTab === null) dispatch(setDefaultTab(1))
-  }, [defaultHashtags, dispatch, hasPassed])
+  }, [defaultHashtags, dispatch, hasPassed, defaultTab])
 
   useEffect(() => {
     dispatch(checkSharedPosts())
@@ -166,21 +168,24 @@ const Hashtag = ({
         </Drawer>
 
         <Container py={4} pos="relative">
-          <Tooltip label={t`post.all-hashtags`} hasArrow bg="primary.400">
-            <IconButton
-              aria-label="open hashtags"
-              onClick={onOpen}
-              icon={<FaHashtag />}
-              variant="outline"
-              bg="white"
-              colorScheme="primary"
-              pos="absolute"
-              top={2}
-              right={2}
-            />
-          </Tooltip>
           <Box flex={1} textAlign="center">
-            <Heading>{hashtagQuery.data?.title}</Heading>
+            <Heading>
+              {hashtagQuery.data?.title}{' '}
+              <Tooltip label={t`post.all-hashtags`} hasArrow bg="primary.400">
+                <IconButton
+                  aria-label="open hashtags"
+                  onClick={onOpen}
+                  icon={<FaHashtag />}
+                  colorScheme="primary"
+                  size="lg"
+                  title={t`post.all-hashtags`}
+                  rounded="full"
+                  pos={{ base: 'static', lg: 'absolute' }}
+                  top={4}
+                  right={2}
+                />
+              </Tooltip>
+            </Heading>
 
             <Collapse startingHeight={50} in={show}>
               <Text my={4} maxW="container.md" mx="auto">
@@ -208,9 +213,8 @@ const Hashtag = ({
               <Stack
                 direction={{ base: 'row', xl: 'column' }}
                 pos={{ base: 'static', xl: 'fixed' }}
-                top="50%"
+                top={256}
                 left={0}
-                transform={{ xl: 'translateY(-50%)' }}
                 spacing={1}
                 zIndex="tooltip"
               >
@@ -244,7 +248,7 @@ const Hashtag = ({
                   <Box>{t`post.tabs.archive`}</Box>
                 </Tab>
               </Stack>
-              <TabPanels overflowX="hidden">
+              <TabPanels>
                 <TabPanel px={0} py={4}>
                   <PostMaker />
                 </TabPanel>
@@ -312,6 +316,15 @@ export const getServerSideProps: GetServerSideProps = async context => {
     return { notFound: true }
   }
 
+  const slugs =
+    hashtag.localizations?.reduce(
+      (acc, l) => {
+        acc[l.locale as StrapiLocale] = l.slug
+        return acc
+      },
+      { en: '', nl: '', tr: '' },
+    ) || {}
+
   setRandomPost(queryClient, locale, slug)
 
   const seo: NextSeoProps = getPageSeo(hashtag, locale, 'hashtag')
@@ -322,6 +335,7 @@ export const getServerSideProps: GetServerSideProps = async context => {
     props: {
       source,
       seo,
+      slugs: { ...slugs, [locale]: slug },
       hasPassed: hashtag.hasPassed,
       hasStarted: hashtag.hasStarted,
       defaultHashtags: hashtag.defaultHashtags,

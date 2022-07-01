@@ -18,7 +18,7 @@ export const getHashtag = async (
     url: 'api/hashtags',
     filters: { slug: { $eq: slug } },
     locale,
-    populate: ['image', 'mentions', 'posts.image'],
+    populate: ['image', 'mentions', 'posts.image', 'localizations'],
   })
 
   const hashtag = response.result?.[0] || null

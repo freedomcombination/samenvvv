@@ -6,7 +6,7 @@ import { DehydratedState } from 'react-query'
 
 export interface DynamicProps {
   locale: StrapiLocale
-  slug: {
+  slugs: {
     en: (string | null)[]
     nl: (string | null)[]
     tr: (string | null)[]
@@ -47,18 +47,18 @@ export const LocaleSwitcher = ({
   const { locales, push, pathname, locale, asPath, components } =
     useRouter() as NextRouter & RouterComponent
 
-  const slug = components?.[pathname]?.props?.pageProps?.slug as any
+  const slugs = components?.[pathname]?.props?.pageProps?.slugs as any
 
   // TODO: Redirect to localized path for static pages
   const handleChangeLanguage = async (locale: StrapiLocale) => {
-    await push(pathname, slug?.[locale]?.join('/') || asPath, { locale })
+    await push(pathname, slugs?.[locale] || asPath, { locale })
   }
 
   return (
     <HStack py={1} justify="flex-end">
       <ButtonGroup isAttached display="flex" size="xs" alignItems="center">
         {(locales as StrapiLocale[]).map(code => {
-          if (slug && (!slug?.[code] || !slug?.[code])) return null
+          if (slugs && (!slugs?.[code] || !slugs?.[code])) return null
 
           return (
             <Button

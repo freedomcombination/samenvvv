@@ -52,11 +52,7 @@ export const TweetWidget = ({
                   <Avatar size="sm" name={user.name} src={user.profile} />
 
                   <Stack fontSize="sm">
-                    <HStack
-                      w={{ base: 300, lg: 'full' }}
-                      noOfLines={1}
-                      fontWeight={600}
-                    >
+                    <HStack noOfLines={1} fontWeight={600}>
                       <chakra.span>{user.name}</chakra.span>
                       <chakra.span as="span" fontSize="xs" fontWeight={400}>
                         @{user.username}

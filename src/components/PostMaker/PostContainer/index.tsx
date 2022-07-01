@@ -45,7 +45,7 @@ export const PostContainer: FC<PostContainerProps> = ({
           spacing={0}
           overflow="auto"
           pos="relative"
-          h={{ base: 470, xl: 520 }}
+          h={{ base: 'auto', xl: 520 }}
         >
           <IconButton
             pos="absolute"

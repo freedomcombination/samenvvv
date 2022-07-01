@@ -1,5 +1,6 @@
 import React, { ReactNode, useEffect } from 'react'
 
+import { Box, usePrefersReducedMotion } from '@chakra-ui/react'
 import { MotionProps, Transition, useAnimation, Variants } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
 
@@ -33,6 +34,8 @@ export const AnimatedBox = (
   const controls = useAnimation()
   const [ref, inView] = useInView()
 
+  const prefersMotion = usePrefersReducedMotion()
+
   const initialVariants: Record<string, Variants> = {
     'to-up': {
       active: { opacity: 1, y: 0 },
@@ -58,6 +61,10 @@ export const AnimatedBox = (
     }
   }, [controls, inView])
 
+  if (prefersMotion) {
+    return <Box boxSize="full">{children}</Box>
+  }
+
   return (
     <MotionBox
       ref={ref}
@@ -82,8 +89,7 @@ export const AnimatedBox = (
           whileHover: { scale: 1.03 },
           whileTap: { scale: 1.01 },
         })}
-        w="full"
-        h="full"
+        boxSize="full"
       >
         {children}
       </MotionBox>
