@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 
 import {
   Box,
@@ -38,7 +38,7 @@ import {
   FaImages,
   FaTwitter,
 } from 'react-icons/fa'
-import { dehydrate, QueryClient, useQuery } from 'react-query'
+import { dehydrate, QueryClient } from 'react-query'
 
 import {
   Card,
@@ -56,12 +56,15 @@ import {
   getHashtags,
   HashtagReturnType,
   setRandomPost,
+  useHashtag,
   useHashtags,
 } from '@lib'
 import {
   checkSharedPosts,
   setDefaultHashtags,
   setDefaultTab,
+  setInitialMentions,
+  setMentions,
   useAppDispatch,
   useAppSelector,
 } from '@store'
@@ -75,25 +78,18 @@ interface HashtagProps {
   defaultHashtags: string[]
 }
 
-const Hashtag = ({
+const Hashtag: FC<HashtagProps> = ({
   seo,
   hasPassed,
   hasStarted,
   defaultHashtags,
-}: HashtagProps) => {
+}) => {
   const { defaultTab } = useAppSelector(state => state.post)
   const dispatch = useAppDispatch()
-  const {
-    locale,
-    query: { slug },
-  } = useRouter()
+  const { locale } = useRouter()
 
   const hashtagsQuery = useHashtags()
-
-  const hashtagQuery = useQuery({
-    queryKey: ['hashtag', locale, slug],
-    queryFn: () => getHashtag(locale as StrapiLocale, slug as string),
-  })
+  const hashtagQuery = useHashtag()
 
   const { formattedDate, formattedDateDistance, timeZone } =
     useLocaleTimeFormat(hashtagQuery.data?.date as string, 'dd MMMM HH:mm')
@@ -122,6 +118,13 @@ const Hashtag = ({
   useEffect(() => {
     dispatch(checkSharedPosts())
   }, [dispatch])
+
+  useEffect(() => {
+    if (hashtagQuery.data) {
+      dispatch(setInitialMentions(hashtagQuery.data.mentions))
+      dispatch(setMentions(hashtagQuery.data.mentions))
+    }
+  }, [hashtagQuery.data, dispatch])
 
   return (
     <TourProvider

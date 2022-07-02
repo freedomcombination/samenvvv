@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 import {
   Tab,
@@ -8,14 +8,12 @@ import {
   Tabs,
   VStack,
 } from '@chakra-ui/react'
-import { useRouter } from 'next/router'
 import { useTranslation } from 'react-i18next'
 
 import { MentionListSkeleton } from '@components'
 import {
   addMentionUsername,
   clearSearchedMentions,
-  fetchMentions,
   removeSavedMention,
   resetMentions,
   updateSavedSearchedMentions,
@@ -30,22 +28,22 @@ export const MentionList = (): JSX.Element => {
   const {
     mentions,
     mentionUsernames,
-    initialMentions,
     isMentionListLoading,
     isSearchedMentionsLoading,
     searchedMentions,
     savedMentions,
   } = useAppSelector(state => state.post)
 
-  const dispatch = useAppDispatch()
-  const { t } = useTranslation()
-  const router = useRouter()
+  const [currentMentions, setCurrentMentions] = useState<Mention[]>([])
 
   useEffect(() => {
-    if (!initialMentions || initialMentions.length === 0) {
-      dispatch(fetchMentions(router.locale as StrapiLocale))
+    if (mentions) {
+      setCurrentMentions(mentions)
     }
-  }, [initialMentions, router.locale, dispatch])
+  }, [mentions])
+
+  const dispatch = useAppDispatch()
+  const { t } = useTranslation()
 
   const onAddMention = (value: TweetUserData) => {
     if (value.screen_name) {
@@ -104,12 +102,10 @@ export const MentionList = (): JSX.Element => {
                   />
                 ))
               ) : (
-                mentions
+                currentMentions
                   ?.filter(
                     mention =>
-                      !mentionUsernames.includes(
-                        '@' + mention.data?.screen_name,
-                      ),
+                      !mentionUsernames.includes('@' + mention.username),
                   )
                   ?.map(({ data }, i) => (
                     <MentionListItem

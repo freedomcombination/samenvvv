@@ -1,5 +1,6 @@
 import { useCallback, useRef } from 'react'
 
+import _ from 'lodash'
 import { useRouter } from 'next/router'
 
 import { useCurrentPost } from '@lib'
@@ -34,10 +35,7 @@ export const useGenerateRandomPostText = () => {
       combinationArray.slice(i + 1).map(w => [v, w]),
     )
 
-    const randomCombination =
-      combinations?.length > 0
-        ? combinations[Math.floor(Math.random() * combinations.length)]
-        : [0, 1]
+    const randomCombination = _.sample(combinations) as number[]
 
     const randomPostText = sentences
       .slice(randomCombination[0], randomCombination[1])
