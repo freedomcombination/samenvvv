@@ -55,7 +55,7 @@ export const PostContainer: FC<PostContainerProps> = ({
             colorScheme="twitter"
             aria-label="random post"
             icon={<FaRandom />}
-            onClick={generateRandomPostText}
+            onClick={() => generateRandomPostText(post)}
           />
           <PostContainerBody postImage={post?.image.url} />
         </Stack>

@@ -1,5 +1,4 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
-import _ from 'lodash'
 
 const LOCAL_STORAGE_MENTIONS_KEY = 'mentions'
 const LOCAL_STORAGE_SHARED_POSTS_KEY = 'sharedPosts'
@@ -14,9 +13,7 @@ export const updatePostContent = (state: PostState): void => {
   const twitterCharLimit = 280
   const linkCharCount = 23 + 2 // 2 chars is because of the library leaves spaces before/after the link
 
-  const mentionsStr = [state.defaultMention, ...state.mentionUsernames]
-    .filter(a => !!a)
-    .join('\n')
+  const mentionsStr = state.mentionUsernames.filter(a => !!a).join('\n')
 
   const trendsStr = [...state.defaultHashtags, ...state.trendNames]
     .filter(a => !!a)
@@ -40,7 +37,6 @@ export const updatePostContent = (state: PostState): void => {
 export type PostState = {
   count: number
   defaultHashtags: string[]
-  defaultMention: string | null
   defaultTab: number | null
   initialMentions: Mention[]
   isExceeded: boolean
@@ -62,7 +58,6 @@ export type PostState = {
 const initialState: PostState = {
   count: 0,
   defaultHashtags: [],
-  defaultMention: null,
   defaultTab: null,
   initialMentions: [],
   isExceeded: false,
@@ -98,12 +93,12 @@ export const postSlice = createSlice({
       state.mentionUsernames.push(`@${action.payload}`)
       updatePostContent(state)
     },
+    setRandomMentionUsername: (state, action: PayloadAction<string>) => {
+      state.mentionUsernames = [`@${action.payload}`]
+      updatePostContent(state)
+    },
     clearSearchedMentions: state => {
       state.searchedMentions = []
-    },
-    removeDefaultMention: state => {
-      state.defaultMention = null
-      updatePostContent(state)
     },
     removeMentionUsername: (state, action: PayloadAction<string>) => {
       state.mentionUsernames = state.mentionUsernames.filter(
@@ -113,15 +108,6 @@ export const postSlice = createSlice({
     },
     resetMentions: state => {
       state.mentions = state.initialMentions
-    },
-    setDefaultMention: (state, action: PayloadAction<string>) => {
-      if (state.initialMentions?.length > 0) {
-        const randomMention = _.sample(state.initialMentions) as Mention
-        state.defaultMention = '@' + randomMention.username
-      } else {
-        state.defaultMention = '@' + action.payload
-      }
-      updatePostContent(state)
     },
     setInitialMentions: (state, action: PayloadAction<Mention[]>) => {
       state.initialMentions = action.payload
@@ -219,11 +205,10 @@ export const postSlice = createSlice({
 export const {
   // Mention
   addMentionUsername,
+  setRandomMentionUsername,
   clearSearchedMentions,
-  removeDefaultMention,
   removeMentionUsername,
   resetMentions,
-  setDefaultMention,
   setInitialMentions,
   setMentions,
   // Saved Mention

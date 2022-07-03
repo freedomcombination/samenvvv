@@ -13,6 +13,7 @@ import {
   Stack,
 } from '@chakra-ui/react'
 import { useTour } from '@reactour/tour'
+import _ from 'lodash'
 import { useTranslation } from 'next-i18next'
 import { FaQuestionCircle } from 'react-icons/fa'
 
@@ -20,6 +21,7 @@ import { useGenerateRandomPostText } from '@hooks'
 import { useCurrentPost, useHashtag } from '@lib'
 import {
   checkSharedPosts,
+  setRandomMentionUsername,
   togglePostModal,
   useAppDispatch,
   useAppSelector,
@@ -45,11 +47,17 @@ export const PostMaker = () => {
     if (sharedStorage) {
       dispatch(checkSharedPosts())
     }
-  }, [hashtag?.slug, dispatch])
+  }, [hashtag, dispatch])
 
   useEffect(() => {
-    generateRandomPostText()
-  }, [currentPost])
+    const randomMention = _.sample(hashtag?.mentions)
+    if (randomMention)
+      dispatch(setRandomMentionUsername(randomMention?.username))
+  }, [currentPost, hashtag?.mentions, dispatch])
+
+  useEffect(() => {
+    generateRandomPostText(currentPost)
+  }, [currentPost, generateRandomPostText])
 
   return (
     <>
