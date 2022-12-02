@@ -61,7 +61,7 @@
             "position": "before"
           },
           {
-            "pattern": "@{components,config,hooks,lib,theme,types,utils,views,store}/**",
+            "pattern": "@{components,config,data,hooks,lib,theme,types,utils,views,store}/**",
             "group": "internal"
           }
         ],
