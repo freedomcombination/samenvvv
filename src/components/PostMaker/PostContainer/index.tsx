@@ -4,7 +4,7 @@ import { Flex, IconButton, Stack, Text, VStack } from '@chakra-ui/react'
 import { useTranslation } from 'react-i18next'
 import { FaRandom } from 'react-icons/fa'
 
-import { useGenerateRandomPostText } from '@hooks'
+import { useRandomPostContent } from '@hooks'
 
 import { Caps } from './Caps'
 import { PostCharCount } from './PostCharCount'
@@ -15,7 +15,7 @@ export const PostContainer = memo<{ post: IHashtagPost }>(
   function PostContainer({ post }) {
     const { t } = useTranslation()
 
-    const generateRandomPostText = useGenerateRandomPostText()
+    const generateRandomPostContent = useRandomPostContent(post)
 
     return (
       <Stack
@@ -49,7 +49,7 @@ export const PostContainer = memo<{ post: IHashtagPost }>(
               colorScheme="twitter"
               aria-label="random post"
               icon={<FaRandom />}
-              onClick={() => generateRandomPostText(post)}
+              onClick={generateRandomPostContent}
             />
             <PostContainerBody post={post} />
           </Stack>

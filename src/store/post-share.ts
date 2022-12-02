@@ -3,36 +3,15 @@ import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { getMentionList, lookupTwitterUsers } from '@lib'
 
 const LOCAL_STORAGE_MENTIONS_KEY = 'mentions'
+const TWITTER_CHAR_LIMIT = 280
+const TWITTER_LINK_CHAR_COUNT = 23 + 2 // 2 chars is because of the library leaves spaces before/after the link
+const availableCount = TWITTER_CHAR_LIMIT - TWITTER_LINK_CHAR_COUNT
 
 const searchedMentionsStorage: ITweetUserData[] =
   typeof window !== 'undefined' &&
   localStorage.getItem(LOCAL_STORAGE_MENTIONS_KEY)
     ? JSON.parse(localStorage.getItem(LOCAL_STORAGE_MENTIONS_KEY) as string)
     : []
-
-export const updatePostContent = (state: PostShareState): void => {
-  const twitterCharLimit = 280
-  const linkCharCount = 23 + 2 // 2 chars is because of the library leaves spaces before/after the link
-
-  const mentionsStr = [state.defaultMention, ...state.mentionUsernames]
-    .filter(a => !!a)
-    .join('\n')
-
-  const trendsStr = [...state.defaultHashtags, ...state.trendNames]
-    .filter(a => !!a)
-    .join('\n')
-
-  const postContent = [state.postText, mentionsStr, trendsStr]
-    .filter(a => !!a)
-    .join('\n\n')
-
-  const count = linkCharCount + postContent.length
-  const isExceeded = count > twitterCharLimit
-
-  state.count = count
-  state.isExceeded = isExceeded
-  state.postContent = postContent
-}
 
 export type PostShareState = {
   postText: string
@@ -50,7 +29,34 @@ export type PostShareState = {
   isPostModalOpen: boolean
   defaultHashtags: string[]
   count: number
+  availableCount: number
   isExceeded: boolean
+}
+
+export const updatePostContent = (state: PostShareState): void => {
+  const mentionsStr = [state.defaultMention, ...state.mentionUsernames]
+    .filter(a => !!a)
+    .join('\n')
+
+  const trendsStr = [...state.defaultHashtags, ...state.trendNames]
+    .filter(a => !!a)
+    .join('\n')
+
+  const defaultCount =
+    TWITTER_LINK_CHAR_COUNT +
+    [mentionsStr, trendsStr].filter(a => !!a).join('\n\n').length
+
+  const postContent = [state.postText, mentionsStr, trendsStr]
+    .filter(a => !!a)
+    .join('\n\n')
+
+  const count = TWITTER_LINK_CHAR_COUNT + postContent.length
+  const isExceeded = count > TWITTER_CHAR_LIMIT
+
+  state.count = count
+  state.isExceeded = isExceeded
+  state.postContent = postContent
+  state.availableCount = TWITTER_CHAR_LIMIT - defaultCount
 }
 
 const initialState: PostShareState = {
@@ -69,6 +75,7 @@ const initialState: PostShareState = {
   isPostModalOpen: false,
   defaultHashtags: [],
   count: 0,
+  availableCount,
   isExceeded: false,
 }
 

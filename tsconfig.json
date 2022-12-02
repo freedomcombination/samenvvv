@@ -17,6 +17,7 @@
     "paths": {
       "@components": ["src/components"],
       "@config": ["src/config"],
+      "@data": ["src/data"],
       "@hooks": ["src/hooks"],
       "@lib": ["src/lib"],
       "@theme": ["src/theme"],
